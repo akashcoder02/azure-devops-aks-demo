@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-devops-demo
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: azure-devops-demo
+
+  template:
+    metadata:
+      labels:
+        app: azure-devops-demo
+
+    spec:
+      containers:
+      - name: azure-devops-demo
+
+        image: nginx
+
+        ports:
+        - containerPort: 80

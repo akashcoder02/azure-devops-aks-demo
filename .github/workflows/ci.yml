@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: |
+          cd app
+          pip install -r requirements.txt
+
+      - name: Verify Flask App
+        run: |
+          cd app
+          python -m py_compile app.py
+
+      - name: Build Docker Image
+        run: |
+          cd app
+          docker build -t azure-devops-demo:v1 .
