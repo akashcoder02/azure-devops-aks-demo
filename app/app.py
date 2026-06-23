@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Azure DevOps Demo Running"
+    return "Azure DevOps Demo Running - CI/CD Success"
 
 @app.route('/health')
 def health():
