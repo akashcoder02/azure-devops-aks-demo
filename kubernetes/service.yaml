@@ -2,14 +2,14 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: azure-devops-demo-service
+  name: flask-demo-service
 
 spec:
   selector:
-    app: azure-devops-demo
+    app: flask-demo
 
   ports:
-  - port: 80
-    targetPort: 80
+  - port: 5000
+    targetPort: 5000
 
   type: LoadBalancer

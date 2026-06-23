@@ -1,0 +1,50 @@
+name: Deploy to AKS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: flask-demo
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Login to ACR
+      run: |
+        az acr login --name ${{ secrets.ACR_NAME }}
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/flask-demo:${{ github.sha }} ./app
+
+    - name: Push Docker Image
+      run: |
+        docker push ${{ secrets.ACR_NAME }}.azurecr.io/flask-demo:${{ github.sha }}
+
+    - name: Get AKS Credentials
+      run: |
+        az aks get-credentials \
+          --resource-group ${{ secrets.RESOURCE_GROUP }} \
+          --name ${{ secrets.AKS_CLUSTER }} \
+          --overwrite-existing
+
+    - name: Update Deployment
+      run: |
+        kubectl set image deployment/flask-demo \
+        flask-demo=${{ secrets.ACR_NAME }}.azurecr.io/flask-demo:${{ github.sha }}
+
+    - name: Verify Rollout
+      run: |
+        kubectl rollout status deployment/flask-demo
