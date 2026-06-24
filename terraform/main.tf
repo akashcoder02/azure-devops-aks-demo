@@ -1,31 +1,22 @@
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.location
+module "rg" {
+  source = "./modules/rg"
+
+  resource_group_name = var.resource_group_name
+  location            = var.location
 }
 
-resource "azurerm_container_registry" "acr" {
-  name                = "agdevopsacr2026"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+module "acr" {
+  source = "./modules/acr"
 
-  sku           = "Basic"
-  admin_enabled = true
+  acr_name            = var.acr_name
+  resource_group_name = module.rg.resource_group_name
+  location            = module.rg.location
 }
 
-resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "aks-devops-demo"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+module "aks" {
+  source = "./modules/aks"
 
-  dns_prefix = "aksdevopsdemo"
-
-  default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_B2s"
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
+  aks_name            = var.aks_name
+  resource_group_name = module.rg.resource_group_name
+  location            = module.rg.location
 }

@@ -7,3 +7,11 @@ variable "resource_group_name" {
 variable "location" {
   default = "Central India"
 }
+
+variable "acr_name" {
+  default = "agdevopsacr2026"
+}
+
+variable "aks_name" {
+  default = "aks-devops-demo"
+}
