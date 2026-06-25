@@ -42,8 +42,9 @@ jobs:
 
     - name: Update Deployment
       run: |
-        kubectl set image deployment/flask-demo \
-        flask-demo=${{ secrets.ACR_NAME }}.azurecr.io/flask-demo:${{ github.sha }}
+        helm upgrade --install flask-demo ./flask-demo \
+  --set image.repository=${{ secrets.ACR_NAME }}.azurecr.io/flask-demo \
+  --set image.tag=${{ github.sha }}
 
     - name: Verify Rollout
       run: |
