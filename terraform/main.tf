@@ -20,3 +20,14 @@ module "aks" {
   resource_group_name = module.rg.resource_group_name
   location            = module.rg.location
 }
+
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  scope                = module.acr.acr_id
+  role_definition_name = "AcrPull"
+  principal_id         = module.aks.kubelet_object_id
+
+  depends_on = [
+    module.aks,
+    module.acr
+  ]
+}
