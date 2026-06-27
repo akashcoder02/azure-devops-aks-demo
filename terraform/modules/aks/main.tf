@@ -5,17 +5,17 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   dns_prefix = "aksdevopsdemo"
 
-default_node_pool {
-  name       = "default"
-  node_count = 1
-  vm_size    = "Standard_B2s"
+  default_node_pool {
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_B2s"
 
-  upgrade_settings {
-    max_surge                     = "10%"
-    drain_timeout_in_minutes      = 0
-    node_soak_duration_in_minutes = 0
+    upgrade_settings {
+      max_surge                     = "10%"
+      drain_timeout_in_minutes      = 0
+      node_soak_duration_in_minutes = 0
+    }
   }
-}
 
   identity {
     type = "SystemAssigned"
