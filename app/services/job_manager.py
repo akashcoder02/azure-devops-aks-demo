@@ -1,7 +1,7 @@
-import subprocess
-import threading
 import os
 import shlex
+import subprocess
+import threading
 
 PROJECT_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..")
@@ -9,6 +9,8 @@ PROJECT_ROOT = os.path.abspath(
 
 job = {
     "running": False,
+    "status": "IDLE",
+    "script": "",
     "output": ""
 }
 
@@ -19,6 +21,8 @@ def run(command):
         return False
 
     job["running"] = True
+    job["status"] = "RUNNING"
+    job["script"] = command
     job["output"] = ""
 
     def worker():
@@ -38,9 +42,14 @@ def run(command):
         for line in process.stdout:
             job["output"] += line
 
-        process.wait()
+        return_code = process.wait()
 
         job["running"] = False
+
+        if return_code == 0:
+            job["status"] = "COMPLETED"
+        else:
+            job["status"] = "FAILED"
 
     threading.Thread(target=worker, daemon=True).start()
 

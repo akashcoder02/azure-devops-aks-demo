@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Neon Tic Tac Toe</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<div class="modal" id="winner-modal">
+
+    <div class="modal-card">
+
+        <h2 id="winner-text">Player X Wins!</h2>
+
+        <button id="play-again">
+            Play Again
+        </button>
+
+    </div>
+
+</div>
+
+<canvas id="confetti"></canvas>
+
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+
+    <div class="glass-card">
+
+        <h1>Neon Tic Tac Toe</h1>
+
+        <p class="subtitle">
+            Play. Win. Repeat.
+        </p>
+
+        <div class="board">
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+        </div>
+
+        <button class="play-btn">
+
+            New Game
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+
+</body>
+
+</html>

@@ -4,64 +4,145 @@
 
 {% block content %}
 
-<h1>Azure DevOps Internal Developer Platform</h1>
+<div class="dashboard-header">
 
-<p class="subtitle">
-Production Ready Kubernetes Platform
-</p>
+    <h1>Azure DevOps Internal Developer Platform</h1>
+
+    <p class="subtitle">
+        Build • Deploy • Monitor • Operate Kubernetes from one place
+    </p>
+
+</div>
 
 <div class="card-grid">
 
     <div class="card">
-        <h3>Platform Status</h3>
-        <p class="status running">🟢 Running</p>
+
+    <h3>🟢 Platform</h3>
+
+    <p id="platform-status">Unknown</p>
+
+    <small id="platform-summary">
+        Waiting...
+    </small>
+
+</div>
+
+    <div class="card">
+    <h3>☸ Kubernetes</h3>
+
+    <p id="aks-status">Unknown</p>
+
+    <small>
+        Nodes:
+        <span id="node-count">0</span>
+    </small>
+
+    <br>
+
+    <small>
+        Pods:
+        <span id="pod-count">0</span>
+    </small>
+
+</div>
+
+    <div class="card">
+        <h3>🐳 Docker</h3>
+        <p id="docker-status">Unknown</p>
     </div>
 
     <div class="card">
-        <h3>AKS</h3>
-        <p>1 Node</p>
+        <h3>📦 Azure Container Registry</h3>
+        <p id="acr-status">Checking...</p>
     </div>
 
     <div class="card">
-        <h3>Pods</h3>
-        <p>2 Running</p>
+        <h3>📊 Prometheus</h3>
+        <p id="prometheus-status">Checking...</p>
     </div>
 
     <div class="card">
-        <h3>Terraform</h3>
-        <p>Healthy</p>
+        <h3>📈 Grafana</h3>
+        <p id="grafana-status">Checking...</p>
+    </div>
+
+    <div class="card">
+        <h3>☁ Azure</h3>
+        <p id="azure-status">Unknown</p>
+    </div>
+
+    <div class="card">
+        <h3>⚙ Terraform</h3>
+        <p id="terraform-status">Unknown</p>
     </div>
 
 </div>
 
-<h2>Quick Actions</h2>
+<h2>Platform Operations</h2>
 
 <div class="button-grid">
 
     <button id="start-btn">🚀 Start Platform</button>
 
-<button id="stop-btn">🛑 Stop Platform</button>
+    <button id="stop-btn">🛑 Stop Platform</button>
 
-<button id="doctor-btn">❤️ Health Check</button>
+    <button id="doctor-btn">❤️ Health Check</button>
 
-<button id="deploy-btn">📦 Deploy Application</button>
+    <button id="deploy-btn">📦 Deploy Application</button>
 
-<button id="restart-btn">🔄 Restart Pods</button>
+    <button id="restart-btn">🔄 Restart Pods</button>
 
-<button id="grafana-btn">📊 Open Grafana</button>
+    <button id="grafana-btn">📊 Open Grafana</button>
 
-<button id="prometheus-btn">📈 Open Prometheus</button>
+    <button id="prometheus-btn">📈 Open Prometheus</button>
 
-<button id="logs-btn">📜 View Logs</button>
+    <button id="logs-btn">📜 View Logs</button>
+
+</div>
+
+<h2>Current Job</h2>
+
+<div class="card-grid">
+
+    <div class="card">
+
+        <h3>Job Status</h3>
+
+        <p id="job-status">Idle</p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Current Script</h3>
+
+        <p id="job-script">None</p>
+
+    </div>
 
 </div>
 
-<h2>Live Terminal</h2>
+<h2 id="clock"></h2>
 
-<div class="terminal" id="terminal">
+<h2>Live Platform Terminal</h2>
 
-Waiting for commands...
+<div class="terminal-header">
+
+    <span class="dot red"></span>
+    <span class="dot yellow"></span>
+    <span class="dot green"></span>
+
+    <span class="terminal-title">
+        Azure DevOps Live Console
+    </span>
 
 </div>
+
+<pre id="terminal" class="terminal">
+
+Waiting for platform commands...
+
+</pre>
 
 {% endblock %}
