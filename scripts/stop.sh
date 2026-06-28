@@ -5,6 +5,12 @@ set -e
 source scripts/lib/config.sh
 source scripts/lib/common.sh
 
+AUTO_MODE=false
+
+if [ "$1" = "--auto" ]; then
+    AUTO_MODE=true
+fi
+
 clear
 
 echo "========================================"
@@ -21,11 +27,15 @@ echo ""
 echo "Terraform Backend Storage Account will NOT be deleted."
 echo ""
 
-read -p "Do you really want to continue? (yes/no): " CONFIRM
+if [ "$AUTO_MODE" = false ]; then
 
-if [ "$CONFIRM" != "yes" ]; then
-    info "Shutdown cancelled."
-    exit 0
+    read -p "Do you really want to continue? (yes/no): " CONFIRM
+
+    if [ "$CONFIRM" != "yes" ]; then
+        info "Shutdown cancelled."
+        exit 0
+    fi
+
 fi
 
 info "Moving to Terraform directory..."

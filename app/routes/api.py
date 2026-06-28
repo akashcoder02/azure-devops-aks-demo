@@ -1,32 +1,37 @@
 from flask import Blueprint, jsonify, request
 
-from services.script_runner import run_script
+from services.job_manager import run, job
 
 api = Blueprint("api", __name__)
 
 ALLOWED_SCRIPTS = {
     "doctor": "doctor.sh",
     "start": "start.sh",
-    "stop": "stop.sh"
+    "stop": "stop.sh --auto"
 }
 
 
 @api.route("/api/run", methods=["POST"])
-def run():
+def execute():
 
     data = request.get_json()
 
-    action = data.get("action")
+    action = data["action"]
 
     if action not in ALLOWED_SCRIPTS:
-        return jsonify({
-            "success": False,
-            "output": "Invalid Action"
-        }), 400
 
-    output = run_script(ALLOWED_SCRIPTS[action])
+        return jsonify({
+            "success": False
+        })
+
+    started = run(ALLOWED_SCRIPTS[action])
 
     return jsonify({
-        "success": True,
-        "output": output
+        "success": started
     })
+
+
+@api.route("/api/status")
+def status():
+
+    return jsonify(job)

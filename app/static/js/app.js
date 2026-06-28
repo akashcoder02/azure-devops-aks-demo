@@ -1,41 +1,41 @@
-async function runAction(action) {
+async function runAction(action){
 
-    const terminal = document.getElementById("terminal");
+    await fetch("/api/run",{
 
-    terminal.textContent = "Running " + action + "...";
+        method:"POST",
 
-    const response = await fetch("/api/run", {
-
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
+        headers:{
+            "Content-Type":"application/json"
         },
 
-        body: JSON.stringify({
-            action: action
+        body:JSON.stringify({
+            action:action
         })
 
     });
 
-    const data = await response.json();
+}
 
-    terminal.textContent = data.output;
+async function refreshTerminal(){
+
+    const terminal=document.getElementById("terminal");
+
+    const response=await fetch("/api/status");
+
+    const data=await response.json();
+
+    terminal.textContent=data.output;
 
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+setInterval(refreshTerminal,1000);
 
-    document.getElementById("start-btn").onclick = () => {
-        runAction("start");
-    };
+document.addEventListener("DOMContentLoaded",()=>{
 
-    document.getElementById("stop-btn").onclick = () => {
-        runAction("stop");
-    };
+    document.getElementById("doctor-btn").onclick=()=>runAction("doctor");
 
-    document.getElementById("doctor-btn").onclick = () => {
-        runAction("doctor");
-    };
+    document.getElementById("start-btn").onclick=()=>runAction("start");
+
+    document.getElementById("stop-btn").onclick=()=>runAction("stop");
 
 });
