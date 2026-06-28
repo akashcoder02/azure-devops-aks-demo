@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h1>Azure DevOps Internal Developer Platform</h1>
+
+<p class="subtitle">
+Production Ready Kubernetes Platform
+</p>
+
+<div class="card-grid">
+
+    <div class="card">
+        <h3>Platform Status</h3>
+        <p class="status running">🟢 Running</p>
+    </div>
+
+    <div class="card">
+        <h3>AKS</h3>
+        <p>1 Node</p>
+    </div>
+
+    <div class="card">
+        <h3>Pods</h3>
+        <p>2 Running</p>
+    </div>
+
+    <div class="card">
+        <h3>Terraform</h3>
+        <p>Healthy</p>
+    </div>
+
+</div>
+
+<h2>Quick Actions</h2>
+
+<div class="button-grid">
+
+    <button id="start-btn">🚀 Start Platform</button>
+
+<button id="stop-btn">🛑 Stop Platform</button>
+
+<button id="doctor-btn">❤️ Health Check</button>
+
+<button id="deploy-btn">📦 Deploy Application</button>
+
+<button id="restart-btn">🔄 Restart Pods</button>
+
+<button id="grafana-btn">📊 Open Grafana</button>
+
+<button id="prometheus-btn">📈 Open Prometheus</button>
+
+<button id="logs-btn">📜 View Logs</button>
+
+</div>
+
+<h2>Live Terminal</h2>
+
+<div class="terminal" id="terminal">
+
+Waiting for commands...
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}Azure DevOps IDP{% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <h2>Azure DevOps IDP</h2>
+
+        <ul>
+
+            <ul>
+
+    <li><a href="/">🏠 Dashboard</a></li>
+
+    <li><a href="/platform">🚀 Platform</a></li>
+
+    <li><a href="/applications">📦 Applications</a></li>
+
+    <li><a href="/infrastructure">☁ Infrastructure</a></li>
+
+    <li><a href="/monitoring">📊 Observability</a></li>
+
+    <li><a href="/logs">📜 Activity</a></li>
+
+    <li><a href="/settings">⚙ Settings</a></li>
+
+    <li><a href="/about">ℹ About</a></li>
+
+</ul>
+
+            <li>🚀 Platform</li>
+
+            <li>📦 Applications</li>
+
+            <li>☁ Infrastructure</li>
+
+            <li>📊 Observability</li>
+
+            <li>📜 Activity</li>
+
+            <li>⚙ Settings</li>
+
+            <li>ℹ About</li>
+
+        </ul>
+
+    </div>
+
+    <div class="main-content">
+
+        {% block content %}
+
+        {% endblock %}
+
+    </div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
