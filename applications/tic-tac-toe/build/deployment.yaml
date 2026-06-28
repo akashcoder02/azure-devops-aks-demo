@@ -20,7 +20,7 @@ spec:
       containers:
       - name: tic-tac-toe
 
-        image: IMAGE_PLACEHOLDER
+        image: agdevopsacr2026.azurecr.io/tic-tac-toe:latest
 
         imagePullPolicy: Always
 

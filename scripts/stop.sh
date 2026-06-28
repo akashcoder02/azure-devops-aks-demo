@@ -2,75 +2,96 @@
 
 set -e
 
-source scripts/lib/config.sh
-source scripts/lib/common.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-AUTO_MODE=false
-
-if [ "$1" = "--auto" ]; then
-    AUTO_MODE=true
-fi
+source "$SCRIPT_DIR/lib/config.sh"
+source "$SCRIPT_DIR/lib/common.sh"
 
 clear
 
 echo "========================================"
-echo " Azure DevOps Demo - Shutdown Script"
+echo " Azure DevOps Demo - Stop Platform"
 echo "========================================"
 
 echo ""
-echo "The following resources will be destroyed:"
-echo ""
-echo "  - AKS Cluster"
-echo "  - Azure Container Registry"
-echo "  - Resource Group"
-echo ""
-echo "Terraform Backend Storage Account will NOT be deleted."
-echo ""
 
-if [ "$AUTO_MODE" = false ]; then
+#########################################
+# Validate Azure Login
+#########################################
 
-    read -p "Do you really want to continue? (yes/no): " CONFIRM
+echo "[1/5] Validating Azure Login..."
 
-    if [ "$CONFIRM" != "yes" ]; then
-        info "Shutdown cancelled."
-        exit 0
-    fi
-
+if ! az account show >/dev/null 2>&1
+then
+    error "Azure CLI is not logged in."
+    exit 1
 fi
 
-info "Moving to Terraform directory..."
+success "Azure Login OK"
 
-cd "$TERRAFORM_DIR"
+#########################################
+# Verify Terraform Directory
+#########################################
 
-info "Destroying infrastructure..."
+echo ""
+echo "[2/5] Preparing Terraform..."
+
+cd "$PROJECT_ROOT/terraform"
+
+terraform init
+
+success "Terraform Initialized."
+
+#########################################
+# Destroy Infrastructure
+#########################################
+
+echo ""
+echo "[3/5] Destroying Infrastructure..."
 
 terraform destroy -auto-approve
 
+success "Terraform Destroy Completed."
+
 cd ..
 
-success "Infrastructure destroyed successfully."
+#########################################
+# Verify Resources Removed
+#########################################
 
 echo ""
-echo "Verifying resources..."
+echo "[4/5] Verifying Azure Resources..."
 
-if az group show --name "$RESOURCE_GROUP" >/dev/null 2>&1; then
-    error "Resource Group still exists!"
-else
-    success "Resource Group deleted."
+RG_EXISTS=$(az group exists --name "$RESOURCE_GROUP")
+
+if [ "$RG_EXISTS" = "true" ]
+then
+    error "Resource Group still exists."
+    exit 1
 fi
 
+success "Resource Group deleted."
+
+#########################################
+# Completed
+#########################################
+
 echo ""
+echo "[5/5] Platform Stopped"
+
+echo ""
+
 echo "========================================"
-echo " Environment Shutdown Complete"
+echo " Platform Destroyed"
 echo "========================================"
 
 echo ""
-echo "Backend Storage Account:"
-echo "   Preserved"
+
+echo "Azure Resources : Removed"
+
+echo "Terraform State : Updated"
 
 echo ""
-echo "Terraform State:"
-echo "   Preserved"
 
-echo ""
-echo "Good Night! 😴"
+success "Platform shutdown completed successfully."
