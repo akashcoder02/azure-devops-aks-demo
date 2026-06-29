@@ -37,7 +37,7 @@ success "Azure Login OK"
 echo ""
 echo "[2/5] Preparing Terraform..."
 
-cd "$PROJECT_ROOT/terraform"
+cd "$TERRAFORM_DIR"
 
 terraform init
 

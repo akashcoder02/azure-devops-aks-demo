@@ -75,3 +75,29 @@
     color:#9ca3af;
 
 }
+
+.card small{
+
+    color:#9ca3af;
+
+    display:block;
+
+    margin-top:10px;
+
+    line-height:1.5;
+
+}
+
+.card button{
+
+    width:100%;
+
+    margin-top:12px;
+
+}
+
+.card p{
+
+    margin:12px 0;
+
+}

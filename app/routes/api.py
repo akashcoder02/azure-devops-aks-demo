@@ -5,9 +5,11 @@ from services.job_manager import run, job
 api = Blueprint("api", __name__)
 
 ALLOWED_SCRIPTS = {
+
+    # Platform
     "doctor": "doctor.sh",
     "start": "start.sh",
-    "stop": "stop.sh --auto"
+    "stop": "stop.sh --auto",
 }
 
 

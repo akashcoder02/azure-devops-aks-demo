@@ -6,7 +6,7 @@
 
 <div class="dashboard-header">
 
-    <h1>Azure DevOps Internal Developer Platform</h1>
+    <h1>Application Deployment Engine - Internal Developer Platform</h1>
 
     <p class="subtitle">
         Build • Deploy • Monitor • Operate Kubernetes from one place
@@ -26,26 +26,30 @@
         Waiting...
     </small>
 
+    </div>
+
 </div>
+
+<!-- Infrastructure -->
+
+<!-- ================= Services ================= -->
+
+<div class="card-grid">
 
     <div class="card">
-    <h3>☸ Kubernetes</h3>
+        <h3>☁ Azure</h3>
+        <p id="azure-status">Unknown</p>
+    </div>
 
-    <p id="aks-status">Unknown</p>
+    <div class="card">
+        <h3>📦 Azure Container Registry</h3>
+        <p id="acr-status">Checking...</p>
+    </div>
 
-    <small>
-        Nodes:
-        <span id="node-count">0</span>
-    </small>
-
-    <br>
-
-    <small>
-        Pods:
-        <span id="pod-count">0</span>
-    </small>
-
-</div>
+    <div class="card">
+        <h3>⚙ Terraform</h3>
+        <p id="terraform-status">Unknown</p>
+    </div>
 
     <div class="card">
         <h3>🐳 Docker</h3>
@@ -53,8 +57,23 @@
     </div>
 
     <div class="card">
-        <h3>📦 Azure Container Registry</h3>
-        <p id="acr-status">Checking...</p>
+
+        <h3>☸ Kubernetes</h3>
+
+        <p id="aks-status">Unknown</p>
+
+        <small>
+            Nodes:
+            <span id="node-count">0</span>
+        </small>
+
+        <br>
+
+        <small>
+            Pods:
+            <span id="pod-count">0</span>
+        </small>
+
     </div>
 
     <div class="card">
@@ -65,16 +84,6 @@
     <div class="card">
         <h3>📈 Grafana</h3>
         <p id="grafana-status">Checking...</p>
-    </div>
-
-    <div class="card">
-        <h3>☁ Azure</h3>
-        <p id="azure-status">Unknown</p>
-    </div>
-
-    <div class="card">
-        <h3>⚙ Terraform</h3>
-        <p id="terraform-status">Unknown</p>
     </div>
 
 </div>
@@ -91,13 +100,47 @@
 
     <button id="deploy-btn">📦 Deploy Application</button>
 
-    <button id="restart-btn">🔄 Restart Pods</button>
-
-    <button id="grafana-btn">📊 Open Grafana</button>
-
-    <button id="prometheus-btn">📈 Open Prometheus</button>
-
     <button id="logs-btn">📜 View Logs</button>
+
+</div>
+
+<h2>Applications</h2>
+
+<div class="card-grid">
+
+    <div class="card">
+
+        <h3>🎮 Tic Tac Toe</h3>
+
+        <p id="tic-status" class="unknown">
+            Not Deployed
+        </p>
+
+        <small id="tic-summary">
+            Ready to deploy
+        </small>
+
+        <div class="button-grid">
+
+            <button id="tic-open-btn" disabled>
+    🌐              Open Application
+            </button>
+
+            <button id="tic-deploy-btn">
+                🚀 Deploy
+            </button>
+
+            <button id="tic-status-btn">
+                📊 Status
+            </button>
+
+            <button id="tic-undeploy-btn">
+                🗑 Undeploy
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 

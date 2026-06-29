@@ -27,29 +27,38 @@ def run(command):
 
     def worker():
 
-        args = shlex.split(command)
+        try:
 
-        script = os.path.join(PROJECT_ROOT, "scripts", args[0])
+            args = shlex.split(command)
 
-        process = subprocess.Popen(
-            ["bash", script] + args[1:],
-            cwd=PROJECT_ROOT,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True
-        )
+            script = os.path.join(PROJECT_ROOT, "scripts", args[0])
 
-        for line in process.stdout:
-            job["output"] += line
+            process = subprocess.Popen(
+                ["bash", script] + args[1:],
+                cwd=PROJECT_ROOT,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True
+            )
 
-        return_code = process.wait()
+            for line in process.stdout:
+                job["output"] += line
 
-        job["running"] = False
+            return_code = process.wait()
 
-        if return_code == 0:
-            job["status"] = "COMPLETED"
-        else:
+            if return_code == 0:
+                job["status"] = "COMPLETED"
+            else:
+                job["status"] = "FAILED"
+
+        except Exception as e:
+
             job["status"] = "FAILED"
+            job["output"] += f"\nERROR: {e}\n"
+
+        finally:
+
+            job["running"] = False
 
     threading.Thread(target=worker, daemon=True).start()
 

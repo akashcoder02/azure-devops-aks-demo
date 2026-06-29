@@ -20,7 +20,7 @@ echo "Azure Login OK"
 echo ""
 echo "[2/5] Provisioning Azure Infrastructure..."
 
-cd "$PROJECT_ROOT/terraform"
+cd "$TERRAFORM_DIR"
 
 terraform init
 

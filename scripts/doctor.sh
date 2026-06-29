@@ -2,204 +2,165 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+source "$SCRIPT_DIR/lib/config.sh"
+source "$SCRIPT_DIR/lib/common.sh"
+
+clear
+
+echo "========================================"
+echo " Azure DevOps Demo - Platform Doctor"
+echo "========================================"
+
+echo ""
+
 #########################################
-# Docker Module
-# Azure DevOps Platform
+# Check Azure CLI
 #########################################
 
-source scripts/lib/config.sh
-source scripts/lib/common.sh
+echo "[1/8] Azure CLI"
+
+if command -v az >/dev/null 2>&1
+then
+    success "Azure CLI Installed."
+else
+    error "Azure CLI is not installed."
+    exit 1
+fi
 
 #########################################
-# Check Docker Installation
+# Check Azure Login
 #########################################
 
-check_docker() {
+echo ""
+echo "[2/8] Azure Login"
 
-    info "Checking Docker installation..."
+if az account show >/dev/null 2>&1
+then
+    success "Azure Login OK."
+else
+    error "Not logged into Azure."
+fi
 
-    if command -v docker >/dev/null 2>&1
-    then
-        success "Docker is installed."
-    else
-        error "Docker is not installed."
-    fi
-}
+#########################################
+# Check Terraform
+#########################################
+
+echo ""
+echo "[3/8] Terraform"
+
+if command -v terraform >/dev/null 2>&1
+then
+
+    VERSION=$(terraform version | head -1)
+
+    success "$VERSION"
+
+else
+
+    error "Terraform is not installed."
+
+fi
+
+#########################################
+# Check Docker
+#########################################
+
+echo ""
+echo "[4/8] Docker"
+
+if command -v docker >/dev/null 2>&1
+then
+    success "Docker Installed."
+else
+    error "Docker is not installed."
+fi
 
 #########################################
 # Check Docker Daemon
 #########################################
 
-check_docker_daemon() {
+echo ""
+echo "[5/8] Docker Engine"
 
-    info "Checking Docker daemon..."
+if docker info >/dev/null 2>&1
+then
+    success "Docker Engine Running."
+else
+    error "Docker Engine Stopped."
+fi
 
-    if docker info >/dev/null 2>&1
-    then
-        success "Docker daemon is running."
-    else
-        error "Docker daemon is not running. Please start Docker Desktop."
-    fi
-}
+#########################################
+# Check kubectl
+#########################################
+
+echo ""
+echo "[6/8] kubectl"
+
+if command -v kubectl >/dev/null 2>&1
+then
+
+    VERSION=$(kubectl version --client --short 2>/dev/null || kubectl version --client)
+
+    success "$VERSION"
+
+else
+
+    error "kubectl is not installed."
+
+fi
+
+#########################################
+# Check AKS
+#########################################
+
+echo ""
+echo "[7/8] Kubernetes"
+
+if kubectl get nodes >/dev/null 2>&1
+then
+
+    NODE_COUNT=$(kubectl get nodes --no-headers | wc -l)
+
+    success "AKS Reachable."
+
+    echo "Nodes : $NODE_COUNT"
+
+else
+
+    error "AKS Cluster is unavailable."
+
+fi
 
 #########################################
 # Check Azure Container Registry
 #########################################
 
-check_acr() {
+echo ""
+echo "[8/8] Azure Container Registry"
 
-    info "Checking Azure Container Registry..."
-
-    if az acr show --name "$ACR_NAME" >/dev/null 2>&1
-    then
-        success "Azure Container Registry exists."
-    else
-        error "Azure Container Registry does not exist."
-    fi
-}
-
-#########################################
-# Login to ACR
-#########################################
-
-login_acr() {
-
-    info "Logging into Azure Container Registry..."
-
-    az acr login --name "$ACR_NAME" >/dev/null
-
-    success "Logged into ACR."
-}
-
-#########################################
-# Check Local Docker Image
-#########################################
-
-check_local_image() {
-
-    if docker image inspect ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG} >/dev/null 2>&1
-    then
-
-        success "Local Docker image found."
-
-    else
-
-        info "Local Docker image not found."
-
-        build_image
-
-    fi
-}
-
-#########################################
-# Build Docker Image
-#########################################
-
-build_image() {
-
-    info "Building Docker image..."
-
-    docker build \
-        -t ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG} \
-        ./app
-
-    success "Docker image built."
-}
-
-#########################################
-# Check Remote Image
-#########################################
-
-check_remote_image() {
-
-    info "Checking Docker image in ACR..."
-
-	TAGS=$(az acr repository show-tags \
-    --name "$ACR_NAME" \
-    --repository "$IMAGE_NAME" \
-    --output tsv | tr -d '\r')
-
-if echo "$TAGS" | grep -Fxq "$IMAGE_TAG"
-    then
-
-        success "Docker image already exists in ACR."
-
-        return 0
-
-    else
-
-        info "Docker image not found in ACR."
-
-        return 1
-
-    fi
-}
-
-#########################################
-# Push Docker Image
-#########################################
-
-push_image() {
-
-    info "Pushing Docker image..."
-
-    docker push \
-        ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}
-
-    success "Docker image pushed."
-}
-
-#########################################
-# Verify Push
-#########################################
-
-verify_push() {
-
-    info "Verifying image upload..."
-
-    TAGS=$(az acr repository show-tags \
-    --name "$ACR_NAME" \
-    --repository "$IMAGE_NAME" \
-    --output tsv | tr -d '\r')
-
-    echo "===== DEBUG ====="
-    echo "$TAGS"
-    echo "================="
-
-    if echo "$TAGS" | grep -Fxq "$IMAGE_TAG"
-    then
-        success "Image verified in Azure Container Registry."
-    else
-        error "Image upload verification failed."
-        return 1
-    fi
-}
-
-#########################################
-# Main Flow
-#########################################
-
-check_docker
-
-check_docker_daemon
-
-check_acr
-
-login_acr
-
-check_local_image
-
-if check_remote_image
+if az acr show --name "$ACR_NAME" >/dev/null 2>&1
 then
 
-    success "Skipping Docker push."
+    success "ACR Available."
 
 else
 
-    push_image
-
-    verify_push
+    error "ACR Not Found."
 
 fi
 
-success "Docker module completed successfully."
+#########################################
+# Summary
+#########################################
+
+echo ""
+echo "========================================"
+echo " Platform Health Check Complete"
+echo "========================================"
+
+echo ""
+
+success "Doctor finished."
