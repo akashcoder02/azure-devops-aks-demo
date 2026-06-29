@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify
-from services.job_manager import run
+from services.application_job_manager import run
 from services.script_runner import run_script
 
 applications = Blueprint("applications", __name__)
 
 ALLOWED_ACTIONS = {
     "deploy",
-    "status"
+    "status",
     "undeploy"
 }
 

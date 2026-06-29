@@ -53,27 +53,23 @@
 }
 
 .running{
-
-    color:#22c55e;
-
+    color:#22c55e !important;
+    font-weight:bold;
 }
 
 .stopped{
-
-    color:#ef4444;
-
+    color:#ef4444 !important;
+    font-weight:bold;
 }
 
 .warning{
-
-    color:#facc15;
-
+    color:#facc15 !important;
+    font-weight:bold;
 }
 
 .unknown{
-
-    color:#9ca3af;
-
+    color:#9ca3af !important;
+    font-weight:bold;
 }
 
 .card small{
@@ -97,7 +93,7 @@
 }
 
 .card p{
-
-    margin:12px 0;
-
+    font-size:16px;
+    font-weight:bold;
+    color:inherit;
 }

@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(loadJobStatus, 1000);
 
     bindButtons();
+    loadApplicationStatus();
+
+    setInterval(loadApplicationStatus, 5000);
 
 });
 
@@ -40,6 +43,18 @@ function bindButtons() {
 
     document.getElementById("tic-undeploy-btn")
         .addEventListener("click", () => runApplication("tic-tac-toe", "undeploy"));
+
+
+    document.getElementById("tic-open-btn")
+        .addEventListener("click", () => {
+
+            const url = document.getElementById("tic-open-btn").dataset.url;
+
+            if (url) {
+            window.open(url, "_blank");
+            }
+
+        });
 
 }
 
@@ -204,7 +219,70 @@ async function loadPlatformStatus() {
 
 }
 
+async function loadApplicationStatus() {
 
+    const response = await fetch("/api/applications/tic-tac-toe/status");
+
+    const data = await response.json();
+
+    const openBtn = document.getElementById("tic-open-btn");
+
+    const deployBtn = document.getElementById("tic-deploy-btn");
+    const undeployBtn = document.getElementById("tic-undeploy-btn");
+    const statusBtn = document.getElementById("tic-status-btn");
+
+    if (data.URL && data.URL !== "-") {
+
+        openBtn.disabled = false;
+
+        openBtn.dataset.url = data.URL;
+
+        document.getElementById("tic-status").innerHTML =
+            "🟢 Running";
+
+        document.getElementById("tic-summary").innerHTML =
+            data.URL;
+
+        deployBtn.disabled = true;
+        undeployBtn.disabled = false;
+        statusBtn.disabled = false;
+
+        deployBtn.style.opacity = "0.4";
+        deployBtn.style.cursor = "not-allowed";
+
+        undeployBtn.style.opacity = "1";
+        undeployBtn.style.cursor = "pointer";
+
+        statusBtn.style.opacity = "1";
+        statusBtn.style.cursor = "pointer";
+
+    } else {
+
+        openBtn.disabled = true;
+
+        openBtn.dataset.url = "";
+
+        document.getElementById("tic-status").innerHTML =
+            "🔴 Not Deployed";
+
+        document.getElementById("tic-summary").innerHTML =
+            "Ready to deploy";
+        deployBtn.disabled = false;
+        undeployBtn.disabled = true;
+        statusBtn.disabled = false;
+
+        deployBtn.style.opacity = "1";
+        deployBtn.style.cursor = "pointer";
+
+        undeployBtn.style.opacity = "0.4";
+        undeployBtn.style.cursor = "not-allowed";
+
+        statusBtn.style.opacity = "1";
+        statusBtn.style.cursor = "pointer";
+
+    }
+
+}
 // ========================================
 // Job Status
 // ========================================
@@ -227,7 +305,23 @@ async function loadJobStatus() {
     if (job.status === "COMPLETED") {
 
     loadPlatformStatus();
+    loadApplicationStatus();
 
 }
 
 }
+
+// ========================================
+// Clock
+// ========================================
+
+function updateClock() {
+
+    document.getElementById("clock").textContent =
+        new Date().toLocaleString();
+
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
