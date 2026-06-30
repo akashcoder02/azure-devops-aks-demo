@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}
+Infrastructure
+{% endblock %}
+
+{% block content %}
+
+<div class="page">
+
+    <h1>Infrastructure</h1>
+
+    <div class="card">
+
+        <h2>Provision Resource</h2>
+
+        <div class="form-group">
+
+            <label>Resource Type</label>
+
+            <select id="resource-type">
+                <option value="vm">Virtual Machine</option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>VM Name</label>
+
+            <input
+                id="vm-name"
+                type="text"
+                placeholder="devops-vm-01"
+            >
+
+        </div>
+
+        <div class="form-group">
+            <label>VM Count</label>
+<div class="form-group">
+
+    <label>VM Count</label>
+
+    <input
+        id="vm-count"
+        type="number"
+        min="1"
+        max="10"
+        value="1"
+    >
+
+</div>
+
+<div class="form-group">
+
+    <label>Template</label>
+
+    <select id="vm-template">
+
+        <option value="generic-linux">
+            Generic Linux
+        </option>
+
+        <option value="docker-host">
+            Docker Host
+        </option>
+
+        <option value="jenkins-server">
+            Jenkins Server
+        </option>
+
+        <option value="github-runner">
+            GitHub Runner
+        </option>
+
+    </select>
+
+</div>
+
+<div class="form-group">
+
+    <label>Azure Region</label>
+
+    <select id="location">
+
+        <option value="Central India" selected>
+            Central India
+        </option>
+
+        <option value="South India">
+            South India
+        </option>
+
+        <option value="West India">
+            West India
+        </option>
+
+        <option value="East US">
+            East US
+        </option>
+
+        <option value="East US 2">
+            East US 2
+        </option>
+
+        <option value="West Europe">
+            West Europe
+        </option>
+
+        <option value="North Europe">
+            North Europe
+        </option>
+
+        <option value="Southeast Asia">
+            Southeast Asia
+        </option>
+
+    </select>
+
+</div>
+
+        <div class="form-group">
+
+            <label>VM Size</label>
+
+            <select id="vm-size">
+
+                <option value="Standard_B2s">
+                    Standard_B2s
+                </option>
+
+                <option value="Standard_D2s_v5">
+                    Standard_D2s_v5
+                </option>
+
+                <option value="Standard_D4s_v5">
+                    Standard_D4s_v5
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Admin Username</label>
+
+            <input
+                id="admin-username"
+                type="text"
+                value="azureuser"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>SSH Public Key</label>
+
+            <textarea
+                id="public-key"
+                rows="5"
+                placeholder="Paste your SSH public key here"
+            ></textarea>
+
+        </div>
+
+        <button id="provision-btn">
+
+            Provision Resource
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/infrastructure.js') }}"></script>
+
+{% endblock %}
