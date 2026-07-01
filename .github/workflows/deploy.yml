@@ -1,42 +1,31 @@
 name: Deploy to AKS
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows:
+      - "Build Docker Image"
+    types:
+      - completed
 
 env:
   IMAGE_NAME: flask-demo
 
 jobs:
   deploy:
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Login to ACR
-        run: az acr login --name ${{ secrets.ACR_NAME }}
-
-      - name: Install Helm
-        uses: azure/setup-helm@v4
-
-      - name: Build Docker Image
-        run: |
-          docker build \
-          -t ${{ secrets.ACR_NAME }}.azurecr.io/flask-demo:${{ github.sha }} \
-          ./app
-
-      - name: Push Docker Image
-        run: |
-          docker push \
-          ${{ secrets.ACR_NAME }}.azurecr.io/flask-demo:${{ github.sha }}
 
       - name: Get AKS Credentials
         run: |
@@ -45,12 +34,65 @@ jobs:
             --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
 
-      - name: Deploy with Helm
+      - name: Generate Kubernetes Manifest
         run: |
-          helm upgrade --install flask-demo ./flask-demo \
-            --set image.repository=${{ secrets.ACR_NAME }}.azurecr.io/flask-demo \
-            --set image.tag=${{ github.sha }}
+          mkdir -p build
+
+          cp applications/tic-tac-toe/k8s/deployment.yaml build/deployment.yaml
+
+          sed -i \
+          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.workflow_run.head_sha }}|g" \
+          build/deployment.yaml
+
+      - name: Deploy Application
+        run: |
+          kubectl apply -f build/deployment.yaml
+          kubectl apply -f applications/tic-tac-toe/k8s/service.yaml
+
+      - name: Wait for Rollout
+        run: |
+          kubectl rollout status deployment/flask-demo --timeout=300s
 
       - name: Verify Deployment
         run: |
-          kubectl rollout status deployment/flask-demo
+          echo "Deployments"
+          kubectl get deployments
+
+          echo ""
+          echo "Pods"
+          kubectl get pods -o wide
+
+          echo ""
+          echo "Services"
+          kubectl get svc
+
+      - name: Get Application URL
+        run: |
+          EXTERNAL_IP=""
+
+          for i in {1..30}
+          do
+            EXTERNAL_IP=$(kubectl get svc flask-demo-service \
+              -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+            if [ -n "$EXTERNAL_IP" ]; then
+              break
+            fi
+
+            sleep 10
+          done
+
+          echo ""
+          echo "======================================"
+          echo "Application URL"
+          echo "======================================"
+
+          if [ -n "$EXTERNAL_IP" ]; then
+            echo "http://${EXTERNAL_IP}"
+          else
+            echo "External IP is still pending."
+          fi
+
+      - name: Deployment Completed
+        run: |
+          echo "Deployment completed successfully."
