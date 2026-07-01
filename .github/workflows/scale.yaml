@@ -1,0 +1,49 @@
+name: Scale Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      application:
+        description: "Application Name"
+        required: true
+        default: "tic-tac-toe"
+
+      replicas:
+        description: "Number of Replicas"
+        required: true
+        default: "2"
+
+jobs:
+
+  scale:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Scale Deployment
+        run: |
+          kubectl scale deployment \
+          ${{ github.event.inputs.application }} \
+          --replicas=${{ github.event.inputs.replicas }}
+
+      - name: Verify
+        run: |
+          kubectl get deployment \
+          ${{ github.event.inputs.application }}
+
+          kubectl get pods
