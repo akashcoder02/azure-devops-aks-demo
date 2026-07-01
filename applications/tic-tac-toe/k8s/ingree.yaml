@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: tic-tac-toe
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - http:
+      paths:
+      - path: /tic-tac-toe
+        pathType: Prefix
+        backend:
+          service:
+            name: tic-tac-toe
+            port:
+              number: 5001

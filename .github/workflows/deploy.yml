@@ -50,6 +50,7 @@ jobs:
         run: |
           kubectl apply -f build/deployment.yaml
           kubectl apply -f applications/tic-tac-toe/k8s/service.yaml
+          kubectl apply -f applications/tic-tac-toe/k8s/ingress.yaml
 
       - name: Wait for Rollout
         run: |
@@ -68,16 +69,17 @@ jobs:
           echo "Services"
           kubectl get svc ${{ env.SERVICE_NAME }}
 
-      - name: Get Application URL
+      - name: Get Ingress URL
         run: |
-          EXTERNAL_IP=""
+          INGRESS_IP=""
 
           for i in {1..30}
           do
-            EXTERNAL_IP=$(kubectl get svc ${{ env.SERVICE_NAME }} \
+            INGRESS_IP=$(kubectl get svc ingress-nginx-controller \
+              -n ingress-nginx \
               -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-            if [ -n "$EXTERNAL_IP" ]; then
+            if [ -n "$INGRESS_IP" ]; then
               break
             fi
 
@@ -85,14 +87,12 @@ jobs:
           done
 
           echo ""
-          echo "======================================"
           echo "Application URL"
-          echo "======================================"
 
-          if [ -n "$EXTERNAL_IP" ]; then
-            echo "http://${EXTERNAL_IP}"
+          if [ -n "$INGRESS_IP" ]; then
+            echo "http://${INGRESS_IP}/tic-tac-toe"
           else
-            echo "External IP is still pending."
+            echo "Ingress IP pending."
           fi
 
       - name: Deployment Completed
