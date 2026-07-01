@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: flask-demo
+  IMAGE_NAME: tic-tac-toe
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:

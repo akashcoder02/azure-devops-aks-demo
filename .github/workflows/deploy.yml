@@ -8,7 +8,9 @@ on:
       - completed
 
 env:
-  IMAGE_NAME: flask-demo
+  IMAGE_NAME: tic-tac-toe
+  DEPLOYMENT_NAME: tic-tac-toe
+  SERVICE_NAME: tic-tac-toe
 
 jobs:
   deploy:
@@ -51,20 +53,20 @@ jobs:
 
       - name: Wait for Rollout
         run: |
-          kubectl rollout status deployment/flask-demo --timeout=300s
+          kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} --timeout=300s
 
       - name: Verify Deployment
         run: |
           echo "Deployments"
-          kubectl get deployments
+          kubectl get deployment ${{ env.DEPLOYMENT_NAME }}
 
           echo ""
           echo "Pods"
-          kubectl get pods -o wide
+          kubectl get pods -l app=tic-tac-toe
 
           echo ""
           echo "Services"
-          kubectl get svc
+          kubectl get svc ${{ env.SERVICE_NAME }}
 
       - name: Get Application URL
         run: |
@@ -72,7 +74,7 @@ jobs:
 
           for i in {1..30}
           do
-            EXTERNAL_IP=$(kubectl get svc flask-demo-service \
+            EXTERNAL_IP=$(kubectl get svc ${{ env.SERVICE_NAME }} \
               -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
             if [ -n "$EXTERNAL_IP" ]; then
