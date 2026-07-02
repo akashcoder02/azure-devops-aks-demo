@@ -7,6 +7,8 @@ on:
     types:
       - completed
 
+  workflow_dispatch:
+
 env:
   IMAGE_NAME: tic-tac-toe
   DEPLOYMENT_NAME: tic-tac-toe
