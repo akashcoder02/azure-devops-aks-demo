@@ -5,10 +5,13 @@ resource "helm_release" "ingress_nginx" {
   namespace        = "ingress-nginx"
   create_namespace = true
 
-  set = [
-  {
-    name  = "controller.service.type"
-    value = "LoadBalancer"
-  }
-]
+  values = [<<EOF
+controller:
+  service:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+  ingressClassResource:
+    default: true
+EOF
+  ]
 }
