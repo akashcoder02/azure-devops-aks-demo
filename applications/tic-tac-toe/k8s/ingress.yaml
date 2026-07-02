@@ -3,20 +3,18 @@ kind: Ingress
 
 metadata:
   name: tic-tac-toe
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
 
 spec:
   ingressClassName: nginx
 
   rules:
-  - http:
+  - host: tic-tac-toe.local
+    http:
       paths:
-      - path: /tic-tac-toe(/|$)(.*)
-        pathType: ImplementationSpecific
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: tic-tac-toe
             port:
-              number: 5001
+              number: 80

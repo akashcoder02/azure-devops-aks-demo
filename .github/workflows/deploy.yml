@@ -52,7 +52,8 @@ jobs:
         run: |
           kubectl apply -f build/deployment.yaml
           kubectl apply -f applications/tic-tac-toe/k8s/service.yaml
-          kubectl apply -f applications/tic-tac-toe/k8s/ingress.yaml
+          kubectl apply -f applications/tic-tac-toe/k8s/ingress-app.yaml
+          kubectl apply -f applications/tic-tac-toe/k8s/ingress-static.yaml
 
       - name: Wait for Rollout
         run: |
