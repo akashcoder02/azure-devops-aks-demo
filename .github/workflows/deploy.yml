@@ -52,8 +52,7 @@ jobs:
         run: |
           kubectl apply -f build/deployment.yaml
           kubectl apply -f applications/tic-tac-toe/k8s/service.yaml
-          kubectl apply -f applications/tic-tac-toe/k8s/ingress-app.yaml
-          kubectl apply -f applications/tic-tac-toe/k8s/ingress-static.yaml
+          kubectl apply -f applications/tic-tac-toe/k8s/ingress.yaml
 
       - name: Wait for Rollout
         run: |
@@ -93,7 +92,7 @@ jobs:
           echo "Application URL"
 
           if [ -n "$INGRESS_IP" ]; then
-            echo "http://${INGRESS_IP}/tic-tac-toe"
+            echo "http://${INGRESS_IP}"
           else
             echo "Ingress IP pending."
           fi

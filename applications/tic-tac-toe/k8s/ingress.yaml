@@ -8,8 +8,7 @@ spec:
   ingressClassName: nginx
 
   rules:
-  - host: tic-tac-toe.local
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
