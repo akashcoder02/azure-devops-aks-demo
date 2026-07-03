@@ -1,7 +1,7 @@
 variable "subscription_id" {}
 
 variable "resource_group_name" {
-  default = "rg-devops-demo"
+  default = "rg-devops-IDP"
 }
 
 variable "location" {
@@ -13,5 +13,8 @@ variable "acr_name" {
 }
 
 variable "aks_name" {
-  default = "aks-devops-demo"
+  default = "aks-devops-IDP"
+}
+variable "keyvault_name" {
+  default = "agdevopskv2026"
 }

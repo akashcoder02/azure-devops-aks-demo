@@ -31,3 +31,12 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
     module.acr
   ]
 }
+
+module "keyvault" {
+  source = "./modules/keyvault"
+
+  keyvault_name      = var.keyvault_name
+  resource_group_name = module.rg.resource_group_name
+  location            = module.rg.location
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+}
