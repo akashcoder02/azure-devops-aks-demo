@@ -38,5 +38,6 @@ module "keyvault" {
   keyvault_name       = var.keyvault_name
   resource_group_name = module.rg.resource_group_name
   location            = module.rg.location
-  tenant_id           = data.azurerm_client_config.current.tenant_id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
 }

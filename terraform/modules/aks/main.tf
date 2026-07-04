@@ -1,4 +1,5 @@
 resource "azurerm_kubernetes_cluster" "aks" {
+
   name                = var.aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -19,5 +20,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
   }
 }
