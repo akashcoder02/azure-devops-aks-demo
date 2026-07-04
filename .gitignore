@@ -1,15 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
 # Terraform
 .terraform/
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
+tfplan
+crash.log
 
-# Python
-__pycache__/
-*.pyc
+# Secrets
+secrets/
 
-# VS Code
+# Logs
+*.log
+
+# VSCode
 .vscode/
 
-secrets/
-*.json
+# macOS
+.DS_Store
