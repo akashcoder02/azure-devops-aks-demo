@@ -1,0 +1,94 @@
+name: Platform Status
+
+on:
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: rg-devops-demo
+  AKS_NAME: aks-devops-demo
+  ACR_NAME: agdevopsacr2026
+  KEYVAULT_NAME: agdevopskv2026
+
+jobs:
+
+  status:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Platform Status
+        run: |
+
+          echo "========== Azure =========="
+
+          echo ""
+          echo "Resource Group"
+          az group show \
+            --name $RESOURCE_GROUP \
+            --query name \
+            -o table
+
+          echo ""
+          echo "AKS"
+          az aks show \
+            --resource-group $RESOURCE_GROUP \
+            --name $AKS_NAME \
+            --query provisioningState \
+            -o table
+
+          echo ""
+          echo "ACR"
+          az acr show \
+            --name $ACR_NAME \
+            --query loginServer \
+            -o table
+
+          echo ""
+          echo "Key Vault"
+          az keyvault show \
+            --name $KEYVAULT_NAME \
+            --query properties.vaultUri \
+            -o table
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group $RESOURCE_GROUP \
+            --name $AKS_NAME \
+            --overwrite-existing
+
+      - name: Kubernetes Status
+        run: |
+
+          echo "========== Kubernetes =========="
+
+          echo ""
+          echo "Nodes"
+          kubectl get nodes
+
+          echo ""
+          echo "Deployments"
+          kubectl get deployment
+
+          echo ""
+          echo "Pods"
+          kubectl get pods
+
+          echo ""
+          echo "Services"
+          kubectl get svc
+
+          echo ""
+          echo "Ingress"
+          kubectl get ingress
+
+      - name: Platform Healthy
+        run: |
+          echo ""
+          echo "Platform Status Check Completed."
