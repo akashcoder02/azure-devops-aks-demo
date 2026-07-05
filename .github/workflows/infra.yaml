@@ -3,6 +3,11 @@ name: Platform Infrastructure
 on:
   workflow_dispatch:
 
+env:
+  RESOURCE_GROUP: rg-devops-demo
+  AKS_NAME: aks-devops-demo
+  KEYVAULT_NAME: agdevopskv2026
+
 jobs:
   terraform:
 
@@ -36,6 +41,53 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
+      - name: Platform Bootstrap
+        run: echo "Starting Platform Bootstrap..."
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group $RESOURCE_GROUP\
+            --name $AKS_NAME \
+            --overwrite-existing
+
+      - name: Get AKS Key Vault Identity
+        run: |
+          echo "AKS_OBJECT_ID=$(az aks show \
+            --resource-group $RESOURCE_GROUP \
+            --name $AKS_NAME \
+            --query addonProfiles.azureKeyvaultSecretsProvider.identity.objectId \
+            -o tsv)" >> $GITHUB_ENV
+
+      - name: Grant AKS Key Vault Access
+        run: |
+          az keyvault set-policy \
+            --name $KEYVAULT_NAME \
+            --object-id $AKS_OBJECT_ID \
+            --secret-permissions get list
+
+      - name: Grant Admin Access
+        run: |
+          az keyvault set-policy \
+            --name $KEYVAULT_NAME \
+            --object-id ${{ secrets.AZURE_OBJECT_ID }} \
+            --secret-permissions get list set delete
+
+      - name: Create Default Secret
+        run: |
+          az keyvault secret set \
+            --vault-name $KEYVAULT_NAME \
+            --name app-secret \
+            --value "HelloFromAzureKeyVault"
+            --only-show-errors
+
+      - name: Verify Secret
+        run: |
+          az keyvault secret show \
+            --vault-name $KEYVAULT_NAME \
+            --name app-secret \
+            --query id
 
       - name: Show Outputs
         run: terraform output

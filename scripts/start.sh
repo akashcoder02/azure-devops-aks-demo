@@ -41,14 +41,18 @@ cd ..
 echo ""
 echo "[3/5] Getting AKS Credentials..."
 
+mkdir -p ~/.kube
+
 az aks get-credentials \
-  --resource-group $RESOURCE_GROUP \
-  --name $AKS_NAME \
+  --resource-group "$RESOURCE_GROUP" \
+  --name "$AKS_NAME" \
+  --file ~/.kube/config \
   --overwrite-existing
 
-mkdir -p ~/.kube
-cp /mnt/c/Users/Asus/.kube/config ~/.kube/config
-chmod 600 ~/.kube/config
+echo ""
+echo "Verifying Kubernetes connection..."
+
+kubectl get nodes
 
 echo ""
 echo "[4/5] Waiting for AKS Node..."
