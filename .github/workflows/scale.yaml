@@ -43,7 +43,8 @@ jobs:
 
       - name: Verify
         run: |
-          kubectl get deployment \
-          ${{ github.event.inputs.application }}
+          kubectl get deployment ${{ github.event.inputs.application }}
 
-          kubectl get pods
+          kubectl get pods \
+            -l app=${{ github.event.inputs.application }} \
+            -o wide

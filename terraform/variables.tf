@@ -18,3 +18,8 @@ variable "aks_name" {
 variable "keyvault_name" {
   default = "agdevopskv2026"
 }
+
+variable "github_sp_object_id" {
+  description = "GitHub Actions Service Principal Object ID"
+  type        = string
+}

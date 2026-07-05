@@ -48,6 +48,10 @@ jobs:
           "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.workflow_run.head_sha }}|g" \
           build/deployment.yaml
 
+      - name: Apply SecretProviderClass
+        run: |
+          kubectl apply -f applications/tic-tac-toe/k8s/secretproviderclass.yaml
+
       - name: Deploy Application
         run: |
           kubectl apply -f build/deployment.yaml

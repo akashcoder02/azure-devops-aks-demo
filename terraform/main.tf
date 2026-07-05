@@ -32,6 +32,31 @@ resource "azurerm_role_assignment" "aks_acr_pull" {
   ]
 }
 
+resource "azurerm_role_assignment" "github_keyvault_secrets_officer" {
+
+  scope                = module.keyvault.keyvault_id
+  role_definition_name = "Key Vault Secrets Officer"
+
+  principal_id = "679cc466-e437-4baa-a5bd-91ee35fdd524"
+
+  depends_on = [
+    module.keyvault
+  ]
+}
+
+resource "azurerm_role_assignment" "aks_keyvault_secrets_user" {
+
+  scope                = module.keyvault.keyvault_id
+  role_definition_name = "Key Vault Secrets User"
+
+  principal_id = module.aks.keyvault_secret_identity_object_id
+
+  depends_on = [
+    module.keyvault,
+    module.aks
+  ]
+}
+
 module "keyvault" {
   source = "./modules/keyvault"
 
@@ -40,4 +65,16 @@ module "keyvault" {
   location            = module.rg.location
 
   tenant_id = data.azurerm_client_config.current.tenant_id
+}
+
+resource "azurerm_role_assignment" "admin_keyvault_secrets_officer" {
+
+  scope                = module.keyvault.keyvault_id
+  role_definition_name = "Key Vault Secrets Officer"
+
+  principal_id = data.azurerm_client_config.current.object_id
+
+  depends_on = [
+    module.keyvault
+  ]
 }
