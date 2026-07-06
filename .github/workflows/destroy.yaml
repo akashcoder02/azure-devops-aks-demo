@@ -1,13 +1,44 @@
-- name: Terraform Destroy
-  run: terraform destroy -auto-approve
+name: Destroy Platform
 
-- name: Destroy Completed
-  working-directory: .
-  run: |
-    echo ""
-    echo "========================================"
-    echo "Platform destroyed successfully."
-    echo "========================================"
-    echo ""
-    echo "If Key Vault enters soft-delete later, the next"
-    echo "Platform Infrastructure run will recover it automatically."
+on:
+  workflow_dispatch:
+
+env:
+  KEYVAULT_NAME: agdevopskv2026
+
+jobs:
+
+  destroy:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+
+      - name: Destroy Completed
+        working-directory: .
+        run: |
+          echo ""
+          echo "========================================"
+          echo "Platform destroyed successfully."
+          echo "========================================"
