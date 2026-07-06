@@ -2,6 +2,11 @@ name: Deploy to AKS
 
 on:
   workflow_dispatch:
+    inputs:
+
+      image_tag:
+        description: "Docker Image Tag"
+        required: true
 
 env:
   IMAGE_NAME: tic-tac-toe
@@ -48,7 +53,7 @@ jobs:
           cp applications/tic-tac-toe/k8s/secretproviderclass.yaml build/secretproviderclass.yaml
 
           sed -i \
-          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}|g" \
+          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.inputs.image_tag }}|g" \
           build/deployment.yaml
 
           sed -i \

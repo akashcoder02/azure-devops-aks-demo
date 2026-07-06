@@ -39,6 +39,11 @@ jobs:
 
       - name: Build Completed
         run: |
+          echo ""
           echo "Docker image pushed successfully."
-          echo "Image:"
+          echo ""
+          echo "Image Tag:"
+          echo "${{ env.IMAGE_TAG }}"
+          echo ""
+          echo "Repository:"
           echo "${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
