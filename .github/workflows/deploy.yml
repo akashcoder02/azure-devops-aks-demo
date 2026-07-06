@@ -37,8 +37,12 @@ jobs:
           cp applications/tic-tac-toe/k8s/deployment.yaml build/deployment.yaml
 
           sed -i \
-          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.workflow_run.head_sha }}|g" \
+          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}|g" \
           build/deployment.yaml
+
+      - name: Show Generated Manifest
+        run: |
+          cat build/deployment.yaml  
 
       - name: Apply SecretProviderClass
         run: |
