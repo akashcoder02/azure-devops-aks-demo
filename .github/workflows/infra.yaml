@@ -29,20 +29,27 @@ jobs:
 
       - name: Recover Key Vault (If Deleted)
         run: |
-          if az keyvault list-deleted --query "[?name=='$KEYVAULT_NAME']" -o tsv | grep -q "$KEYVAULT_NAME"; then
+          if az keyvault list-deleted --query "[?name=='$KEYVAULT_NAME'].name" -o tsv | grep -qx "$KEYVAULT_NAME"; then
             echo "Recovering deleted Key Vault..."
-            az keyvault recover \
-              --name $KEYVAULT_NAME
+            az keyvault recover --name $KEYVAULT_NAME
           else
-            echo "No deleted Key Vault found. Continuing..."
+            echo "No deleted Key Vault found."
           fi
 
       - name: Wait for Key Vault Recovery
         run: |
-          until az keyvault show --name $KEYVAULT_NAME >/dev/null 2>&1; do
-            echo "Waiting for Key Vault to become available..."
+          for i in {1..24}; do
+            if az keyvault show --name $KEYVAULT_NAME >/dev/null 2>&1; then
+              echo "Key Vault is ready."
+              exit 0
+            fi
+
+            echo "Waiting for Key Vault..."
             sleep 5
           done
+
+          echo "Timed out waiting for Key Vault."
+          exit 1
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
