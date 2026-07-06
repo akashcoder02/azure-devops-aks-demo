@@ -1,0 +1,107 @@
+name: Application Health Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      application:
+        description: "Application Name"
+        required: true
+        default: "tic-tac-toe"
+
+jobs:
+
+  health-check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Deployment Status
+        run: |
+          echo "========================================"
+          echo "DEPLOYMENT"
+          echo "========================================"
+          kubectl get deployment ${{ github.event.inputs.application }} -o wide
+
+      - name: ReplicaSet Status
+        run: |
+          echo "========================================"
+          echo "REPLICASETS"
+          echo "========================================"
+          kubectl get rs
+
+      - name: Pod Health
+        run: |
+          echo "========================================"
+          echo "PODS"
+          echo "========================================"
+          kubectl get pods \
+            -l app=${{ github.event.inputs.application }} \
+            -o wide
+
+      - name: Service Health
+        run: |
+          echo "========================================"
+          echo "SERVICES"
+          echo "========================================"
+          kubectl get svc
+
+      - name: Ingress Health
+        run: |
+          echo "========================================"
+          echo "INGRESS"
+          echo "========================================"
+          kubectl get ingress
+
+      - name: Node Health
+        run: |
+          echo "========================================"
+          echo "NODES"
+          echo "========================================"
+          kubectl get nodes
+
+      - name: Recent Events
+        run: |
+          echo "========================================"
+          echo "RECENT EVENTS"
+          echo "========================================"
+          kubectl get events \
+            --sort-by=.metadata.creationTimestamp \
+            | tail -20
+
+      - name: Rollout Status
+        run: |
+          echo "========================================"
+          echo "ROLLOUT STATUS"
+          echo "========================================"
+          kubectl rollout status deployment/${{ github.event.inputs.application }} --timeout=30s
+
+      - name: Current Image
+        run: |
+          echo "========================================"
+          echo "DEPLOYED IMAGE"
+          echo "========================================"
+          kubectl get deployment \
+            ${{ github.event.inputs.application }} \
+            -o jsonpath='{.spec.template.spec.containers[0].image}'
+          echo ""
+
+      - name: Health Check Completed
+        run: |
+          echo ""
+          echo "Platform Health Check Completed Successfully."
