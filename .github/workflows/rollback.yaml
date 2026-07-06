@@ -1,0 +1,63 @@
+name: Rollback Application
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      application:
+        description: "Application Name"
+        required: true
+        default: "tic-tac-toe"
+
+      image_tag:
+        description: "Docker Image Tag"
+        required: true
+
+env:
+  IMAGE_NAME: tic-tac-toe
+
+jobs:
+
+  rollback:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Rollback Deployment
+        run: |
+          kubectl set image deployment/${{ github.event.inputs.application }} \
+          ${{ github.event.inputs.application }}=${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.inputs.image_tag }}
+
+      - name: Wait for Rollout
+        run: |
+          kubectl rollout status deployment/${{ github.event.inputs.application }} --timeout=300s
+
+      - name: Verify Rollback
+        run: |
+          echo "Deployment"
+          kubectl get deployment ${{ github.event.inputs.application }}
+
+          echo ""
+          echo "Pods"
+          kubectl get pods -l app=${{ github.event.inputs.application }}
+
+          echo ""
+          echo "Current Image"
+          kubectl get deployment ${{ github.event.inputs.application }} \
+            -o jsonpath='{.spec.template.spec.containers[0].image}'

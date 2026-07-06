@@ -1,0 +1,49 @@
+name: Application Logs
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      application:
+        description: "Application Name"
+        required: true
+        default: "tic-tac-toe"
+
+      lines:
+        description: "Number of Log Lines"
+        required: true
+        default: "100"
+
+jobs:
+
+  logs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Show Application Logs
+        run: |
+          kubectl logs deployment/${{ github.event.inputs.application }} \
+          --tail=${{ github.event.inputs.lines }}
+
+      - name: Show Running Pods
+        run: |
+          kubectl get pods \
+            -l app=${{ github.event.inputs.application }} \
+            -o wide

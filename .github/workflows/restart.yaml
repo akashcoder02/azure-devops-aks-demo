@@ -1,0 +1,49 @@
+name: Restart Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      application:
+        description: "Application Name"
+        required: true
+        default: "tic-tac-toe"
+
+jobs:
+
+  restart:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Restart Deployment
+        run: |
+          kubectl rollout restart deployment/${{ github.event.inputs.application }}
+
+      - name: Wait for Restart
+        run: |
+          kubectl rollout status deployment/${{ github.event.inputs.application }} --timeout=300s
+
+      - name: Verify Restart
+        run: |
+          echo "Deployment"
+          kubectl get deployment ${{ github.event.inputs.application }}
+
+          echo ""
+          echo "Pods"
+          kubectl get pods -l app=${{ github.event.inputs.application }} -o wide
