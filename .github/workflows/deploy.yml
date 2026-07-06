@@ -30,15 +30,30 @@ jobs:
             --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
 
-      - name: Generate Kubernetes Manifest
+      - name: Get AKS Key Vault Identity
         run: |
+          echo "AKS_CLIENT_ID=$(az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --query addonProfiles.azureKeyvaultSecretsProvider.identity.clientId \
+            -o tsv)" >> $GITHUB_ENV
+
+      - name: Generate Kubernetes Manifests
+        run: |
+
           mkdir -p build
 
           cp applications/tic-tac-toe/k8s/deployment.yaml build/deployment.yaml
 
+          cp applications/tic-tac-toe/k8s/secretproviderclass.yaml build/secretproviderclass.yaml
+
           sed -i \
           "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}|g" \
           build/deployment.yaml
+
+          sed -i \
+          "s|IDENTITY_PLACEHOLDER|$AKS_CLIENT_ID|g" \
+          build/secretproviderclass.yaml
 
       - name: Show Generated Manifest
         run: |
@@ -46,7 +61,11 @@ jobs:
 
       - name: Apply SecretProviderClass
         run: |
-          kubectl apply -f applications/tic-tac-toe/k8s/secretproviderclass.yaml
+          kubectl apply -f build/secretproviderclass.yaml
+
+      - name: Show SecretProviderClass
+        run: |
+          cat build/secretproviderclass.yaml
 
       - name: Deploy Application
         run: |
