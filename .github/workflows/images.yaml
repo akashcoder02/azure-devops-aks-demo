@@ -1,0 +1,53 @@
+name: List Docker Images
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  images:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: List Repositories
+        run: |
+          echo "========================================"
+          echo "Repositories"
+          echo "========================================"
+
+          az acr repository list \
+            --name ${{ secrets.ACR_NAME }} \
+            --output table
+
+      - name: List Image Tags
+        run: |
+          echo ""
+          echo "========================================"
+          echo "Available Image Tags"
+          echo "========================================"
+
+          az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository tic-tac-toe \
+            --orderby time_desc \
+            --output table
+
+      - name: Show Image Details
+        run: |
+          echo ""
+          echo "========================================"
+          echo "Image Details"
+          echo "========================================"
+
+          az acr repository show-manifests \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository tic-tac-toe \
+            --orderby time_desc \
+            --output table
