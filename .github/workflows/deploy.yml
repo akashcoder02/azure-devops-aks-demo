@@ -43,6 +43,7 @@ jobs:
             --overwrite-existing
 
       - name: Get AKS Key Vault Identity
+        if: ${{ hashFiles(format('applications/{0}/k8s/secretproviderclass.yaml', github.event.inputs.application_name)) != '' }}
         run: |
           echo "AKS_CLIENT_ID=$(az aks show \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
@@ -92,7 +93,11 @@ jobs:
           kubectl apply -f build/deployment.yaml
           kubectl apply -f applications/${{ env.APPLICATION_NAME }}/k8s/service.yaml
 
-          kubectl apply -f applications/${{ env.APPLICATION_NAME }}/k8s/ingress.yaml
+          kubectl apply -f k8s/applications-ingress.yaml
+
+          echo ""
+          echo "Ingress"
+          kubectl get ingress 
 
       - name: Wait for Rollout
         run: |
@@ -132,7 +137,7 @@ jobs:
           echo "Application URL"
 
           if [ -n "$INGRESS_IP" ]; then
-            echo "http://${INGRESS_IP}"
+            echo "http://${INGRESS_IP}/${{ env.APPLICATION_NAME }}"
           else
             echo "Ingress IP pending."
           fi
