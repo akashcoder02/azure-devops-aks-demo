@@ -11,21 +11,21 @@ spec:
   ingressClassName: nginx
 
   rules:
-- http:
-    paths:
+    - http:
+        paths:
 
-    - path: /tic-tac-toe(/|$)(.*)
-      pathType: ImplementationSpecific
-      backend:
-        service:
-          name: tic-tac-toe
-          port:
-            number: 80
+          - path: /tic-tac-toe(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tic-tac-toe
+                port:
+                  number: 80
 
-    - path: /tetris(/|$)(.*)
-      pathType: ImplementationSpecific
-      backend:
-        service:
-          name: tetris
-          port:
-            number: 80
+          - path: /tetris(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tetris
+                port:
+                  number: 80
