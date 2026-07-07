@@ -3,10 +3,14 @@ name: Application Health Check
 on:
   workflow_dispatch:
     inputs:
-      application:
+      application_name:
         description: "Application Name"
         required: true
         default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
 
 jobs:
 
@@ -36,14 +40,14 @@ jobs:
           echo "========================================"
           echo "DEPLOYMENT"
           echo "========================================"
-          kubectl get deployment ${{ github.event.inputs.application }} -o wide
+          kubectl get deployment ${{ github.event.inputs.application_name }} -o wide
 
       - name: ReplicaSet Status
         run: |
           echo "========================================"
           echo "REPLICASETS"
           echo "========================================"
-          kubectl get rs
+          kubectl get rs -l app=${{ github.event.inputs.application_name }}
 
       - name: Pod Health
         run: |
@@ -51,7 +55,7 @@ jobs:
           echo "PODS"
           echo "========================================"
           kubectl get pods \
-            -l app=${{ github.event.inputs.application }} \
+            -l app=${{ github.event.inputs.application_name }} \
             -o wide
 
       - name: Service Health
@@ -59,14 +63,14 @@ jobs:
           echo "========================================"
           echo "SERVICES"
           echo "========================================"
-          kubectl get svc
+          kubectl get svc ${{ github.event.inputs.application_name }}
 
       - name: Ingress Health
         run: |
           echo "========================================"
           echo "INGRESS"
           echo "========================================"
-          kubectl get ingress
+          kubectl get ingress idp-ingress
 
       - name: Node Health
         run: |
@@ -89,7 +93,7 @@ jobs:
           echo "========================================"
           echo "ROLLOUT STATUS"
           echo "========================================"
-          kubectl rollout status deployment/${{ github.event.inputs.application }} --timeout=30s
+          kubectl rollout status deployment/${{ github.event.inputs.application_name }} --timeout=30s
 
       - name: Current Image
         run: |
@@ -97,11 +101,13 @@ jobs:
           echo "DEPLOYED IMAGE"
           echo "========================================"
           kubectl get deployment \
-            ${{ github.event.inputs.application }} \
+            ${{ github.event.inputs.application_name }} \
             -o jsonpath='{.spec.template.spec.containers[0].image}'
           echo ""
 
       - name: Health Check Completed
         run: |
           echo ""
-          echo "Platform Health Check Completed Successfully."
+          echo "Application Health Check Completed Successfully."
+          echo ""
+          echo "Application: ${{ github.event.inputs.application_name }}"

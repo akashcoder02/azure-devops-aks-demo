@@ -1,20 +1,21 @@
-name: Rollback Application
+name: Rollback Deployment
 
 on:
   workflow_dispatch:
     inputs:
 
-      application:
+      application_name:
         description: "Application Name"
         required: true
         default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
 
       image_tag:
         description: "Docker Image Tag"
         required: true
-
-env:
-  IMAGE_NAME: tic-tac-toe
 
 jobs:
 
@@ -41,23 +42,32 @@ jobs:
 
       - name: Rollback Deployment
         run: |
-          kubectl set image deployment/${{ github.event.inputs.application }} \
-          ${{ github.event.inputs.application }}=${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.inputs.image_tag }}
+          kubectl set image deployment/${{ github.event.inputs.application_name }} \
+          ${{ github.event.inputs.application_name }}=${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ github.event.inputs.image_tag }}
 
       - name: Wait for Rollout
         run: |
-          kubectl rollout status deployment/${{ github.event.inputs.application }} --timeout=300s
+          kubectl rollout status deployment/${{ github.event.inputs.application_name }} --timeout=300s
 
       - name: Verify Rollback
         run: |
           echo "Deployment"
-          kubectl get deployment ${{ github.event.inputs.application }}
+          kubectl get deployment ${{ github.event.inputs.application_name }}
 
           echo ""
           echo "Pods"
-          kubectl get pods -l app=${{ github.event.inputs.application }}
+          kubectl get pods -l app=${{ github.event.inputs.application_name }}
 
           echo ""
           echo "Current Image"
-          kubectl get deployment ${{ github.event.inputs.application }} \
+          kubectl get deployment ${{ github.event.inputs.application_name }} \
             -o jsonpath='{.spec.template.spec.containers[0].image}'
+
+
+      - name: Rollback Completed
+        run: |
+          echo ""
+          echo "Rollback completed successfully."
+          echo ""
+          echo "Application: ${{ github.event.inputs.application_name }}"
+          echo "Image Tag: ${{ github.event.inputs.image_tag }}"

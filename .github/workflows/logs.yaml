@@ -4,10 +4,14 @@ on:
   workflow_dispatch:
     inputs:
 
-      application:
+      application_name:
         description: "Application Name"
         required: true
         default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
 
       lines:
         description: "Number of Log Lines"
@@ -39,11 +43,19 @@ jobs:
 
       - name: Show Application Logs
         run: |
-          kubectl logs deployment/${{ github.event.inputs.application }} \
+          kubectl logs deployment/${{ github.event.inputs.application_name }} \
           --tail=${{ github.event.inputs.lines }}
 
       - name: Show Running Pods
         run: |
           kubectl get pods \
-            -l app=${{ github.event.inputs.application }} \
+            -l app=${{ github.event.inputs.application_name }} \
             -o wide
+
+      - name: Logs Retrieved
+        run: |
+          echo ""
+          echo "Logs retrieved successfully."
+          echo ""
+          echo "Application: ${{ github.event.inputs.application_name }}"
+          echo "Lines: ${{ github.event.inputs.lines }}"

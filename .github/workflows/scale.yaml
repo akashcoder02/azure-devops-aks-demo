@@ -3,7 +3,7 @@ name: Scale Application
 on:
   workflow_dispatch:
     inputs:
-      application:
+      application_name:
         description: "Application Name"
         required: true
         default: "tic-tac-toe"
@@ -38,13 +38,21 @@ jobs:
       - name: Scale Deployment
         run: |
           kubectl scale deployment \
-          ${{ github.event.inputs.application }} \
+          ${{ github.event.inputs.application_name }} \
           --replicas=${{ github.event.inputs.replicas }}
 
       - name: Verify
         run: |
-          kubectl get deployment ${{ github.event.inputs.application }}
+          kubectl get deployment ${{ github.event.inputs.application_name }}
 
           kubectl get pods \
-            -l app=${{ github.event.inputs.application }} \
+            -l app=${{ github.event.inputs.application_name }} \
             -o wide
+
+      - name: Scale Completed
+        run: |
+          echo ""
+          echo "Application scaled successfully."
+          echo ""
+          echo "Application: ${{ github.event.inputs.application_name }}"
+          echo "Replicas: ${{ github.event.inputs.replicas }}"
