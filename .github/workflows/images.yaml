@@ -2,6 +2,15 @@ name: List Docker Images
 
 on:
   workflow_dispatch:
+    inputs:
+      application_name:
+        description: "Application Name"
+        required: true
+        default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
 
 jobs:
 
@@ -35,7 +44,7 @@ jobs:
 
           az acr repository show-tags \
             --name ${{ secrets.ACR_NAME }} \
-            --repository tic-tac-toe \
+            --repository ${{ github.event.inputs.application_name }} \
             --orderby time_desc \
             --output table
 
