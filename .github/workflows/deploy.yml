@@ -91,9 +91,10 @@ jobs:
       - name: Deploy Application
         run: |
           kubectl apply -f build/deployment.yaml
+
           kubectl apply -f applications/${{ env.APPLICATION_NAME }}/k8s/service.yaml
 
-          kubectl apply -f k8s/applications-ingress.yaml
+          kubectl apply -f applications/${{ env.APPLICATION_NAME }}/k8s/ingress.yaml
 
           echo ""
           echo "Ingress"
