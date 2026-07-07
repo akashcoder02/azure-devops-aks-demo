@@ -70,7 +70,12 @@ jobs:
           echo "========================================"
           echo "INGRESS"
           echo "========================================"
-          kubectl get ingress idp-ingress
+
+          kubectl get ingress ${{ github.event.inputs.application_name }}-ingress
+
+          echo ""
+
+          kubectl describe ingress ${{ github.event.inputs.application_name }}-ingress
 
       - name: Node Health
         run: |
