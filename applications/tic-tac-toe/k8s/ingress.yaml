@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 
 metadata:
-  name: tic-tac-toe
+  name: idp-ingress
 
 spec:
   ingressClassName: nginx
@@ -10,10 +10,18 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /tic-tac-toe
         pathType: Prefix
         backend:
           service:
             name: tic-tac-toe
+            port:
+              number: 80
+
+      - path: /tetris
+        pathType: Prefix
+        backend:
+          service:
+            name: tetris
             port:
               number: 80

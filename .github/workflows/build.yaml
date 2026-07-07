@@ -2,9 +2,17 @@ name: Build Docker Image
 
 on:
   workflow_dispatch:
+    inputs:
+      application_name:
+        description: "Application to build"
+        required: true
+        default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
 
 env:
-  IMAGE_NAME: tic-tac-toe
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
@@ -29,13 +37,13 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build \
-            -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-            ./applications/tic-tac-toe
+          -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }} \
+          ./applications/${{ github.event.inputs.application_name }}
 
       - name: Push Docker Image
         run: |
           docker push \
-            ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}
 
       - name: Build Completed
         run: |
@@ -46,4 +54,4 @@ jobs:
           echo "${{ env.IMAGE_TAG }}"
           echo ""
           echo "Repository:"
-          echo "${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+          echo "${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}"

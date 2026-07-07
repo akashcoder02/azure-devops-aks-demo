@@ -4,14 +4,21 @@ on:
   workflow_dispatch:
     inputs:
 
+      application_name:
+        description: "Application to Deploy"
+        required: true
+        default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
+
       image_tag:
         description: "Docker Image Tag"
         required: true
 
 env:
-  IMAGE_NAME: tic-tac-toe
-  DEPLOYMENT_NAME: tic-tac-toe
-  SERVICE_NAME: tic-tac-toe
+  APPLICATION_NAME: ${{ github.event.inputs.application_name }}
 
 jobs:
   deploy:
@@ -48,17 +55,21 @@ jobs:
 
           mkdir -p build
 
-          cp applications/tic-tac-toe/k8s/deployment.yaml build/deployment.yaml
+          cp applications/${{ env.APPLICATION_NAME }}/k8s/deployment.yaml build/deployment.yaml
 
-          cp applications/tic-tac-toe/k8s/secretproviderclass.yaml build/secretproviderclass.yaml
+          if [ -f applications/${{ env.APPLICATION_NAME }}/k8s/secretproviderclass.yaml ]; then
+            cp applications/${{ env.APPLICATION_NAME }}/k8s/secretproviderclass.yaml build/secretproviderclass.yaml
+          fi
 
           sed -i \
-          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.event.inputs.image_tag }}|g" \
+          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ github.event.inputs.image_tag }}|g" \
           build/deployment.yaml
 
-          sed -i \
-          "s|IDENTITY_PLACEHOLDER|$AKS_CLIENT_ID|g" \
-          build/secretproviderclass.yaml
+          if [ -f build/secretproviderclass.yaml ]; then
+            sed -i \
+            "s|IDENTITY_PLACEHOLDER|$AKS_CLIENT_ID|g" \
+            build/secretproviderclass.yaml
+          fi
 
       - name: Show Generated Manifest
         run: |
@@ -66,34 +77,39 @@ jobs:
 
       - name: Apply SecretProviderClass
         run: |
-          kubectl apply -f build/secretproviderclass.yaml
+          if [ -f build/secretproviderclass.yaml ]; then
+            kubectl apply -f build/secretproviderclass.yaml
+          fi
 
       - name: Show SecretProviderClass
         run: |
-          cat build/secretproviderclass.yaml
+          if [ -f build/secretproviderclass.yaml ]; then
+            cat build/secretproviderclass.yaml
+          fi
 
       - name: Deploy Application
         run: |
           kubectl apply -f build/deployment.yaml
-          kubectl apply -f applications/tic-tac-toe/k8s/service.yaml
-          kubectl apply -f applications/tic-tac-toe/k8s/ingress.yaml
+          kubectl apply -f applications/${{ env.APPLICATION_NAME }}/k8s/service.yaml
+
+          kubectl apply -f applications/${{ env.APPLICATION_NAME }}/k8s/ingress.yaml
 
       - name: Wait for Rollout
         run: |
-          kubectl rollout status deployment/${{ env.DEPLOYMENT_NAME }} --timeout=300s
+          kubectl rollout status deployment/${{ env.APPLICATION_NAME }} --timeout=300s
 
       - name: Verify Deployment
         run: |
           echo "Deployments"
-          kubectl get deployment ${{ env.DEPLOYMENT_NAME }}
+          kubectl get deployment ${{ env.APPLICATION_NAME }}
 
           echo ""
           echo "Pods"
-          kubectl get pods -l app=tic-tac-toe
+          kubectl get pods -l app=${{ env.APPLICATION_NAME }}
 
           echo ""
           echo "Services"
-          kubectl get svc ${{ env.SERVICE_NAME }}
+          kubectl get svc ${{ env.APPLICATION_NAME }}
 
       - name: Get Ingress URL
         run: |
