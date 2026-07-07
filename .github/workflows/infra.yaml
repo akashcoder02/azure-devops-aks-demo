@@ -69,6 +69,11 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
+      - name: Wait for RBAC Propagation
+        run: |
+          echo "Waiting for Azure RBAC propagation..."
+          sleep 60
+
       - name: Platform Bootstrap
         run: echo "Starting Platform Bootstrap..."
 
