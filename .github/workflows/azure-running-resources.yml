@@ -225,6 +225,8 @@ jobs:
 
           fi
 
+          COST_COUNT=0
+
           ####################################################
           # Cost Analysis
           ####################################################
@@ -235,7 +237,6 @@ jobs:
 
           if [ "$RG_EXISTS" = "true" ] && [ -n "$NODE_RG" ]; then
 
-            COST_COUNT=0
 
             # Load Balancer
             LB_COUNT=$(az network lb list \
@@ -282,3 +283,31 @@ jobs:
             echo "No project cost resources detected."
 
           fi
+
+          ####################################################
+          # Summary
+          ####################################################
+
+          echo ""
+          echo "========================================================"
+          echo "Summary"
+          echo "========================================================"
+
+          if [ "$RG_EXISTS" = "true" ]; then
+            PLATFORM_STATUS="ACTIVE"
+          else
+            PLATFORM_STATUS="DESTROYED"
+          fi
+
+          echo "Platform Status          : $PLATFORM_STATUS"
+          echo "Potential Cost Resources : $COST_COUNT"
+
+          if [ "$COST_COUNT" -gt 0 ]; then
+            echo "Recommendation           : Run 'Destroy Platform' if these resources are no longer required."
+          else
+            echo "Recommendation           : No project cost resources detected."
+          fi
+
+          echo "========================================================"
+          echo "Audit Completed"
+          echo "========================================================"
