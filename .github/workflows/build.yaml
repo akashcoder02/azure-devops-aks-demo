@@ -46,7 +46,7 @@ jobs:
 
       - name: Show Docker Image
         run: |
-          docker images ls \
+          docker image ls \
             ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}
 
       - name: Push Docker Image
