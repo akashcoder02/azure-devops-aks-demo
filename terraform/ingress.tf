@@ -5,11 +5,19 @@ resource "helm_release" "ingress_nginx" {
   namespace        = "ingress-nginx"
   create_namespace = true
 
-  values = [<<EOF
+  values = [
+    var.environment == "production" ? <<EOF
 controller:
   service:
-    type: ${local.ingress_service_type}
+    type: LoadBalancer
     externalTrafficPolicy: Local
+  ingressClassResource:
+    default: true
+EOF
+    : <<EOF
+controller:
+  service:
+    type: ClusterIP
   ingressClassResource:
     default: true
 EOF

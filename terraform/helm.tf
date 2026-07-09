@@ -1,12 +1,3 @@
-locals {
-  ingress_service_types = {
-    development = "ClusterIP"
-    production  = "LoadBalancer"
-  }
-
-  ingress_service_type = local.ingress_service_types[var.environment]
-}
-
 provider "helm" {
   kubernetes = {
     host                   = module.aks.host
@@ -15,4 +6,3 @@ provider "helm" {
     cluster_ca_certificate = base64decode(module.aks.cluster_ca_certificate)
   }
 }
-
