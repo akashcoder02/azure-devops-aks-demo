@@ -5,6 +5,7 @@ on:
 
 env:
   RESOURCE_GROUP: rg-devops-demo
+  AKS_NAME: aks-devops-demo
 
   TFSTATE_RG: rg-tf-backend
   TFSTATE_STORAGE: agtfstate2026xyz
@@ -86,5 +87,76 @@ jobs:
             echo "❌ AKS Cluster    : Not Found"
             echo "❌ ACR            : Not Found"
             echo "❌ Key Vault      : Not Found"
+
+          fi
+
+          echo ""
+          echo "Networking"
+          echo "--------------------------------------------------------"
+
+          if [ "$RG_EXISTS" = "true" ]; then
+
+            NODE_RG=$(az aks show \
+              --resource-group $RESOURCE_GROUP \
+              --name aks-devops-demo \
+              --query nodeResourceGroup \
+              -o tsv 2>/dev/null)
+
+            if [ -n "$NODE_RG" ]; then
+
+              echo ""
+              echo "Load Balancers"
+              echo "--------------------------------------------------------"
+
+              az network lb list \
+                --resource-group $NODE_RG \
+                --query "[].{Name:name,Location:location}" \
+                -o table || true
+
+              echo ""
+              echo "Public IP Addresses"
+              echo "--------------------------------------------------------"
+
+              az network public-ip list \
+                --resource-group $NODE_RG \
+                --query "[].{Name:name,IP:ipAddress}" \
+                -o table || true
+
+              echo ""
+              echo "Virtual Networks"
+              echo "--------------------------------------------------------"
+
+              az network vnet list \
+                --resource-group $NODE_RG \
+                --query "[].{Name:name,Location:location}" \
+                -o table || true
+
+              echo ""
+              echo "Network Security Groups"
+              echo "--------------------------------------------------------"
+
+              az network nsg list \
+                --resource-group $NODE_RG \
+                --query "[].{Name:name}" \
+                -o table || true
+
+              echo ""
+              echo "Managed Disks"
+              echo "--------------------------------------------------------"
+
+              az disk list \
+                --resource-group $NODE_RG \
+                --query "[].{Name:name,Size:diskSizeGb}" \
+                -o table || true
+
+            else
+
+              echo "❌ AKS Node Resource Group not found."
+
+            fi
+
+          else
+
+            echo "❌ Networking resources not found."
 
           fi
