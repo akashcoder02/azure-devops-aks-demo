@@ -76,16 +76,16 @@ jobs:
         run: |
           cat build/deployment.yaml  
 
-      - name: Apply SecretProviderClass
-        run: |
-          if [ -f build/secretproviderclass.yaml ]; then
-            kubectl apply -f build/secretproviderclass.yaml
-          fi
-
       - name: Show SecretProviderClass
         run: |
           if [ -f build/secretproviderclass.yaml ]; then
             cat build/secretproviderclass.yaml
+          fi
+
+      - name: Apply SecretProviderClass
+        run: |
+          if [ -f build/secretproviderclass.yaml ]; then
+            kubectl apply -f build/secretproviderclass.yaml
           fi
 
       - name: Deploy Application
@@ -100,9 +100,22 @@ jobs:
           echo "Ingress"
           kubectl get ingress 
 
+      - name: Describe Ingress
+        run: |
+          kubectl describe ingress
+
+      - name: Verify Endpoints
+        run: |
+          echo "Endpoints"
+          kubectl get endpoints
+
       - name: Wait for Rollout
         run: |
           kubectl rollout status deployment/${{ env.APPLICATION_NAME }} --timeout=300s
+
+      - name: Verify ReplicaSets
+        run: |
+          kubectl get rs
 
       - name: Verify Deployment
         run: |
@@ -116,6 +129,13 @@ jobs:
           echo ""
           echo "Services"
           kubectl get svc ${{ env.APPLICATION_NAME }}
+
+      - name: Verify Deployed Image
+        run: |
+          kubectl get deployment ${{ env.APPLICATION_NAME }} \
+            -o=jsonpath='{.spec.template.spec.containers[0].image}'
+
+          echo ""
 
       - name: Show Application Access
         run: |
@@ -155,6 +175,20 @@ jobs:
 
           echo "========================================"
 
-      - name: Deployment Completed
+      - name: Deployment Summary
         run: |
-          echo "Deployment completed successfully."
+          echo ""
+          echo "========================================================"
+          echo "DEPLOYMENT COMPLETED"
+          echo "========================================================"
+
+          echo "Application : ${{ env.APPLICATION_NAME }}"
+          echo "Image Tag   : ${{ github.event.inputs.image_tag }}"
+          echo "Namespace   : default"
+
+          echo ""
+
+          kubectl get deployment ${{ env.APPLICATION_NAME }}
+
+          echo ""
+          echo "========================================================"
