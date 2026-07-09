@@ -224,3 +224,73 @@ jobs:
             echo "❌ Terraform Backend Resource Group : Not Found"
 
           fi
+
+
+          if [ "$RG_EXISTS" = "true" ] && [ -n "$NODE_RG" ]; then
+
+            # Cost Analysis code
+
+          else
+
+            echo "Platform infrastructure not found."
+            echo "No project cost resources detected."
+
+          fi
+
+          ####################################################
+          # Cost Analysis
+          ####################################################
+
+          echo ""
+          echo "Cost Analysis"
+          echo "--------------------------------------------------------"
+
+          if [ "$RG_EXISTS" = "true" ] && [ -n "$NODE_RG" ]; then
+
+            COST_COUNT=0
+
+            # Load Balancer
+            LB_COUNT=$(az network lb list \
+              --resource-group "$NODE_RG" \
+              --query "length(@)" \
+              -o tsv 2>/dev/null || echo 0)
+
+            if [ "$LB_COUNT" -gt 0 ]; then
+              echo "⚠ Load Balancer(s) Found : $LB_COUNT"
+              COST_COUNT=$((COST_COUNT + LB_COUNT))
+            else
+              echo "✅ No Load Balancer"
+            fi
+
+            # Public IP
+            PIP_COUNT=$(az network public-ip list \
+              --resource-group "$NODE_RG" \
+              --query "length(@)" \
+              -o tsv 2>/dev/null || echo 0)
+
+            if [ "$PIP_COUNT" -gt 0 ]; then
+              echo "⚠ Public IP(s) Found : $PIP_COUNT"
+              COST_COUNT=$((COST_COUNT + PIP_COUNT))
+            else
+              echo "✅ No Public IP"
+            fi
+
+            # Managed Disks
+            DISK_COUNT=$(az disk list \
+              --resource-group "$NODE_RG" \
+              --query "length(@)" \
+              -o tsv 2>/dev/null || echo 0)
+
+            if [ "$DISK_COUNT" -gt 0 ]; then
+              echo "⚠ Managed Disk(s) Found : $DISK_COUNT"
+              COST_COUNT=$((COST_COUNT + DISK_COUNT))
+            else
+              echo "✅ No Managed Disks"
+            fi
+
+          else
+
+            echo "Platform infrastructure not found."
+            echo "No project cost resources detected."
+
+          fi
