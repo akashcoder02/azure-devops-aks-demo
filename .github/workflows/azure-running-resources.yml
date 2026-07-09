@@ -35,6 +35,10 @@ jobs:
           echo "Subscription"
           echo "--------------------------------------------------------"
 
+          az account show \
+            --query "{Name:name,Subscription:id}" \
+            -o table
+
           echo ""
           echo "Infrastructure"
           echo "--------------------------------------------------------"
@@ -46,26 +50,34 @@ jobs:
             echo ""
             echo "✅ Resource Group : $RESOURCE_GROUP"
 
+            az group show \
+              --name $RESOURCE_GROUP \
+              --query "{Name:name,Location:location,ProvisioningState:properties.provisioningState}" \
+              -o table
+
             echo ""
             echo "AKS Cluster"
+            echo "-------------------------------------------------------"
             az aks list \
               --resource-group $RESOURCE_GROUP \
               --query "[].{Name:name,Location:location,Version:kubernetesVersion}" \
-              -o table
+              -o table || true
 
             echo ""
             echo "Azure Container Registry"
+            echo "-------------------------------------------------------"
             az acr list \
               --resource-group $RESOURCE_GROUP \
               --query "[].{Name:name,SKU:sku.name}" \
-              -o table
+              -o table || true
 
             echo ""
             echo "Key Vault"
+            echo "-------------------------------------------------------"
             az keyvault list \
               --resource-group $RESOURCE_GROUP \
               --query "[].{Name:name}" \
-              -o table
+              -o table || true
 
           else
 
