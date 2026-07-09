@@ -2,6 +2,15 @@ name: Destroy Platform
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment Environment"
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
 
 env:
   KEYVAULT_NAME: agdevopskv2026
