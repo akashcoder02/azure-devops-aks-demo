@@ -117,31 +117,43 @@ jobs:
           echo "Services"
           kubectl get svc ${{ env.APPLICATION_NAME }}
 
-      - name: Get Ingress URL
+      - name: Show Application Access
         run: |
-          INGRESS_IP=""
 
-          for i in {1..30}
-          do
+          SERVICE_TYPE=$(kubectl get svc ingress-nginx-controller \
+            -n ingress-nginx \
+            -o jsonpath='{.spec.type}')
+
+          echo ""
+          echo "========================================"
+
+          if [ "$SERVICE_TYPE" = "LoadBalancer" ]; then
+
             INGRESS_IP=$(kubectl get svc ingress-nginx-controller \
               -n ingress-nginx \
               -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-            if [ -n "$INGRESS_IP" ]; then
-              break
-            fi
-
-            sleep 10
-          done
-
-          echo ""
-          echo "Application URL"
-
-          if [ -n "$INGRESS_IP" ]; then
+            echo "Environment : Production"
+            echo ""
+            echo "Application URL:"
             echo "http://${INGRESS_IP}/${{ env.APPLICATION_NAME }}"
+
           else
-            echo "Ingress IP pending."
+
+            echo "Environment : Development"
+            echo ""
+            echo "Ingress Controller is ClusterIP."
+            echo ""
+            echo "Use port-forward:"
+            echo ""
+            echo "kubectl port-forward svc/ingress-nginx-controller -n ingress-nginx 8080:80"
+            echo ""
+            echo "Then open:"
+            echo "http://localhost:8080/${{ env.APPLICATION_NAME }}"
+
           fi
+
+          echo "========================================"
 
       - name: Deployment Completed
         run: |

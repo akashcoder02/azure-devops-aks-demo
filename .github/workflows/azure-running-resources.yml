@@ -1,0 +1,77 @@
+name: Azure Running Resources
+
+on:
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: rg-devops-demo
+
+  TFSTATE_RG: rg-tf-backend
+  TFSTATE_STORAGE: agtfstate2026xyz
+  TFSTATE_CONTAINER: tfstate
+
+jobs:
+
+  audit:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure Running Resources
+        run: |
+
+          echo ""
+          echo "========================================================"
+          echo "            AZURE RUNNING RESOURCES"
+          echo "========================================================"
+
+          echo ""
+          echo "Subscription"
+          echo "--------------------------------------------------------"
+
+          az account show \
+            --query "{Name:name,Subscription:id}" \
+            -o table
+
+          echo ""
+          echo "Infrastructure"
+          echo "--------------------------------------------------------"
+
+          echo ""
+          echo "Resource Group"
+
+          if az group exists --name $RESOURCE_GROUP | grep true; then
+            echo "✅ Present : $RESOURCE_GROUP"
+          else
+            echo "❌ Not Found"
+          fi
+
+          echo ""
+          echo "AKS Cluster"
+
+          az aks list \
+            --resource-group $RESOURCE_GROUP \
+            --query "[].{Name:name,Location:location,Version:kubernetesVersion}" \
+            -o table
+
+          echo ""
+          echo "Azure Container Registry"
+
+          az acr list \
+            --resource-group $RESOURCE_GROUP \
+            --query "[].{Name:name,SKU:sku.name}" \
+            -o table
+
+          echo ""
+          echo "Key Vault"
+
+          az keyvault list \
+            --resource-group $RESOURCE_GROUP \
+            --query "[].{Name:name}" \
+            -o table
