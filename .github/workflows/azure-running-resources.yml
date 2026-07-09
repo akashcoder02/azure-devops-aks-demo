@@ -55,10 +55,23 @@ jobs:
           echo ""
           echo "AKS Cluster"
 
-          az aks list \
-            --resource-group $RESOURCE_GROUP \
-            --query "[].{Name:name,Location:location,Version:kubernetesVersion}" \
-            -o table
+          if az group exists --name $RESOURCE_GROUP | grep true; then
+
+            echo ""
+            echo "AKS Cluster"
+
+            az aks list \
+              --resource-group $RESOURCE_GROUP \
+              --query "[].{Name:name,Location:location,Version:kubernetesVersion}" \
+              -o table
+
+          else
+
+            echo ""
+            echo "AKS Cluster"
+            echo "❌ Resource Group not found"
+
+          fi
 
           echo ""
           echo "Azure Container Registry"
