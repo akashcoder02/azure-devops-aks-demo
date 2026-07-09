@@ -41,7 +41,7 @@ jobs:
 
           RG_EXISTS=$(az group exists --name $RESOURCE_GROUP)
 
-          if [ "$RG_EXISTS" = "true" ]; then;
+          if [ "$RG_EXISTS" = "true" ]; then
 
             echo ""
             echo "✅ Resource Group : $RESOURCE_GROUP"
