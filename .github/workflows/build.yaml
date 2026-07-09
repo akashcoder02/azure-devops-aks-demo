@@ -34,24 +34,59 @@ jobs:
         run: |
           az acr login --name ${{ secrets.ACR_NAME }}
 
+      - name: Show Dockerfile
+        run: |
+          cat applications/${{ github.event.inputs.application_name }}/Dockerfile
+
       - name: Build Docker Image
         run: |
           docker build \
           -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }} \
           ./applications/${{ github.event.inputs.application_name }}
 
+      - name: Show Docker Image
+        run: |
+          docker images ls \
+            ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}
+
       - name: Push Docker Image
         run: |
           docker push \
           ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}
 
-      - name: Build Completed
+      - name: Verify Image in ACR
         run: |
           echo ""
+          echo "Repository Tags"
+          echo "----------------------------------------"
+
+          az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ github.event.inputs.application_name }} \
+            --output table
+
+      - name: Show Image Manifest
+        run: |
+          az acr repository show-manifests \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ github.event.inputs.application_name }} \
+            --query "[0].{Digest:digest,Tags:tags}" \
+            -o table
+
+      - name: Build Summary
+        run: |
+          echo ""
+          echo "========================================================"
+          echo "BUILD COMPLETED"
+          echo "========================================================"
+
+          echo "Status      : SUCCESS"
+          echo "Application : ${{ github.event.inputs.application_name }}"
+          echo "Registry    : ${{ secrets.ACR_NAME }}"
+          echo "Image Tag   : ${{ env.IMAGE_TAG }}"
+          echo "Repository  : ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}"
+
+          echo ""
           echo "Docker image pushed successfully."
-          echo ""
-          echo "Image Tag:"
-          echo "${{ env.IMAGE_TAG }}"
-          echo ""
-          echo "Repository:"
-          echo "${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}"
+
+          echo "========================================================"
