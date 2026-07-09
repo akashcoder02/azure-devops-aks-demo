@@ -8,7 +8,7 @@ resource "helm_release" "ingress_nginx" {
   values = [<<EOF
 controller:
   service:
-    type: LoadBalancer
+    type: ${local.ingress_service_type}
     externalTrafficPolicy: Local
   ingressClassResource:
     default: true

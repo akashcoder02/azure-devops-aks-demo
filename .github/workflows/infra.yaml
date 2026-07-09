@@ -2,6 +2,15 @@ name: Platform Infrastructure
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment Environment"
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
 
 env:
   RESOURCE_GROUP: rg-devops-demo
@@ -64,10 +73,15 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: |
+          terraform plan \
+            -var="environment=${{ github.event.inputs.environment }}"
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: |
+          terraform apply \
+            -auto-approve \
+            -var="environment=${{ github.event.inputs.environment }}"
 
       - name: Wait for RBAC Propagation
         run: |

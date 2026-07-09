@@ -11,7 +11,8 @@ output "aks_name" {
 }
 
 output "acr_login_server" {
-  value = "${module.acr.acr_name}.azurecr.io"
+  description = "Login server URL for Azure Container Registry"
+  value       = "${module.acr.acr_name}.azurecr.io"
 }
 
 output "keyvault_name" {

@@ -18,7 +18,3 @@ variable "tenant_id" {
   type        = string
 }
 
-variable "github_sp_object_id" {
-  description = "GitHub Actions Service Principal Object ID"
-  type        = string
-}

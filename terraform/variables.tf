@@ -23,3 +23,14 @@ variable "github_sp_object_id" {
   description = "GitHub Actions Service Principal Object ID"
   type        = string
 }
+
+variable "environment" {
+  description = "Deployment environment"
+
+  type = string
+
+  validation {
+    condition     = contains(["development", "production"], var.environment)
+    error_message = "Environment must be either development or production."
+  }
+}
