@@ -160,3 +160,67 @@ jobs:
             echo "❌ Networking resources not found."
 
           fi
+
+          ####################################################
+          # Terraform Backend
+          ####################################################
+
+          echo ""
+          echo "Terraform Backend"
+          echo "--------------------------------------------------------"
+
+          TF_RG_EXISTS=$(az group exists --name $TFSTATE_RG)
+
+          if [ "$TF_RG_EXISTS" = "true" ]; then
+
+            echo ""
+            echo "Backend Resource Group"
+            echo "--------------------------------------------------------"
+
+            az group show \
+              --name $TFSTATE_RG \
+              --query "{Name:name,Location:location}" \
+              -o table || true
+
+            echo ""
+            echo "Storage Account"
+            echo "--------------------------------------------------------"
+
+            az storage account show \
+              --resource-group $TFSTATE_RG \
+              --name $TFSTATE_STORAGE \
+              --query "{Name:name,Location:primaryLocation,SKU:sku.name}" \
+              -o table || true
+
+            echo ""
+            echo "Blob Containers"
+            echo "--------------------------------------------------------"
+
+            ACCOUNT_KEY=$(az storage account keys list \
+              --resource-group $TFSTATE_RG \
+              --account-name $TFSTATE_STORAGE \
+              --query "[0].value" \
+              -o tsv)
+
+            az storage container list \
+              --account-name $TFSTATE_STORAGE \
+              --account-key "$ACCOUNT_KEY" \
+              --query "[].{Container:name}" \
+              -o table || true
+
+            echo ""
+            echo "Terraform State Files"
+            echo "--------------------------------------------------------"
+
+            az storage blob list \
+              --account-name $TFSTATE_STORAGE \
+              --container-name $TFSTATE_CONTAINER \
+              --account-key "$ACCOUNT_KEY" \
+              --query "[].{Name:name,Size:properties.contentLength}" \
+              -o table || true
+
+          else
+
+            echo "❌ Terraform Backend Resource Group : Not Found"
+
+          fi
