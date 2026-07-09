@@ -223,7 +223,7 @@ jobs:
 
             echo "❌ Terraform Backend Resource Group : Not Found"
 
-          fid
+          fi
 
           ####################################################
           # Cost Analysis
