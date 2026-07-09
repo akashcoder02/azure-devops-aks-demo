@@ -33,7 +33,10 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: |
+          terraform destroy \
+            -auto-approve \
+            -var="environment=${{ github.event.inputs.environment }}"
 
       - name: Destroy Completed
         working-directory: .
