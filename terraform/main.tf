@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "github_keyvault_secrets_officer" {
   scope                = module.keyvault.keyvault_id
   role_definition_name = "Key Vault Secrets Officer"
 
-  principal_id = "679cc466-e437-4baa-a5bd-91ee35fdd524"
+  principal_id = var.github_sp_object_id
 
   depends_on = [
     module.keyvault

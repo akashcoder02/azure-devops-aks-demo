@@ -18,5 +18,5 @@ provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
 }
-
+//Used for creating keyvault with RBAC enabled. This is required for AKS to access KeyVault secrets using managed identity.
 data "azurerm_client_config" "current" {}

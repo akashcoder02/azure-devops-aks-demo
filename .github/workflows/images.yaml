@@ -57,6 +57,6 @@ jobs:
 
           az acr repository show-manifests \
             --name ${{ secrets.ACR_NAME }} \
-            --repository tic-tac-toe \
+            --repository ${{ github.event.inputs.application_name }} \
             --orderby time_desc \
             --output table
