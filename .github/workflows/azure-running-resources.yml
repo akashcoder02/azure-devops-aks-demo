@@ -35,56 +35,44 @@ jobs:
           echo "Subscription"
           echo "--------------------------------------------------------"
 
-          az account show \
-            --query "{Name:name,Subscription:id}" \
-            -o table
-
           echo ""
           echo "Infrastructure"
           echo "--------------------------------------------------------"
 
-          echo ""
-          echo "Resource Group"
+          RG_EXISTS=$(az group exists --name $RESOURCE_GROUP)
 
-          if az group exists --name $RESOURCE_GROUP | grep true; then
-            echo "✅ Present : $RESOURCE_GROUP"
-          else
-            echo "❌ Not Found"
-          fi
+          if [ "$RG_EXISTS" = "true" ]; then;
 
-          echo ""
-          echo "AKS Cluster"
-
-          if az group exists --name $RESOURCE_GROUP | grep true; then
+            echo ""
+            echo "✅ Resource Group : $RESOURCE_GROUP"
 
             echo ""
             echo "AKS Cluster"
-
             az aks list \
               --resource-group $RESOURCE_GROUP \
               --query "[].{Name:name,Location:location,Version:kubernetesVersion}" \
               -o table
 
+            echo ""
+            echo "Azure Container Registry"
+            az acr list \
+              --resource-group $RESOURCE_GROUP \
+              --query "[].{Name:name,SKU:sku.name}" \
+              -o table
+
+            echo ""
+            echo "Key Vault"
+            az keyvault list \
+              --resource-group $RESOURCE_GROUP \
+              --query "[].{Name:name}" \
+              -o table
+
           else
 
             echo ""
-            echo "AKS Cluster"
-            echo "❌ Resource Group not found"
+            echo "❌ Resource Group : Not Found"
+            echo "❌ AKS Cluster    : Not Found"
+            echo "❌ ACR            : Not Found"
+            echo "❌ Key Vault      : Not Found"
 
           fi
-
-          echo ""
-          echo "Azure Container Registry"
-
-          az acr list \
-            --resource-group $RESOURCE_GROUP \
-            --query "[].{Name:name,SKU:sku.name}" \
-            -o table
-
-          echo ""
-          echo "Key Vault"
-
-          az keyvault list \
-            --resource-group $RESOURCE_GROUP \
-            --query "[].{Name:name}" \
-            -o table
