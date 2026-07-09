@@ -98,7 +98,7 @@ jobs:
 
             NODE_RG=$(az aks show \
               --resource-group $RESOURCE_GROUP \
-              --name aks-devops-demo \
+              --name $AKS_NAME \
               --query nodeResourceGroup \
               -o tsv 2>/dev/null)
 
@@ -223,19 +223,7 @@ jobs:
 
             echo "❌ Terraform Backend Resource Group : Not Found"
 
-          fi
-
-
-          if [ "$RG_EXISTS" = "true" ] && [ -n "$NODE_RG" ]; then
-
-            # Cost Analysis code
-
-          else
-
-            echo "Platform infrastructure not found."
-            echo "No project cost resources detected."
-
-          fi
+          fid
 
           ####################################################
           # Cost Analysis
