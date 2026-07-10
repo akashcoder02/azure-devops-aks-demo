@@ -1,0 +1,72 @@
+name: GitOps Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      application_name:
+        description: "Application"
+        required: true
+        default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
+
+      image_tag:
+        description: "Docker Image Tag"
+        required: true
+
+jobs:
+
+  gitops-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Update Deployment Image
+        run: |
+
+          sed -i \
+          "s|image:.*|image: ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ github.event.inputs.image_tag }}|g" \
+          gitops/applications/${{ github.event.inputs.application_name }}/deployment.yaml
+
+      - name: Show Updated Manifest
+        run: |
+          cat gitops/applications/${{ github.event.inputs.application_name }}/deployment.yaml
+
+      - name: Commit Changes
+        run: |
+          git add gitops/
+
+          git diff --cached --quiet || \
+          git commit -m "GitOps: Deploy ${{ github.event.inputs.application_name }} (${{ github.event.inputs.image_tag }})"
+
+      - name: Push Changes
+        run: |
+          git push origin main
+
+      - name: Summary
+        run: |
+
+          echo ""
+          echo "=========================================="
+          echo "GITOPS DEPLOYMENT TRIGGERED"
+          echo "=========================================="
+
+          echo "Application : ${{ github.event.inputs.application_name }}"
+          echo "Image Tag   : ${{ github.event.inputs.image_tag }}"
+
+          echo ""
+          echo "Argo CD will automatically detect"
+          echo "the Git commit and synchronize."

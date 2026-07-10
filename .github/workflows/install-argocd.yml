@@ -1,0 +1,134 @@
+name: Install Argo CD
+
+on:
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: rg-devops-demo
+  AKS_NAME: aks-devops-demo
+
+jobs:
+
+  install-argocd:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/addons/argocd
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Verify AKS Cluster
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group $RESOURCE_GROUP \
+            --name $AKS_NAME \
+            --output table
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group $RESOURCE_GROUP \
+            --name $AKS_NAME \
+            --overwrite-existing
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      - name: Wait for Argo CD
+        run: |
+          echo "Waiting for Argo CD Pods..."
+
+          kubectl wait \
+            --for=condition=Ready \
+            pod \
+            --all \
+            -n argocd \
+            --timeout=300s
+
+      - name: Verify Namespace
+        run: |
+          kubectl get namespace argocd
+
+      - name: Verify Pods
+        run: |
+          kubectl get pods -n argocd -o wide
+
+      - name: Verify Services
+        run: |
+          kubectl get svc -n argocd
+
+      - name: Verify Deployments
+        run: |
+          kubectl get deployments -n argocd
+
+      - name: Show Helm Release
+        run: |
+          helm list -n argocd
+
+      - name: Installation Summary
+        run: |
+
+          echo ""
+          echo "===================================================="
+          echo "        ARGO CD INSTALLATION SUCCESSFUL"
+          echo "===================================================="
+
+          echo ""
+          echo "Namespace : argocd"
+
+          echo ""
+          echo "Helm Releases"
+          helm list -n argocd
+
+          echo ""
+          echo "Pods"
+          kubectl get pods -n argocd
+
+          echo ""
+          echo "Services"
+          kubectl get svc -n argocd
+
+          echo ""
+          echo "----------------------------------------------------"
+          echo "Initial Username"
+          echo "----------------------------------------------------"
+
+          echo "admin"
+
+          echo ""
+          echo "----------------------------------------------------"
+          echo "Get Initial Password"
+          echo "----------------------------------------------------"
+
+          echo "kubectl -n argocd get secret argocd-initial-admin-secret \\"
+          echo "-o jsonpath='{.data.password}' | base64 -d"

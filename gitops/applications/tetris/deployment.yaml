@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: tetris
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: tetris
+
+  template:
+    metadata:
+      labels:
+        app: tetris
+
+    spec:
+
+      containers:
+      - name: tetris
+
+        image: IMAGE_PLACEHOLDER
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 80
+

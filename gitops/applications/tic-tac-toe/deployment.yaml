@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: tic-tac-toe
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: tic-tac-toe
+
+  template:
+    metadata:
+      labels:
+        app: tic-tac-toe
+
+    spec:
+
+      containers:
+      - name: tic-tac-toe
+
+        image: IMAGE_PLACEHOLDER
+
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 5001
+
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+
+      volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "azure-keyvault"
