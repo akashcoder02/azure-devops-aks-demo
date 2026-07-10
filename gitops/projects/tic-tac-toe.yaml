@@ -8,7 +8,7 @@ spec:
   project: default
 
   source:
-    repoURL: git@github.com:akashcoder02/azure-devops-aks-demo.git
+    repoURL: https://github.com/akashcoder02/azure-devops-aks-demo.git
     targetRevision: main
     path: gitops/applications/tic-tac-toe
 

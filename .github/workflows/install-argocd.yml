@@ -68,12 +68,23 @@ jobs:
         run: |
           echo "Waiting for Argo CD Pods..."
 
-          kubectl wait \
-            --for=condition=Ready \
-            pod \
-            --all \
-            -n argocd \
-            --timeout=300s
+          echo "Waiting for Argo CD Server..."
+          kubectl rollout status deployment/argocd-server -n argocd --timeout=300s
+
+          echo "Waiting for Repo Server..."
+          kubectl rollout status deployment/argocd-repo-server -n argocd --timeout=300s
+
+          echo "Waiting for Application Controller..."
+          kubectl rollout status statefulset/argocd-application-controller -n argocd --timeout=300s
+
+          echo "Waiting for ApplicationSet Controller..."
+          kubectl rollout status deployment/argocd-applicationset-controller -n argocd --timeout=300s
+
+          echo "Waiting for Dex..."
+          kubectl rollout status deployment/argocd-dex-server -n argocd --timeout=300s
+
+          echo "Waiting for Notifications..."
+          kubectl rollout status deployment/argocd-notifications-controller -n argocd --timeout=300s
 
       - name: Verify Namespace
         run: |

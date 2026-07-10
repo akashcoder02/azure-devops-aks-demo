@@ -1,6 +1,7 @@
 name: Build Docker Image
 
 on:
+
   workflow_dispatch:
     inputs:
       application_name:
@@ -12,18 +13,60 @@ on:
           - tic-tac-toe
           - tetris
 
+  workflow_call:
+
+    inputs:
+
+      application_name:
+        description: "Application to build"
+        required: true
+        type: string
+
+    outputs:
+
+      image_tag:
+        description: "Generated Image Tag"
+        value: ${{ jobs.build.outputs.image_tag }}
+
+      application_name:
+        description: "Application Name"
+        value: ${{ jobs.build.outputs.application_name }}
+
 env:
   IMAGE_TAG: ${{ github.sha }}
+  APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    outputs:
+
+      image_tag: ${{ steps.image.outputs.image_tag }}
+
+      application_name: ${{ steps.application.outputs.application_name }}
+
     steps:
 
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Export Image Tag
+
+        id: image
+
+        run: |
+
+          echo "image_tag=${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+
+      - name: Export Application Name
+
+        id: application
+
+        run: |
+
+          echo "application_name=${{ env.APPLICATION_NAME }}" >> $GITHUB_OUTPUT
 
       - name: Azure Login
         uses: azure/login@v2
@@ -36,23 +79,23 @@ jobs:
 
       - name: Show Dockerfile
         run: |
-          cat applications/${{ github.event.inputs.application_name }}/Dockerfile
+          cat applications/${{ env.APPLICATION_NAME }}/Dockerfile
 
       - name: Build Docker Image
         run: |
           docker build \
-          -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }} \
-          ./applications/${{ github.event.inputs.application_name }}
+          -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }} \
+          ./applications/${{ env.APPLICATION_NAME }}
 
       - name: Show Docker Image
         run: |
           docker image ls \
-            ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}
+            ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}
 
       - name: Push Docker Image
         run: |
           docker push \
-          ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}
+          ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: Verify Image in ACR
         run: |
@@ -62,14 +105,14 @@ jobs:
 
           az acr repository show-tags \
             --name ${{ secrets.ACR_NAME }} \
-            --repository ${{ github.event.inputs.application_name }} \
+            --repository ${{ env.APPLICATION_NAME }} \
             --output table
 
       - name: Show Image Manifest
         run: |
           az acr repository show-manifests \
             --name ${{ secrets.ACR_NAME }} \
-            --repository ${{ github.event.inputs.application_name }} \
+            --repository ${{ env.APPLICATION_NAME }} \
             --query "[0].{Digest:digest,Tags:tags}" \
             -o table
 
@@ -81,10 +124,10 @@ jobs:
           echo "========================================================"
 
           echo "Status      : SUCCESS"
-          echo "Application : ${{ github.event.inputs.application_name }}"
+          echo "Application : ${{ env.APPLICATION_NAME }}"
           echo "Registry    : ${{ secrets.ACR_NAME }}"
           echo "Image Tag   : ${{ env.IMAGE_TAG }}"
-          echo "Repository  : ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ env.IMAGE_TAG }}"
+          echo "Repository  : ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}"
 
           echo ""
           echo "Docker image pushed successfully."

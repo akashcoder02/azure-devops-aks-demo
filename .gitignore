@@ -21,3 +21,8 @@ secrets/
 
 # macOS
 .DS_Store
+# ArgoCD SSH Keys
+secrets/argocd/argocd-github
+
+# Repository Secret containing private key
+gitops/repository-secret.yaml
