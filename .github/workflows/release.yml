@@ -1,0 +1,71 @@
+name: Release Application
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      application_name:
+        description: "Application"
+        required: true
+        default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
+
+      environment:
+        description: "Environment"
+        required: true
+        default: "development"
+        type: choice
+        options:
+          - development
+          - production
+
+      deployment_strategy:
+        description: "Deployment Strategy"
+        required: true
+        default: "gitops"
+        type: choice
+        options:
+          - traditional
+          - gitops
+
+jobs:
+
+  build:
+
+    uses: ./.github/workflows/build.yml
+
+    secrets: inherit
+
+    with:
+      application_name: ${{ github.event.inputs.application_name }}
+
+  traditional-deploy:
+
+    needs: build
+
+    if: ${{ github.event.inputs.deployment_strategy == 'traditional' }}
+
+    uses: ./.github/workflows/deploy.yml
+
+    secrets: inherit
+
+    with:
+      application_name: ${{ needs.build.outputs.application_name }}
+      image_tag: ${{ needs.build.outputs.image_tag }}
+
+  gitops-deploy:
+
+    needs: build
+
+    if: ${{ github.event.inputs.deployment_strategy == 'gitops' }}
+
+    uses: ./.github/workflows/gitops-deploy.yml
+
+    secrets: inherit
+
+    with:
+      application_name: ${{ needs.build.outputs.application_name }}
+      image_tag: ${{ needs.build.outputs.image_tag }}

@@ -1,6 +1,7 @@
 name: Deploy to AKS
 
 on:
+
   workflow_dispatch:
     inputs:
 
@@ -17,8 +18,24 @@ on:
         description: "Docker Image Tag"
         required: true
 
+  workflow_call:
+
+    inputs:
+
+      application_name:
+        description: "Application to Deploy"
+        required: true
+        type: string
+
+      image_tag:
+        description: "Docker Image Tag"
+        required: true
+        type: string
+
 env:
-  APPLICATION_NAME: ${{ github.event.inputs.application_name }}
+  APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
+
+  IMAGE_TAG: ${{ inputs.image_tag || github.event.inputs.image_tag }}
 
 jobs:
   deploy:
@@ -43,7 +60,7 @@ jobs:
             --overwrite-existing
 
       - name: Get AKS Key Vault Identity
-        if: ${{ hashFiles(format('applications/{0}/k8s/secretproviderclass.yaml', github.event.inputs.application_name)) != '' }}
+        if: ${{ hashFiles(format('applications/{0}/k8s/secretproviderclass.yaml', env.APPLICATION_NAME)) != '' }}
         run: |
           echo "AKS_CLIENT_ID=$(az aks show \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
@@ -63,7 +80,7 @@ jobs:
           fi
 
           sed -i \
-          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ github.event.inputs.image_tag }}|g" \
+          "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}|g" \
           build/deployment.yaml
 
           if [ -f build/secretproviderclass.yaml ]; then
@@ -183,7 +200,7 @@ jobs:
           echo "========================================================"
 
           echo "Application : ${{ env.APPLICATION_NAME }}"
-          echo "Image Tag   : ${{ github.event.inputs.image_tag }}"
+          echo "Image Tag   : ${{ env.IMAGE_TAG }}"
           echo "Namespace   : default"
 
           echo ""

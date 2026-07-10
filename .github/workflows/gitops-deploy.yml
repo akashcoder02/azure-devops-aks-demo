@@ -1,8 +1,10 @@
 name: GitOps Deploy
 
 on:
+
   workflow_dispatch:
     inputs:
+
       application_name:
         description: "Application"
         required: true
@@ -15,6 +17,25 @@ on:
       image_tag:
         description: "Docker Image Tag"
         required: true
+
+  workflow_call:
+
+    inputs:
+
+      application_name:
+        description: "Application"
+        required: true
+        type: string
+
+      image_tag:
+        description: "Docker Image Tag"
+        required: true
+        type: string
+
+env:
+  APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
+
+  IMAGE_TAG: ${{ inputs.image_tag || github.event.inputs.image_tag }}
 
 jobs:
 
@@ -38,19 +59,19 @@ jobs:
         run: |
 
           sed -i \
-          "s|image:.*|image: ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application_name }}:${{ github.event.inputs.image_tag }}|g" \
-          gitops/applications/${{ github.event.inputs.application_name }}/deployment.yaml
+          "s|image:.*|image: ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}|g" \
+          gitops/applications/${{ env.APPLICATION_NAME }}/deployment.yaml
 
       - name: Show Updated Manifest
         run: |
-          cat gitops/applications/${{ github.event.inputs.application_name }}/deployment.yaml
+          cat gitops/applications/${{ env.APPLICATION_NAME }}/deployment.yaml
 
       - name: Commit Changes
         run: |
           git add gitops/
 
           git diff --cached --quiet || \
-          git commit -m "GitOps: Deploy ${{ github.event.inputs.application_name }} (${{ github.event.inputs.image_tag }})"
+          git commit -m "GitOps: Deploy ${{ env.APPLICATION_NAME }} (${{ env.IMAGE_TAG }})"
 
       - name: Push Changes
         run: |
@@ -64,8 +85,8 @@ jobs:
           echo "GITOPS DEPLOYMENT TRIGGERED"
           echo "=========================================="
 
-          echo "Application : ${{ github.event.inputs.application_name }}"
-          echo "Image Tag   : ${{ github.event.inputs.image_tag }}"
+          echo "Application : ${{ env.APPLICATION_NAME }}"
+          echo "Image Tag   : ${{ env.IMAGE_TAG }}"
 
           echo ""
           echo "Argo CD will automatically detect"
