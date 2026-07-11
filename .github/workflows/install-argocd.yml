@@ -109,9 +109,26 @@ jobs:
           find "$GITHUB_WORKSPACE" -name repository-secret.yaml
 
 
-      - name: Configure Git Repository
+      - name: Create Argo CD Repository Secret
         run: |
-          kubectl apply -f gitops/repository-secret.yaml
+          cat <<EOF | kubectl apply -f -
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: github-repository
+            namespace: argocd
+            labels:
+              argocd.argoproj.io/secret-type: repository
+          stringData:
+            type: git
+            url: https://github.com/akashcoder02/azure-devops-aks-demo.git
+            username: akashcoder02
+            password: ${{ secrets.ARGOCD_GITHUB_PAT }}
+          EOF
+
+      - name: Verify Repository Secret
+        run: |
+          kubectl get secret github-repository -n argocd
 
       - name: Create GitOps Applications
         run: |
@@ -124,6 +141,31 @@ jobs:
       - name: Verify Applications
         run: |
           kubectl get applications -n argocd
+
+          echo ""
+          kubectl wait \
+            --for=jsonpath='{.status.sync.status}'=Synced \
+            application/tic-tac-toe \
+            -n argocd \
+            --timeout=300s || true
+
+          kubectl wait \
+            --for=jsonpath='{.status.health.status}'=Healthy \
+            application/tic-tac-toe \
+            -n argocd \
+            --timeout=300s || true
+
+          kubectl wait \
+            --for=jsonpath='{.status.sync.status}'=Synced \
+            application/tetris \
+            -n argocd \
+            --timeout=300s || true
+
+          kubectl wait \
+            --for=jsonpath='{.status.health.status}'=Healthy \
+            application/tetris \
+            -n argocd \
+            --timeout=300s || true
 
       - name: Verify Namespace
         run: |
