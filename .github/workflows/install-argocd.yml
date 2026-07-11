@@ -100,12 +100,12 @@ jobs:
           find . -maxdepth 4
 
       - name: Configure Git Repository
-        working-directory: .
+        working-directory: ${{ github.workspace }}
         run: |
           kubectl apply -f gitops/repository-secret.yaml
 
       - name: Create GitOps Applications
-        working-directory: .
+        working-directory: ${{ github.workspace }}
         run: |
           kubectl apply -f gitops/projects/
 
