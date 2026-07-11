@@ -108,8 +108,6 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           kubectl apply -f gitops/projects/
-        run: |
-          kubectl apply -f gitops/projects/
 
       - name: Verify Applications
         run: |
