@@ -21,7 +21,11 @@ on:
       environment:
         description: "Environment"
         required: true
-        type: string
+        default: "development"
+        type: choice
+        options:
+          - development
+          - production
 
   workflow_call:
 
