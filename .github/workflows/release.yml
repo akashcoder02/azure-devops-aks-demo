@@ -55,6 +55,7 @@ jobs:
     with:
       application_name: ${{ needs.build.outputs.application_name }}
       image_tag: ${{ needs.build.outputs.image_tag }}
+      environment: ${{ github.event.inputs.environment }}
 
   gitops-deploy:
 
@@ -69,3 +70,4 @@ jobs:
     with:
       application_name: ${{ needs.build.outputs.application_name }}
       image_tag: ${{ needs.build.outputs.image_tag }}
+      environment: ${{ github.event.inputs.environment }}
