@@ -55,6 +55,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Show SSH Agent
         run: |
           echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
