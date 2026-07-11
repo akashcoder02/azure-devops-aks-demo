@@ -60,25 +60,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Show SSH Agent
+      - name: Verify Azure Login
         run: |
-          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
-          ssh-add -L || true
-
-      - name: Test SSH
-        run: |
-          ssh -T git@github.com || true
-
-      - name: Verify SSH
-        shell: bash
-        run: |
-          mkdir -p ~/.ssh
-
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-          ssh -vT git@github.com || true
-
-          git remote -v
+          az account show
 
       - name: Configure Git
         run: |
@@ -100,10 +84,22 @@ jobs:
               --name ${{ secrets.AKS_CLUSTER }} \
               --query addonProfiles.azureKeyvaultSecretsProvider.identity.clientId \
               -o tsv)
+            
+            echo "AKS Client ID : $AKS_CLIENT_ID"
 
             echo "AKS_CLIENT_ID=$AKS_CLIENT_ID" >> $GITHUB_ENV
 
           fi
+      
+      - name: Verify Image Exists in ACR
+        run: |
+
+          az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ env.APPLICATION_NAME }} \
+            --output tsv | grep "^${{ env.IMAGE_TAG }}$"
+
+          echo "Image exists in ACR."  
 
       - name: Update GitOps Manifests
         run: |
@@ -135,14 +131,19 @@ jobs:
 
       - name: Commit Changes
         run: |
+
           git add gitops/
 
-          git diff --cached --quiet || \
-          git commit -m "GitOps: Deploy ${{ env.APPLICATION_NAME }} (${{ env.IMAGE_TAG }})"
+          if git diff --cached --quiet; then
 
-      - name: Show Git Remote
-        run: |
-          git remote -v
+            echo "No changes detected."
+
+          else
+
+            git commit -m \
+            "GitOps: Deploy ${{ env.APPLICATION_NAME }} (${{ env.IMAGE_TAG }})"
+
+          fi
 
       - name: Push Changes
         run: |
