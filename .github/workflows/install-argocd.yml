@@ -86,6 +86,18 @@ jobs:
           echo "Waiting for Notifications..."
           kubectl rollout status deployment/argocd-notifications-controller -n argocd --timeout=300s
 
+      - name: Configure Git Repository
+        run: |
+          kubectl apply -f ../../../gitops/repository-secret.yaml
+
+      - name: Create GitOps Applications
+        run: |
+          kubectl apply -f ../../../gitops/projects/
+
+      - name: Verify Applications
+        run: |
+          kubectl get applications -n argocd
+
       - name: Verify Namespace
         run: |
           kubectl get namespace argocd
