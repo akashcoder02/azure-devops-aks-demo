@@ -45,12 +45,24 @@ jobs:
 
     steps:
 
+      - name: Start SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-strict: false
           persist-credentials: false
+
+      - name: Show SSH Agent
+        run: |
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
+          ssh-add -L || true
+
+      - name: Test SSH
+        run: |
+          ssh -T git@github.com || true
 
       - name: Verify SSH
         shell: bash
