@@ -21,7 +21,7 @@ spec:
       containers:
       - name: tetris
 
-        image: IMAGE_PLACEHOLDER
+        image: agdevopsacr2026.azurecr.io/tetris:c50bf85173951ab396ca4dcf8bf9084e5a1b328b
 
         imagePullPolicy: Always
 
