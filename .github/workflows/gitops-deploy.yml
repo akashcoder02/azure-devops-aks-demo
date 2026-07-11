@@ -86,16 +86,47 @@ jobs:
 
           git remote -v
 
-      - name: Update Deployment Image
+      - name: Get AKS Key Vault Identity
+        run: |
+          if [ -f gitops/applications/${{ env.APPLICATION_NAME }}/secretproviderclass.yaml ]; then
+
+            AKS_CLIENT_ID=$(az aks show \
+              --resource-group ${{ secrets.RESOURCE_GROUP }} \
+              --name ${{ secrets.AKS_CLUSTER }} \
+              --query addonProfiles.azureKeyvaultSecretsProvider.identity.clientId \
+              -o tsv)
+
+            echo "AKS_CLIENT_ID=$AKS_CLIENT_ID" >> $GITHUB_ENV
+
+          fi
+
+      - name: Update GitOps Manifests
         run: |
 
           sed -i \
           "s|image:.*|image: ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}|g" \
           gitops/applications/${{ env.APPLICATION_NAME }}/deployment.yaml
 
-      - name: Show Updated Manifest
+          if [ -f gitops/applications/${{ env.APPLICATION_NAME }}/secretproviderclass.yaml ]; then
+
+            sed -i \
+            "s|userAssignedIdentityID:.*|userAssignedIdentityID: ${AKS_CLIENT_ID}|g" \
+            gitops/applications/${{ env.APPLICATION_NAME }}/secretproviderclass.yaml
+
+          fi
+
+      - name: Show Updated Manifests
         run: |
+
+          echo "================ Deployment ================"
           cat gitops/applications/${{ env.APPLICATION_NAME }}/deployment.yaml
+
+          if [ -f gitops/applications/${{ env.APPLICATION_NAME }}/secretproviderclass.yaml ]; then
+
+            echo ""
+            echo "============ SecretProviderClass ============"
+            cat gitops/applications/${{ env.APPLICATION_NAME }}/secretproviderclass.yaml
+          fi
 
       - name: Commit Changes
         run: |
