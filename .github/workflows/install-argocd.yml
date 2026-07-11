@@ -87,12 +87,14 @@ jobs:
           kubectl rollout status deployment/argocd-notifications-controller -n argocd --timeout=300s
 
       - name: Configure Git Repository
+        working-directory: .
         run: |
-          kubectl apply -f ../../../gitops/repository-secret.yaml
+          kubectl apply -f gitops/repository-secret.yaml
 
       - name: Create GitOps Applications
+        working-directory: .
         run: |
-          kubectl apply -f ../../../gitops/projects/
+          kubectl apply -f gitops/projects/
 
       - name: Verify Applications
         run: |
