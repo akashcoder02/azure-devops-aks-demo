@@ -87,6 +87,28 @@ jobs:
           echo "Waiting for Notifications..."
           kubectl rollout status deployment/argocd-notifications-controller -n argocd --timeout=300s
 
+      - name: Debug Repository Structure
+        run: |
+          echo "Current directory:"
+          pwd
+
+          echo ""
+          echo "GitHub Workspace:"
+          echo "$GITHUB_WORKSPACE"
+
+          echo ""
+          echo "Repository root contents:"
+          ls -la "$GITHUB_WORKSPACE"
+
+          echo ""
+          echo "Gitops folder:"
+          ls -la "$GITHUB_WORKSPACE/gitops" || true
+
+          echo ""
+          echo "Find repository-secret.yaml:"
+          find "$GITHUB_WORKSPACE" -name repository-secret.yaml
+
+
       - name: Configure Git Repository
         run: |
           kubectl apply -f gitops/repository-secret.yaml
