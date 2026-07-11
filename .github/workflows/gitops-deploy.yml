@@ -73,6 +73,10 @@ jobs:
           git diff --cached --quiet || \
           git commit -m "GitOps: Deploy ${{ env.APPLICATION_NAME }} (${{ env.IMAGE_TAG }})"
 
+      - name: Show Git Remote
+        run: |
+          git remote -v
+
       - name: Push Changes
         run: |
           git push origin main
