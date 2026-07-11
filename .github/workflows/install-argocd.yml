@@ -87,19 +87,6 @@ jobs:
           echo "Waiting for Notifications..."
           kubectl rollout status deployment/argocd-notifications-controller -n argocd --timeout=300s
 
-      - name: Debug Paths
-        run: |
-          echo "PWD:"
-          pwd
-
-          echo ""
-          echo "Repository root:"
-          git rev-parse --show-toplevel
-
-          echo ""
-          echo "Contents:"
-          find . -maxdepth 3
-
       - name: Configure Git Repository
         run: |
           kubectl apply -f gitops/repository-secret.yaml
@@ -107,6 +94,10 @@ jobs:
       - name: Create GitOps Applications
         run: |
           kubectl apply -f gitops/projects/
+
+      - name: Wait for Applications
+        run: |
+          sleep 15
 
       - name: Verify Applications
         run: |
