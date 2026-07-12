@@ -66,6 +66,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify AKS Exists
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group $RESOURCE_GROUP \
+            --name $AKS_NAME \
+            --output table
+
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
