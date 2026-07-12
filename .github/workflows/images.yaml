@@ -36,6 +36,15 @@ jobs:
             --name ${{ secrets.ACR_NAME }} \
             --output table
 
+      - name: Verify Repository Exists
+        run: |
+
+          az acr repository list \
+            --name ${{ secrets.ACR_NAME }} \
+            --output tsv | grep "^${{ github.event.inputs.application_name }}$"
+
+          echo "Repository exists."
+
       - name: List Repositories
         run: |
           echo "========================================"
