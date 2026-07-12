@@ -105,43 +105,6 @@ jobs:
         run: |
           kubectl get secret github-repository -n argocd
 
-      - name: Create GitOps Applications
-        run: |
-          kubectl apply -f gitops/projects/
-
-      - name: Wait for Applications
-        run: |
-          sleep 15
-
-      - name: Verify Applications
-        run: |
-          kubectl get applications -n argocd
-
-          echo ""
-          kubectl wait \
-            --for=jsonpath='{.status.sync.status}'=Synced \
-            application/tic-tac-toe \
-            -n argocd \
-            --timeout=300s || true
-
-          kubectl wait \
-            --for=jsonpath='{.status.health.status}'=Healthy \
-            application/tic-tac-toe \
-            -n argocd \
-            --timeout=300s || true
-
-          kubectl wait \
-            --for=jsonpath='{.status.sync.status}'=Synced \
-            application/tetris \
-            -n argocd \
-            --timeout=300s || true
-
-          kubectl wait \
-            --for=jsonpath='{.status.health.status}'=Healthy \
-            application/tetris \
-            -n argocd \
-            --timeout=300s || true
-
       - name: Verify Namespace
         run: |
           kubectl get namespace argocd

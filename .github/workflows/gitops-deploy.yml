@@ -89,6 +89,22 @@ jobs:
 
           git remote -v
 
+      - name: Verify AKS Cluster
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
       - name: Get AKS Key Vault Identity
         run: |
           if [ -f gitops/applications/${{ env.APPLICATION_NAME }}/secretproviderclass.yaml ]; then
@@ -163,17 +179,61 @@ jobs:
         run: |
           git push origin main
 
-      - name: Summary
+      - name: Verify Argo CD Installation
+        run: |
+          kubectl get namespace argocd
+
+          kubectl get deployment argocd-server -n argocd
+        
+      - name: Create Argo CD Application
+        run: |
+
+          if kubectl get application ${{ env.APPLICATION_NAME }} -n argocd >/dev/null 2>&1; then
+
+            echo "Application already exists."
+
+          else
+
+            echo "Creating Argo CD Application..."
+
+            kubectl apply \
+              -f gitops/projects/${{ env.APPLICATION_NAME }}.yaml
+
+          fi
+
+      - name: Wait for Argo CD Sync
+        run: |
+
+          kubectl wait \
+            --for=jsonpath='{.status.sync.status}'=Synced \
+            application/${{ env.APPLICATION_NAME }} \
+            -n argocd \
+            --timeout=300s
+
+          kubectl wait \
+            --for=jsonpath='{.status.health.status}'=Healthy \
+            application/${{ env.APPLICATION_NAME }} \
+            -n argocd \
+            --timeout=300s || true
+
+      - name: GitOps Deployment Summary
         run: |
 
           echo ""
-          echo "=========================================="
-          echo "GITOPS DEPLOYMENT TRIGGERED"
-          echo "=========================================="
+          echo "========================================================"
+          echo "GITOPS DEPLOYMENT COMPLETED"
+          echo "========================================================"
 
+          echo ""
           echo "Application : ${{ env.APPLICATION_NAME }}"
           echo "Image Tag   : ${{ env.IMAGE_TAG }}"
 
           echo ""
-          echo "Argo CD will automatically detect"
-          echo "the Git commit and synchronize."
+          echo "Argo CD Application"
+
+          kubectl get application \
+            ${{ env.APPLICATION_NAME }} \
+            -n argocd
+
+          echo ""
+          echo "========================================================"
