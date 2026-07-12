@@ -1,0 +1,99 @@
+name: GitOps Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      application_name:
+        description: "Application"
+        required: true
+        default: "tic-tac-toe"
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
+
+env:
+  APPLICATION_NAME: ${{ github.event.inputs.application_name }}
+
+jobs:
+
+  gitops-rollback:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Start SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Verify Azure Login
+        run: |
+          az account show
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Configure SSH Remote
+        run: |
+          git remote set-url origin git@github.com:akashcoder02/azure-devops-aks-demo.git
+          git remote -v
+
+      - name: Verify AKS Cluster
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Verify Argo CD Installation
+        run: |
+          echo "Checking Argo CD..."
+
+          kubectl get namespace argocd
+
+          kubectl get deployment argocd-server -n argocd
+
+          kubectl get applications -n argocd
+
+      - name: Initialization Summary
+        run: |
+
+          echo ""
+          echo "========================================================"
+          echo "GITOPS ROLLBACK INITIALIZATION SUCCESSFUL"
+          echo "========================================================"
+
+          echo ""
+          echo "Application : ${{ env.APPLICATION_NAME }}"
+
+          echo ""
+          kubectl get application \
+            ${{ env.APPLICATION_NAME }} \
+            -n argocd
+
+          echo ""
+          echo "========================================================"

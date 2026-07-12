@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
 
 env:
-  
+  RESOURCE_GROUP: rg-devops-demo
+  AKS_NAME: aks-devops-demo
+
   TFSTATE_RG: rg-tf-backend
   TFSTATE_STORAGE: agtfstate2026xyz
   TFSTATE_CONTAINER: tfstate
@@ -52,15 +54,15 @@ jobs:
           echo "Infrastructure"
           echo "--------------------------------------------------------"
 
-          RG_EXISTS=$(az group exists --name $RESOURCE_GROUP)
+          RG_EXISTS=$(az group exists --name ${{ secrets.RESOURCE_GROUP }})
 
           if [ "$RG_EXISTS" = "true" ]; then
 
             echo ""
-            echo "✅ Resource Group : $RESOURCE_GROUP"
+            echo "✅ Resource Group : ${{ secrets.RESOURCE_GROUP }}"
 
             az group show \
-              --name $RESOURCE_GROUP \
+              --name ${{ secrets.RESOURCE_GROUP }} \
               --query "{Name:name,Location:location,ProvisioningState:properties.provisioningState}" \
               -o table
 
@@ -68,7 +70,7 @@ jobs:
             echo "AKS Cluster"
             echo "-------------------------------------------------------"
             az aks list \
-              --resource-group $RESOURCE_GROUP \
+              --resource-group ${{ secrets.RESOURCE_GROUP }} \
               --query "[].{Name:name,Location:location,Version:kubernetesVersion}" \
               -o table || true
 
@@ -76,7 +78,7 @@ jobs:
             echo "Azure Container Registry"
             echo "-------------------------------------------------------"
             az acr list \
-              --resource-group $RESOURCE_GROUP \
+              --resource-group ${{ secrets.RESOURCE_GROUP }} \
               --query "[].{Name:name,SKU:sku.name}" \
               -o table || true
 
@@ -84,7 +86,7 @@ jobs:
             echo "Key Vault"
             echo "-------------------------------------------------------"
             az keyvault list \
-              --resource-group $RESOURCE_GROUP \
+              --resource-group ${{ secrets.RESOURCE_GROUP }} \
               --query "[].{Name:name}" \
               -o table || true
 
@@ -105,8 +107,8 @@ jobs:
           if [ "$RG_EXISTS" = "true" ]; then
 
             NODE_RG=$(az aks show \
-              --resource-group $RESOURCE_GROUP \
-              --name $AKS_NAME \
+              --resource-group ${{ secrets.RESOURCE_GROUP }} \
+              --name ${{ secrets.AKS_CLUSTER }} \
               --query nodeResourceGroup \
               -o tsv 2>/dev/null)
 
