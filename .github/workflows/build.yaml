@@ -73,6 +73,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify ACR Exists
+        run: |
+          echo "Checking Azure Container Registry..."
+
+          az acr show \
+            --name ${{ secrets.ACR_NAME }} \
+            --output table
+
       - name: Login to Azure Container Registry
         run: |
           az acr login --name ${{ secrets.ACR_NAME }}
