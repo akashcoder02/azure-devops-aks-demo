@@ -33,12 +33,31 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify AKS Exists
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
             --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
+
+      - name: Verify Image Exists in ACR
+        run: |
+
+          az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ github.event.inputs.application_name }} \
+            --output tsv | grep "^${{ github.event.inputs.image_tag }}$"
+
+          echo "Rollback image exists in ACR."
 
       - name: Rollback Deployment
         run: |
@@ -64,10 +83,20 @@ jobs:
             -o jsonpath='{.spec.template.spec.containers[0].image}'
 
 
-      - name: Rollback Completed
+      - name: Rollback Summary
         run: |
+
           echo ""
-          echo "Rollback completed successfully."
+          echo "========================================================"
+          echo "ROLLBACK COMPLETED SUCCESSFULLY"
+          echo "========================================================"
+
           echo ""
-          echo "Application: ${{ github.event.inputs.application_name }}"
-          echo "Image Tag: ${{ github.event.inputs.image_tag }}"
+          echo "Application : ${{ github.event.inputs.application_name }}"
+          echo "Image Tag   : ${{ github.event.inputs.image_tag }}"
+
+          echo ""
+          kubectl get deployment ${{ github.event.inputs.application_name }}
+
+          echo ""
+          echo "========================================================"

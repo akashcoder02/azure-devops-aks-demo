@@ -20,10 +20,21 @@ jobs:
 
     steps:
 
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Verify ACR Exists
+        run: |
+          echo "Checking Azure Container Registry..."
+
+          az acr show \
+            --name ${{ secrets.ACR_NAME }} \
+            --output table
 
       - name: List Repositories
         run: |
@@ -60,3 +71,18 @@ jobs:
             --repository ${{ github.event.inputs.application_name }} \
             --orderby time_desc \
             --output table
+
+      - name: Images Summary
+        run: |
+
+          echo ""
+          echo "========================================================"
+          echo "IMAGE LIST RETRIEVED"
+          echo "========================================================"
+
+          echo ""
+          echo "Registry    : ${{ secrets.ACR_NAME }}"
+          echo "Application : ${{ github.event.inputs.application_name }}"
+
+          echo ""
+          echo "========================================================"

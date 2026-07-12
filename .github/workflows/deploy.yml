@@ -71,8 +71,8 @@ jobs:
           echo "Checking AKS Cluster..."
 
           az aks show \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --output table
 
       - name: Get AKS Credentials
@@ -81,6 +81,7 @@ jobs:
             --resource-group ${{ secrets.RESOURCE_GROUP }} \
             --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
+
 
       - name: Get AKS Key Vault Identity
         if: ${{ hashFiles(format('applications/{0}/k8s/secretproviderclass.yaml', env.APPLICATION_NAME)) != '' }}

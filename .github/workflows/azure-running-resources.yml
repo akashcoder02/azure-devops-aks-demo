@@ -4,9 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  RESOURCE_GROUP: rg-devops-demo
-  AKS_NAME: aks-devops-demo
-
+  
   TFSTATE_RG: rg-tf-backend
   TFSTATE_STORAGE: agtfstate2026xyz
   TFSTATE_CONTAINER: tfstate
@@ -23,6 +21,16 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify Terraform Backend
+        run: |
+          az storage account show \
+            --resource-group rg-tf-backend \
+            --name agtfstate2026xyz \
+            --output table
 
       - name: Azure Running Resources
         run: |

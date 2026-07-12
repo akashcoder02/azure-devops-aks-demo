@@ -3,9 +3,6 @@ name: Install Argo CD
 on:
   workflow_dispatch:
 
-env:
-  RESOURCE_GROUP: rg-devops-demo
-  AKS_NAME: aks-devops-demo
 
 jobs:
 
@@ -28,15 +25,15 @@ jobs:
           echo "Checking AKS Cluster..."
 
           az aks show \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --output table
 
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
 
       - name: Setup Terraform
@@ -86,28 +83,6 @@ jobs:
 
           echo "Waiting for Notifications..."
           kubectl rollout status deployment/argocd-notifications-controller -n argocd --timeout=300s
-
-      - name: Debug Repository Structure
-        run: |
-          echo "Current directory:"
-          pwd
-
-          echo ""
-          echo "GitHub Workspace:"
-          echo "$GITHUB_WORKSPACE"
-
-          echo ""
-          echo "Repository root contents:"
-          ls -la "$GITHUB_WORKSPACE"
-
-          echo ""
-          echo "Gitops folder:"
-          ls -la "$GITHUB_WORKSPACE/gitops" || true
-
-          echo ""
-          echo "Find repository-secret.yaml:"
-          find "$GITHUB_WORKSPACE" -name repository-secret.yaml
-
 
       - name: Create Argo CD Repository Secret
         run: |

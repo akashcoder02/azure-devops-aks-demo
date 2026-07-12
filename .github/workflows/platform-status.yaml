@@ -3,12 +3,6 @@ name: Platform Status
 on:
   workflow_dispatch:
 
-env:
-  RESOURCE_GROUP: rg-devops-demo
-  AKS_NAME: aks-devops-demo
-  ACR_NAME: agdevopsacr2026
-  KEYVAULT_NAME: agdevopskv2026
-
 jobs:
 
   status:
@@ -16,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Azure Login
         uses: azure/login@v2
@@ -30,37 +27,37 @@ jobs:
           echo ""
           echo "Resource Group"
           az group show \
-            --name $RESOURCE_GROUP \
+            --name ${{ secrets.RESOURCE_GROUP }} \
             --query name \
             -o table
 
           echo ""
           echo "AKS"
           az aks show \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --query provisioningState \
             -o table
 
           echo ""
           echo "ACR"
           az acr show \
-            --name $ACR_NAME \
+            --name ${{ secrets.ACR_NAME }} \
             --query loginServer \
             -o table
 
           echo ""
           echo "Key Vault"
           az keyvault show \
-            --name $KEYVAULT_NAME \
+            --name ${{ secrets.KEYVAULT_NAME }} \
             --query properties.vaultUri \
             -o table
 
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
 
       - name: Kubernetes Status
@@ -88,7 +85,7 @@ jobs:
           echo "Ingress"
           kubectl get ingress
 
-      - name: Platform Healthy
+      - name: Platform Status Summary
         run: |
           echo ""
           echo "Platform Status Check Completed."

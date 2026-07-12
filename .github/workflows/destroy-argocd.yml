@@ -3,10 +3,6 @@ name: Destroy Argo CD
 on:
   workflow_dispatch:
 
-env:
-  RESOURCE_GROUP: rg-devops-demo
-  AKS_NAME: aks-devops-demo
-
 jobs:
 
   destroy-argocd:
@@ -29,16 +25,18 @@ jobs:
 
       - name: Verify AKS Cluster
         run: |
+          echo "Checking AKS Cluster..."
+
           az aks show \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --output table
 
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
-            --resource-group $RESOURCE_GROUP \
-            --name $AKS_NAME \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
             --overwrite-existing
 
       - name: Setup Terraform
@@ -66,8 +64,10 @@ jobs:
           echo "========================================"
           echo "ARGO CD DESTROY COMPLETED"
           echo "========================================"
+
           echo ""
           echo "Namespace:"
           kubectl get namespace argocd || echo "Namespace removed."
+
           echo ""
           echo "========================================"

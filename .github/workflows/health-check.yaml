@@ -28,6 +28,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify AKS Exists
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
@@ -110,9 +119,19 @@ jobs:
             -o jsonpath='{.spec.template.spec.containers[0].image}'
           echo ""
 
-      - name: Health Check Completed
+      - name: Health Check Summary
         run: |
+
           echo ""
-          echo "Application Health Check Completed Successfully."
+          echo "========================================================"
+          echo "APPLICATION HEALTH CHECK COMPLETED"
+          echo "========================================================"
+
           echo ""
-          echo "Application: ${{ github.event.inputs.application_name }}"
+          echo "Application : ${{ github.event.inputs.application_name }}"
+
+          echo ""
+          kubectl get deployment ${{ github.event.inputs.application_name }}
+
+          echo ""
+          echo "========================================================"

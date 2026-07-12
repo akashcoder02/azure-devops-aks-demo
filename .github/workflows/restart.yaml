@@ -28,6 +28,15 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify AKS Exists
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
       - name: Get AKS Credentials
         run: |
           az aks get-credentials \
@@ -53,9 +62,19 @@ jobs:
           kubectl get pods -l app=${{ github.event.inputs.application_name }} -o wide
 
 
-      - name: Restart Completed
+      - name: Restart Summary
         run: |
+
           echo ""
-          echo "Application restarted successfully."
+          echo "========================================================"
+          echo "APPLICATION RESTART COMPLETED"
+          echo "========================================================"
+
           echo ""
-          echo "Application: ${{ github.event.inputs.application_name }}"
+          echo "Application : ${{ github.event.inputs.application_name }}"
+
+          echo ""
+          kubectl get deployment ${{ github.event.inputs.application_name }}
+
+          echo ""
+          echo "========================================================"

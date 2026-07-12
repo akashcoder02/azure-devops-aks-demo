@@ -12,9 +12,6 @@ on:
           - development
           - production
 
-env:
-  KEYVAULT_NAME: agdevopskv2026
-
 jobs:
 
   destroy:
@@ -41,16 +38,31 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
+
       - name: Terraform Destroy
         run: |
           terraform destroy \
             -auto-approve \
             -var="environment=${{ github.event.inputs.environment }}"
 
-      - name: Destroy Completed
-        working-directory: .
+      - name: Platform Destroy Summary
         run: |
+
           echo ""
-          echo "========================================"
-          echo "Platform destroyed successfully."
-          echo "========================================"
+          echo "========================================================"
+          echo "PLATFORM DESTROY COMPLETED"
+          echo "========================================================"
+
+          echo ""
+          echo "Environment : ${{ github.event.inputs.environment }}"
+
+          echo ""
+          echo "All Terraform-managed resources have been destroyed."
+
+          echo ""
+          echo "========================================================"
