@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "=============================="
 echo "Git Status"
 echo "=============================="
@@ -10,6 +12,7 @@ echo ""
 read -p "Commit Message: " MESSAGE
 echo ""
 
+echo "Adding files..."
 git add .
 
 if git diff --cached --quiet; then
@@ -19,18 +22,21 @@ else
 fi
 
 echo ""
-echo "Pushing to GitHub..."
-echo ""
+echo "=============================="
+echo "Syncing with GitHub"
+echo "=============================="
 
-if git push origin main; then
-    echo ""
-    echo "✅ Code pushed successfully."
-else
-    echo ""
-    echo "❌ Push failed."
-    echo ""
-    echo "Run:"
-    echo "git pull --rebase origin main"
-    echo "git push origin main"
-    exit 1
-fi
+git pull --rebase origin main
+
+echo ""
+echo "=============================="
+echo "Pushing to GitHub"
+echo "=============================="
+
+git push origin main
+
+echo ""
+echo "=============================="
+echo "SUCCESS"
+echo "=============================="
+echo "✅ Repository synchronized successfully."
