@@ -41,6 +41,11 @@ on:
         required: true
         type: string
 
+      environment:
+        description: "Environment"
+        required: true
+        type: string
+
 env:
   APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
 
