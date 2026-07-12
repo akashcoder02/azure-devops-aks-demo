@@ -85,6 +85,12 @@ jobs:
         run: |
           az acr login --name ${{ secrets.ACR_NAME }}
 
+      - name: Verify Application Directory
+        run: |
+          test -d applications/${{ env.APPLICATION_NAME }}
+
+          ls -la applications/${{ env.APPLICATION_NAME }}
+
       - name: Show Dockerfile
         run: |
           cat applications/${{ env.APPLICATION_NAME }}/Dockerfile
@@ -94,6 +100,14 @@ jobs:
           docker build \
           -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }} \
           ./applications/${{ env.APPLICATION_NAME }}
+
+      - name: Verify Docker Image
+        run: |
+          docker inspect \
+            ${{ secrets.ACR_NAME }}.azurecr.io/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }} \
+            >/dev/null
+
+          echo "Docker image built successfully."
 
       - name: Show Docker Image
         run: |
