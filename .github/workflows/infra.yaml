@@ -100,7 +100,7 @@ jobs:
       - name: Verify Secret
         run: |
           az keyvault secret show \
-            --vault-name ${{ secrets.KEYVAULT_NAME }} \
+            --vault-name agdevopskv2026 \
             --name app-secret \
             --query id
 
