@@ -92,7 +92,7 @@ jobs:
       - name: Create Default Secret
         run: |
           az keyvault secret set \
-            --vault-name ${{ secrets.KEYVAULT_NAME }} \
+            --vault-name agdevopskv2026  \
             --name app-secret \
             --value "HelloFromAzureKeyVault" \
             --only-show-errors
