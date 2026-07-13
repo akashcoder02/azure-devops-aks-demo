@@ -147,35 +147,44 @@ jobs:
 
           done
 
-      - name: Wait for Rollout
-        run: |
-          kubectl rollout status deployment/${{ env.APPLICATION_NAME }} --timeout=300s
-
-      - name: Verify Scaling
+      - name: Wait for Scaling
         run: |
 
-          DESIRED=$(kubectl get deployment \
-            ${{ env.APPLICATION_NAME }} \
-            -o jsonpath='{.status.replicas}' | xargs)
-
-          READY=$(kubectl get deployment \
-            ${{ env.APPLICATION_NAME }} \
-            -o jsonpath='{.status.readyReplicas}' | xargs)
+          echo ""
+          echo "==============================================="
+          echo "WAITING FOR SCALING"
+          echo "==============================================="
 
           EXPECTED="${{ env.REPLICAS }}"
 
-          echo "Expected Replicas : '$EXPECTED'"
-          echo "Desired Replicas  : '$DESIRED'"
-          echo "Ready Replicas    : '$READY'"
+          for i in {1..30}
+          do
 
-          if [[ "$DESIRED" == "$EXPECTED" && "$READY" == "$EXPECTED" ]]; then
-            echo ""
-            echo "Scaling verification successful."
-            exit 0
-          fi
+            DESIRED=$(kubectl get deployment \
+              ${{ env.APPLICATION_NAME }} \
+              -o jsonpath='{.status.replicas}' | xargs)
+
+            READY=$(kubectl get deployment \
+              ${{ env.APPLICATION_NAME }} \
+              -o jsonpath='{.status.readyReplicas}' | xargs)
+
+            echo "Attempt $i"
+            echo "Expected : $EXPECTED"
+            echo "Desired  : $DESIRED"
+            echo "Ready    : $READY"
+
+            if [[ "$DESIRED" == "$EXPECTED" && "$READY" == "$EXPECTED" ]]; then
+              echo ""
+              echo "Scaling completed successfully."
+              exit 0
+            fi
+
+            sleep 10
+
+          done
 
           echo ""
-          echo "Scaling verification failed."
+          echo "Scaling timed out."
           exit 1
 
       - name: Scale Summary
