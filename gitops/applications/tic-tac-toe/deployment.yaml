@@ -21,7 +21,7 @@ spec:
       containers:
       - name: tic-tac-toe
 
-        image: agdevopsacr2026.azurecr.io/tic-tac-toe:3c6cf06a8316e16c718c0471ec1afcd375dadda9
+        image: agdevopsacr2026.azurecr.io/tic-tac-toe:8cd743cf0367caeed90a4490a85b5b375d9e8d85
 
         imagePullPolicy: Always
 
