@@ -160,6 +160,9 @@ jobs:
             exit 1
           fi
 
+          echo ""
+          echo "Scaling verification successful."
+
       - name: Scale Summary
         run: |
 
