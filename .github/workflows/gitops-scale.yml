@@ -110,8 +110,13 @@ jobs:
           git add "${{ env.DEPLOYMENT_FILE }}"
 
           if git diff --cached --quiet; then
-            echo "No changes detected."
-            exit 1
+            echo ""
+            echo "==============================================="
+            echo "NO SCALING REQUIRED"
+            echo "==============================================="
+            echo ""
+            echo "Application is already scaled to ${{ env.REPLICAS }} replicas."
+            exit 0
           fi
 
           git commit -m "Scale ${{ env.APPLICATION_NAME }} to ${{ env.REPLICAS }} replicas"
