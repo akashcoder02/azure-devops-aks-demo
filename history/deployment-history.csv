@@ -1,1 +1,2 @@
 Timestamp,Application,Operation,Image,PreviousImage,Replicas,GitCommit,Workflow,GitHubUser,Status,Remarks2026-07-13 11:37:17,tic-tac-toe,Release,agdevopsacr2026.azurecr.io/tic-tac-toe:c98f53056d63844f2491c0f5dae8d4242ae07182,NA,3,84a6b5c55f9bf88f6e0a251dd10def04c05a0d85,Release Application,akashcoder02,Success,Application Released
+2026-07-13 12:04:40,tic-tac-toe,Release,agdevopsacr2026.azurecr.io/tic-tac-toe:84a6b5c55f9bf88f6e0a251dd10def04c05a0d85,NA,3,f2d05455390224dc1fc155778622fd17c84cdde2,Release Application,akashcoder02,Success,Application Released
