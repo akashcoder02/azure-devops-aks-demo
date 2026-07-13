@@ -216,6 +216,44 @@ jobs:
             -n argocd \
             --timeout=300s || true
 
+      - name: Wait for Deployment Rollout
+        run: |
+
+          kubectl rollout status \
+            deployment/${{ env.APPLICATION_NAME }} \
+            --timeout=300s
+
+      - name: Update Deployment History
+        continue-on-error: true
+        run: |
+
+          CURRENT_IMAGE=$(kubectl get deployment \
+            ${{ env.APPLICATION_NAME }} \
+            -o jsonpath='{.spec.template.spec.containers[0].image}')
+
+          CURRENT_REPLICAS=$(kubectl get deployment \
+            ${{ env.APPLICATION_NAME }} \
+            -o jsonpath='{.spec.replicas}')
+
+          echo "$(date '+%Y-%m-%d %H:%M:%S'),${{ env.APPLICATION_NAME }},Release,$CURRENT_IMAGE,NA,$CURRENT_REPLICAS,${{ github.sha }},${{ github.workflow }},${{ github.actor }},Success,Application Released" >> history/deployment-history.csv
+
+      - name: Commit Deployment History
+        continue-on-error: true
+        run: |
+
+          git add history/deployment-history.csv
+
+          if git diff --cached --quiet; then
+            echo "No deployment history changes."
+            exit 0
+          fi
+
+          git commit -m "Update deployment history"
+
+          git pull --rebase origin main
+
+          git push origin HEAD:main
+      
       - name: GitOps Deployment Summary
         run: |
 

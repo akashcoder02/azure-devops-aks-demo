@@ -1,1 +1,1 @@
-Timestamp,Application,Operation,Status,Image,PreviousImage,Replicas,GitCommit,Workflow,Remarks
+Timestamp,Application,Operation,Image,PreviousImage,Replicas,GitCommit,Workflow,GitHubUser,Status,Remarks
