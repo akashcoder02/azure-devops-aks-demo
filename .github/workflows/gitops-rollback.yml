@@ -15,6 +15,7 @@ on:
 
 env:
   APPLICATION_NAME: ${{ github.event.inputs.application_name }}
+  DEPLOYMENT_FILE: gitops/applications/${{ github.event.inputs.application_name }}/deployment.yaml
 
 jobs:
 
@@ -94,6 +95,258 @@ jobs:
           kubectl get application \
             ${{ env.APPLICATION_NAME }} \
             -n argocd
+
+          echo ""
+          echo "========================================================"
+
+      - name: Read Current Image
+        id: current-image
+        run: |
+
+          DEPLOYMENT_FILE="${{ env.DEPLOYMENT_FILE }}"
+
+          echo "Deployment File:"
+          echo "$DEPLOYMENT_FILE"
+
+          CURRENT_IMAGE=$(grep "image:" "$DEPLOYMENT_FILE" | awk '{print $2}')
+
+          echo ""
+          echo "Current Image:"
+          echo "$CURRENT_IMAGE"
+
+          echo "current_image=$CURRENT_IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Extract Current Tag
+        id: current-tag
+        run: |
+
+          CURRENT_IMAGE="${{ steps.current-image.outputs.current_image }}"
+
+          CURRENT_TAG="${CURRENT_IMAGE##*:}"
+
+          echo ""
+          echo "Current Tag : $CURRENT_TAG"
+
+          echo "current_tag=$CURRENT_TAG" >> $GITHUB_OUTPUT
+
+      - name: Get Available Image Tags
+        id: image-tags
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "AVAILABLE IMAGE TAGS"
+          echo "==============================================="
+
+          TAGS=$(az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ env.APPLICATION_NAME }} \
+            --orderby time_desc \
+            --output tsv)
+
+          echo "$TAGS"
+
+          echo "tags<<EOF" >> $GITHUB_OUTPUT
+          echo "$TAGS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Determine Rollback Tag
+        id: rollback-tag
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "DETERMINING ROLLBACK TAG"
+          echo "==============================================="
+
+          CURRENT_TAG="${{ steps.current-tag.outputs.current_tag }}"
+
+          echo "Current Tag : $CURRENT_TAG"
+          echo ""
+
+          TAGS=$(az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ env.APPLICATION_NAME }} \
+            --orderby time_desc \
+            --output tsv)
+
+          FOUND=false
+          ROLLBACK_TAG=""
+
+          while IFS= read -r TAG
+          do
+
+            if [ "$FOUND" = true ]; then
+              ROLLBACK_TAG="$TAG"
+              break
+            fi
+
+            if [ "$TAG" = "$CURRENT_TAG" ]; then
+              FOUND=true
+            fi
+
+          done <<< "$TAGS"
+
+          if [ -z "$ROLLBACK_TAG" ]; then
+            echo ""
+            echo "No previous image found."
+            exit 1
+          fi
+
+          echo ""
+          echo "Rollback Tag : $ROLLBACK_TAG"
+
+          echo "rollback_tag=$ROLLBACK_TAG" >> $GITHUB_OUTPUT
+
+      - name: Update Deployment Image
+        id: update-image
+        run: |
+
+          DEPLOYMENT_FILE="${{ env.DEPLOYMENT_FILE }}"
+
+          CURRENT_IMAGE="${{ steps.current-image.outputs.current_image }}"
+          ROLLBACK_TAG="${{ steps.rollback-tag.outputs.rollback_tag }}"
+
+          IMAGE_REPOSITORY="${CURRENT_IMAGE%:*}"
+          NEW_IMAGE="${IMAGE_REPOSITORY}:${ROLLBACK_TAG}"
+
+          echo ""
+          echo "==============================================="
+          echo "UPDATING DEPLOYMENT"
+          echo "==============================================="
+
+          echo "Current Image : $CURRENT_IMAGE"
+          echo "Rollback Image: $NEW_IMAGE"
+
+          sed -i "s|$CURRENT_IMAGE|$NEW_IMAGE|g" "$DEPLOYMENT_FILE"
+
+          echo ""
+          echo "Updated deployment.yaml"
+
+          grep "image:" "$DEPLOYMENT_FILE"
+
+          echo "new_image=$NEW_IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Verify Git Deployment File
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "VERIFYING GIT DEPLOYMENT FILE"
+          echo "==============================================="
+
+          grep "image:" "${{ env.DEPLOYMENT_FILE }}"
+
+      - name: Commit and Push Rollback
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "COMMITTING ROLLBACK"
+          echo "==============================================="
+
+          git status
+
+          git add "${{ env.DEPLOYMENT_FILE }}"
+
+          if git diff --cached --quiet; then
+            echo "No changes detected."
+            exit 1
+          fi
+
+          git commit -m "Rollback ${{ env.APPLICATION_NAME }} to ${{ steps.rollback-tag.outputs.rollback_tag }}"
+
+          git pull --rebase origin main
+
+          git push origin HEAD:main
+
+      - name: Wait for ArgoCD Sync
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "WAITING FOR ARGOCD SYNC"
+          echo "==============================================="
+
+          for i in {1..30}
+          do
+
+            SYNC_STATUS=$(kubectl get application \
+              ${{ env.APPLICATION_NAME }} \
+              -n argocd \
+              -o jsonpath='{.status.sync.status}')
+
+            HEALTH_STATUS=$(kubectl get application \
+              ${{ env.APPLICATION_NAME }} \
+              -n argocd \
+              -o jsonpath='{.status.health.status}')
+
+            echo "Attempt $i"
+            echo "Sync   : $SYNC_STATUS"
+            echo "Health : $HEALTH_STATUS"
+
+            if [ "$SYNC_STATUS" = "Synced" ] && [ "$HEALTH_STATUS" = "Healthy" ]; then
+              echo ""
+              echo "Application successfully rolled back."
+              exit 0
+            fi
+
+            sleep 10
+
+          done
+
+          echo ""
+          echo "Timed out waiting for ArgoCD."
+          exit 1
+
+      - name: Verify Rollback
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "VERIFYING ROLLBACK"
+          echo "==============================================="
+
+          RUNNING_IMAGE=$(kubectl get deployment \
+            ${{ env.APPLICATION_NAME }} \
+            -o jsonpath='{.spec.template.spec.containers[0].image}')
+
+          EXPECTED_IMAGE="${{ steps.update-image.outputs.new_image }}"
+
+          echo "Expected Image : $EXPECTED_IMAGE"
+          echo "Running Image  : $RUNNING_IMAGE"
+
+          if [ "$RUNNING_IMAGE" != "$EXPECTED_IMAGE" ]; then
+            echo ""
+            echo "Rollback verification failed."
+            exit 1
+          fi
+
+          echo ""
+          echo "Rollback verification successful."
+
+      - name: Rollback Summary
+        run: |
+
+          echo ""
+          echo "========================================================"
+          echo "GITOPS ROLLBACK COMPLETED SUCCESSFULLY"
+          echo "========================================================"
+
+          echo ""
+          echo "Application     : ${{ env.APPLICATION_NAME }}"
+          echo "Previous Image  : ${{ steps.current-image.outputs.current_image }}"
+          echo "Rollback Image  : ${{ steps.update-image.outputs.new_image }}"
+          echo "Rollback Tag    : ${{ steps.rollback-tag.outputs.rollback_tag }}"
+
+          echo ""
+          echo "Current Deployment:"
+          kubectl get deployment ${{ env.APPLICATION_NAME }}
+
+          echo ""
+          echo "Current Pods:"
+          kubectl get pods -l app=${{ env.APPLICATION_NAME }}
+          kubectl get pods --selector=app=${{ env.APPLICATION_NAME }}
 
           echo ""
           echo "========================================================"
