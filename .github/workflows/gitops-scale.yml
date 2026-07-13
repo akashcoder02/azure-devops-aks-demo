@@ -145,23 +145,27 @@ jobs:
 
           DESIRED=$(kubectl get deployment \
             ${{ env.APPLICATION_NAME }} \
-            -o jsonpath='{.status.replicas}')
+            -o jsonpath='{.status.replicas}' | xargs)
 
           READY=$(kubectl get deployment \
             ${{ env.APPLICATION_NAME }} \
-            -o jsonpath='{.status.readyReplicas}')
+            -o jsonpath='{.status.readyReplicas}' | xargs)
 
-          echo "Desired Replicas : $DESIRED"
-          echo "Ready Replicas   : $READY"
+          EXPECTED="${{ env.REPLICAS }}"
 
-          if [ "$DESIRED" != "${{ env.REPLICAS }}" ] || \
-            [ "$READY" != "${{ env.REPLICAS }}" ]; then
-            echo "Scaling verification failed."
-            exit 1
+          echo "Expected Replicas : '$EXPECTED'"
+          echo "Desired Replicas  : '$DESIRED'"
+          echo "Ready Replicas    : '$READY'"
+
+          if [[ "$DESIRED" == "$EXPECTED" && "$READY" == "$EXPECTED" ]]; then
+            echo ""
+            echo "Scaling verification successful."
+            exit 0
           fi
 
           echo ""
-          echo "Scaling verification successful."
+          echo "Scaling verification failed."
+          exit 1
 
       - name: Scale Summary
         run: |
