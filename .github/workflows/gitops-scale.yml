@@ -47,6 +47,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Print Workflow Inputs
+        run: |
+
+          echo "Application : ${{ github.event.inputs.application_name }}"
+          echo "Replicas    : ${{ github.event.inputs.replicas }}"
+
+          echo ""
+          echo "Environment Variable"
+
+          echo "REPLICAS=$REPLICAS"
+
       - name: Configure Git
         run: |
           git config user.name "github-actions"
