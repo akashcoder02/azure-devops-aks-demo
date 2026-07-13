@@ -299,6 +299,16 @@ jobs:
           echo "Timed out waiting for ArgoCD."
           exit 1
 
+      - name: Wait for Deployment Rollout
+        run: |
+
+          echo ""
+          echo "==============================================="
+          echo "WAITING FOR DEPLOYMENT ROLLOUT"
+          echo "==============================================="
+
+          kubectl rollout status deployment/${{ env.APPLICATION_NAME }} --timeout=300s
+
       - name: Verify Rollback
         run: |
 
