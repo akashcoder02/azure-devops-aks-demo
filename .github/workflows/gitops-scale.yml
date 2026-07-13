@@ -143,14 +143,19 @@ jobs:
       - name: Verify Scaling
         run: |
 
-          CURRENT=$(kubectl get deployment \
+          DESIRED=$(kubectl get deployment \
+            ${{ env.APPLICATION_NAME }} \
+            -o jsonpath='{.status.replicas}')
+
+          READY=$(kubectl get deployment \
             ${{ env.APPLICATION_NAME }} \
             -o jsonpath='{.status.readyReplicas}')
 
-          echo "Expected Replicas : ${{ env.REPLICAS }}"
-          echo "Ready Replicas    : $CURRENT"
+          echo "Desired Replicas : $DESIRED"
+          echo "Ready Replicas   : $READY"
 
-          if [ "$CURRENT" != "${{ env.REPLICAS }}" ]; then
+          if [ "$DESIRED" != "${{ env.REPLICAS }}" ] || \
+            [ "$READY" != "${{ env.REPLICAS }}" ]; then
             echo "Scaling verification failed."
             exit 1
           fi
