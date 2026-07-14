@@ -1,0 +1,118 @@
+name: Install Monitoring
+
+on:
+  workflow_dispatch:
+
+jobs:
+  install-monitoring:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Verify AKS Cluster
+        run: |
+          echo "Checking AKS Cluster..."
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Terraform Init
+        working-directory: terraform/addons/monitoring
+        run: terraform init
+
+      - name: Terraform Format Check
+        working-directory: terraform/addons/monitoring
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        working-directory: terraform/addons/monitoring
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: terraform/addons/monitoring
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        working-directory: terraform/addons/monitoring
+        run: terraform apply -auto-approve tfplan
+
+      - name: Wait for Monitoring Components
+        run: |
+          echo "Waiting for Grafana..."
+          kubectl rollout status deployment/kube-prometheus-stack-grafana -n monitoring --timeout=600s
+
+          echo "Waiting for Prometheus Operator..."
+          kubectl rollout status deployment/kube-prometheus-stack-operator -n monitoring --timeout=600s
+
+      - name: Verify Namespace
+        run: kubectl get namespace monitoring
+
+      - name: Verify Pods
+        run: kubectl get pods -n monitoring -o wide
+
+      - name: Verify Services
+        run: kubectl get svc -n monitoring
+
+      - name: Verify Deployments
+        run: kubectl get deployments -n monitoring
+
+      - name: Verify StatefulSets
+        run: kubectl get statefulsets -n monitoring
+
+      - name: Show Helm Release
+        run: helm list -n monitoring
+
+      - name: Installation Summary
+        run: |
+          echo ""
+          echo "===================================================="
+          echo "      MONITORING INSTALLATION SUCCESSFUL"
+          echo "===================================================="
+
+          echo ""
+          echo "Namespace"
+          kubectl get namespace monitoring
+
+          echo ""
+          echo "Helm Release"
+          helm list -n monitoring
+
+          echo ""
+          echo "Pods"
+          kubectl get pods -n monitoring
+
+          echo ""
+          echo "Services"
+          kubectl get svc -n monitoring
+
+          echo ""
+          echo "Deployments"
+          kubectl get deployments -n monitoring
+
+          echo ""
+          echo "StatefulSets"
+          kubectl get statefulsets -n monitoring
