@@ -31,6 +31,15 @@ on:
           - traditional
           - gitops
 
+        deployment_type:
+        description: "Deployment Type"
+        required: true
+        default: "default"
+        type: choice
+        options:
+          - default
+          - hpa
+
 jobs:
 
   build:
@@ -56,6 +65,8 @@ jobs:
       application_name: ${{ needs.build.outputs.application_name }}
       image_tag: ${{ needs.build.outputs.image_tag }}
       environment: ${{ github.event.inputs.environment }}
+      deployment_type: ${{ github.event.inputs.deployment_type }}
+
 
   gitops-deploy:
 
@@ -71,5 +82,6 @@ jobs:
       application_name: ${{ needs.build.outputs.application_name }}
       image_tag: ${{ needs.build.outputs.image_tag }}
       environment: ${{ github.event.inputs.environment }}
+      deployment_type: ${{ github.event.inputs.deployment_type }}
 
     

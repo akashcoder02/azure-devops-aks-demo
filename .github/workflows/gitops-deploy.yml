@@ -46,6 +46,10 @@ on:
         required: true
         type: string
 
+      deployment_type:
+        required: true
+        type: string
+
 env:
   APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
 
@@ -265,6 +269,7 @@ jobs:
           echo ""
           echo "Application : ${{ env.APPLICATION_NAME }}"
           echo "Image Tag   : ${{ env.IMAGE_TAG }}"
+          echo "Deployment  : ${{ inputs.deployment_type }}"
 
           echo ""
           echo "Argo CD Application"

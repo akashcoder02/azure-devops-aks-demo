@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: tic-tac-toe  
+        app: tic-tac-toe
 
     spec:
 
@@ -27,6 +27,15 @@ spec:
 
         ports:
         - containerPort: 5001
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
 
         volumeMounts:
         - name: secrets-store-inline
