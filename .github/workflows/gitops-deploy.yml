@@ -150,6 +150,34 @@ jobs:
 
           fi
 
+      - name: Configure Deployment Type
+        run: |
+
+          if [ "${{ inputs.deployment_type }}" = "hpa" ]; then
+
+            echo "========================================="
+            echo "HPA Deployment Selected"
+            echo "========================================="
+
+            cp \
+            gitops/addons/hpa/${{ env.APPLICATION_NAME }}.yaml \
+            gitops/applications/${{ env.APPLICATION_NAME }}/hpa.yaml
+
+            echo "HPA Manifest Enabled"
+
+          else
+
+            echo "========================================="
+            echo "Default Deployment Selected"
+            echo "========================================="
+
+            rm -f \
+            gitops/applications/${{ env.APPLICATION_NAME }}/hpa.yaml
+
+            echo "HPA Manifest Removed"
+
+          fi
+
       - name: Show Updated Manifests
         run: |
 
@@ -270,6 +298,12 @@ jobs:
           echo "Application : ${{ env.APPLICATION_NAME }}"
           echo "Image Tag   : ${{ env.IMAGE_TAG }}"
           echo "Deployment  : ${{ inputs.deployment_type }}"
+
+          if [ "${{ inputs.deployment_type }}" = "hpa" ]; then
+            echo "Autoscaling : Enabled"
+          else
+            echo "Autoscaling : Disabled"
+          fi
 
           echo ""
           echo "Argo CD Application"
