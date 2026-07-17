@@ -152,10 +152,9 @@ jobs:
 
       - name: Configure Deployment Mode
         run: |
+          chmod +x scripts/deployment/deployment-mode.sh
 
-          chmod +x scripts/deployment-mode.sh
-
-          ./scripts/deployment-mode.sh \
+          ./scripts/deployment/deployment-mode.sh \
             "${{ inputs.deployment_type }}" \
             "${{ env.APPLICATION_NAME }}"
 
