@@ -27,6 +27,15 @@ on:
           - development
           - production
 
+      deployment_type:
+        description: "Deployment Type"
+        required: true
+        default: "default"
+        type: choice
+        options:
+          - default
+          - hpa
+
   workflow_call:
 
     inputs:
@@ -43,6 +52,11 @@ on:
 
       environment:
         description: "Environment"
+        required: true
+        type: string
+
+      deployment_type:
+        description: "Deployment Type"
         required: true
         type: string
 
