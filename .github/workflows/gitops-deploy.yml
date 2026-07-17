@@ -150,33 +150,14 @@ jobs:
 
           fi
 
-      - name: Configure Deployment Type
+      - name: Configure Deployment Mode
         run: |
 
-          if [ "${{ inputs.deployment_type }}" = "hpa" ]; then
+          chmod +x scripts/deployment-mode.sh
 
-            echo "========================================="
-            echo "HPA Deployment Selected"
-            echo "========================================="
-
-            cp \
-            gitops/addons/hpa/${{ env.APPLICATION_NAME }}.yaml \
-            gitops/applications/${{ env.APPLICATION_NAME }}/hpa.yaml
-
-            echo "HPA Manifest Enabled"
-
-          else
-
-            echo "========================================="
-            echo "Default Deployment Selected"
-            echo "========================================="
-
-            rm -f \
-            gitops/applications/${{ env.APPLICATION_NAME }}/hpa.yaml
-
-            echo "HPA Manifest Removed"
-
-          fi
+          ./scripts/deployment-mode.sh \
+            "${{ inputs.deployment_type }}" \
+            "${{ env.APPLICATION_NAME }}"
 
       - name: Show Updated Manifests
         run: |
