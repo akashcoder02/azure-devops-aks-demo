@@ -31,7 +31,7 @@ on:
           - traditional
           - gitops
 
-        deployment_type:
+      deployment_type:
         description: "Deployment Type"
         required: true
         default: "default"
