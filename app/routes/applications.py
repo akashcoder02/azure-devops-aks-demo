@@ -1,6 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, render_template
 from services.application_job_manager import run
 from services.script_runner import run_script
+from services.applications import applications_service
 
 applications = Blueprint("applications", __name__)
 
@@ -10,6 +11,15 @@ ALLOWED_ACTIONS = {
     "undeploy"
 }
 
+@applications.route("/applications")
+def applications_page():
+
+    apps = applications_service.get_applications()
+
+    return render_template(
+        "applications.html",
+        applications=apps
+    )
 
 @applications.route("/api/applications/<app_name>/<action>", methods=["POST"])
 def execute(app_name, action):

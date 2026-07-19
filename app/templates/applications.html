@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}
+Applications
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>📦 Applications</h1>
+
+    <p class="subtitle">
+        Manage running applications and deploy new releases.
+    </p>
+
+</div>
+
+
+<h2 class="section-title">
+
+    Running Applications
+
+</h2>
+
+
+<div class="applications-grid">
+
+{% for app in applications %}
+
+<div class="application-card">
+
+    <div class="card-top">
+
+        <h3>
+
+            {{ app.icon }} {{ app.name }}
+
+        </h3>
+
+        <span class="running">
+
+            ● {{ app.status }}
+
+        </span>
+
+    </div>
+
+    <hr>
+
+    <div class="app-details">
+
+        <p>
+
+            <strong>Namespace</strong>
+
+            {{ app.namespace }}
+
+        </p>
+
+        <p>
+
+            <strong>Deployment</strong>
+
+            {{ app.deployment }}
+
+        </p>
+
+        <p>
+
+            <strong>Pods</strong>
+
+            {{ app.pods }}
+
+        </p>
+
+        <p>
+
+            <strong>HPA</strong>
+
+            {{ app.hpa }}
+
+        </p>
+
+    </div>
+
+    <div class="card-actions">
+
+        <button class="secondary-btn">
+
+            Open
+
+        </button>
+
+        <button
+            class="primary-btn release-btn"
+            data-app="{{ app.name }}">
+
+            🚀 Release Application
+
+        </button>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<!-- Release Modal -->
+
+<div id="releaseModal" class="modal">
+
+    <div class="modal-content">
+
+        <span class="close">&times;</span>
+
+        <h2>🚀 Release Application</h2>
+
+        <div class="release-section">
+
+            <h3>Application</h3>
+
+            <select id="application">
+
+                {% for app in applications %}
+
+                <option value="{{ app.name }}">
+                    {{ app.icon }} {{ app.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="release-section">
+
+            <h3>Environment</h3>
+
+            <div class="choice-grid">
+
+                <div class="choice-card selected"
+                     data-type="environment"
+                     data-value="development">
+
+                    🟢 Development
+
+                </div>
+
+                <div class="choice-card"
+                     data-type="environment"
+                     data-value="production">
+
+                    🔴 Production
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="release-section">
+
+            <h3>Deployment Strategy</h3>
+
+            <div class="choice-grid">
+
+                <div class="choice-card selected"
+                     data-type="strategy"
+                     data-value="gitops">
+
+                    ☸ GitOps
+
+                </div>
+
+                <div class="choice-card"
+                     data-type="strategy"
+                     data-value="traditional">
+
+                    🚀 Traditional
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="release-section">
+
+            <h3>Deployment Type</h3>
+
+            <div class="choice-grid">
+
+                <div class="choice-card selected"
+                     data-type="deployment_type"
+                     data-value="default">
+
+                    📦 Default
+
+                </div>
+
+                <div class="choice-card"
+                     data-type="deployment_type"
+                     data-value="hpa">
+
+                    ⚡ HPA
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <button class="primary-btn">
+
+            🚀 Release Application
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/applications.js') }}"></script>
+
+{% endblock %}
