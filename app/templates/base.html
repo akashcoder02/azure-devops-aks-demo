@@ -34,6 +34,9 @@
     <link rel="stylesheet"
       href="{{ url_for('static', filename='css/release_status.css') }}">
 
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/deployment_history.css') }}">
+
 
 </head>
 
@@ -92,6 +95,11 @@
 
 <script src="{{ url_for('static', filename='js/release_status.js') }}"></script>
 
+<script src="{{ url_for('static', filename='js/deployment_history.js') }}"></script>
+
+{% block scripts %}{% endblock %}
+
 </body>
 
 </html>
+

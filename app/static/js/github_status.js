@@ -23,10 +23,48 @@ async function refreshWorkflowStatus(){
 
     }
 
-    document.getElementById("workflowBadge").innerHTML = `
-        ${emoji} ${data.status}<br>
-        ${data.workflow}<br>
-        ${data.branch}
+    document.getElementById(
+        "workflowBadge-" + data.application
+    ).innerHTML = `
+
+    <div class="workflow-card">
+
+    <div class="status-badge">
+    ${emoji} ${data.status.toUpperCase()}
+    </div>
+
+    <div class="workflow-info">
+
+    <div>
+    <strong>Workflow</strong>
+    ${data.workflow}
+    </div>
+
+    <div>
+    <strong>Branch</strong>
+    ${data.branch}
+    </div>
+
+    <div>
+    <strong>Run</strong>
+    #${data.run_number}
+    </div>
+
+    <div>
+    <strong>Started</strong>
+    ${new Date(data.created_at).toLocaleString()}
+    </div>
+
+    <a href="${data.url}" target="_blank">
+
+    🔗 View Workflow
+
+    </a>
+
+    </div>
+
+    </div>
+
     `;
 
 }

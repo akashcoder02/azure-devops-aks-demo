@@ -59,7 +59,10 @@ class GitHubStatusService:
             "url": run["html_url"],
             "application": "-",
             "environment": "-",
-            "strategy": "-"
+            "strategy": "-",
+            "created_at": run["created_at"],
+            "updated_at": run["updated_at"],
+            "run_number": run["run_number"],
         }
 
 

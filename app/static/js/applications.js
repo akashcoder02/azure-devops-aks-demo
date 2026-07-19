@@ -1,4 +1,7 @@
+console.log("applications.js loaded");
+
 const modal = document.getElementById("releaseModal");
+console.log(modal);
 
 const closeButton = document.querySelector(".close");
 
@@ -58,6 +61,7 @@ const releaseButton =
     document.querySelector(".modal .primary-btn");
 
 releaseButton.addEventListener("click", async () => {
+    console.log("Release button clicked");
 
     const payload = {
 

@@ -86,33 +86,21 @@ Applications
 
     <div class="card-actions">
 
+        <div class="button-grid">
+
         <button class="secondary-btn">
 
-            Open
+        🌐 Open
 
         </button>
 
         <button
-            class="primary-btn release-btn"
-            data-app="{{ app.name }}">
+        class="primary-btn release-btn"
+        data-app="{{ app.name }}">
 
-            🚀 Release Application
+        🚀 Release
 
         </button>
-
-        <hr>
-
-        <div id="workflow-status">
-
-            Latest Workflow
-
-            <br><br>
-
-            <span id="workflowBadge">
-
-                No deployments
-
-            </span>
 
         </div>
 
@@ -243,7 +231,25 @@ Applications
 
 </div>
 
+<div class="history-section">
+
+    <h2>
+
+        Deployment History
+
+    </h2>
+
+    <div id="deploymentHistory">
+
+        Loading deployment history...
+
+    </div>
+
+</div>
+
+{% include "release_status_modal.html" %}
+
+<script src="{{ url_for('static', filename='js/deployment_history.js') }}"></script>
 <script src="{{ url_for('static', filename='js/applications.js') }}"></script>
 
 {% endblock %}
-{% include "release_status_modal.html" %}
