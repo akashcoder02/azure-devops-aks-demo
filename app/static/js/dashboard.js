@@ -4,18 +4,16 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    loadPlatformStatus();
-
+    // Initial Load
+    loadDashboard();
     loadJobStatus();
 
-    setInterval(loadPlatformStatus, 5000);
-
-    setInterval(loadJobStatus, 1000);
-
+    // Button Events
     bindButtons();
-    loadApplicationStatus();
 
-    setInterval(loadApplicationStatus, 5000);
+    // Auto Refresh
+    setInterval(loadDashboard, 5000);
+    setInterval(loadJobStatus, 1000);
 
 });
 
@@ -139,6 +137,16 @@ function updateStatus(id, status) {
             element.classList.add("running");
             break;
 
+        case "HEALTHY":
+            element.innerHTML = "🟢 Healthy";
+            element.classList.add("running");
+            break;
+
+        case "AVAILABLE":
+            element.innerHTML = "🟢 Available";
+            element.classList.add("running");
+            break;
+
         case "STOPPED":
             element.innerHTML = "🔴 Stopped";
             element.classList.add("stopped");
@@ -147,6 +155,21 @@ function updateStatus(id, status) {
         case "NOT_CONNECTED":
             element.innerHTML = "🔴 Not Connected";
             element.classList.add("stopped");
+            break;
+
+        case "UNAVAILABLE":
+            element.innerHTML = "🔴 Unavailable";
+            element.classList.add("stopped");
+            break;
+
+        case "DEGRADED":
+            element.innerHTML = "🟡 Degraded";
+            element.classList.add("warning");
+            break;
+
+        case "NOT CONFIGURED":
+            element.innerHTML = "⚪ Not Configured";
+            element.classList.add("unknown");
             break;
 
         default:
@@ -184,7 +207,7 @@ async function loadPlatformStatus() {
     document.getElementById("pod-count").innerText =
         data.PODS || "0";
 
-    document.getElementById("platform-summary").innerText =
+    document.getElementById("platform-summary").innerHTML =
         data.CLUSTER || "Offline";
 
     console.log("AKS Status =", data.AKS);
@@ -325,3 +348,208 @@ function updateClock() {
 setInterval(updateClock, 1000);
 
 updateClock();
+
+async function loadMonitoringStatus() {
+
+    const response = await fetch("/api/monitoring");
+
+    const data = await response.json();
+
+    updateStatus("prometheus-status", data.prometheus);
+
+    updateStatus("grafana-status", data.grafana);
+
+}
+
+async function loadLoggingStatus() {
+
+    const response = await fetch("/api/logging");
+
+    const data = await response.json();
+
+    updateStatus("fluentbit-status", data.fluentbit);
+
+    updateStatus("loki-status", data.loki);
+
+}
+
+async function loadInfrastructureStatus() {
+
+    const response = await fetch("/api/infrastructure/status");
+
+    const data = await response.json();
+
+    document.getElementById("node-count").innerText =
+        data.nodes;
+
+    document.getElementById("pod-count").innerText =
+        data.pods;
+
+    updateText("hpa-status", data.hpa);
+
+    
+
+    document.getElementById("platform-summary").innerHTML =
+        `${data.deployments} Deployments • ${data.services} Services`;
+
+}
+
+function updateText(id, value){
+
+    const element = document.getElementById(id);
+
+    if(element){
+
+        element.innerHTML = value;
+
+    }
+
+}
+
+
+async function loadGitOpsStatus() {
+
+    updateStatus("argocd-status", "Running");
+
+    updateText("argocd-autosync", "Enabled");
+
+    updateText("argocd-last-sync", "Auto");
+
+}
+
+async function loadHPAStatus() {
+
+    const response = await fetch("/api/infrastructure/status");
+
+    const data = await response.json();
+
+    updateText("hpa-status", data.hpa);
+
+}
+
+async function loadDeploymentHistory() {
+
+    const tbody = document.getElementById("deployment-history");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = `
+        <tr>
+            <td>Tic Tac Toe</td>
+            <td>Latest</td>
+            <td>Running</td>
+            <td>${new Date().toLocaleString()}</td>
+        </tr>
+    `;
+
+}
+
+async function loadPlatformHealth() {
+
+    const response = await fetch("/api/infrastructure/status");
+
+    const data = await response.json();
+
+    let score = 100;
+
+    if (data.cluster !== "Running") {
+        score = 0;
+    }
+
+    updateText("health-score", score + "%");
+
+}
+
+async function loadDashboard() {
+
+    const response = await fetch("/api/dashboard");
+
+    const data = await response.json();
+
+    // Platform
+    updateStatus("platform-status", data.platform_health.status);
+    updateText("platform-summary", data.platform_health.summary);
+
+    // Infrastructure
+    updateStatus("azure-status", data.infrastructure.azure);
+    updateStatus("aks-status", data.infrastructure.aks.status);
+    updateStatus("acr-status", data.infrastructure.acr.status);
+    updateStatus("keyvault-status", data.infrastructure.key_vault.status);
+
+    updateText("node-count", data.kubernetes.nodes.total);
+    updateText("pod-count", data.kubernetes.pods.total);
+
+    // Monitoring
+    updateStatus("prometheus-status", data.observability.prometheus.status);
+    updateStatus("grafana-status", data.observability.grafana.status);
+
+    // Logging
+    updateStatus("fluentbit-status", data.observability.fluent_bit.status);
+    updateStatus("loki-status", data.observability.loki.status);
+
+    // Applications
+    if (data.applications.length > 0) {
+
+        const tic = data.applications[0];
+
+        updateStatus("tic-status", tic.health);
+        updateText("tic-pods", tic.pods.running + "/" + tic.pods.total);
+        updateText("tic-replicas", tic.replicas.ready + "/" + tic.replicas.desired);
+        updateText("tic-hpa", tic.hpa.status);
+
+    }
+
+    if (data.applications.length > 1) {
+
+        const tetris = data.applications[1];
+
+        updateStatus("tetris-status", tetris.health);
+        updateText("tetris-pods", tetris.pods.running + "/" + tetris.pods.total);
+        updateText("tetris-replicas", tetris.replicas.ready + "/" + tetris.replicas.desired);
+        updateText("tetris-hpa", tetris.hpa.status);
+
+    }
+
+    // GitOps
+    if (data.gitops.length > 0) {
+
+        updateStatus("argocd-status", data.gitops[0].health);
+
+        updateText(
+            "argocd-autosync",
+            data.gitops[0].auto_sync ? "Enabled" : "Disabled"
+        );
+
+        updateText(
+            "argocd-last-sync",
+            data.gitops[0].last_sync
+        );
+
+    }
+
+    // Platform Health
+    updateText("health-score", data.platform_health.status);
+
+    // Deployment History
+    const tbody = document.getElementById("deployment-history");
+
+    if (tbody) {
+
+        tbody.innerHTML = "";
+
+        data.deployment_history.forEach(item => {
+
+            tbody.innerHTML += `
+            <tr>
+                <td>${item.Application}</td>
+                <td>${item.Image}</td>
+                <td>${item.Status}</td>
+                <td>${item.Timestamp}</td>
+            </tr>
+            `;
+
+        });
+
+    }
+
+}

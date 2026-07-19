@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+ArgoCD Status
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2>ArgoCD Status</h2>
+    <p>GitOps application overview and synchronization status.</p>
+</div>
+
+<div class="summary">
+
+    <div class="card">
+        <h3>Server</h3>
+        <p>{{ status.server }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Version</h3>
+        <p>{{ status.version }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Applications</h3>
+        <p>{{ status.applications|length }}</p>
+    </div>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Application</th>
+            <th>Namespace</th>
+            <th>Sync Status</th>
+            <th>Health</th>
+            <th>Revision</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for app in status.applications %}
+
+        <tr>
+
+            <td>{{ app.name }}</td>
+
+            <td>{{ app.namespace }}</td>
+
+            <td>{{ app.sync }}</td>
+
+            <td>{{ app.health }}</td>
+
+            <td>{{ app.revision }}</td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

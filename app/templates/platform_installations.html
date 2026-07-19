@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Platform Installations{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>🧩 Platform Installations</h1>
+
+    <p class="subtitle">
+        Install and manage platform components running on AKS.
+    </p>
+
+</div>
+
+<div class="card-grid">
+
+    <!-- ArgoCD -->
+
+    <div class="card">
+
+        <h3>🧩 ArgoCD</h3>
+
+        <p class="running">🟢 Installed</p>
+
+        <hr>
+
+        <small>
+            Namespace : {{ installations.argocd.namespace }}<br>
+            Version : {{ installations.argocd.version }}<br>
+            Applications : 2
+        </small>
+
+        <div class="button-grid">
+
+            <button class="install-btn">
+                Install
+            </button>
+
+            <button class="uninstall-btn">
+                Uninstall
+            </button>
+
+            <a href="{{ url_for('argocd.argocd_status') }}">
+                <button>Status</button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Monitoring -->
+
+    <div class="card">
+
+        <h3>📊 Monitoring</h3>
+
+        <p class="running">🟢 Installed</p>
+
+        <hr>
+
+        <small>
+            Namespace : {{ installations.monitoring.namespace }}<br>
+            Stack : {{ installations.monitoring.version }}
+        </small>
+
+        <div class="button-grid">
+
+            <button class="install-btn">
+                Install
+            </button>
+
+            <button class="uninstall-btn">
+                Uninstall
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Logging -->
+
+    <div class="card">
+
+        <h3>📝 Logging</h3>
+
+        <p class="running">🟢 Installed</p>
+
+        <hr>
+
+        <small>
+            Namespace : {{ installations.logging.namespace }}<br>
+            Stack : {{ installations.logging.version }}
+        </small>
+
+        <div class="button-grid">
+
+            <button class="install-btn">
+                Install
+            </button>
+
+            <button class="uninstall-btn">
+                Uninstall
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

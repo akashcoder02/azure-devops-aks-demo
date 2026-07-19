@@ -6,39 +6,91 @@
 
 <div class="dashboard-header">
 
-    <h1>Application Deployment Engine - IDP version 5</h1>
+    <h1>Azure Internal Developer Platform</h1>
 
     <p class="subtitle">
-        Build • Deploy • Monitor • Operate Kubernetes from one place
+        Provision • Deploy • Observe • Operate • Scale Kubernetes Applications
     </p>
 
 </div>
 
+<!-- ====================================================== -->
+<!-- PLATFORM SUMMARY -->
+<!-- ====================================================== -->
+
+<h2>Platform Summary</h2>
+
 <div class="card-grid">
 
     <div class="card">
+        <h3>🟢 Platform</h3>
+        <p id="platform-status">Unknown</p>
+        <small id="platform-summary">Waiting...</small>
+    </div>
 
-    <h3>🟢 Platform</h3>
+    <div class="card">
+        <h3>☁ Azure</h3>
+        <p id="azure-status">Unknown</p>
+    </div>
 
-    <p id="platform-status">Unknown</p>
+    <div class="card">
+        <h3>☸ AKS</h3>
 
-    <small id="platform-summary">
-        Waiting...
-    </small>
+        <p id="aks-status">Unknown</p>
 
+        <small>
+            Nodes :
+            <span id="node-count">0</span>
+        </small>
+
+        <br>
+
+        <small>
+            Pods :
+            <span id="pod-count">0</span>
+        </small>
+
+    </div>
+
+    <div class="card">
+        <h3>📦 Applications</h3>
+        <p>2</p>
+        <small>Tic Tac Toe & Tetris</small>
+    </div>
+
+    <div class="card">
+        <h3>⚙ GitOps</h3>
+        <p id="argocd-status">Checking...</p>
+    </div>
+
+    <div class="card">
+        <h3>📊 Monitoring</h3>
+        <p id="monitoring-status">Checking...</p>
+    </div>
+
+    <div class="card">
+        <h3>📜 Logging</h3>
+        <p id="logging-status">Checking...</p>
+    </div>
+
+    <div class="card">
+        <h3>🔥 HPA</h3>
+        <p id="hpa-status">Checking...</p>
     </div>
 
 </div>
 
-<!-- Infrastructure -->
+<!-- ====================================================== -->
+<!-- INFRASTRUCTURE -->
+<!-- ====================================================== -->
 
-<!-- ================= Services ================= -->
+<h2>Infrastructure Overview</h2>
 
 <div class="card-grid">
 
     <div class="card">
         <h3>☁ Azure</h3>
-        <p id="azure-status">Unknown</p>
+        <p id="azure-status-card">Connected</p>
     </div>
 
     <div class="card">
@@ -57,56 +109,26 @@
     </div>
 
     <div class="card">
-
-        <h3>☸ Kubernetes</h3>
-
-        <p id="aks-status">Unknown</p>
-
-        <small>
-            Nodes:
-            <span id="node-count">0</span>
-        </small>
-
-        <br>
-
-        <small>
-            Pods:
-            <span id="pod-count">0</span>
-        </small>
-
+        <h3>🔐 Key Vault</h3>
+        <p id="keyvault-status">Checking...</p>
     </div>
 
     <div class="card">
-        <h3>📊 Prometheus</h3>
-        <p id="prometheus-status">Checking...</p>
-    </div>
-
-    <div class="card">
-        <h3>📈 Grafana</h3>
-        <p id="grafana-status">Checking...</p>
+        <h3>🗄 Terraform Backend</h3>
+        <p id="backend-status">Connected</p>
     </div>
 
 </div>
 
-<h2>Platform Operations</h2>
-
-<div class="button-grid">
-
-    <button id="start-btn">🚀 Start Platform</button>
-
-    <button id="stop-btn">🛑 Stop Platform</button>
-
-    <button id="doctor-btn">❤️ Health Check</button>
-
-    <button id="deploy-btn">📦 Deploy Application</button>
-
-    <button id="logs-btn">📜 View Logs</button>
-
-</div>
+<!-- ====================================================== -->
+<!-- APPLICATIONS -->
+<!-- ====================================================== -->
 
 <h2>Applications</h2>
 
 <div class="card-grid">
+
+    <!-- Tic Tac Toe -->
 
     <div class="card">
 
@@ -120,10 +142,18 @@
             Ready to deploy
         </small>
 
+        <hr>
+
+        <p><strong>Pods:</strong> <span id="tic-pods">-</span></p>
+
+        <p><strong>Replicas:</strong> <span id="tic-replicas">-</span></p>
+
+        <p><strong>HPA:</strong> <span id="tic-hpa">-</span></p>
+
         <div class="button-grid">
 
             <button id="tic-open-btn" disabled>
-    🌐              Open Application
+                🌐 Open
             </button>
 
             <button id="tic-deploy-btn">
@@ -142,46 +172,360 @@
 
     </div>
 
+    <!-- Tetris -->
+
+    <div class="card">
+
+        <h3>🧱 Tetris</h3>
+
+        <p id="tetris-status" class="unknown">
+            Not Deployed
+        </p>
+
+        <small id="tetris-summary">
+            Ready to deploy
+        </small>
+
+        <hr>
+
+        <p><strong>Pods:</strong> <span id="tetris-pods">-</span></p>
+
+        <p><strong>Replicas:</strong> <span id="tetris-replicas">-</span></p>
+
+        <p><strong>HPA:</strong> <span id="tetris-hpa">-</span></p>
+
+        <div class="button-grid">
+
+            <button id="tetris-open-btn" disabled>
+                🌐 Open
+            </button>
+
+            <button id="tetris-deploy-btn">
+                🚀 Deploy
+            </button>
+
+            <button id="tetris-status-btn">
+                📊 Status
+            </button>
+
+            <button id="tetris-undeploy-btn">
+                🗑 Undeploy
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
-<h2>Current Job</h2>
+<!-- ====================================================== -->
+<!-- PLATFORM OPERATIONS -->
+<!-- ====================================================== -->
+
+<h2>Platform Operations</h2>
+
+<div class="button-grid">
+
+    <button id="start-btn">
+        🚀 Start Platform
+    </button>
+
+    <button id="stop-btn">
+        🛑 Stop Platform
+    </button>
+
+    <button id="doctor-btn">
+        ❤️ Platform Doctor
+    </button>
+
+    <button id="deploy-btn">
+        📦 Deploy Application
+    </button>
+
+    <button id="logs-btn">
+        📜 Platform Logs
+    </button>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- DEPLOYMENT HISTORY -->
+<!-- ====================================================== -->
+
+<h2>Deployment History</h2>
+
+<div class="card">
+
+    <table class="deployment-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Image</th>
+
+                <th>Status</th>
+
+                <th>Time</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="deployment-history">
+
+            <tr>
+
+                <td colspan="4">
+
+                    Waiting for deployment history...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- GITOPS -->
+<!-- ====================================================== -->
+
+<h2>GitOps</h2>
 
 <div class="card-grid">
 
     <div class="card">
 
-        <h3>Job Status</h3>
+        <h3>⚙️ ArgoCD</h3>
 
-        <p id="job-status">Idle</p>
+        <p id="argocd-status">
+            Checking...
+        </p>
+
+        <small>
+            Auto Sync:
+            <span id="argocd-autosync">Enabled</span>
+        </small>
+
+        <br>
+
+        <small>
+            Last Sync:
+            <span id="argocd-last-sync">-</span>
+        </small>
 
     </div>
 
     <div class="card">
 
-        <h3>Current Script</h3>
+        <h3>📦 Applications</h3>
 
-        <p id="job-script">None</p>
+        <p id="argocd-apps">
+            2
+        </p>
+
+        <small>
+            GitOps Managed
+        </small>
 
     </div>
 
 </div>
 
-<h2 id="clock"></h2>
+<!-- ====================================================== -->
+<!-- MONITORING -->
+<!-- ====================================================== -->
 
-<h2>Live Platform Terminal</h2>
+<h2>Monitoring</h2>
 
-<div class="terminal-header">
+<div class="card-grid">
 
-    <span class="dot red"></span>
-    <span class="dot yellow"></span>
-    <span class="dot green"></span>
+    <div class="card">
+
+        <h3>📊 Prometheus</h3>
+
+        <p id="prometheus-status">
+            Checking...
+        </p>
+
+        <small>
+            Targets:
+            <span id="prometheus-targets">-</span>
+        </small>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📈 Grafana</h3>
+
+        <p id="grafana-status">
+            Checking...
+        </p>
+
+        <small>
+            Dashboards:
+            <span id="grafana-dashboards">-</span>
+        </small>
+
+    </div>
 
 </div>
 
-<pre id="terminal" class="terminal">
+<!-- ====================================================== -->
+<!-- LOGGING -->
+<!-- ====================================================== -->
 
-Waiting for platform commands...
+<h2>Logging</h2>
 
-</pre>
+<div class="card-grid">
+
+    <div class="card">
+
+        <h3>📜 Fluent Bit</h3>
+
+        <p id="fluentbit-status">
+            Checking...
+        </p>
+
+        <small>
+            DaemonSet
+        </small>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🗄️ Loki</h3>
+
+        <p id="loki-status">
+            Checking...
+        </p>
+
+        <small>
+            StatefulSet
+        </small>
+
+    </div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- AUTOSCALING -->
+<!-- ====================================================== -->
+
+<h2>Autoscaling</h2>
+
+<div class="card-grid">
+
+    <div class="card">
+
+        <h3>🔥 Horizontal Pod Autoscaler</h3>
+
+        <p id="hpa-status">
+            Checking...
+        </p>
+
+        <small>
+
+            Current Replicas:
+            <span id="hpa-current">-</span>
+
+        </small>
+
+        <br>
+
+        <small>
+
+            CPU Target:
+            <span id="hpa-cpu">70%</span>
+
+        </small>
+
+    </div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- PLATFORM HEALTH -->
+<!-- ====================================================== -->
+
+<h2>Platform Health</h2>
+
+<div class="card-grid">
+
+    <div class="card">
+
+        <h3>💚 Overall Health</h3>
+
+        <p id="health-score">
+
+            98%
+
+        </p>
+
+        <small>
+
+            Platform Healthy
+
+        </small>
+
+    </div>
+
+    <div class="card">
+
+        <h3>✅ Component Status</h3>
+
+        <ul class="health-list">
+
+            <li>AKS</li>
+
+            <li>ArgoCD</li>
+
+            <li>Prometheus</li>
+
+            <li>Grafana</li>
+
+            <li>Fluent Bit</li>
+
+            <li>Loki</li>
+
+            <li>Applications</li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- AI PLATFORM DOCTOR -->
+<!-- ====================================================== -->
+
+<h2>🤖 AI Platform Doctor</h2>
+
+<div class="card">
+
+    <h3>AI Assisted Platform Diagnostics</h3>
+
+    <p>
+
+        Coming in Version 2.0
+
+    </p>
+
+    <button disabled>
+
+        Run AI Platform Doctor
+
+    </button>
+
+</div>
 
 {% endblock %}

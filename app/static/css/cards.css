@@ -44,13 +44,6 @@
 
 }
 
-.card p{
-
-    font-size:16px;
-
-    font-weight:bold;
-
-}
 
 .running{
     color:#22c55e !important;
@@ -97,3 +90,86 @@
     font-weight:bold;
     color:inherit;
 }
+
+/* ==========================================
+   Platform Tables
+========================================== */
+
+.deployment-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+.deployment-table th{
+
+    background:#374151;
+
+    color:#fff;
+
+    padding:12px;
+
+    text-align:left;
+
+}
+
+.deployment-table td{
+
+    padding:12px;
+
+    border-top:1px solid #374151;
+
+}
+
+/* ==========================================
+   Health List
+========================================== */
+
+.health-list{
+
+    padding-left:18px;
+
+    margin-top:10px;
+
+}
+
+.health-list li{
+
+    margin-bottom:8px;
+
+    color:#d1d5db;
+
+}
+
+/* ==========================================
+   Horizontal Rule
+========================================== */
+
+.card hr{
+
+    border:none;
+
+    border-top:1px solid #374151;
+
+    margin:15px 0;
+
+}
+
+
+.platform-grid .card{
+    width:100%;
+}
+
+.platform-grid{
+    grid-template-columns:1fr;
+}
+
+.platform-card{
+    margin-bottom:30px;
+}
+
+.card-grid:first-of-type{
+    grid-template-columns:1fr;
+}
+
+

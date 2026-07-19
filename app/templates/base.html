@@ -15,6 +15,18 @@
 
     <link rel="stylesheet"
       href="{{ url_for('static', filename='css/cards.css') }}">
+
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/infrastructure.css') }}">
+
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/platform_installations.css') }}">
+
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/argocd.css') }}">
 </head>
 
 <body>
@@ -28,6 +40,15 @@
     <li><a href="/">🏠 Dashboard</a></li>
 
     <li><a href="/platform">🚀 Platform</a></li>
+
+    <li>
+        <a href="{{ url_for('platform_installations.platform_installations') }}">
+            
+           🧩 <span> Platform Installations</span>
+        </a>
+    </li>
+
+    
 
     <li><a href="/applications">📦 Applications</a></li>
 
@@ -54,6 +75,10 @@
     </div>
 
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/platform_installations.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/argocd.js') }}"></script>
 
 </body>
 

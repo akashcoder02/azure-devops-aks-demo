@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Platform Installations{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2>🧩 Platform Installations</h2>
+    <p>Manage platform components installed on your AKS cluster.</p>
+</div>
+
+<div class="platform-grid">
+
+    <!-- ArgoCD -->
+    <div class="platform-card">
+
+        <div class="card-header">
+            <h3>🧩 ArgoCD</h3>
+            <span class="status installed">🟢 Installed</span>
+        </div>
+
+        <p>GitOps Continuous Delivery Platform</p>
+
+        <div class="details">
+            <div><strong>Namespace</strong><span>{{ installations.argocd.namespace }}</span></div>
+            <div><strong>Version</strong><span>{{ installations.argocd.version }}</span></div>
+            <div><strong>Applications</strong><span>2</span></div>
+        </div>
+
+        <div class="actions">
+
+            <button class="btn install-btn">Install</button>
+
+            <button class="btn uninstall-btn">Uninstall</button>
+
+            <a href="{{ url_for('argocd.argocd_status') }}">
+                <button class="btn status-btn">
+                    Status
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Monitoring -->
+
+    <div class="platform-card">
+
+        <div class="card-header">
+            <h3>📊 Monitoring</h3>
+            <span class="status installed">🟢 Installed</span>
+        </div>
+
+        <p>Prometheus + Grafana</p>
+
+        <div class="details">
+
+            <div><strong>Namespace</strong><span>{{ installations.monitoring.namespace }}</span></div>
+
+            <div><strong>Stack</strong><span>{{ installations.monitoring.version }}</span></div>
+
+        </div>
+
+        <div class="actions">
+
+            <button class="btn install-btn">Install</button>
+
+            <button class="btn uninstall-btn">Uninstall</button>
+
+        </div>
+
+    </div>
+
+    <!-- Logging -->
+
+    <div class="platform-card">
+
+        <div class="card-header">
+            <h3>📝 Logging</h3>
+            <span class="status installed">🟢 Installed</span>
+        </div>
+
+        <p>Fluent Bit + Loki</p>
+
+        <div class="details">
+
+            <div><strong>Namespace</strong><span>{{ installations.logging.namespace }}</span></div>
+
+            <div><strong>Stack</strong><span>{{ installations.logging.version }}</span></div>
+
+        </div>
+
+        <div class="actions">
+
+            <button class="btn install-btn">Install</button>
+
+            <button class="btn uninstall-btn">Uninstall</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

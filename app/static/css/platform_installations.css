@@ -1,0 +1,38 @@
+.install-btn{
+
+    background:#16a34a !important;
+
+}
+
+.install-btn:hover{
+
+    background:#15803d !important;
+
+}
+
+.uninstall-btn{
+
+    background:#dc2626 !important;
+
+}
+
+.uninstall-btn:hover{
+
+    background:#b91c1c !important;
+
+}
+
+.status-btn{
+    display:block;
+    text-align:center;
+    background:#2563eb;
+    color:white;
+    padding:18px;
+    border-radius:10px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.status-btn:hover{
+    background:#1d4ed8;
+}
