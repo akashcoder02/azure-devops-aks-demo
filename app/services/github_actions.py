@@ -36,6 +36,9 @@ class GitHubActionsService:
             }
         }
 
+        print("URL:", url)
+        print("Payload:", payload)
+
         response = requests.post(
             url,
             headers=headers,
@@ -48,6 +51,11 @@ class GitHubActionsService:
                 "success": True,
                 "message": "Workflow started successfully."
             }
+
+        print("=" * 60)
+        print("Status Code:", response.status_code)
+        print("Response:", response.text)
+        print("=" * 60)
 
         return {
             "success": False,
