@@ -95,6 +95,29 @@ releaseButton.addEventListener("click", async () => {
 
     const result = await response.json();
 
-    alert(result.message);
+    if(result.success){
+
+        modal.style.display = "none";
+
+        openReleaseStatus();
+
+        updateDeploymentStatus({
+
+            application: payload.application_name,
+
+            environment: payload.environment,
+
+            strategy: payload.deployment_strategy,
+
+            status: "🟡 Queued"
+
+        });
+
+    }
+    else{
+
+        alert(result.message);
+
+    }
 
 });

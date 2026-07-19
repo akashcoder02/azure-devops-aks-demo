@@ -1,0 +1,86 @@
+<div id="releaseStatusModal" class="modal">
+
+    <div class="modal-content release-status">
+
+        <span
+            class="close"
+            onclick="closeReleaseStatus()">
+
+            &times;
+
+        </span>
+
+        <h2>
+
+            Deployment Status
+
+        </h2>
+
+        <hr>
+
+        <div class="status-grid">
+
+            <div>
+
+                <strong>Application</strong>
+
+                <p id="deploymentApp">-</p>
+
+            </div>
+
+            <div>
+
+                <strong>Environment</strong>
+
+                <p id="deploymentEnvironment">-</p>
+
+            </div>
+
+            <div>
+
+                <strong>Strategy</strong>
+
+                <p id="deploymentStrategy">-</p>
+
+            </div>
+
+            <div>
+
+                <strong>Status</strong>
+
+                <p id="deploymentStatus">
+
+                    🟡 Waiting
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <a
+            id="workflowButton"
+            target="_blank"
+            class="primary-btn">
+
+            View Workflow
+
+        </a>
+
+    </div>
+
+</div>

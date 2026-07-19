@@ -100,6 +100,22 @@ Applications
 
         </button>
 
+        <hr>
+
+        <div id="workflow-status">
+
+            Latest Workflow
+
+            <br><br>
+
+            <span id="workflowBadge">
+
+                No deployments
+
+            </span>
+
+        </div>
+
     </div>
 
 </div>
@@ -230,3 +246,4 @@ Applications
 <script src="{{ url_for('static', filename='js/applications.js') }}"></script>
 
 {% endblock %}
+{% include "release_status_modal.html" %}

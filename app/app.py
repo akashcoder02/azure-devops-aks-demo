@@ -10,6 +10,7 @@ from routes.logs import logs_bp
 from routes.platform_installations import platform_installations_bp
 from routes.argocd import argocd_bp
 from routes.github_actions import github_actions_bp
+from routes.github_status import github_status_bp
 
 app = Flask(__name__)
 
@@ -23,6 +24,7 @@ app.register_blueprint(infrastructure_bp)
 app.register_blueprint(monitoring_bp)
 app.register_blueprint(logs_bp)
 app.register_blueprint(github_actions_bp)
+app.register_blueprint(github_status_bp)
 
 
 if __name__ == "__main__":

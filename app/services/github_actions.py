@@ -57,6 +57,10 @@ class GitHubActionsService:
         print("Response:", response.text)
         print("=" * 60)
 
+        print("OWNER:", GITHUB_OWNER)
+        print("REPO:", GITHUB_REPOSITORY)
+        print("PAT:", GITHUB_PAT[:15] if GITHUB_PAT else "NOT FOUND")
+
         return {
             "success": False,
             "message": response.text
