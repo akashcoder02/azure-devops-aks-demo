@@ -11,6 +11,7 @@ controller:
   service:
     type: LoadBalancer
     externalTrafficPolicy: Cluster
+
     annotations:
       service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
 
@@ -20,9 +21,7 @@ EOF
     : <<EOF
 controller:
   service:
-    type: LoadBalancer
-    annotations:
-      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+    type: ClusterIP
 
   ingressClassResource:
     default: true
