@@ -165,7 +165,7 @@ jobs:
           chmod +x scripts/deployment/deployment-mode.sh
 
           ./scripts/deployment/deployment-mode.sh \
-            "${{ inputs.deployment_type }}" \
+            "${{ env.DEPLOYMENT_TYPE }}"\
             "${{ env.APPLICATION_NAME }}"
 
       - name: Show Updated Manifests
@@ -257,6 +257,15 @@ jobs:
           echo "========== Pods =========="
           kubectl get pods
 
+          echo ""
+          echo "========== Running Image =========="
+
+          kubectl get deployment \
+          ${{ env.APPLICATION_NAME }} \
+          -o=jsonpath='{.spec.template.spec.containers[0].image}'
+
+          echo ""
+
       - name: Update Deployment History
         continue-on-error: true
         run: |
@@ -299,9 +308,10 @@ jobs:
           echo ""
           echo "Application : ${{ env.APPLICATION_NAME }}"
           echo "Image Tag   : ${{ env.IMAGE_TAG }}"
-          echo "Deployment  : ${{ inputs.deployment_type }}"
+          echo "Deployment  : ${{ env.DEPLOYMENT_TYPE }}"
+          echo "Environment : ${{ env.ENVIRONMENT }}"
 
-          if [ "${{ inputs.deployment_type }}" = "hpa" ]; then
+          if [ "${{ env.DEPLOYMENT_TYPE }}" = "hpa" ]; then
             echo "Autoscaling : Enabled"
           else
             echo "Autoscaling : Disabled"
