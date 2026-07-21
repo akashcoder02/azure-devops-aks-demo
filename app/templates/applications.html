@@ -88,11 +88,21 @@ Applications
 
         <div class="button-grid">
 
-        <a href="{{ app.url }}" target="_blank">
+        <a href="{{ app.local_url }}" target="_blank">
 
             <button class="secondary-btn">
 
-                🌐 Open
+                🌐 Open (Local)
+
+            </button>
+
+        </a>
+
+        <a href="{{ app.public_url }}" target="_blank">
+
+            <button class="secondary-btn">
+
+                🌍 Open (Public)
 
             </button>
 
@@ -102,7 +112,7 @@ Applications
         class="primary-btn release-btn"
         data-app="{{ app.name }}">
 
-        🚀 Release
+            🚀 Release
 
         </button>
 
