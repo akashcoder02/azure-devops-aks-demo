@@ -209,14 +209,16 @@ jobs:
               -n ingress-nginx \
               -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
-            echo "Environment : Production"
+            echo "Environment    : ${{ env.ENVIRONMENT }}"
+            echo "Ingress Type   : $SERVICE_TYPE"
             echo ""
             echo "Application URL:"
             echo "http://${INGRESS_IP}/${{ env.APPLICATION_NAME }}"
 
           else
 
-            echo "Environment : Development"
+            echo "Environment    : ${{ env.ENVIRONMENT }}"
+            echo "Ingress Type   : $SERVICE_TYPE"
             echo ""
             echo "Ingress Controller is ClusterIP."
             echo ""
@@ -238,9 +240,11 @@ jobs:
           echo "DEPLOYMENT COMPLETED"
           echo "========================================================"
 
-          echo "Application : ${{ env.APPLICATION_NAME }}"
-          echo "Image Tag   : ${{ env.IMAGE_TAG }}"
-          echo "Namespace   : default"
+          echo "Application     : ${{ env.APPLICATION_NAME }}"
+          echo "Environment     : ${{ env.ENVIRONMENT }}"
+          echo "Deployment Type : ${{ env.DEPLOYMENT_TYPE }}"
+          echo "Image Tag       : ${{ env.IMAGE_TAG }}"
+          echo "Namespace       : default"
 
           echo ""
 

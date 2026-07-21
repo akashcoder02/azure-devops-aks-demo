@@ -165,7 +165,7 @@ jobs:
           chmod +x scripts/deployment/deployment-mode.sh
 
           ./scripts/deployment/deployment-mode.sh \
-            "${{ env.DEPLOYMENT_TYPE }}"\
+            "${{ env.DEPLOYMENT_TYPE }}" \
             "${{ env.APPLICATION_NAME }}"
 
       - name: Show Updated Manifests
@@ -306,10 +306,11 @@ jobs:
           echo "========================================================"
 
           echo ""
-          echo "Application : ${{ env.APPLICATION_NAME }}"
-          echo "Image Tag   : ${{ env.IMAGE_TAG }}"
-          echo "Deployment  : ${{ env.DEPLOYMENT_TYPE }}"
           echo "Environment : ${{ env.ENVIRONMENT }}"
+          echo "Application : ${{ env.APPLICATION_NAME }}"
+          echo "Deployment  : ${{ env.DEPLOYMENT_TYPE }}"
+          echo "Image Tag   : ${{ env.IMAGE_TAG }}"
+
 
           if [ "${{ env.DEPLOYMENT_TYPE }}" = "hpa" ]; then
             echo "Autoscaling : Enabled"
