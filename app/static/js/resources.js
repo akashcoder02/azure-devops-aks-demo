@@ -65,27 +65,43 @@ function loadDashboard() {
 
 async function triggerWorkflow() {
 
-    document.getElementById("workflowStatus").innerHTML = "Running";
+    setValue("workflowStatus","Running");
+
+    showOverlay("Triggering GitHub Action...");
 
     try {
 
-        const response = await fetch("/api/platform/resources", {
+        const response = await fetch("/api/resources/run", {
 
             method: "POST"
 
         });
 
         const data = await response.json();
+        console.log("Workflow Response:", data);
 
-        console.log(data);
+        if (response.ok) {
 
-        pollWorkflow();
+            pollWorkflow();
+
+        }
+        else {
+
+            hideOverlay();
+
+            alert(data.message || "Unable to start workflow.");
+
+        }
 
     }
 
     catch (err) {
 
         console.error(err);
+
+        hideOverlay();
+
+        setValue("workflowStatus","Failed");
 
     }
 
@@ -100,21 +116,39 @@ function pollWorkflow() {
 
     let counter = 0;
 
+    const steps = [
+
+        "Authenticating Azure...",
+
+        "Checking AKS...",
+
+        "Checking Networking...",
+
+        "Collecting Azure Resources...",
+
+        "Calculating Cost..."
+
+    ];
+
     const timer = setInterval(() => {
 
         counter++;
 
+        if(counter <= steps.length){
+
+            showOverlay(steps[counter-1]);
+
+        }
+
         console.log("Checking workflow...");
-
-        // TODO
-
-        // Replace with GitHub API
 
         if (counter === 5) {
 
             clearInterval(timer);
 
-            document.getElementById("workflowStatus").innerHTML = "Completed";
+            setValue("workflowStatus","Completed");
+
+            hideOverlay();
 
             loadDashboard();
 
@@ -141,79 +175,133 @@ function loadSampleData() {
 
     setValue("lastScan", "Now");
 
-    document.getElementById("costTable").innerHTML = `
+    document.getElementById("costBreakdown").innerHTML = `
 
-<tr>
+    <div class="cost-card">
 
-<td>AKS</td>
+    <div class="cost-top">
 
-<td>Healthy</td>
+    <h3>AKS Cluster</h3>
 
-<td>₹180</td>
+    <strong>₹5,400 / month</strong>
 
-<td>₹5400</td>
+    </div>
 
-<td>High</td>
+    <div class="cost-progress">
 
-</tr>
+    <div class="cost-fill"
+    style="width:72%"></div>
 
-<tr>
+    </div>
 
-<td>Load Balancer</td>
+    <div class="cost-bottom">
 
-<td>Healthy</td>
+    <span>₹180/day</span>
 
-<td>₹14</td>
+    <span class="danger">
 
-<td>₹420</td>
+    High Impact
 
-<td>Medium</td>
+    </span>
 
-</tr>
+    </div>
 
-<tr>
+    </div>
 
-<td>Storage</td>
+    <div class="cost-card">
 
-<td>Healthy</td>
+    <div class="cost-top">
 
-<td>₹12</td>
+    <h3>Load Balancer</h3>
 
-<td>₹360</td>
+    <strong>₹420 / month</strong>
 
-<td>Medium</td>
+    </div>
 
-</tr>
+    <div class="cost-progress">
 
-<tr>
+    <div class="cost-fill"
+    style="width:18%"></div>
 
-<td>ACR</td>
+    </div>
 
-<td>Healthy</td>
+    <div class="cost-bottom">
 
-<td>₹3</td>
+    <span>₹14/day</span>
 
-<td>₹95</td>
+    <span class="warning">
 
-<td>Low</td>
+    Medium
 
-</tr>
+    </span>
 
-<tr>
+    </div>
 
-<td>Key Vault</td>
+    </div>
 
-<td>Healthy</td>
+    <div class="cost-card">
 
-<td>₹1</td>
+    <div class="cost-top">
 
-<td>₹22</td>
+    <h3>Managed Disk</h3>
 
-<td>Low</td>
+    <strong>₹360 / month</strong>
 
-</tr>
+    </div>
 
-`;
+    <div class="cost-progress">
+
+    <div class="cost-fill"
+    style="width:12%"></div>
+
+    </div>
+
+    <div class="cost-bottom">
+
+    <span>₹12/day</span>
+
+    <span class="warning">
+
+    Medium
+
+    </span>
+
+    </div>
+
+    </div>
+
+    <div class="cost-card">
+
+    <div class="cost-top">
+
+    <h3>Azure Container Registry</h3>
+
+    <strong>₹95 / month</strong>
+
+    </div>
+
+    <div class="cost-progress">
+
+    <div class="cost-fill"
+    style="width:5%"></div>
+
+    </div>
+
+    <div class="cost-bottom">
+
+    <span>₹3/day</span>
+
+    <span class="success">
+
+    Low
+
+    </span>
+
+    </div>
+
+    </div>
+
+    `;
 
     document.getElementById("recommendations").innerHTML = `
 
@@ -306,6 +394,13 @@ function loadCharts() {
 
             }]
 
+        },
+        options:{
+
+            responsive:true,
+
+            maintainAspectRatio:false
+
         }
 
     });
@@ -350,6 +445,13 @@ function loadCharts() {
 
             }]
 
+        },
+        options:{
+
+            responsive:true,
+
+            maintainAspectRatio:false
+
         }
 
     });
@@ -368,6 +470,32 @@ function setValue(id, value) {
     if (element) {
 
         element.innerHTML = value;
+
+    }
+
+}
+
+function showOverlay(message){
+
+    const overlay = document.getElementById("scanOverlay");
+    const status = document.getElementById("scanStatus");
+
+    if (overlay && status){
+
+        overlay.classList.remove("hidden");
+        status.innerHTML = message;
+
+    }
+
+}
+
+function hideOverlay(){
+
+    const overlay = document.getElementById("scanOverlay");
+
+    if (overlay){
+
+        overlay.classList.add("hidden");
 
     }
 

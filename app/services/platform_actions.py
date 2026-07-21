@@ -35,7 +35,11 @@ class PlatformActionsService:
             json=payload
         )
 
-        return response.status_code == 204
+        return {
+            "success": response.status_code == 204,
+            "status_code": response.status_code,
+            "response": response.text
+        }
 
 
 platform_actions_service = PlatformActionsService()
