@@ -10,7 +10,7 @@ resource "helm_release" "ingress_nginx" {
 controller:
   service:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
   ingressClassResource:
     default: true
 EOF
