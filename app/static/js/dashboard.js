@@ -63,31 +63,35 @@ function bindButtons() {
 
 async function run(action) {
 
-    const response = await fetch("/api/run", {
+    let url = "/api/run";
 
-        method: "POST",
+    if(action === "start"){
 
-        headers: {
+        url = "/api/platform/start";
 
-            "Content-Type": "application/json"
+    }
+    else if(action === "stop"){
 
-        },
+        url = "/api/platform/stop";
 
-        body: JSON.stringify({
+    }
 
-            action: action
-
-        })
-
-    });
+    const response = await fetch(
+        url,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                action: action
+            })
+        }
+    );
 
     const result = await response.json();
 
-    if (!result.success) {
-
-        alert("Another job is already running.");
-
-    }
+    alert(result.message);
 
 }
 

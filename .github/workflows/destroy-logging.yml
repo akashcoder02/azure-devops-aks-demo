@@ -1,0 +1,51 @@
+name: Destroy Platform Logging
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  destroy-logging:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/addons/logging
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan Destroy
+        run: terraform plan -destroy
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+
+      - name: Logging Destroy Summary
+        run: |
+
+          echo ""
+          echo "========================================================"
+          echo "LOGGING DESTROY COMPLETED"
+          echo "========================================================"
+          echo ""
+          echo "Terraform-managed logging resources have been destroyed."
+          echo ""
+          echo "========================================================"
