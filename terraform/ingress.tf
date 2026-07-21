@@ -17,7 +17,7 @@ EOF
     : <<EOF
 controller:
   service:
-    type: ClusterIP
+    type: LoadBalancer
   ingressClassResource:
     default: true
 EOF
