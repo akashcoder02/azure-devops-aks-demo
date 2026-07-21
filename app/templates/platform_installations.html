@@ -24,23 +24,7 @@
 
         {% if installations.argocd.installed %}
 
-        {% if installations.monitoring.installed %}
-
-        {% if installations.logging.installed %}
-
         <p class="running">🟢 Installed</p>
-
-        {% else %}
-
-        <p class="stopped">⚪ Not Installed</p>
-
-        {% endif %}
-
-        {% else %}
-
-        <p class="stopped">⚪ Not Installed</p>
-
-        {% endif %}
 
         {% else %}
 
@@ -53,7 +37,7 @@
         <small>
             Namespace : {{ installations.argocd.namespace }}<br>
             Version : {{ installations.argocd.version }}<br>
-            Applications : 2
+            Applications : {{ installations.argocd.applications }}
         </small>
 
         <div class="button-grid">
@@ -80,7 +64,15 @@
 
         <h3>📊 Monitoring</h3>
 
+        {% if installations.monitoring.installed %}
+
         <p class="running">🟢 Installed</p>
+
+        {% else %}
+
+        <p class="stopped">⚪ Not Installed</p>
+
+        {% endif %}
 
         <hr>
 
@@ -109,7 +101,15 @@
 
         <h3>📝 Logging</h3>
 
+        {% if installations.logging.installed %}
+
         <p class="running">🟢 Installed</p>
+
+        {% else %}
+
+        <p class="stopped">⚪ Not Installed</p>
+
+        {% endif %}
 
         <hr>
 
