@@ -62,8 +62,9 @@ on:
 
 env:
   APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
-
   IMAGE_TAG: ${{ inputs.image_tag || github.event.inputs.image_tag }}
+  ENVIRONMENT: ${{ inputs.environment || github.event.inputs.environment }}
+  DEPLOYMENT_TYPE: ${{ inputs.deployment_type || github.event.inputs.deployment_type }}
 
 jobs:
   deploy:
