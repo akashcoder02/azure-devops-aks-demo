@@ -100,6 +100,17 @@ jobs:
 
           fi
 
+
+          echo ""
+          echo "Managed Identities"
+          echo "--------------------------------------------------------"
+
+          az identity list \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --query "[].{Name:name}" \
+            -o table || true
+
+
           echo ""
           echo "Networking"
           echo "--------------------------------------------------------"
@@ -309,7 +320,13 @@ jobs:
             PLATFORM_STATUS="DESTROYED"
           fi
 
+          TOTAL_RESOURCES=$(az resource list \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --query "length(@)" \
+            -o tsv 2>/dev/null || echo 0)
+
           echo "Platform Status          : $PLATFORM_STATUS"
+          echo "Azure Resources          : $TOTAL_RESOURCES"
           echo "Potential Cost Resources : $COST_COUNT"
 
           if [ "$COST_COUNT" -gt 0 ]; then

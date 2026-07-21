@@ -27,9 +27,6 @@ class PlatformActionsService:
 
         payload = {
             "ref": "main",
-            "inputs": {
-                "environment": "development"
-            }
         }
 
         response = requests.post(

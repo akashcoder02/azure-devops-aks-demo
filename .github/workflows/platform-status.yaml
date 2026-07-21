@@ -85,6 +85,28 @@ jobs:
           echo "Ingress"
           kubectl get ingress
 
+          echo ""
+          echo "HPA"
+          kubectl get hpa || true
+
+          echo ""
+          echo "Namespaces"
+          kubectl get ns
+
+          echo ""
+          echo "Secret Provider Classes"
+          kubectl get secretproviderclass -A || true
+
+          echo ""
+          echo "Persistent Volume Claims"
+          kubectl get pvc -A || true
+
+          echo ""
+          echo "Recent Events"
+          kubectl get events \
+            --sort-by=.metadata.creationTimestamp \
+            | tail -20 || true
+
       - name: Platform Status Summary
         run: |
           echo ""

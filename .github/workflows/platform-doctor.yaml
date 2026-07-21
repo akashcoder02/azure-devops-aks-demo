@@ -1,0 +1,160 @@
+name: Platform Doctor
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  doctor:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Verify Azure Subscription
+        run: |
+          echo "========================================"
+          echo "AZURE SUBSCRIPTION"
+          echo "========================================"
+
+          az account show --output table
+
+      - name: Verify Resource Group
+        run: |
+          echo "========================================"
+          echo "RESOURCE GROUP"
+          echo "========================================"
+
+          az group show \
+            --name ${{ secrets.RESOURCE_GROUP }}
+
+      - name: Verify AKS Cluster
+        run: |
+          echo "========================================"
+          echo "AKS CLUSTER"
+          echo "========================================"
+
+          az aks show \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --output table
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER }} \
+            --overwrite-existing
+
+      - name: Kubernetes Cluster Info
+        run: |
+          echo "========================================"
+          echo "CLUSTER INFO"
+          echo "========================================"
+
+          kubectl cluster-info
+
+      - name: Node Health
+        run: |
+          echo "========================================"
+          echo "NODES"
+          echo "========================================"
+
+          kubectl get nodes -o wide
+
+      - name: System Pods
+        run: |
+          echo "========================================"
+          echo "SYSTEM PODS"
+          echo "========================================"
+
+          kubectl get pods -A
+
+      - name: ArgoCD Health
+        run: |
+          echo "========================================"
+          echo "ARGOCD"
+          echo "========================================"
+
+          kubectl get pods -n argocd || true
+
+      - name: Monitoring Health
+        run: |
+          echo "========================================"
+          echo "MONITORING"
+          echo "========================================"
+
+          kubectl get pods -n monitoring || true
+
+      - name: Logging Health
+        run: |
+          echo "========================================"
+          echo "LOGGING"
+          echo "========================================"
+
+          kubectl get pods -n logging || true
+
+      - name: Ingress Controller
+        run: |
+          echo "========================================"
+          echo "INGRESS"
+          echo "========================================"
+
+          kubectl get pods -n ingress-nginx || true
+
+      - name: Metrics Server
+        run: |
+          echo "========================================"
+          echo "METRICS SERVER"
+          echo "========================================"
+
+          kubectl get deployment metrics-server -n kube-system || true
+
+      - name: CSI Driver
+        run: |
+          echo "========================================"
+          echo "CSI DRIVER"
+          echo "========================================"
+
+          kubectl get pods -n kube-system | grep csi || true
+
+      - name: Recent Cluster Events
+        run: |
+          echo "========================================"
+          echo "RECENT EVENTS"
+          echo "========================================"
+
+          kubectl get events \
+            --all-namespaces \
+            --sort-by=.metadata.creationTimestamp \
+            | tail -30
+
+      - name: Platform Doctor Summary
+        run: |
+
+          echo ""
+          echo "========================================================"
+          echo "PLATFORM DOCTOR COMPLETED"
+          echo "========================================================"
+
+          echo ""
+          echo "Azure           : OK"
+          echo "AKS             : OK"
+          echo "Kubernetes      : OK"
+          echo "ArgoCD          : Checked"
+          echo "Monitoring      : Checked"
+          echo "Logging         : Checked"
+          echo "Ingress         : Checked"
+          echo "Metrics Server  : Checked"
+          echo "CSI Driver      : Checked"
+
+          echo ""
+          echo "========================================================"

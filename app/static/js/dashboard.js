@@ -33,6 +33,12 @@ function bindButtons() {
     document.getElementById("doctor-btn")
         .addEventListener("click", () => run("doctor"));
 
+    document.getElementById("status-btn")
+            .addEventListener("click", () => run("status"));
+
+    document.getElementById("resources-btn")
+            .addEventListener("click", () => run("resources"));
+
     document.getElementById("tic-deploy-btn")
         .addEventListener("click", () => runApplication("tic-tac-toe", "deploy"));
 
@@ -73,6 +79,21 @@ async function run(action) {
     else if(action === "stop"){
 
         url = "/api/platform/stop";
+
+    }
+    else if(action === "doctor"){
+
+        url = "/api/platform/doctor";
+
+    }
+    else if(action === "status"){
+
+        url = "/api/platform/status";
+
+    }
+    else if(action === "resources"){
+
+        url = "/api/platform/resources";
 
     }
 
