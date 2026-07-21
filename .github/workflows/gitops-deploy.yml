@@ -61,8 +61,9 @@ on:
 
 env:
   APPLICATION_NAME: ${{ inputs.application_name || github.event.inputs.application_name }}
-
   IMAGE_TAG: ${{ inputs.image_tag || github.event.inputs.image_tag }}
+  ENVIRONMENT: ${{ inputs.environment || github.event.inputs.environment }}
+  DEPLOYMENT_TYPE: ${{ inputs.deployment_type || github.event.inputs.deployment_type }}
 
 jobs:
 
@@ -243,6 +244,18 @@ jobs:
           kubectl rollout status \
             deployment/${{ env.APPLICATION_NAME }} \
             --timeout=300s
+
+          echo ""
+          echo "========== Ingress =========="
+          kubectl get ingress
+
+          echo ""
+          echo "========== Services =========="
+          kubectl get svc
+
+          echo ""
+          echo "========== Pods =========="
+          kubectl get pods
 
       - name: Update Deployment History
         continue-on-error: true
