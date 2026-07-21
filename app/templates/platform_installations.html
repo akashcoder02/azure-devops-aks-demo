@@ -22,7 +22,31 @@
 
         <h3>🧩 ArgoCD</h3>
 
+        {% if installations.argocd.installed %}
+
+        {% if installations.monitoring.installed %}
+
+        {% if installations.logging.installed %}
+
         <p class="running">🟢 Installed</p>
+
+        {% else %}
+
+        <p class="stopped">⚪ Not Installed</p>
+
+        {% endif %}
+
+        {% else %}
+
+        <p class="stopped">⚪ Not Installed</p>
+
+        {% endif %}
+
+        {% else %}
+
+        <p class="stopped">⚪ Not Installed</p>
+
+        {% endif %}
 
         <hr>
 

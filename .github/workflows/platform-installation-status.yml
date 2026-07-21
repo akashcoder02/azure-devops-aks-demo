@@ -1,0 +1,95 @@
+name: Platform Installation Status
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  installation-status:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group rg-devops-demo \
+            --name aks-devops-demo \
+            --overwrite-existing
+
+      - name: Check Platform Installations
+        shell: bash
+        run: |
+
+          mkdir -p reports
+
+          ARG_INSTALLED=false
+          MON_INSTALLED=false
+          LOG_INSTALLED=false
+
+          ARG_NAMESPACE="-"
+          MON_NAMESPACE="-"
+          LOG_NAMESPACE="-"
+
+          ARG_VERSION="-"
+          MON_VERSION="-"
+          LOG_VERSION="-"
+
+          if kubectl get namespace argocd >/dev/null 2>&1; then
+            ARG_INSTALLED=true
+            ARG_NAMESPACE="argocd"
+            ARG_VERSION=$(kubectl get deployment -n argocd argocd-server -o jsonpath="{.spec.template.spec.containers[0].image}" | cut -d':' -f2)
+          fi
+
+          if kubectl get namespace monitoring >/dev/null 2>&1; then
+            MON_INSTALLED=true
+            MON_NAMESPACE="monitoring"
+            MON_VERSION="kube-prometheus-stack"
+          fi
+
+          if kubectl get namespace logging >/dev/null 2>&1; then
+            LOG_INSTALLED=true
+            LOG_NAMESPACE="logging"
+            LOG_VERSION="Fluent Bit + Loki"
+          fi
+
+          cat > reports/platform-installations.json <<EOF
+          {
+            "argocd": {
+              "installed": $ARG_INSTALLED,
+              "namespace": "$ARG_NAMESPACE",
+              "version": "$ARG_VERSION"
+            },
+            "monitoring": {
+              "installed": $MON_INSTALLED,
+              "namespace": "$MON_NAMESPACE",
+              "version": "$MON_VERSION"
+            },
+            "logging": {
+              "installed": $LOG_INSTALLED,
+              "namespace": "$LOG_NAMESPACE",
+              "version": "$LOG_VERSION"
+            }
+          }
+          EOF
+
+      - name: Show Report
+        run: cat reports/platform-installations.json
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-installations
+          path: reports/platform-installations.json

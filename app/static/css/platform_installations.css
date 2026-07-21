@@ -36,3 +36,11 @@
 .status-btn:hover{
     background:#1d4ed8;
 }
+
+.stopped {
+
+    color: #9ca3af;
+
+    font-weight: 600;
+
+}

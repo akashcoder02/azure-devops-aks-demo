@@ -43,6 +43,21 @@ function bindButtons() {
 
     }
 
+    const workflow = document.getElementById("workflowBtn");
+
+    if (workflow) {
+
+        workflow.onclick = () => {
+
+            window.open(
+                "https://github.com/<OWNER>/<REPO>/actions",
+                "_blank"
+            );
+
+        };
+
+    }
+
 }
 
 
@@ -80,7 +95,7 @@ async function triggerWorkflow() {
         const data = await response.json();
         console.log("Workflow Response:", data);
 
-        if (response.ok) {
+        if (data.success) {
 
             pollWorkflow();
 
@@ -89,7 +104,9 @@ async function triggerWorkflow() {
 
             hideOverlay();
 
-            alert(data.message || "Unable to start workflow.");
+            setValue("workflowStatus","Failed");
+
+            alert("Unable to trigger GitHub workflow.");
 
         }
 

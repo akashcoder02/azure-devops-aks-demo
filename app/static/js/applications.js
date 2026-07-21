@@ -113,7 +113,7 @@ releaseButton.addEventListener("click", async () => {
 
             strategy: payload.deployment_strategy,
 
-            status: "🟡 Queued"
+            status: "queued"
 
         });
 

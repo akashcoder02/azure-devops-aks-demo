@@ -28,6 +28,15 @@ async function refreshDeploymentStatus(){
 
 function updateDeploymentStatus(data){
 
+    document.getElementById("deploymentApp").innerHTML =
+        data.application || "-";
+
+    document.getElementById("deploymentEnvironment").innerHTML =
+        data.environment || "-";
+
+    document.getElementById("deploymentStrategy").innerHTML =
+        data.strategy || "-";
+
     document.getElementById("deploymentStatus")
         .innerHTML = getStatusBadge(data);
 
@@ -36,7 +45,7 @@ function updateDeploymentStatus(data){
 
     document
         .getElementById("workflowButton")
-        .href = data.url;
+        .href = data.url || "#";
 
 }
 

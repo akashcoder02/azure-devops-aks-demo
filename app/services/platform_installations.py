@@ -1,4 +1,7 @@
+import json
+import os
 import requests
+import subprocess
 
 from config.github import (
     GITHUB_API,
@@ -10,26 +13,70 @@ from config.github import (
 
 class PlatformInstallationsService:
 
+
+    def check_namespace(self, namespace):
+
+        try:
+
+            subprocess.run(
+                [
+                    "kubectl",
+                    "get",
+                    "namespace",
+                    namespace
+                ],
+                check=True,
+                capture_output=True,
+                text=True
+            )
+
+            return True
+
+        except subprocess.CalledProcessError:
+
+            return False
+
     def get_installations(self):
 
         return {
 
             "argocd": {
-                "installed": True,
-                "namespace": "argocd",
-                "version": "v3.1.0"
+
+                "installed":
+                    self.check_namespace("argocd"),
+
+                "namespace":
+                    "argocd",
+
+                "version":
+                    "v3.1.0"
+
             },
 
             "monitoring": {
-                "installed": True,
-                "namespace": "monitoring",
-                "version": "kube-prometheus-stack"
+
+                "installed":
+                    self.check_namespace("monitoring"),
+
+                "namespace":
+                    "monitoring",
+
+                "version":
+                    "kube-prometheus-stack"
+
             },
 
             "logging": {
-                "installed": True,
-                "namespace": "logging",
-                "version": "Fluent Bit + Loki"
+
+                "installed":
+                    self.check_namespace("logging"),
+
+                "namespace":
+                    "logging",
+
+                "version":
+                    "Fluent Bit + Loki"
+
             }
 
         }
@@ -50,8 +97,7 @@ class PlatformInstallationsService:
         }
 
         payload = {
-            "ref": "main",
-            
+            "ref": "main"
         }
 
         response = requests.post(
