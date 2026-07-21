@@ -4,14 +4,21 @@ kind: Ingress
 metadata:
   name: tic-tac-toe-ingress
 
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: "/tic-tac-toe"
+
 spec:
   ingressClassName: nginx
 
   rules:
     - http:
         paths:
-          - path: /
-            pathType: Prefix
+
+          - path: /tic-tac-toe(/|$)(.*)
+            pathType: ImplementationSpecific
 
             backend:
               service:
