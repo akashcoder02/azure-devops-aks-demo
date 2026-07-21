@@ -56,9 +56,21 @@ ArgoCD Status
 
             <td>{{ app.namespace }}</td>
 
-            <td>{{ app.sync }}</td>
+            <td>
+                {% if app.sync == "Synced" %}
+                    <span class="running">🟢 Synced</span>
+                {% else %}
+                    <span class="stopped">🔴 {{ app.sync }}</span>
+                {% endif %}
+            </td>
 
-            <td>{{ app.health }}</td>
+            <td>
+                {% if app.health == "Healthy" %}
+                    <span class="running">🟢 Healthy</span>
+                {% else %}
+                    <span class="stopped">🔴 {{ app.health }}</span>
+                {% endif %}
+            </td>
 
             <td>{{ app.revision }}</td>
 

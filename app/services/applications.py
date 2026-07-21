@@ -11,7 +11,8 @@ class ApplicationsService:
                 "namespace": "default",
                 "deployment": "GitOps",
                 "pods": "2/2",
-                "hpa": "Enabled"
+                "hpa": "Enabled",
+                "url": "http://localhost:8080/tic-tac-toe"
             },
 
             {
@@ -21,7 +22,8 @@ class ApplicationsService:
                 "namespace": "default",
                 "deployment": "Traditional",
                 "pods": "1/1",
-                "hpa": "Disabled"
+                "hpa": "Disabled",
+                "url": "http://localhost:8080/tetris"
             }
 
         ]

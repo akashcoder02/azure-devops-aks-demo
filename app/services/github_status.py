@@ -7,6 +7,10 @@ from config.github import (
     GITHUB_REPOSITORY
 )
 
+from services.deployment_context import (
+    deployment_context
+)
+
 
 class GitHubStatusService:
 
@@ -57,9 +61,14 @@ class GitHubStatusService:
             "workflow": run["name"],
             "branch": run["head_branch"],
             "url": run["html_url"],
-            "application": "-",
-            "environment": "-",
-            "strategy": "-",
+            "application":
+                deployment_context["application"],
+
+            "environment":
+                deployment_context["environment"],
+
+            "strategy":
+                deployment_context["strategy"],
             "created_at": run["created_at"],
             "updated_at": run["updated_at"],
             "run_number": run["run_number"],

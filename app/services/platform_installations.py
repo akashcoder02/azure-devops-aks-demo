@@ -98,6 +98,76 @@ class PlatformInstallationsService:
 
             return 0
 
+    def get_monitoring_version(self):
+
+        try:
+
+            result = subprocess.run(
+
+                [
+                    "kubectl",
+                    "get",
+                    "deployment",
+                    "kube-prometheus-stack-grafana",
+                    "-n",
+                    "monitoring",
+                    "-o",
+                    "jsonpath={.spec.template.spec.containers[0].image}"
+                ],
+
+                capture_output=True,
+                text=True,
+                check=True
+
+            )
+
+            image = result.stdout.strip()
+
+            if ":" in image:
+
+                return image.split(":")[-1]
+
+            return image
+
+        except Exception:
+
+            return "-"
+
+    def get_logging_version(self):
+
+        try:
+
+            result = subprocess.run(
+
+                [
+                    "kubectl",
+                    "get",
+                    "daemonset",
+                    "fluent-bit",
+                    "-n",
+                    "logging",
+                    "-o",
+                    "jsonpath={.spec.template.spec.containers[0].image}"
+                ],
+
+                capture_output=True,
+                text=True,
+                check=True
+
+            )
+
+            image = result.stdout.strip()
+
+            if ":" in image:
+
+                return image.split(":")[-1]
+
+            return image
+
+        except Exception:
+
+            return "-"
+
     def get_installations(self):
 
         return {
@@ -127,7 +197,7 @@ class PlatformInstallationsService:
                     "monitoring",
 
                 "version":
-                    "kube-prometheus-stack"
+                    self.get_monitoring_version()
 
             },
 
@@ -140,7 +210,7 @@ class PlatformInstallationsService:
                     "logging",
 
                 "version":
-                    "Fluent Bit + Loki"
+                    self.get_logging_version()
 
             }
 
