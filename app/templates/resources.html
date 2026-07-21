@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Azure Resource Center</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/resources.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- Header -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Azure Resource Center</h1>
+
+                <p>
+
+                    Live Azure infrastructure inventory, utilization and cost analysis
+
+                </p>
+
+            </div>
+
+            <div class="actions">
+
+                <button id="refreshBtn">
+
+                    Refresh
+
+                </button>
+
+                <button id="workflowBtn">
+
+                    View Workflow
+
+                </button>
+
+                <button id="scanBtn">
+
+                    Run Scan
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- KPI CARDS -->
+
+        <section class="kpi-grid">
+
+            <div class="kpi-card">
+
+                <span>Monthly Cost</span>
+
+                <h2 id="monthlyCost">
+
+                    ₹0
+
+                </h2>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <span>Running Resources</span>
+
+                <h2 id="runningResources">
+
+                    0
+
+                </h2>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <span>Azure Services</span>
+
+                <h2 id="azureServices">
+
+                    0
+
+                </h2>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <span>Platform Health</span>
+
+                <h2 id="platformHealth">
+
+                    0%
+
+                </h2>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <span>Workflow</span>
+
+                <h2 id="workflowStatus">
+
+                    Waiting
+
+                </h2>
+
+            </div>
+
+            <div class="kpi-card">
+
+                <span>Last Scan</span>
+
+                <h2 id="lastScan">
+
+                    --
+
+                </h2>
+
+            </div>
+
+        </section>
+
+
+        <!-- Charts -->
+
+        <section class="chart-grid">
+
+            <div class="card large">
+
+                <div class="card-header">
+
+                    <h3>
+
+                        Monthly Cost Analysis
+
+                    </h3>
+
+                </div>
+
+                <canvas id="costChart"></canvas>
+
+            </div>
+
+            <div class="card large">
+
+                <div class="card-header">
+
+                    <h3>
+
+                        Azure Resource Distribution
+
+                    </h3>
+
+                </div>
+
+                <canvas id="resourceChart"></canvas>
+
+            </div>
+
+        </section>
+
+
+        <!-- Azure Resources -->
+
+        <section class="resource-grid">
+
+            <div class="card">
+
+                <h3>AKS Cluster</h3>
+
+                <div id="aksCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Networking</h3>
+
+                <div id="networkCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Container Registry</h3>
+
+                <div id="acrCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Key Vault</h3>
+
+                <div id="keyVaultCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Monitoring</h3>
+
+                <div id="monitoringCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Logging</h3>
+
+                <div id="loggingCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>GitOps</h3>
+
+                <div id="gitopsCard"></div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Applications</h3>
+
+                <div id="applicationsCard"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Kubernetes -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+
+                    Kubernetes Overview
+
+                </h2>
+
+            </div>
+
+            <div class="kubernetes-grid">
+
+                <div class="mini-card">
+
+                    <span>Pods</span>
+
+                    <h3 id="pods">
+
+                        0
+
+                    </h3>
+
+                </div>
+
+                <div class="mini-card">
+
+                    <span>Deployments</span>
+
+                    <h3 id="deployments">
+
+                        0
+
+                    </h3>
+
+                </div>
+
+                <div class="mini-card">
+
+                    <span>Services</span>
+
+                    <h3 id="services">
+
+                        0
+
+                    </h3>
+
+                </div>
+
+                <div class="mini-card">
+
+                    <span>Ingress</span>
+
+                    <h3 id="ingress">
+
+                        0
+
+                    </h3>
+
+                </div>
+
+                <div class="mini-card">
+
+                    <span>Namespaces</span>
+
+                    <h3 id="namespaces">
+
+                        0
+
+                    </h3>
+
+                </div>
+
+                <div class="mini-card">
+
+                    <span>PVC</span>
+
+                    <h3 id="pvc">
+
+                        0
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Cost -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+
+                    Azure Cost Breakdown
+
+                </h2>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Service</th>
+
+                        <th>Status</th>
+
+                        <th>Daily</th>
+
+                        <th>Monthly</th>
+
+                        <th>Impact</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="costTable">
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- Recommendations -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+
+                    Recommendations
+
+                </h2>
+
+            </div>
+
+            <div id="recommendations">
+
+            </div>
+
+        </section>
+
+
+        <!-- Workflow -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h2>
+
+                    GitHub Actions
+
+                </h2>
+
+            </div>
+
+            <div class="workflow-grid">
+
+                <div>
+
+                    <strong>Workflow</strong>
+
+                    <p id="workflowName"></p>
+
+                </div>
+
+                <div>
+
+                    <strong>Run</strong>
+
+                    <p id="workflowRun"></p>
+
+                </div>
+
+                <div>
+
+                    <strong>Status</strong>
+
+                    <p id="workflowState"></p>
+
+                </div>
+
+                <div>
+
+                    <strong>Duration</strong>
+
+                    <p id="workflowDuration"></p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/resources.js') }}"></script>
+
+</body>
+
+</html>
+```
