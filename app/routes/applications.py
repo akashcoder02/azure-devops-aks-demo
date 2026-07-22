@@ -1,7 +1,9 @@
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
+
 from services.application_job_manager import run
 from services.script_runner import run_script
 from services.applications import applications_service
+from services.github_actions import github_actions_service
 
 applications = Blueprint("applications", __name__)
 
@@ -56,3 +58,20 @@ def status(app_name):
             data[key] = value
 
     return jsonify(data)
+
+@applications.route(
+    "/api/applications/undeploy",
+    methods=["POST"]
+)
+
+def undeploy_application():
+
+    data = request.get_json()
+
+    application_name = data["application_name"]
+
+    result = github_actions_service.trigger_undeploy_application(
+        application_name
+    )
+
+    return jsonify(result)

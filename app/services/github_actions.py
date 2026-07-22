@@ -46,7 +46,6 @@ class GitHubActionsService:
         )
 
         if response.status_code == 204:
-
             return {
                 "success": True,
                 "message": "Workflow started successfully."
@@ -60,6 +59,54 @@ class GitHubActionsService:
         print("OWNER:", GITHUB_OWNER)
         print("REPO:", GITHUB_REPOSITORY)
         print("PAT:", GITHUB_PAT[:15] if GITHUB_PAT else "NOT FOUND")
+
+        return {
+            "success": False,
+            "message": response.text
+        }
+
+    def trigger_undeploy_application(self, application_name):
+
+        url = (
+            f"{GITHUB_API}/repos/"
+            f"{GITHUB_OWNER}/"
+            f"{GITHUB_REPOSITORY}/"
+            "actions/workflows/"
+            "undeploy-application.yml"
+            "/dispatches"
+        )
+
+        headers = {
+            "Authorization": f"Bearer {GITHUB_PAT}",
+            "Accept": "application/vnd.github+json"
+        }
+
+        payload = {
+            "ref": "main",
+            "inputs": {
+                "application_name": application_name
+            }
+        }
+
+        print("URL:", url)
+        print("Payload:", payload)
+
+        response = requests.post(
+            url,
+            headers=headers,
+            json=payload
+        )
+
+        if response.status_code == 204:
+            return {
+                "success": True,
+                "message": "Undeploy workflow started successfully."
+            }
+
+        print("=" * 60)
+        print("Status Code:", response.status_code)
+        print("Response:", response.text)
+        print("=" * 60)
 
         return {
             "success": False,

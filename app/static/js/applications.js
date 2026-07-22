@@ -139,3 +139,46 @@ releaseButton.addEventListener("click", async () => {
     }
 
 });
+
+async function undeployApplication(applicationName) {
+
+    const confirmed = confirm(
+        `Are you sure you want to undeploy ${applicationName}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "/api/applications/undeploy",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    application_name: applicationName
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        location.reload();
+
+    }
+
+    catch (error) {
+
+        alert("Unable to start undeployment.");
+
+    }
+
+}
