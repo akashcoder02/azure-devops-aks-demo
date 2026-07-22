@@ -32,6 +32,60 @@ class ApplicationsService:
 
             return ""
 
+    def get_deployment_status(
+        self,
+        deployment_name,
+        namespace="default"
+    ):
+
+        try:
+
+            result = subprocess.run(
+
+                [
+                    "kubectl",
+                    "get",
+                    "deployment",
+                    deployment_name,
+                    "-n",
+                    namespace,
+                    "-o",
+                    "json"
+                ],
+
+                capture_output=True,
+                text=True,
+                check=True
+
+            )
+
+            import json
+
+            deployment = json.loads(result.stdout)
+
+            desired = deployment["status"].get("replicas", 0)
+
+            ready = deployment["status"].get("readyReplicas", 0)
+
+            if desired == 0:
+
+                return "Stopped"
+
+            if ready == desired:
+
+                return "Running"
+
+            return "Degraded"
+
+        except Exception as e:
+
+            print("=" * 50)
+            print("Deployment:", deployment_name)
+            print(e)
+            print("=" * 50)
+
+            return "Unavailable"
+
     def get_applications(self):
 
         public_ip = self.get_public_ip()
@@ -41,7 +95,9 @@ class ApplicationsService:
             {
                 "name": "tic-tac-toe",
                 "icon": "🎮",
-                "status": "Running",
+                "status": self.get_deployment_status(
+                    "tic-tac-toe"
+                ),
                 "namespace": "default",
                 "deployment": "GitOps",
                 "pods": "2/2",
@@ -62,7 +118,9 @@ class ApplicationsService:
             {
                 "name": "tetris",
                 "icon": "🧱",
-                "status": "Running",
+                "status": self.get_deployment_status(
+                    "tetris"
+                ),
                 "namespace": "default",
                 "deployment": "Traditional",
                 "pods": "1/1",
