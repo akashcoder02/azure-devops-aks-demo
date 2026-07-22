@@ -1,21 +1,29 @@
 import json
-
-from services.script_runner import run_script
+import subprocess
 
 
 class HPAService:
 
     def get_hpas(self):
 
-        output = run_script(
-            "kubectl get hpa -o json"
-        )
-
         try:
+
+            output = subprocess.check_output(
+                [
+                    "kubectl",
+                    "get",
+                    "hpa",
+                    "-o",
+                    "json"
+                ],
+                text=True
+            )
 
             data = json.loads(output)
 
-        except Exception:
+        except Exception as ex:
+
+            print(f"HPA Error: {ex}")
 
             return []
 
@@ -29,19 +37,11 @@ class HPAService:
 
             for metric in item["spec"].get("metrics", []):
 
-                if (
-                    metric.get("resource", {})
-                    .get("name")
-                    == "cpu"
-                ):
+                if metric.get("resource", {}).get("name") == "cpu":
 
-                    cpu_target = (
-                        metric["resource"]
-                        ["target"]
-                        .get(
-                            "averageUtilization",
-                            "-"
-                        )
+                    cpu_target = metric["resource"]["target"].get(
+                        "averageUtilization",
+                        "-"
                     )
 
             for metric in item.get(
@@ -52,55 +52,39 @@ class HPAService:
                 []
             ):
 
-                if (
-                    metric.get("resource", {})
-                    .get("name")
-                    == "cpu"
-                ):
+                if metric.get("resource", {}).get("name") == "cpu":
 
-                    current_cpu = (
-                        metric["resource"]
-                        ["current"]
-                        .get(
-                            "averageUtilization",
-                            "-"
-                        )
+                    current_cpu = metric["resource"]["current"].get(
+                        "averageUtilization",
+                        "-"
                     )
 
             hpas.append({
 
-                "name":
-                    item["metadata"]["name"],
+                "name": item["metadata"]["name"],
 
-                "namespace":
-                    item["metadata"]["namespace"],
+                "namespace": item["metadata"]["namespace"],
 
-                "min_replicas":
-                    item["spec"].get(
-                        "minReplicas",
-                        1
-                    ),
+                "current_replicas": item["status"].get(
+                    "currentReplicas",
+                    0
+                ),
 
-                "max_replicas":
-                    item["spec"]["maxReplicas"],
+                "desired_replicas": item["status"].get(
+                    "desiredReplicas",
+                    0
+                ),
 
-                "current_replicas":
-                    item["status"].get(
-                        "currentReplicas",
-                        0
-                    ),
+                "min_replicas": item["spec"].get(
+                    "minReplicas",
+                    1
+                ),
 
-                "desired_replicas":
-                    item["status"].get(
-                        "desiredReplicas",
-                        0
-                    ),
+                "max_replicas": item["spec"]["maxReplicas"],
 
-                "cpu_target":
-                    cpu_target,
+                "cpu_target": cpu_target,
 
-                "current_cpu":
-                    current_cpu
+                "current_cpu": current_cpu
 
             })
 
