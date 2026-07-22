@@ -1,22 +1,18 @@
 // ========================================
-// Azure DevOps IDP Dashboard
+// Azure Internal Developer Platform
+// Dashboard
 // ========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Initial Load
-    loadDashboard();
-    loadJobStatus();
-
-    // Button Events
     bindButtons();
 
-    // Auto Refresh
-    setInterval(loadDashboard, 5000);
-    setInterval(loadJobStatus, 1000);
+    loadDashboard();
+
+    // Refresh dashboard every 30 seconds
+    setInterval(loadDashboard, 30000);
 
 });
-
 
 // ========================================
 // Button Events
@@ -24,114 +20,110 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function bindButtons() {
 
-    document.getElementById("start-btn")
-        .addEventListener("click", () => run("start"));
+    document
+        .getElementById("start-btn")
+        ?.addEventListener("click", () => run("start"));
 
-    document.getElementById("stop-btn")
-        .addEventListener("click", () => run("stop"));
+    document
+        .getElementById("stop-btn")
+        ?.addEventListener("click", () => run("stop"));
 
-    document.getElementById("doctor-btn")
-        .addEventListener("click", () => run("doctor"));
+    document
+        .getElementById("doctor-btn")
+        ?.addEventListener("click", () => run("doctor"));
 
-    document.getElementById("status-btn")
-            .addEventListener("click", () => run("status"));
+    document
+        .getElementById("status-btn")
+        ?.addEventListener("click", () => run("status"));
 
-    document.getElementById("resources-btn")
-            .addEventListener("click", () => run("resources"));
+    document
+        .getElementById("resources-btn")
+        ?.addEventListener("click", () => run("resources"));
 
-    document.getElementById("tic-deploy-btn")
-        .addEventListener("click", () => runApplication("tic-tac-toe", "deploy"));
+    document
+        .getElementById("jobs-btn")
+        ?.addEventListener("click", () => {
 
-    document.getElementById("tic-status-btn")
-        .addEventListener("click", () => runApplication("tic-tac-toe", "status"));
-
-    document.getElementById("tic-undeploy-btn")
-        .addEventListener("click", () => runApplication("tic-tac-toe", "undeploy"));
-
-
-    document.getElementById("tic-open-btn")
-        .addEventListener("click", () => {
-
-            const url = document.getElementById("tic-open-btn").dataset.url;
-
-            if (url) {
-            window.open(url, "_blank");
-            }
+            window.location.href = "/platform/jobs";
 
         });
 
 }
 
-
 // ========================================
-// Execute Script
+// Execute Platform Actions
 // ========================================
 
 async function run(action) {
 
-    let url = "/api/run";
+    let url = "";
 
-    if(action === "start"){
+    switch (action) {
 
-        url = "/api/platform/start";
+        case "start":
+            url = "/api/platform/start";
+            break;
+
+        case "stop":
+            url = "/api/platform/stop";
+            break;
+
+        case "doctor":
+            url = "/api/platform/doctor";
+            break;
+
+        case "status":
+            url = "/api/platform/status";
+            break;
+
+        case "resources":
+            url = "/api/platform/resources";
+            break;
+
+        default:
+            return;
 
     }
-    else if(action === "stop"){
 
-        url = "/api/platform/stop";
+    try {
 
-    }
-    else if(action === "doctor"){
+        const response = await fetch(url, {
 
-        url = "/api/platform/doctor";
-
-    }
-    else if(action === "status"){
-
-        url = "/api/platform/status";
-
-    }
-    else if(action === "resources"){
-
-        url = "/api/platform/resources";
-
-    }
-
-    const response = await fetch(
-        url,
-        {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                action: action
-            })
-        }
-    );
+            }
 
-    const result = await response.json();
+        });
 
-    alert(result.message);
+        const result = await response.json();
+
+        alert(result.message || "Action completed.");
+
+        // Refresh dashboard after action
+        loadDashboard();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Failed to execute platform action.");
+
+    }
 
 }
 
-async function runApplication(app, action) {
+// ========================================
+// Helpers
+// ========================================
 
-    const response = await fetch(
-        `/api/applications/${app}/${action}`,
-        {
-            method: "POST"
-        }
-    );
+function updateText(id, value) {
 
-    const result = await response.json();
+    const element = document.getElementById(id);
 
-    if (!result.success) {
+    if (!element) return;
 
-        alert("Another job is already running.");
-
-    }
+    element.textContent = value ?? "-";
 
 }
 
@@ -143,53 +135,29 @@ function updateStatus(id, status) {
 
     element.className = "";
 
-    const value = (status || "").trim().toUpperCase();
+    const value = (status || "").toUpperCase();
 
     switch (value) {
 
         case "RUNNING":
-            element.innerHTML = "🟢 Running";
-            element.classList.add("running");
-            break;
-
         case "CONNECTED":
-            element.innerHTML = "🟢 Connected";
-            element.classList.add("running");
-            break;
-
         case "READY":
-            element.innerHTML = "🟢 Ready";
-            element.classList.add("running");
-            break;
-
         case "HEALTHY":
-            element.innerHTML = "🟢 Healthy";
-            element.classList.add("running");
-            break;
-
         case "AVAILABLE":
-            element.innerHTML = "🟢 Available";
+            element.innerHTML = "🟢 " + status;
             element.classList.add("running");
-            break;
-
-        case "STOPPED":
-            element.innerHTML = "🔴 Stopped";
-            element.classList.add("stopped");
-            break;
-
-        case "NOT_CONNECTED":
-            element.innerHTML = "🔴 Not Connected";
-            element.classList.add("stopped");
-            break;
-
-        case "UNAVAILABLE":
-            element.innerHTML = "🔴 Unavailable";
-            element.classList.add("stopped");
             break;
 
         case "DEGRADED":
             element.innerHTML = "🟡 Degraded";
             element.classList.add("warning");
+            break;
+
+        case "STOPPED":
+        case "UNAVAILABLE":
+        case "NOT CONNECTED":
+            element.innerHTML = "🔴 " + status;
+            element.classList.add("stopped");
             break;
 
         case "NOT CONFIGURED":
@@ -198,383 +166,292 @@ function updateStatus(id, status) {
             break;
 
         default:
-            element.innerHTML = value || "Unknown";
+            element.innerHTML = status || "Unknown";
             element.classList.add("unknown");
+
+    }
+
+}
+
+// ========================================
+// Load Dashboard
+// ========================================
+
+async function loadDashboard() {
+
+    try {
+
+        const response = await fetch("/api/dashboard");
+
+        const data = await response.json();
+
+        loadPlatformSummary(data);
+
+        loadInfrastructure(data);
+
+        loadDeploymentHistory(data);
+
+    } catch (error) {
+
+        console.error("Dashboard Error:", error);
+
     }
 
 }
 
 // ========================================
-// Platform Status
+// Platform Summary
 // ========================================
 
-async function loadPlatformStatus() {
+function loadPlatformSummary(data) {
 
-    const response = await fetch("/api/platform-status");
+    // Platform
 
-    const data = await response.json();
+    updateStatus(
+        "platform-status",
+        data.platform_health.status
+    );
 
-    updateStatus("azure-status", data.AZURE);
+    updateText(
+        "platform-health",
+        data.platform_health.summary
+    );
 
-    updateStatus("terraform-status", data.TERRAFORM_STATUS);
+    updateText(
+        "last-updated",
+        new Date().toLocaleTimeString()
+    );
 
-    updateStatus("docker-status", data.DOCKER);
+    // Azure
 
-    updateStatus("aks-status", data.AKS);
+    updateStatus(
+        "azure-status",
+        data.infrastructure.azure
+    );
 
-    updateStatus("acr-status", data.ACR_STATUS);
+    updateText(
+        "azure-region",
+        "Central India"
+    );
 
-    updateStatus("platform-status", data.AKS);
+    // AKS
 
-    document.getElementById("node-count").innerText =
-        data.NODES || "0";
+    updateStatus(
+        "aks-status",
+        data.infrastructure.aks.status
+    );
 
-    document.getElementById("pod-count").innerText =
-        data.PODS || "0";
+    updateText(
+        "node-count",
+        data.kubernetes.nodes.total
+    );
 
-    document.getElementById("platform-summary").innerHTML =
-        data.CLUSTER || "Offline";
+    updateText(
+        "pod-count",
+        data.kubernetes.pods.total
+    );
 
-    console.log("AKS Status =", data.AKS);
+    updateText(
+        "aks-version",
+        data.infrastructure.aks.version
+    );
 
-    const platformRunning = (data.AKS || "").trim().toUpperCase() === "RUNNING";
+    // Applications
 
-    console.log("Platform Running =", platformRunning); 
+    updateText(
+        "application-count",
+        data.applications.length
+    );
 
-    const startBtn = document.getElementById("start-btn");
-    const stopBtn = document.getElementById("stop-btn");
+    const healthyApps = data.applications.filter(
 
-    startBtn.disabled = platformRunning;
-    stopBtn.disabled = !platformRunning;
+        app => app.health === "Healthy"
 
-    if (platformRunning) {
+    ).length;
 
-        startBtn.style.opacity = "0.4";
-        startBtn.style.cursor = "not-allowed";
+    updateText(
+        "healthy-applications",
+        healthyApps
+    );
 
-        stopBtn.style.opacity = "1";
-        stopBtn.style.cursor = "pointer";
+    // GitOps
 
-} else {
+    updateText(
+        "argocd-app-count",
+        data.gitops.length
+    );
 
-        startBtn.style.opacity = "1";
-        startBtn.style.cursor = "pointer";
+    const healthyGitOps = data.gitops.filter(
 
-        stopBtn.style.opacity = "0.4";
-        stopBtn.style.cursor = "not-allowed";
+        app => app.health === "Healthy"
 
-}
+    ).length;
 
-}
+    updateStatus(
+        "argocd-status",
+        healthyGitOps > 0
+            ? "Healthy"
+            : "Unavailable"
+    );
 
-async function loadApplicationStatus() {
+    // Monitoring
 
-    const response = await fetch("/api/applications/tic-tac-toe/status");
+    updateStatus(
+        "monitoring-status",
+        data.observability.prometheus.status
+    );
 
-    const data = await response.json();
+    // Logging
 
-    const openBtn = document.getElementById("tic-open-btn");
+    updateStatus(
+        "logging-status",
+        data.observability.loki.status
+    );
 
-    const deployBtn = document.getElementById("tic-deploy-btn");
-    const undeployBtn = document.getElementById("tic-undeploy-btn");
-    const statusBtn = document.getElementById("tic-status-btn");
+    // HPA
 
-    if (data.URL && data.URL !== "-") {
+    updateStatus(
+        "hpa-status",
+        data.autoscaling.active_hpas > 0
+            ? "Running"
+            : "Not Configured"
+    );
 
-        openBtn.disabled = false;
-
-        openBtn.dataset.url = data.URL;
-
-        document.getElementById("tic-status").innerHTML =
-            "🟢 Running";
-
-        document.getElementById("tic-summary").innerHTML =
-            data.URL;
-
-        deployBtn.disabled = true;
-        undeployBtn.disabled = false;
-        statusBtn.disabled = false;
-
-        deployBtn.style.opacity = "0.4";
-        deployBtn.style.cursor = "not-allowed";
-
-        undeployBtn.style.opacity = "1";
-        undeployBtn.style.cursor = "pointer";
-
-        statusBtn.style.opacity = "1";
-        statusBtn.style.cursor = "pointer";
-
-    } else {
-
-        openBtn.disabled = true;
-
-        openBtn.dataset.url = "";
-
-        document.getElementById("tic-status").innerHTML =
-            "🔴 Not Deployed";
-
-        document.getElementById("tic-summary").innerHTML =
-            "Ready to deploy";
-        deployBtn.disabled = false;
-        undeployBtn.disabled = true;
-        statusBtn.disabled = false;
-
-        deployBtn.style.opacity = "1";
-        deployBtn.style.cursor = "pointer";
-
-        undeployBtn.style.opacity = "0.4";
-        undeployBtn.style.cursor = "not-allowed";
-
-        statusBtn.style.opacity = "1";
-        statusBtn.style.cursor = "pointer";
-
-    }
-
-}
-// ========================================
-// Job Status
-// ========================================
-
-async function loadJobStatus() {
-
-    const response = await fetch("/api/status");
-
-    const job = await response.json();
-
-    document.getElementById("job-status").innerText =
-        job.status;
-
-    document.getElementById("job-script").innerText =
-        job.script || "None";
-
-    document.getElementById("terminal").innerText =
-        job.output || "Waiting for platform commands...";
-
-    if (job.status === "COMPLETED") {
-
-    loadPlatformStatus();
-    loadApplicationStatus();
-
-}
+    updateText(
+        "hpa-enabled-count",
+        data.autoscaling.active_hpas
+    );
 
 }
 
 // ========================================
-// Clock
+// Infrastructure Overview
 // ========================================
 
-function updateClock() {
+function loadInfrastructure(data) {
 
-    document.getElementById("clock").textContent =
-        new Date().toLocaleString();
+    // Azure
 
-}
+    updateStatus(
+        "azure-status-card",
+        data.infrastructure.azure
+    );
 
-setInterval(updateClock, 1000);
+    // Azure Container Registry
 
-updateClock();
+    updateStatus(
+        "acr-status",
+        data.infrastructure.acr.status
+    );
 
-async function loadMonitoringStatus() {
+    // Terraform
+    // (Later we can make this dynamic)
 
-    const response = await fetch("/api/monitoring");
+    updateStatus(
+        "terraform-status",
+        "Available"
+    );
 
-    const data = await response.json();
+    // Docker
+    // (Later we can make this dynamic)
 
-    updateStatus("prometheus-status", data.prometheus);
+    updateStatus(
+        "docker-status",
+        "Available"
+    );
 
-    updateStatus("grafana-status", data.grafana);
+    // Key Vault
 
-}
+    updateStatus(
+        "keyvault-status",
+        data.infrastructure.key_vault.status
+    );
 
-async function loadLoggingStatus() {
+    // Terraform Backend
 
-    const response = await fetch("/api/logging");
-
-    const data = await response.json();
-
-    updateStatus("fluentbit-status", data.fluentbit);
-
-    updateStatus("loki-status", data.loki);
-
-}
-
-async function loadInfrastructureStatus() {
-
-    const response = await fetch("/api/infrastructure/status");
-
-    const data = await response.json();
-
-    document.getElementById("node-count").innerText =
-        data.nodes;
-
-    document.getElementById("pod-count").innerText =
-        data.pods;
-
-    updateText("hpa-status", data.hpa);
-
-    
-
-    document.getElementById("platform-summary").innerHTML =
-        `${data.deployments} Deployments • ${data.services} Services`;
+    updateStatus(
+        "backend-status",
+        "Connected"
+    );
 
 }
 
-function updateText(id, value){
+// ========================================
+// Deployment History
+// ========================================
 
-    const element = document.getElementById(id);
-
-    if(element){
-
-        element.innerHTML = value;
-
-    }
-
-}
-
-
-async function loadGitOpsStatus() {
-
-    updateStatus("argocd-status", "Running");
-
-    updateText("argocd-autosync", "Enabled");
-
-    updateText("argocd-last-sync", "Auto");
-
-}
-
-async function loadHPAStatus() {
-
-    const response = await fetch("/api/infrastructure/status");
-
-    const data = await response.json();
-
-    updateText("hpa-status", data.hpa);
-
-}
-
-async function loadDeploymentHistory() {
+function loadDeploymentHistory(data) {
 
     const tbody = document.getElementById("deployment-history");
 
     if (!tbody) return;
 
-    tbody.innerHTML = `
-        <tr>
-            <td>Tic Tac Toe</td>
-            <td>Latest</td>
-            <td>Running</td>
-            <td>${new Date().toLocaleString()}</td>
-        </tr>
-    `;
+    tbody.innerHTML = "";
 
-}
+    if (!data.deployment_history || data.deployment_history.length === 0) {
 
-async function loadPlatformHealth() {
-
-    const response = await fetch("/api/infrastructure/status");
-
-    const data = await response.json();
-
-    let score = 100;
-
-    if (data.cluster !== "Running") {
-        score = 0;
-    }
-
-    updateText("health-score", score + "%");
-
-}
-
-async function loadDashboard() {
-
-    const response = await fetch("/api/dashboard");
-
-    const data = await response.json();
-
-    // Platform
-    updateStatus("platform-status", data.platform_health.status);
-    updateText("platform-summary", data.platform_health.summary);
-
-    // Infrastructure
-    updateStatus("azure-status", data.infrastructure.azure);
-    updateStatus("aks-status", data.infrastructure.aks.status);
-    updateStatus("acr-status", data.infrastructure.acr.status);
-    updateStatus("keyvault-status", data.infrastructure.key_vault.status);
-
-    updateText("node-count", data.kubernetes.nodes.total);
-    updateText("pod-count", data.kubernetes.pods.total);
-
-    // Monitoring
-    updateStatus("prometheus-status", data.observability.prometheus.status);
-    updateStatus("grafana-status", data.observability.grafana.status);
-
-    // Logging
-    updateStatus("fluentbit-status", data.observability.fluent_bit.status);
-    updateStatus("loki-status", data.observability.loki.status);
-
-    // Applications
-    if (data.applications.length > 0) {
-
-        const tic = data.applications[0];
-
-        updateStatus("tic-status", tic.health);
-        updateText("tic-pods", tic.pods.running + "/" + tic.pods.total);
-        updateText("tic-replicas", tic.replicas.ready + "/" + tic.replicas.desired);
-        updateText("tic-hpa", tic.hpa.status);
-
-    }
-
-    if (data.applications.length > 1) {
-
-        const tetris = data.applications[1];
-
-        updateStatus("tetris-status", tetris.health);
-        updateText("tetris-pods", tetris.pods.running + "/" + tetris.pods.total);
-        updateText("tetris-replicas", tetris.replicas.ready + "/" + tetris.replicas.desired);
-        updateText("tetris-hpa", tetris.hpa.status);
-
-    }
-
-    // GitOps
-    if (data.gitops.length > 0) {
-
-        updateStatus("argocd-status", data.gitops[0].health);
-
-        updateText(
-            "argocd-autosync",
-            data.gitops[0].auto_sync ? "Enabled" : "Disabled"
-        );
-
-        updateText(
-            "argocd-last-sync",
-            data.gitops[0].last_sync
-        );
-
-    }
-
-    // Platform Health
-    updateText("health-score", data.platform_health.status);
-
-    // Deployment History
-    const tbody = document.getElementById("deployment-history");
-
-    if (tbody) {
-
-        tbody.innerHTML = "";
-
-        data.deployment_history.forEach(item => {
-
-            tbody.innerHTML += `
+        tbody.innerHTML = `
             <tr>
-                <td>${item.Application}</td>
-                <td>${item.Image}</td>
-                <td>${item.Status}</td>
-                <td>${item.Timestamp}</td>
+                <td colspan="4">
+                    No deployment history found.
+                </td>
             </tr>
-            `;
+        `;
 
-        });
+        return;
 
     }
 
+    data.deployment_history.forEach(item => {
+
+        const imageTag = item.Image.includes(":")
+            ? item.Image.split(":").pop()
+            : item.Image;
+
+        tbody.innerHTML += `
+            <tr>
+
+                <td>${item.Application}</td>
+
+                <td>${imageTag}</td>
+
+                <td>${item.Status}</td>
+
+                <td>${item.Timestamp}</td>
+
+            </tr>
+        `;
+
+    });
+
 }
+
+// ========================================
+// Dashboard Utilities
+// ========================================
+
+function showDashboardError(error) {
+
+    console.error("Dashboard Error:", error);
+
+}
+
+// ========================================
+// Refresh Dashboard
+// ========================================
+
+function refreshDashboard() {
+
+    loadDashboard();
+
+}
+
+// ========================================
+// Future Hooks
+// ========================================
+
+// loadPlatformJobs()
+// loadPipelineStatus()
+// loadPlatformEvents()
+// loadResourceUsage()
+// loadNotifications()

@@ -43,11 +43,10 @@
     </button>
 
     <button id="jobs-btn" class="primary-btn">
-    ⚙ Platform Jobs
+        ⚙ Platform Jobs
     </button>
 
 </div>
-
 
 <!-- ====================================================== -->
 <!-- PLATFORM SUMMARY -->
@@ -57,206 +56,237 @@
 
 <div class="card-grid">
 
+    <!-- Platform -->
+
     <div class="card">
+
         <h3>🟢 Platform</h3>
+
         <p id="platform-status">Unknown</p>
-        <small id="platform-summary">Waiting...</small>
+
+        <small>Health Checks</small>
+
+        <p id="platform-health">0 / 9</p>
+
+        <br>
+
+        <small>
+            Last Updated:
+            <span id="last-updated">--</span>
+        </small>
+
     </div>
 
-    <div class="card">
-        <h3>☁ Azure</h3>
-        <p id="azure-status">Unknown</p>
-    </div>
+    <!-- Azure -->
 
     <div class="card">
+
+        <h3>📦 Applications</h3>
+
+        <small>
+            Running:
+            <span id="application-count">0</span>
+        </small>
+
+        <br>
+
+        <small>
+            Healthy:
+            <span id="healthy-applications">0</span>
+        </small>
+
+        <br>
+
+        <small>
+            HPA Enabled:
+            <span id="hpa-enabled-count">0</span>
+        </small>
+
+    </div>
+
+    <!-- AKS -->
+
+    <div class="card">
+
         <h3>☸ AKS</h3>
 
         <p id="aks-status">Unknown</p>
 
         <small>
-            Nodes :
+            Nodes:
             <span id="node-count">0</span>
         </small>
 
         <br>
 
         <small>
-            Pods :
+            Pods:
             <span id="pod-count">0</span>
+        </small>
+
+        <br>
+
+        <small>
+            Version:
+            <span id="aks-version">-</span>
         </small>
 
     </div>
 
-    <div class="card">
-        <h3>📦 Applications</h3>
-        <p>2</p>
-        <small>Tic Tac Toe & Tetris</small>
-    </div>
+    <!-- GitOps -->
 
     <div class="card">
+
         <h3>⚙ GitOps</h3>
-        <p id="argocd-status">Checking...</p>
+
+        <p id="argocd-status">Unknown</p>
+
+        <small>
+            Applications:
+            <span id="argocd-app-count">0</span>
+        </small>
+
     </div>
 
+    <!-- Monitoring -->
+
     <div class="card">
+
         <h3>📊 Monitoring</h3>
-        <p id="monitoring-status">Checking...</p>
+
+        <p id="monitoring-status">Unknown</p>
+
+        <small>
+            Prometheus + Grafana
+        </small>
+
     </div>
 
+    <!-- Logging -->
+
     <div class="card">
+
         <h3>📜 Logging</h3>
-        <p id="logging-status">Checking...</p>
+
+        <p id="logging-status">Unknown</p>
+
+        <small>
+            Loki + Fluent Bit
+        </small>
+
     </div>
 
+    <!-- HPA -->
+
     <div class="card">
+
         <h3>🔥 HPA</h3>
-        <p id="hpa-status">Checking...</p>
+
+        <p id="hpa-status">Unknown</p>
+
+        <small>
+            Applications:
+            <span id="hpa-enabled-count">0</span>
+        </small>
+
     </div>
 
 </div>
 
 <!-- ====================================================== -->
-<!-- INFRASTRUCTURE -->
+<!-- INFRASTRUCTURE OVERVIEW -->
 <!-- ====================================================== -->
 
 <h2>Infrastructure Overview</h2>
 
 <div class="card-grid">
 
+    <!-- Azure -->
+
     <div class="card">
+
         <h3>☁ Azure</h3>
-        <p id="azure-status-card">Connected</p>
+
+        <p id="azure-status">Connected</p>
+
+        <small>
+            Region:
+            <span id="azure-region">Central India</span>
+        </small>
+
     </div>
 
+    <!-- ACR -->
+
     <div class="card">
+
         <h3>📦 Azure Container Registry</h3>
-        <p id="acr-status">Checking...</p>
+
+        <p id="acr-status">Unknown</p>
+
+        <small>
+            Container Images
+        </small>
+
     </div>
 
+    <!-- Terraform -->
+
     <div class="card">
+
         <h3>⚙ Terraform</h3>
+
         <p id="terraform-status">Unknown</p>
+
+        <small>
+            Infrastructure as Code
+        </small>
+
     </div>
 
+    <!-- Docker -->
+
     <div class="card">
+
         <h3>🐳 Docker</h3>
+
         <p id="docker-status">Unknown</p>
+
+        <small>
+            Container Runtime
+        </small>
+
     </div>
 
+    <!-- Key Vault -->
+
     <div class="card">
+
         <h3>🔐 Key Vault</h3>
-        <p id="keyvault-status">Checking...</p>
+
+        <p id="keyvault-status">Unknown</p>
+
+        <small>
+            Secrets Management
+        </small>
+
     </div>
 
+    <!-- Terraform Backend -->
+
     <div class="card">
+
         <h3>🗄 Terraform Backend</h3>
-        <p id="backend-status">Connected</p>
-    </div>
 
-</div>
+        <p id="backend-status">Unknown</p>
 
-<!-- ====================================================== -->
-<!-- APPLICATIONS -->
-<!-- ====================================================== -->
-
-<h2>Applications</h2>
-
-<div class="card-grid">
-
-    <!-- Tic Tac Toe -->
-
-    <div class="card">
-
-        <h3>🎮 Tic Tac Toe</h3>
-
-        <p id="tic-status" class="unknown">
-            Not Deployed
-        </p>
-
-        <small id="tic-summary">
-            Ready to deploy
+        <small>
+            Remote State Storage
         </small>
-
-        <hr>
-
-        <p><strong>Pods:</strong> <span id="tic-pods">-</span></p>
-
-        <p><strong>Replicas:</strong> <span id="tic-replicas">-</span></p>
-
-        <p><strong>HPA:</strong> <span id="tic-hpa">-</span></p>
-
-        <div class="button-grid">
-
-            <button id="tic-open-btn" disabled>
-                🌐 Open
-            </button>
-
-            <button id="tic-deploy-btn">
-                🚀 Deploy
-            </button>
-
-            <button id="tic-status-btn">
-                📊 Status
-            </button>
-
-            <button id="tic-undeploy-btn">
-                🗑 Undeploy
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- Tetris -->
-
-    <div class="card">
-
-        <h3>🧱 Tetris</h3>
-
-        <p id="tetris-status" class="unknown">
-            Not Deployed
-        </p>
-
-        <small id="tetris-summary">
-            Ready to deploy
-        </small>
-
-        <hr>
-
-        <p><strong>Pods:</strong> <span id="tetris-pods">-</span></p>
-
-        <p><strong>Replicas:</strong> <span id="tetris-replicas">-</span></p>
-
-        <p><strong>HPA:</strong> <span id="tetris-hpa">-</span></p>
-
-        <div class="button-grid">
-
-            <button id="tetris-open-btn" disabled>
-                🌐 Open
-            </button>
-
-            <button id="tetris-deploy-btn">
-                🚀 Deploy
-            </button>
-
-            <button id="tetris-status-btn">
-                📊 Status
-            </button>
-
-            <button id="tetris-undeploy-btn">
-                🗑 Undeploy
-            </button>
-
-        </div>
 
     </div>
 
 </div>
-
-<!-- ====================================================== -->
-<!-- PLATFORM OPERATIONS -->
-<!-- ====================================================== -->
-
 
 <!-- ====================================================== -->
 <!-- DEPLOYMENT HISTORY -->
@@ -290,7 +320,7 @@
 
                 <td colspan="4">
 
-                    Waiting for deployment history...
+                    No deployments found.
 
                 </td>
 
@@ -303,239 +333,13 @@
 </div>
 
 <!-- ====================================================== -->
-<!-- GITOPS -->
+<!-- END OF DASHBOARD -->
 <!-- ====================================================== -->
 
-<h2>GitOps</h2>
+{% endblock %}
 
-<div class="card-grid">
+{% block scripts %}
 
-    <div class="card">
-
-        <h3>⚙️ ArgoCD</h3>
-
-        <p id="argocd-status">
-            Checking...
-        </p>
-
-        <small>
-            Auto Sync:
-            <span id="argocd-autosync">Enabled</span>
-        </small>
-
-        <br>
-
-        <small>
-            Last Sync:
-            <span id="argocd-last-sync">-</span>
-        </small>
-
-    </div>
-
-    <div class="card">
-
-        <h3>📦 Applications</h3>
-
-        <p id="argocd-apps">
-            2
-        </p>
-
-        <small>
-            GitOps Managed
-        </small>
-
-    </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- MONITORING -->
-<!-- ====================================================== -->
-
-<h2>Monitoring</h2>
-
-<div class="card-grid">
-
-    <div class="card">
-
-        <h3>📊 Prometheus</h3>
-
-        <p id="prometheus-status">
-            Checking...
-        </p>
-
-        <small>
-            Targets:
-            <span id="prometheus-targets">-</span>
-        </small>
-
-    </div>
-
-    <div class="card">
-
-        <h3>📈 Grafana</h3>
-
-        <p id="grafana-status">
-            Checking...
-        </p>
-
-        <small>
-            Dashboards:
-            <span id="grafana-dashboards">-</span>
-        </small>
-
-    </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- LOGGING -->
-<!-- ====================================================== -->
-
-<h2>Logging</h2>
-
-<div class="card-grid">
-
-    <div class="card">
-
-        <h3>📜 Fluent Bit</h3>
-
-        <p id="fluentbit-status">
-            Checking...
-        </p>
-
-        <small>
-            DaemonSet
-        </small>
-
-    </div>
-
-    <div class="card">
-
-        <h3>🗄️ Loki</h3>
-
-        <p id="loki-status">
-            Checking...
-        </p>
-
-        <small>
-            StatefulSet
-        </small>
-
-    </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- AUTOSCALING -->
-<!-- ====================================================== -->
-
-<h2>Autoscaling</h2>
-
-<div class="card-grid">
-
-    <div class="card">
-
-        <h3>🔥 Horizontal Pod Autoscaler</h3>
-
-        <p id="hpa-status">
-            Checking...
-        </p>
-
-        <small>
-
-            Current Replicas:
-            <span id="hpa-current">-</span>
-
-        </small>
-
-        <br>
-
-        <small>
-
-            CPU Target:
-            <span id="hpa-cpu">70%</span>
-
-        </small>
-
-    </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- PLATFORM HEALTH -->
-<!-- ====================================================== -->
-
-<h2>Platform Health</h2>
-
-<div class="card-grid">
-
-    <div class="card">
-
-        <h3>💚 Overall Health</h3>
-
-        <p id="health-score">
-
-            98%
-
-        </p>
-
-        <small>
-
-            Platform Healthy
-
-        </small>
-
-    </div>
-
-    <div class="card">
-
-        <h3>✅ Component Status</h3>
-
-        <ul class="health-list">
-
-            <li>AKS</li>
-
-            <li>ArgoCD</li>
-
-            <li>Prometheus</li>
-
-            <li>Grafana</li>
-
-            <li>Fluent Bit</li>
-
-            <li>Loki</li>
-
-            <li>Applications</li>
-
-        </ul>
-
-    </div>
-
-</div>
-
-<!-- ====================================================== -->
-<!-- AI PLATFORM DOCTOR -->
-<!-- ====================================================== -->
-
-<h2>🤖 AI Platform Doctor</h2>
-
-<div class="card">
-
-    <h3>AI Assisted Platform Diagnostics</h3>
-
-    <p>
-
-        Coming in Version 2.0
-
-    </p>
-
-    <button disabled>
-
-        Run AI Platform Doctor
-
-    </button>
-
-</div>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
 {% endblock %}

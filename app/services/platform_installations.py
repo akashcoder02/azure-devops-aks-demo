@@ -35,6 +35,44 @@ class PlatformInstallationsService:
             print(e)
             return False
 
+    def get_namespaces(self):
+
+        try:
+
+            result = subprocess.run(
+
+                [
+                    "kubectl",
+                    "get",
+                    "namespaces",
+                    "-o",
+                    "json"
+                ],
+
+                capture_output=True,
+                text=True,
+                check=True
+
+            )
+
+            data = json.loads(result.stdout)
+
+            namespaces = {
+
+                item["metadata"]["name"]
+
+                for item in data["items"]
+
+            }
+
+            return namespaces
+
+        except Exception as e:
+
+            print(e)
+
+            return set()
+
     def get_argocd_version(self):
 
         try:
@@ -170,12 +208,14 @@ class PlatformInstallationsService:
 
     def get_installations(self):
 
+        namespaces = self.get_namespaces()
+
         return {
 
             "argocd": {
 
                 "installed":
-                    self.check_namespace("argocd"),
+                    "argocd" in namespaces,
 
                 "namespace":
                     "argocd",
@@ -191,7 +231,7 @@ class PlatformInstallationsService:
             "monitoring": {
 
                 "installed":
-                    self.check_namespace("monitoring"),
+                     "monitoring" in namespaces,
 
                 "namespace":
                     "monitoring",
@@ -204,7 +244,7 @@ class PlatformInstallationsService:
             "logging": {
 
                 "installed":
-                    self.check_namespace("logging"),
+                    "logging" in namespaces,
 
                 "namespace":
                     "logging",

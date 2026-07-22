@@ -97,3 +97,13 @@ tbody tr:hover{
     background:#273449;
 
 }
+
+.running{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.stopped{
+    color:#ef4444;
+    font-weight:bold;
+}

@@ -14,8 +14,23 @@ ArgoCD Status
 <div class="summary">
 
     <div class="card">
+
         <h3>Server</h3>
-        <p>{{ status.server }}</p>
+
+        {% if status.server == "Running" %}
+
+            <p class="running">
+                🟢 Running
+            </p>
+
+        {% else %}
+
+            <p class="stopped">
+                🔴 {{ status.server }}
+            </p>
+
+        {% endif %}
+
     </div>
 
     <div class="card">
@@ -83,5 +98,11 @@ ArgoCD Status
 </table>
 
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/argocd.js') }}"></script>
 
 {% endblock %}

@@ -295,3 +295,11 @@ Applications
 <script src="{{ url_for('static', filename='js/hpa.js') }}"></script>
 
 {% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/release_status.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/deployment_history.js') }}"></script>
+
+{% endblock %}

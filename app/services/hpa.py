@@ -35,7 +35,11 @@ class HPAService:
 
             current_cpu = "-"
 
-            for metric in item["spec"].get("metrics", []):
+            spec_metrics = (
+                item.get("spec", {}).get("metrics") or []
+            )
+
+            for metric in spec_metrics:
 
                 if metric.get("resource", {}).get("name") == "cpu":
 
@@ -44,13 +48,11 @@ class HPAService:
                         "-"
                     )
 
-            for metric in item.get(
-                "status",
-                {}
-            ).get(
-                "currentMetrics",
-                []
-            ):
+            current_metrics = (
+                item.get("status", {}).get("currentMetrics") or []
+            )
+
+            for metric in current_metrics:
 
                 if metric.get("resource", {}).get("name") == "cpu":
 

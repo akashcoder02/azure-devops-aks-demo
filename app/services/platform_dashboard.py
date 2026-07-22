@@ -52,6 +52,7 @@ class PlatformDashboardService:
             return self._cache
 
     def _collect_overview(self) -> dict[str, Any]:
+        print("Collect overview started")
         nodes = self._kubernetes_nodes()
         pods = self._kubernetes_pods()
         applications = [
