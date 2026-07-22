@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Horizontal Pod Autoscaler</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/hpa.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+
+        ⚡ Horizontal Pod Autoscaler
+
+    </h1>
+
+    <div class="subtitle">
+
+        Live Kubernetes Autoscaling Status
+
+    </div>
+
+    <div class="cards">
+
+        {% if hpas %}
+
+            {% for hpa in hpas %}
+
+            <div class="card">
+
+                <div class="title">
+
+                    🚀 {{ hpa.name }}
+
+                </div>
+
+                <table>
+
+                    <tr>
+
+                        <td>Namespace</td>
+
+                        <td>{{ hpa.namespace }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Current Pods</td>
+
+                        <td>{{ hpa.current_replicas }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Desired Pods</td>
+
+                        <td>{{ hpa.desired_replicas }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Minimum Pods</td>
+
+                        <td>{{ hpa.min_replicas }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Maximum Pods</td>
+
+                        <td>{{ hpa.max_replicas }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>CPU Target</td>
+
+                        <td>
+
+                            {{ hpa.cpu_target }}%
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Current CPU</td>
+
+                        <td>
+
+                            {{ hpa.current_cpu }}%
+
+                        </td>
+
+                    </tr>
+
+                </table>
+
+                <button
+                    onclick="location.reload()">
+
+                    🔄 Refresh
+
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="card">
+
+                <h2>
+
+                    No Horizontal Pod Autoscalers Found
+
+                </h2>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script
+src="{{ url_for('static', filename='js/hpa.js') }}">
+</script>
+
+</body>
+
+</html>

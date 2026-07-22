@@ -134,6 +134,25 @@ Applications
 
 </div>
 
+<hr class="section-divider">
+
+<div class="dashboard-header">
+
+    <h1>⚡ Horizontal Pod Autoscaler</h1>
+
+    <p class="subtitle">
+
+        Kubernetes autoscaling status across all applications.
+
+    </p>
+
+</div>
+
+<div
+    id="hpaContainer"
+    class="applications-grid">
+
+</div>
 
 <!-- Release Modal -->
 
@@ -273,5 +292,6 @@ Applications
 
 <script src="{{ url_for('static', filename='js/deployment_history.js') }}"></script>
 <script src="{{ url_for('static', filename='js/applications.js') }}"></script>
+<script src="{{ url_for('static', filename='js/hpa.js') }}"></script>
 
 {% endblock %}

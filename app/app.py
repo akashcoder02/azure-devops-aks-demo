@@ -14,6 +14,7 @@ from routes.github_status import github_status_bp
 from routes.deployment_history import deployment_history_bp
 from routes.platform_actions import platform_actions_bp
 from routes.resources import resources_bp
+from routes.hpa import hpa_bp
 
 app = Flask(__name__)
 
@@ -31,6 +32,7 @@ app.register_blueprint(github_status_bp)
 app.register_blueprint(deployment_history_bp)
 app.register_blueprint(platform_actions_bp)
 app.register_blueprint(resources_bp)
+app.register_blueprint(hpa_bp)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
