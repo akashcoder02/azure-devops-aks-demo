@@ -10,10 +10,9 @@ resource "helm_release" "ingress_nginx" {
 controller:
   service:
     type: LoadBalancer
-    externalTrafficPolicy: Cluster
+    externalTrafficPolicy: Local
 
-    annotations:
-      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+    # annotations removed
 
   ingressClassResource:
     default: true
