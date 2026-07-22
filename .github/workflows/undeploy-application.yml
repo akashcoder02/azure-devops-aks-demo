@@ -1,0 +1,78 @@
+name: Undeploy Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      application_name:
+        description: "Select Application"
+        required: true
+        type: choice
+        options:
+          - tic-tac-toe
+          - tetris
+
+permissions:
+  contents: read
+
+jobs:
+  undeploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v4
+        with:
+          resource-group: rg-devops-demo
+          cluster-name: aks-devops-demo
+
+      - name: Undeploy Application
+        shell: bash
+        run: |
+
+          APP="${{ github.event.inputs.application_name }}"
+
+          echo "========================================="
+          echo "Undeploying Application: $APP"
+          echo "========================================="
+
+          kubectl delete deployment "$APP" --ignore-not-found=true
+
+          kubectl delete service "$APP" --ignore-not-found=true
+
+          kubectl delete ingress "${APP}-ingress" --ignore-not-found=true
+
+          kubectl delete hpa "$APP" --ignore-not-found=true
+
+          kubectl delete application "$APP" \
+            -n argocd \
+            --ignore-not-found=true
+
+          kubectl delete secretproviderclass "$APP" \
+            --ignore-not-found=true
+
+          echo ""
+          echo "Waiting for resources to terminate..."
+          sleep 10
+
+          echo ""
+          echo "Remaining Resources"
+          echo "------------------------------"
+
+          kubectl get deployment
+          kubectl get service
+          kubectl get ingress
+          kubectl get hpa
+          kubectl get application -n argocd || true
+
+          echo ""
+          echo "========================================="
+          echo "Application Undeployed Successfully"
+          echo "========================================="
