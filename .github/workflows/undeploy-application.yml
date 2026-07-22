@@ -49,14 +49,14 @@ jobs:
 
           kubectl delete ingress "${APP}-ingress" --ignore-not-found=true
 
-          kubectl delete hpa "$APP" --ignore-not-found=true
+          kubectl delete hpa "$APP" --ignore-not-found=true || true
 
           kubectl delete application "$APP" \
             -n argocd \
-            --ignore-not-found=true
+            --ignore-not-found=true || true
 
           kubectl delete secretproviderclass "$APP" \
-            --ignore-not-found=true
+            --ignore-not-found=true || true
 
           echo ""
           echo "Waiting for resources to terminate..."
