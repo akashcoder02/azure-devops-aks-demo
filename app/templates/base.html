@@ -4,39 +4,34 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
-        {% block title %}Azure DevOps IDP{% endblock %}
+        {% block title %}
+        Azure DevOps IDP
+        {% endblock %}
     </title>
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Global CSS -->
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/cards.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/cards.css') }}"
+    >
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/applications.css') }}">
+    <!-- Page Specific CSS -->
 
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/infrastructure.css') }}">
-
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/platform_installations.css') }}">
-
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/argocd.css') }}">
-
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/release_status.css') }}">
-
-    <link rel="stylesheet"
-      href="{{ url_for('static', filename='css/deployment_history.css') }}">
-
+    {% block css %}
+    {% endblock %}
 
 </head>
 
@@ -48,46 +43,58 @@
 
         <ul>
 
-    <li><a href="/">🏠 Dashboard</a></li>
+            <li>
+                <a href="/">🏠 Dashboard</a>
+            </li>
 
-    <li><a href="/platform">🚀 Platform</a></li>
+            <li>
+                <a href="/platform">🚀 Platform</a>
+            </li>
 
-    <li>
-        <a href="{{ url_for('platform_installations.platform_installations') }}">
-            
-           🧩 <span> Platform Installations</span>
-        </a>
-    </li>
+            <li>
+                <a href="{{ url_for('platform_installations.platform_installations') }}">
+                    🧩 Platform Installations
+                </a>
+            </li>
 
-    
+            <li>
+                <a href="/applications">📦 Applications</a>
+            </li>
 
-    <li><a href="/applications">📦 Applications</a></li>
+            <li>
+                <a href="/infrastructure">☁ Infrastructure</a>
+            </li>
 
-    <li><a href="/infrastructure">☁ Infrastructure</a></li>
+            <li>
+                <a href="/monitoring">📊 Observability</a>
+            </li>
 
-    <li><a href="/monitoring">📊 Observability</a></li>
+            <li>
+                <a href="/logs">📜 Activity</a>
+            </li>
 
-    <li><a href="/logs">📜 Activity</a></li>
+            <li>
+                <a href="/settings">⚙ Settings</a>
+            </li>
 
-    <li><a href="/settings">⚙ Settings</a></li>
+            <li>
+                <a href="/about">ℹ About</a>
+            </li>
 
-    <li><a href="/about">ℹ About</a></li>
-
-</ul>
+        </ul>
 
     </div>
 
     <div class="main-content">
 
         {% block content %}
-
         {% endblock %}
 
     </div>
 
-{% block scripts %}{% endblock %}
+    {% block scripts %}
+    {% endblock %}
 
 </body>
 
 </html>
-

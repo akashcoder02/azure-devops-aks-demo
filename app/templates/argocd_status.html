@@ -4,6 +4,15 @@
 ArgoCD Status
 {% endblock %}
 
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/argocd.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="page-header">

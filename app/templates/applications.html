@@ -4,6 +4,25 @@
 Applications
 {% endblock %}
 
+{% block css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/applications.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/release_status.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/deployment_history.css') }}"
+>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="dashboard-header">
@@ -38,11 +57,31 @@ Applications
 
         </h3>
 
-        <span class="running">
+        {% if app.status == "Running" %}
 
-            ● {{ app.status }}
+            <span class="running">
+                🟢 Running
+            </span>
 
-        </span>
+        {% elif app.status == "Unavailable" %}
+
+            <span class="stopped">
+                🔴 Unavailable
+            </span>
+
+        {% elif app.status == "Degraded" %}
+
+            <span class="warning">
+                🟡 Degraded
+            </span>
+
+        {% else %}
+
+            <span class="unknown">
+                ⚪ {{ app.status }}
+            </span>
+
+        {% endif %}
 
     </div>
 

@@ -173,3 +173,81 @@
 .platform-card{
     margin-bottom:30px;
 }
+
+.deployment-table{
+    width:100%;
+    table-layout:fixed;
+}
+
+.deployment-table th:nth-child(1),
+.deployment-table td:nth-child(1){
+    width:15%;
+}
+
+.deployment-table th:nth-child(2),
+.deployment-table td:nth-child(2){
+    width:50%;
+    word-break:break-all;
+}
+
+.deployment-table th:nth-child(3),
+.deployment-table td:nth-child(3){
+    width:15%;
+}
+
+.deployment-table th:nth-child(4),
+.deployment-table td:nth-child(4){
+    width:20%;
+}
+
+/* ==========================================
+   Deployment History Table
+========================================== */
+
+.deployment-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:fixed;
+
+}
+
+.deployment-table th:nth-child(1),
+.deployment-table td:nth-child(1){
+
+    width:15%;
+
+}
+
+.deployment-table th:nth-child(2),
+.deployment-table td:nth-child(2){
+
+    width:50%;
+
+    word-break:break-all;
+
+}
+
+.deployment-table th:nth-child(3),
+.deployment-table td:nth-child(3){
+
+    width:15%;
+
+    text-align:center;
+
+}
+
+.deployment-table th:nth-child(4),
+.deployment-table td:nth-child(4){
+
+    width:20%;
+
+    text-align:center;
+
+}
+
+.card-grid > .card{
+    width:100%;
+}
