@@ -1,3 +1,8 @@
+from security.history_manager import (
+    history_manager
+)
+
+
 class Scanner:
 
     def __init__(
@@ -15,4 +20,29 @@ class Scanner:
 
     def run(self):
 
-        return self.parser.parse()
+        result = self.parser.parse()
+
+        history_manager.add(
+
+            scanner=self.name,
+
+            category=self.category,
+
+            status=result.get(
+                "status",
+                "Unknown"
+            ),
+
+            findings=result.get(
+                "findings",
+                0
+            ),
+
+            critical=result.get(
+                "critical",
+                0
+            )
+
+        )
+
+        return result

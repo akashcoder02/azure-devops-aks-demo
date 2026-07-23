@@ -1,0 +1,90 @@
+[
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:45:44"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:45:44"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:45:44"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:45:44"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:45:44"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:48:43"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:48:43"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:48:43"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:50:27"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:50:27"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-23 14:50:27"
+    }
+]

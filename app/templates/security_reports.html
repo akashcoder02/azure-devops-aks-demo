@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Security Reports{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>Security Reports</h2>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h4>Application Security</h4>
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Scanner</th>
+                            <th>Status</th>
+                        </tr>
+
+                        <tr>
+                            <td>Gitleaks</td>
+                            <td>{{ application.gitleaks.status }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Semgrep</td>
+                            <td>{{ application.semgrep.status }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Trivy</td>
+                            <td>{{ application.trivy.status }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h4>Platform Security</h4>
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Scanner</th>
+                            <th>Status</th>
+                        </tr>
+
+                        <tr>
+                            <td>Checkov</td>
+                            <td>{{ platform.checkov.status }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>AKS</td>
+                            <td>{{ platform.aks.status }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

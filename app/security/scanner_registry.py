@@ -12,6 +12,9 @@ from security.parsers.checkov_parser import (
 from security.parsers.aks_parser import (
     aks_parser
 )
+from security.parsers.trivy_parser import (
+    trivy_parser
+)
 
 
 def get_application_scanners():
@@ -40,6 +43,22 @@ def get_application_scanners():
                 name="Semgrep",
                 category="SAST",
                 parser=semgrep_parser
+            )
+
+        )
+
+    if config["application"]["trivy"]:
+
+        scanners.append(
+
+            Scanner(
+
+                name="Trivy",
+
+                category="Container",
+
+                parser=trivy_parser
+
             )
 
         )

@@ -61,11 +61,51 @@ jobs:
     with:
       application_name: ${{ github.event.inputs.application_name }}
 
-  traditional-deploy:
+  
+  security:
+
+    if: ${{ github.event.inputs.enable_devsecops == 'true' }}
 
     needs: build
 
-    if: ${{ github.event.inputs.deployment_strategy == 'traditional' }}
+    uses: ./.github/workflows/security-scan.yml
+
+    secrets: inherit
+
+    with:
+      scan_type: application
+      scanner: all
+
+  release-gate:
+
+    if: ${{ github.event.inputs.enable_devsecops == 'true' }}
+
+    needs: security
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Evaluate Release Gate
+        run: |
+          echo "Evaluating DevSecOps Policy..."
+          python app/security/policies/policy_engine.py
+
+  traditional-deploy:
+
+    needs:
+      - build
+      - release-gate
+
+    if: >
+      github.event.inputs.deployment_strategy == 'traditional' &&
+      (
+        github.event.inputs.enable_devsecops == 'false' ||
+        needs.release-gate.result == 'success'
+      )
 
     uses: ./.github/workflows/deploy.yml
 
@@ -80,9 +120,16 @@ jobs:
 
   gitops-deploy:
 
-    needs: build
+    needs:
+      - build
+      - release-gate
 
-    if: ${{ github.event.inputs.deployment_strategy == 'gitops' }}
+    if: >
+      github.event.inputs.deployment_strategy == 'traditional' &&
+      (
+        github.event.inputs.enable_devsecops == 'false' ||
+        needs.release-gate.result == 'success'
+      )
 
     uses: ./.github/workflows/gitops-deploy.yml
 
