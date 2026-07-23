@@ -3,30 +3,21 @@ name: Gitleaks Security Scan
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - main
-      - develop
-
-  pull_request:
-    branches:
-      - main
-      - develop
-
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   gitleaks:
-    name: Secrets Scan
+    name: Application Secrets Scan
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+
+      - name: Create Report Directory
+        run: |
+          mkdir -p reports/security/application/secrets
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
@@ -37,19 +28,19 @@ jobs:
             detect
             --source .
             --report-format json
-            --report-path reports/security/gitleaks.json
+            --report-path reports/security/application/secrets/gitleaks.json
 
       - name: Upload Gitleaks Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report
-          path: reports/security/gitleaks.json
+          path: reports/security/application/secrets/gitleaks.json
 
       - name: Security Scan Summary
         if: always()
         run: |
-          echo "================================="
-          echo " GITLEAKS SECURITY SCAN COMPLETE "
-          echo "================================="
-          ls -lh reports/security || true
+          echo "=============================="
+          echo " Application Secrets Scan"
+          echo "=============================="
+          ls -R reports/security || true

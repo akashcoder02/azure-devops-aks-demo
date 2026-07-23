@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}DevSecOps{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">
+        DevSecOps
+    </h2>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card h-100">
+                    <div class="card-body">
+
+                        <h4>Application Security</h4>
+
+                        <hr>
+
+                        <p>
+                            <strong>Secrets Scan:</strong>
+
+                            {{ dashboard.application.gitleaks.status }}
+                        </p>
+
+                        <p>
+                            <strong>Findings:</strong>
+
+                            {{ dashboard.application.gitleaks.findings }}
+                        </p>
+
+                        <p>
+                            <strong>Critical:</strong>
+
+                            {{ dashboard.application.gitleaks.critical }}
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4>Platform Security</h4>
+                    <p>
+                        Terraform, AKS, Helm,
+                        Workflows and Dockerfiles.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4>Security Policies</h4>
+                    <p>
+                        Security policy engine
+                        and enforcement rules.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4>Reports</h4>
+                    <p>
+                        Scan reports generated
+                        by all security tools.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4>History</h4>
+                    <p>
+                        Historical scan results
+                        and trends.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
