@@ -5,14 +5,14 @@ from security.scan_manager import (
 )
 
 
-class CheckovParser:
+class AKSParser:
 
     def __init__(self):
 
         self.report = (
             scan_manager.platform_reports()
-            / "terraform"
-            / "checkov.json"
+            / "aks"
+            / "aks.json"
         )
 
     def parse(self):
@@ -20,15 +20,20 @@ class CheckovParser:
         if not self.report.exists():
 
             return {
+
                 "status": "Not Scanned",
-                "findings": 0,
-                "critical": 0,
-                "data": []
+
+                "cluster": "-",
+
+                "version": "-",
+
+                "data": {}
+
             }
 
         try:
 
-            with open(self.report, "r") as file:
+            with open(self.report) as file:
 
                 data = json.load(file)
 
@@ -36,14 +41,10 @@ class CheckovParser:
 
                 "status": "Completed",
 
-                "findings": len(
-                    data.get("results", {})
-                        .get("failed_checks", [])
-                ),
+                "cluster": data.get("name"),
 
-                "critical": len(
-                    data.get("results", {})
-                        .get("failed_checks", [])
+                "version": data.get(
+                    "kubernetesVersion"
                 ),
 
                 "data": data
@@ -56,13 +57,13 @@ class CheckovParser:
 
                 "status": "Error",
 
-                "findings": 0,
+                "cluster": "-",
 
-                "critical": 0,
+                "version": "-",
 
-                "data": []
+                "data": {}
 
             }
 
 
-checkov_parser = CheckovParser()
+aks_parser = AKSParser()

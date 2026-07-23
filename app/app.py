@@ -18,6 +18,9 @@ from routes.hpa import hpa_bp
 from routes.devsecops import (
     devsecops_bp
 )
+from routes.application_security import (
+    application_security_bp
+)
 
 app = Flask(__name__)
 
@@ -39,6 +42,10 @@ app.register_blueprint(hpa_bp)
 app.register_blueprint(
     devsecops_bp
 )
+app.register_blueprint(
+    application_security_bp
+)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

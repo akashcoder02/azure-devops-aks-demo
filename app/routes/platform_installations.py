@@ -113,3 +113,42 @@ def uninstall_logging():
         "success": success,
         "message": "Logging uninstall triggered."
     })
+
+
+@platform_installations_bp.route(
+    "/api/platform/install/devsecops",
+    methods=["POST"]
+)
+def install_devsecops():
+
+    return jsonify(
+
+        platform_installations_service.install_devsecops()
+
+    )
+
+
+@platform_installations_bp.route(
+    "/api/platform/uninstall/devsecops",
+    methods=["POST"]
+)
+def uninstall_devsecops():
+
+    return jsonify(
+
+        platform_installations_service.uninstall_devsecops()
+
+    )
+
+
+@platform_installations_bp.route(
+    "/api/platform/status/devsecops",
+    methods=["GET"]
+)
+def devsecops_status():
+
+    return jsonify(
+
+        platform_installations_service.devsecops_status()
+
+    )

@@ -252,6 +252,19 @@ class PlatformInstallationsService:
                 "version":
                     self.get_logging_version()
 
+            },
+
+            "devsecops": {
+
+                "installed":
+                    self.devsecops_installed(),
+
+                "namespace":
+                    "Azure",
+
+                "version":
+                    "v1.0.0"
+
             }
 
         }
@@ -294,5 +307,79 @@ class PlatformInstallationsService:
 
         return self.trigger(workflow)
 
+
+    def install_devsecops(self):
+
+        success = self.trigger(
+            "devsecops-install.yml"
+        )
+
+        return {
+
+            "success": success,
+
+            "message": (
+                "DevSecOps installation started."
+                if success
+                else
+                "Failed to start DevSecOps installation."
+            )
+
+        }
+
+
+    def uninstall_devsecops(self):
+
+        success = self.trigger(
+            "devsecops-destroy.yml"
+        )
+
+        return {
+
+            "success": success,
+
+            "message": (
+                "DevSecOps uninstall started."
+                if success
+                else
+                "Failed to start DevSecOps uninstall."
+            )
+
+        }
+
+
+    def devsecops_status(self):
+
+        return self.get_installations()[
+            "devsecops"
+        ]
+
+    def devsecops_installed(self):
+
+        try:
+
+            result = subprocess.run(
+
+                [
+                    "az",
+                    "storage",
+                    "account",
+                    "show",
+                    "--name",
+                    "agdevsecops2026",
+                    "--resource-group",
+                    "rg-devops-demo"
+                ],
+
+                capture_output=True,
+                text=True
+
+            )
+
+            return result.returncode == 0
+
+        except Exception:
+
+            return False
 
 platform_installations_service = PlatformInstallationsService()

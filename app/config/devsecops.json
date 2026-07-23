@@ -1,0 +1,21 @@
+{
+  "application": {
+    "gitleaks": true,
+    "semgrep": true,
+    "pip-audit": true,
+    "trivy": true,
+    "kubernetes": true
+  },
+  "platform": {
+    "checkov": true,
+    "aks": true,
+    "helm": true,
+    "workflows": true,
+    "dockerfiles": true
+  },
+  "policy": {
+    "mode": "audit",
+    "block_on_critical": true,
+    "high_threshold": 10
+  }
+}

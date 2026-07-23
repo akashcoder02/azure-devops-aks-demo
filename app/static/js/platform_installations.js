@@ -81,3 +81,86 @@ if(document.getElementById("install-argocd")){
         );
 
 }
+
+/* ----------------------------- */
+/* DevSecOps                     */
+/* ----------------------------- */
+
+document
+    .getElementById("install-devsecops")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const response = await fetch(
+
+                "/api/platform/install/devsecops",
+
+                {
+                    method: "POST"
+                }
+
+            );
+
+            const data = await response.json();
+
+            alert(data.message);
+
+            location.reload();
+
+        }
+    );
+
+
+document
+    .getElementById("uninstall-devsecops")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const response = await fetch(
+
+                "/api/platform/uninstall/devsecops",
+
+                {
+                    method: "POST"
+                }
+
+            );
+
+            const data = await response.json();
+
+            alert(data.message);
+
+            location.reload();
+
+        }
+    );
+
+
+document
+    .getElementById("status-devsecops")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const response = await fetch(
+
+                "/api/platform/status/devsecops"
+
+            );
+
+            const data = await response.json();
+
+            alert(
+
+                JSON.stringify(
+                    data,
+                    null,
+                    4
+                )
+
+            );
+
+        }
+    );

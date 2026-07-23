@@ -1,0 +1,44 @@
+name: Checkov Scan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  checkov:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Report Directory
+        run: |
+          mkdir -p reports/security/platform/terraform
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform
+          framework: terraform
+          output_format: json
+          output_file_path: reports/security/platform/terraform/checkov.json
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkov-report
+          path: reports/security/platform/terraform/checkov.json
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "============================"
+          echo " Checkov Scan Completed"
+          echo "============================"

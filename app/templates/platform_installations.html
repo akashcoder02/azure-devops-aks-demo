@@ -143,6 +143,48 @@ Platform Installations
 
     </div>
 
+    <!-- DevSecOps -->
+
+    <div class="card">
+
+        <h3>🛡️ DevSecOps</h3>
+
+        {% if installations.devsecops.installed %}
+
+        <p class="running">🟢 Installed</p>
+
+        {% else %}
+
+        <p class="stopped">⚪ Not Installed</p>
+
+        {% endif %}
+
+        <hr>
+
+        <small>
+            Version : {{ installations.devsecops.version }}<br>
+            Reports : Azure Blob Storage
+        </small>
+
+        <div class="button-grid">
+
+            <button id="install-devsecops" class="install-btn">
+                Install
+            </button>
+
+            <button id="uninstall-devsecops" class="uninstall-btn">
+                Uninstall
+            </button>
+
+            <button id="status-devsecops">
+                Status
+            </button>
+
+        </div>
+
+    </div>
+
+
 </div>
 
 {% endblock %}

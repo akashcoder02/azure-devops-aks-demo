@@ -40,7 +40,17 @@ on:
           - default
           - hpa
 
+      enable_devsecops:
+        description: Enable DevSecOps Scan
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
 jobs:
+
 
   build:
 
@@ -84,4 +94,4 @@ jobs:
       environment: ${{ github.event.inputs.environment }}
       deployment_type: ${{ github.event.inputs.deployment_type }}
 
-    
+  

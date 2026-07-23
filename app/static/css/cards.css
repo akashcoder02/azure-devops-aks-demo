@@ -251,3 +251,30 @@
 .card-grid > .card{
     width:100%;
 }
+
+/* ==========================
+   DevSecOps Cards
+========================== */
+
+.card h4,
+.card h5,
+.card p,
+.card strong {
+
+    color: #ffffff;
+
+}
+
+.card a {
+
+    color: inherit !important;
+
+    text-decoration: none !important;
+
+}
+
+.card a:hover {
+
+    color: inherit !important;
+
+}

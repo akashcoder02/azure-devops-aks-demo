@@ -1,0 +1,42 @@
+name: AKS Security Scan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  aks-security:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create Report Directory
+        run: |
+          mkdir -p reports/security/platform/aks
+
+      - name: AKS Cluster Information
+        run: |
+
+          az aks show \
+            --resource-group rg-devops-demo \
+            --name aks-devops-demo \
+            --output json \
+            > reports/security/platform/aks/aks.json
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: aks-security-report
+          path: reports/security/platform/aks/aks.json

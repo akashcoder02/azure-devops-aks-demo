@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Application Security{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>Application Security</h2>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h4>Gitleaks</h4>
+
+            <p><strong>Status:</strong> {{ data.summary.status }}</p>
+
+            <p><strong>Findings:</strong> {{ data.summary.findings }}</p>
+
+            <p><strong>Critical:</strong> {{ data.summary.critical }}</p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            Findings
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Rule</th>
+                        <th>File</th>
+                        <th>Line</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for finding in data.findings %}
+
+                    <tr>
+
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ finding.RuleID }}</td>
+
+                        <td>{{ finding.File }}</td>
+
+                        <td>{{ finding.StartLine }}</td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center">
+
+                            No findings available.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

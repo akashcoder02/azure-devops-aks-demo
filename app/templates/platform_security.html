@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Platform Security{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>Platform Security</h2>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <h5>Terraform Scan</h5>
+
+                    <hr>
+
+                    <p>
+
+                        <strong>Status:</strong>
+
+                        {{ platform.checkov.status }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Findings:</strong>
+
+                        {{ platform.checkov.findings }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Critical:</strong>
+
+                        {{ platform.checkov.critical }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>AKS Scan</h5>
+
+                    <hr>
+
+                    <p>
+
+                        <strong>Status:</strong>
+
+                        {{ platform.aks.status }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Cluster:</strong>
+
+                        {{ platform.aks.cluster }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Kubernetes:</strong>
+
+                        {{ platform.aks.version }}
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Helm Scan</h5>
+                    <p>Not Implemented</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Workflow Scan</h5>
+                    <p>Not Implemented</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Dockerfile Scan</h5>
+                    <p>Not Implemented</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

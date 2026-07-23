@@ -1,0 +1,102 @@
+name: DevSecOps Security Scan
+
+on:
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: Select Scan
+        required: true
+        type: choice
+        options:
+          - application
+          - platform
+
+      scanner:
+        description: Scanner
+        required: true
+        type: choice
+        options:
+          - gitleaks
+          - semgrep
+          - pip-audit
+          - trivy
+          - kubernetes
+          - checkov
+          - aks
+          - helm
+          - workflows
+          - dockerfiles
+
+jobs:
+
+  security-scan:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Load DevSecOps Configuration
+        run: |
+          echo "=============================="
+          echo "DevSecOps Configuration"
+          echo "=============================="
+          cat app/config/devsecops.json
+
+      - name: Create Report Directories
+        run: |
+          mkdir -p reports/security/application/secrets
+          mkdir -p reports/security/application/sast
+          mkdir -p reports/security/application/dependencies
+          mkdir -p reports/security/application/containers
+          mkdir -p reports/security/application/kubernetes
+
+          mkdir -p reports/security/platform/terraform
+          mkdir -p reports/security/platform/aks
+          mkdir -p reports/security/platform/helm
+          mkdir -p reports/security/platform/workflows
+          mkdir -p reports/security/platform/dockerfiles
+
+          mkdir -p reports/security/history
+
+      - name: Display Configuration
+        run: |
+          echo "=================================="
+          echo "DevSecOps Security Scan"
+          echo "=================================="
+          echo "Scan Type : ${{ github.event.inputs.scan_type }}"
+          echo "Scanner   : ${{ github.event.inputs.scanner }}"
+
+
+      - name: Run Gitleaks
+        if: github.event.inputs.scanner == 'gitleaks'
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: >
+            detect
+            --source .
+            --report-format json
+            --report-path reports/security/application/secrets/gitleaks.json
+
+      - name: Run Semgrep
+        if: github.event.inputs.scanner == 'semgrep'
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: auto
+
+      - name: Save Semgrep Report
+        if: github.event.inputs.scanner == 'semgrep'
+        run: |
+          mkdir -p reports/security/application/sast
+          cp semgrep.json reports/security/application/sast/semgrep.json || echo "[]" > reports/security/application/sast/semgrep.json
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: reports/security

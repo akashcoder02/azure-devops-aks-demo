@@ -1,0 +1,44 @@
+name: Trivy Scan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  trivy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Report Directory
+        run: |
+          mkdir -p reports/security/application/trivy
+
+      - name: Run Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: json
+          output: reports/security/application/trivy/trivy.json
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-report
+          path: reports/security/application/trivy/trivy.json
+
+      - name: Scan Summary
+        if: always()
+        run: |
+          echo "==========================="
+          echo "Trivy Scan Completed"
+          echo "==========================="

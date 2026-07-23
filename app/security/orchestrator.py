@@ -3,8 +3,8 @@ from security.scan_manager import (
 )
 
 from security.scanner_registry import (
-    APPLICATION_SCANNERS,
-    PLATFORM_SCANNERS
+    get_application_scanners,
+    get_platform_scanners
 )
 
 
@@ -21,7 +21,7 @@ class DevSecOpsOrchestrator:
 
         results = {}
 
-        for scanner in APPLICATION_SCANNERS:
+        for scanner in get_application_scanners():
 
             results[
                 scanner.name.lower()
@@ -43,7 +43,7 @@ class DevSecOpsOrchestrator:
 
         results = {}
 
-        for scanner in PLATFORM_SCANNERS:
+        for scanner in get_platform_scanners():
 
             results[
                 scanner.name.lower()
@@ -64,8 +64,15 @@ class DevSecOpsOrchestrator:
     def dashboard_summary(self):
 
         return {
-            "application": self.application_security(),
-            "platform": self.platform_security()
+
+            "application": (
+                self.application_security()
+            ),
+
+            "platform": (
+                self.platform_security()
+            )
+
         }
 
 

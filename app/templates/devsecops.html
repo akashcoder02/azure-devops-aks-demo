@@ -12,9 +12,13 @@
 
     <div class="row">
 
+        <!-- Application Security -->
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+
+            <div onclick="window.location='/devsecops/application'"
+                 style="cursor:pointer;">
                 <div class="card h-100">
+
                     <div class="card-body">
 
                         <h4>Application Security</h4>
@@ -23,77 +27,137 @@
 
                         <p>
                             <strong>Secrets Scan:</strong>
-
                             {{ dashboard.application.gitleaks.status }}
                         </p>
 
                         <p>
                             <strong>Findings:</strong>
-
                             {{ dashboard.application.gitleaks.findings }}
                         </p>
 
                         <p>
                             <strong>Critical:</strong>
-
                             {{ dashboard.application.gitleaks.critical }}
                         </p>
 
                     </div>
+
                 </div>
+
             </div>
+
         </div>
 
+        <!-- Platform Security -->
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4>Platform Security</h4>
-                    <p>
-                        Terraform, AKS, Helm,
-                        Workflows and Dockerfiles.
-                    </p>
+
+            <a href="/devsecops/platform"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>Platform Security</h4>
+
+                        <hr>
+
+                        <p>
+                            Terraform, AKS, Helm,
+                            Workflows and Dockerfiles.
+                        </p>
+
+                    </div>
+
                 </div>
-            </div>
+
+            </a>
+
         </div>
 
+        <!-- Security Policies -->
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4>Security Policies</h4>
-                    <p>
-                        Security policy engine
-                        and enforcement rules.
-                    </p>
+
+            <a href="/devsecops/policies"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>Security Policies</h4>
+
+                        <hr>
+
+                        <p>
+                            Security policy engine
+                            and enforcement rules.
+                        </p>
+
+                    </div>
+
                 </div>
-            </div>
+
+            </a>
+
         </div>
 
     </div>
 
     <div class="row">
 
+        <!-- Reports -->
         <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4>Reports</h4>
-                    <p>
-                        Scan reports generated
-                        by all security tools.
-                    </p>
+
+            <a href="/devsecops/reports"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>Reports</h4>
+
+                        <hr>
+
+                        <p>
+                            Scan reports generated
+                            by all security tools.
+                        </p>
+
+                    </div>
+
                 </div>
-            </div>
+
+            </a>
+
         </div>
 
+        <!-- History -->
         <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h4>History</h4>
-                    <p>
-                        Historical scan results
-                        and trends.
-                    </p>
+
+            <a href="/devsecops/history"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>History</h4>
+
+                        <hr>
+
+                        <p>
+                            Historical scan results
+                            and trends.
+                        </p>
+
+                    </div>
+
                 </div>
-            </div>
+
+            </a>
+
         </div>
 
     </div>
