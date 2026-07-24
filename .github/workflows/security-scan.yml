@@ -1,8 +1,11 @@
 name: DevSecOps Security Scan
 
 on:
+
   workflow_dispatch:
+
     inputs:
+
       scan_type:
         description: Select Scan
         required: true
@@ -16,6 +19,7 @@ on:
         required: true
         type: choice
         options:
+          - all
           - gitleaks
           - semgrep
           - pip-audit
@@ -26,6 +30,18 @@ on:
           - helm
           - workflows
           - dockerfiles
+
+  workflow_call:
+
+    inputs:
+
+      scan_type:
+        required: true
+        type: string
+
+      scanner:
+        required: true
+        type: string
 
 jobs:
 
@@ -66,12 +82,17 @@ jobs:
           echo "=================================="
           echo "DevSecOps Security Scan"
           echo "=================================="
-          echo "Scan Type : ${{ github.event.inputs.scan_type }}"
-          echo "Scanner   : ${{ github.event.inputs.scanner }}"
+          echo "Scan Type : ${{ inputs.scan_type }}"
+          echo "Scanner   : ${{ inputs.scanner }}"
 
+      ####################################################
+      # Gitleaks
+      ####################################################
 
       - name: Run Gitleaks
-        if: github.event.inputs.scanner == 'gitleaks'
+        if: |
+          inputs.scanner == 'gitleaks' ||
+          inputs.scanner == 'all'
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -82,17 +103,70 @@ jobs:
             --report-format json
             --report-path reports/security/application/secrets/gitleaks.json
 
+      ####################################################
+      # Semgrep
+      ####################################################
+
       - name: Run Semgrep
-        if: github.event.inputs.scanner == 'semgrep'
+        if: |
+          inputs.scanner == 'semgrep' ||
+          inputs.scanner == 'all'
         uses: returntocorp/semgrep-action@v1
         with:
           config: auto
 
       - name: Save Semgrep Report
-        if: github.event.inputs.scanner == 'semgrep'
+        if: |
+          inputs.scanner == 'semgrep' ||
+          inputs.scanner == 'all'
         run: |
           mkdir -p reports/security/application/sast
           cp semgrep.json reports/security/application/sast/semgrep.json || echo "[]" > reports/security/application/sast/semgrep.json
+
+      ####################################################
+      # Trivy
+      ####################################################
+
+      - name: Install Trivy
+        if: |
+          inputs.scanner == 'trivy' ||
+          inputs.scanner == 'all'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.65.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.65.0_Linux-64bit.deb
+
+      - name: Run Trivy
+        if: |
+          inputs.scanner == 'trivy' ||
+          inputs.scanner == 'all'
+        run: |
+          trivy fs . \
+            --format json \
+            -o reports/security/trivy.json
+
+      ####################################################
+      # Scan History
+      ####################################################
+
+      - name: Save Scan History
+        if: always()
+        run: |
+          cat <<EOF > reports/security/history/history.json
+          [
+            {
+              "scanner":"${{ inputs.scanner }}",
+              "category":"${{ inputs.scan_type }}",
+              "status":"Completed",
+              "timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            }
+          ]
+          EOF
+
+      ####################################################
+      # Upload Reports
+      ####################################################
 
       - name: Upload Report
         if: always()

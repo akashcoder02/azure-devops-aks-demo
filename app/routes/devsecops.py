@@ -19,10 +19,12 @@ from services.release_gate import (
     release_gate
 )
 
+
 devsecops_bp = Blueprint(
     "devsecops",
     __name__
 )
+
 
 @devsecops_bp.route("/devsecops")
 def devsecops():
@@ -37,6 +39,7 @@ def devsecops():
         dashboard=dashboard
     )
 
+
 @devsecops_bp.route("/devsecops/application")
 def application_security():
 
@@ -48,6 +51,48 @@ def application_security():
     return render_template(
         "application_security.html",
         data=data
+    )
+
+
+@devsecops_bp.route("/devsecops/application/gitleaks")
+def gitleaks_report():
+
+    data = (
+        devsecops_service
+        .get_application_security()
+    )
+
+    return render_template(
+        "gitleaks_report.html",
+        data=data["gitleaks"]
+    )
+
+
+@devsecops_bp.route("/devsecops/application/semgrep")
+def semgrep_report():
+
+    data = (
+        devsecops_service
+        .get_application_security()
+    )
+
+    return render_template(
+        "semgrep_report.html",
+        data=data["semgrep"]
+    )
+
+
+@devsecops_bp.route("/devsecops/application/trivy")
+def trivy_report():
+
+    data = (
+        devsecops_service
+        .get_application_security()
+    )
+
+    return render_template(
+        "trivy_report.html",
+        data=data["trivy"]
     )
 
 
@@ -106,14 +151,14 @@ def security_history():
 
     )
 
+
 @devsecops_bp.route("/devsecops/policy-status")
 def policy_status():
 
     return policy_service.evaluate()
 
-@devsecops_bp.route(
-    "/devsecops/release-gate"
-)
+
+@devsecops_bp.route("/devsecops/release-gate")
 def release_gate_status():
 
     return release_gate.evaluate()

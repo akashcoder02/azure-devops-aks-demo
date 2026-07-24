@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+Gitleaks Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>🔐 Gitleaks Report</h2>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h4>Summary</h4>
+
+            <hr>
+
+            <p><strong>Status:</strong> {{ data.status }}</p>
+
+            <p><strong>Findings:</strong> {{ data.findings }}</p>
+
+            <p><strong>Critical:</strong> {{ data.critical }}</p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            Secret Findings
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Rule</th>
+                        <th>File</th>
+                        <th>Line</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for finding in data.data %}
+
+                    <tr>
+
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ finding.RuleID or "-" }}</td>
+
+                        <td>{{ finding.File or "-" }}</td>
+
+                        <td>{{ finding.StartLine or "-" }}</td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center">
+
+                            No findings available.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Application Security{% endblock %}
+{% block title %}
+Application Security
+{% endblock %}
 
 {% block content %}
 
@@ -8,27 +10,131 @@
 
     <h2>Application Security</h2>
 
-    <div class="card mb-4">
+    <div class="row">
 
-        <div class="card-body">
+        <!-- Gitleaks -->
 
-            <h4>Gitleaks</h4>
+        <div class="col-md-4 mb-4">
 
-            <p><strong>Status:</strong> {{ data.summary.status }}</p>
+            <a href="/devsecops/application/gitleaks"
+               class="text-decoration-none text-dark">
 
-            <p><strong>Findings:</strong> {{ data.summary.findings }}</p>
+                <div class="card h-100">
 
-            <p><strong>Critical:</strong> {{ data.summary.critical }}</p>
+                    <div class="card-body">
+
+                        <h4>🔐 Gitleaks</h4>
+
+                        <hr>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ data.gitleaks.status }}
+                        </p>
+
+                        <p>
+                            <strong>Findings:</strong>
+                            {{ data.gitleaks.findings }}
+                        </p>
+
+                        <p>
+                            <strong>Critical:</strong>
+                            {{ data.gitleaks.critical }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- Semgrep -->
+
+        <div class="col-md-4 mb-4">
+
+            <a href="/devsecops/application/semgrep"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>🧠 Semgrep</h4>
+
+                        <hr>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ data.semgrep.status }}
+                        </p>
+
+                        <p>
+                            <strong>Findings:</strong>
+                            {{ data.semgrep.findings }}
+                        </p>
+
+                        <p>
+                            <strong>Critical:</strong>
+                            {{ data.semgrep.critical }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- Trivy -->
+
+        <div class="col-md-4 mb-4">
+
+            <a href="/devsecops/application/trivy"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>🐳 Trivy</h4>
+
+                        <hr>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ data.trivy.status }}
+                        </p>
+
+                        <p>
+                            <strong>Findings:</strong>
+                            {{ data.trivy.findings }}
+                        </p>
+
+                        <p>
+                            <strong>Critical:</strong>
+                            {{ data.trivy.critical }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
 
         </div>
 
     </div>
 
+    <!-- Gitleaks Findings -->
+
     <div class="card">
 
         <div class="card-header">
 
-            Findings
+            Gitleaks Findings
 
         </div>
 
@@ -39,27 +145,29 @@
                 <thead>
 
                     <tr>
+
                         <th>#</th>
                         <th>Rule</th>
                         <th>File</th>
                         <th>Line</th>
+
                     </tr>
 
                 </thead>
 
                 <tbody>
 
-                {% for finding in data.findings %}
+                {% for finding in data.gitleaks.data %}
 
                     <tr>
 
                         <td>{{ loop.index }}</td>
 
-                        <td>{{ finding.RuleID }}</td>
+                        <td>{{ finding.RuleID or "-" }}</td>
 
-                        <td>{{ finding.File }}</td>
+                        <td>{{ finding.File or "-" }}</td>
 
-                        <td>{{ finding.StartLine }}</td>
+                        <td>{{ finding.StartLine or "-" }}</td>
 
                     </tr>
 

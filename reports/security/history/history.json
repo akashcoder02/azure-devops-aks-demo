@@ -86,5 +86,69 @@
         "findings": 0,
         "critical": 0,
         "timestamp": "2026-07-23 14:50:27"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:29:08"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:29:08"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:29:08"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:29:08"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:29:08"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:40:24"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:40:24"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 09:40:24"
     }
 ]

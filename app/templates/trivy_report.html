@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}
+Trivy Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>🐳 Trivy Report</h2>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h4>Summary</h4>
+
+            <hr>
+
+            <p>
+                <strong>Status:</strong>
+                {{ data.status }}
+            </p>
+
+            <p>
+                <strong>Total Vulnerabilities:</strong>
+                {{ data.findings }}
+            </p>
+
+            <p>
+                <strong>Critical:</strong>
+                {{ data.critical }}
+            </p>
+
+            <p>
+                <strong>High:</strong>
+                {{ data.high }}
+            </p>
+
+            <p>
+                <strong>Medium:</strong>
+                {{ data.medium }}
+            </p>
+
+            <p>
+                <strong>Low:</strong>
+                {{ data.low }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            Vulnerability Summary
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Severity</th>
+                        <th>Count</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Critical</td>
+
+                        <td>{{ data.critical }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>High</td>
+
+                        <td>{{ data.high }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Medium</td>
+
+                        <td>{{ data.medium }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Low</td>
+
+                        <td>{{ data.low }}</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
