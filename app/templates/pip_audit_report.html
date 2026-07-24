@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}
+Pip Audit Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>📦 Pip Audit Report</h2>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h4>Dependency Scan Summary</h4>
+
+            <hr>
+
+            <p>
+                <strong>Status:</strong>
+                {{ data.status }}
+            </p>
+
+            <p>
+                <strong>Findings:</strong>
+                {{ data.findings }}
+            </p>
+
+            <p>
+                <strong>Critical:</strong>
+                {{ data.critical }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            Vulnerable Packages
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Package</th>
+                        <th>Version</th>
+                        <th>Advisory</th>
+                        <th>Fixed Version</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for pkg in data.data %}
+
+                    <tr>
+
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ pkg.package or "-" }}</td>
+
+                        <td>{{ pkg.version or "-" }}</td>
+
+                        <td>{{ pkg.id or "-" }}</td>
+
+                        <td>{{ pkg.fix_versions|join(", ") if pkg.fix_versions else "-" }}</td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+
+                            No vulnerable packages found.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

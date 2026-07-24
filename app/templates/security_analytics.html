@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}Security Analytics{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>📈 Security Analytics</h2>
+
+            <small class="text-muted">
+
+                Enterprise security insights and scanner metrics.
+
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- KPI Cards -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Application Scanners
+
+                    </h6>
+
+                    <h2>5</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Platform Scanners
+
+                    </h6>
+
+                    <h2>5</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Total Findings
+
+                    </h6>
+
+                    <h2>
+
+                        {{ dashboard.application.gitleaks.findings
+                        + dashboard.application.semgrep.findings
+                        + dashboard.application["pip-audit"].findings
+                        + dashboard.application.trivy.findings
+                        + dashboard.application.kubernetes.findings
+                        + dashboard.platform.checkov.findings }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+
+                        Critical Findings
+
+                    </h6>
+
+                    <h2 class="text-danger">
+
+                        {{ dashboard.application.gitleaks.critical
+                        + dashboard.application.semgrep.critical
+                        + dashboard.application["pip-audit"].critical
+                        + dashboard.application.trivy.critical
+                        + dashboard.application.kubernetes.critical
+                        + dashboard.platform.checkov.critical }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Analytics Cards -->
+
+    <div class="row">
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>🔐 Secrets</h4>
+
+                    <hr>
+
+                    <p>
+
+                        Gitleaks Findings
+
+                    </p>
+
+                    <h3>
+
+                        {{ dashboard.application.gitleaks.findings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>🧠 SAST</h4>
+
+                    <hr>
+
+                    <p>
+
+                        Semgrep Findings
+
+                    </p>
+
+                    <h3>
+
+                        {{ dashboard.application.semgrep.findings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>📦 Dependencies</h4>
+
+                    <hr>
+
+                    <p>
+
+                        Pip Audit Findings
+
+                    </p>
+
+                    <h3>
+
+                        {{ dashboard.application["pip-audit"].findings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>🐳 Containers</h4>
+
+                    <hr>
+
+                    <p>
+
+                        Trivy Findings
+
+                    </p>
+
+                    <h3>
+
+                        {{ dashboard.application.trivy.findings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>☸ Kubernetes</h4>
+
+                    <hr>
+
+                    <p>
+
+                        Manifest Findings
+
+                    </p>
+
+                    <h3>
+
+                        {{ dashboard.application.kubernetes.findings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>☁ Platform</h4>
+
+                    <hr>
+
+                    <p>
+
+                        Checkov Findings
+
+                    </p>
+
+                    <h3>
+
+                        {{ dashboard.platform.checkov.findings }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

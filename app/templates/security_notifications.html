@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Security Notifications{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>🔔 Security Notifications</h2>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4>Active Notifications</h4>
+
+            <hr>
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Severity</th>
+                        <th>Scanner</th>
+                        <th>Message</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <span class="badge bg-danger">
+                                Critical
+                            </span>
+                        </td>
+
+                        <td>Gitleaks</td>
+
+                        <td>Hardcoded secret detected.</td>
+
+                        <td>Open</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                High
+                            </span>
+                        </td>
+
+                        <td>Trivy</td>
+
+                        <td>Container vulnerability found.</td>
+
+                        <td>Open</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <span class="badge bg-info text-dark">
+                                Info
+                            </span>
+                        </td>
+
+                        <td>Release Gate</td>
+
+                        <td>Latest deployment passed security policy.</td>
+
+                        <td>Closed</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

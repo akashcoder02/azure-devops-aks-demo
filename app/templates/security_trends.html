@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Security Trends{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>📈 Security Trends</h2>
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h4>Scan History</h4>
+
+            <hr>
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Scanner</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Timestamp</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for scan in history %}
+
+                    <tr>
+
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ scan.scanner }}</td>
+
+                        <td>{{ scan.category }}</td>
+
+                        <td>{{ scan.status }}</td>
+
+                        <td>{{ scan.timestamp }}</td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+
+                            No historical scans available.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="alert alert-info">
+
+        Future enhancement:
+        Display charts showing findings over time, scanner coverage,
+        and security posture trends.
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -10,105 +10,182 @@
 
     <div class="row">
 
+        <!-- Checkov -->
+
         <div class="col-md-4 mb-4">
 
-            <div class="card">
+            <a href="/devsecops/platform/checkov"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>🌍 Checkov</h4>
+
+                        <hr>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ platform.checkov.status }}
+                        </p>
+
+                        <p>
+                            <strong>Findings:</strong>
+                            {{ platform.checkov.findings }}
+                        </p>
+
+                        <p>
+                            <strong>Critical:</strong>
+                            {{ platform.checkov.critical }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- AKS -->
+
+        <div class="col-md-4 mb-4">
+
+            <a href="/devsecops/platform/aks"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100">
+
+                    <div class="card-body">
+
+                        <h4>☸️ AKS</h4>
+
+                        <hr>
+
+                        <p>
+                            <strong>Status:</strong>
+                            {{ platform.aks.status }}
+                        </p>
+
+                        <p>
+                            <strong>Cluster:</strong>
+                            {{ platform.aks.cluster }}
+                        </p>
+
+                        <p>
+                            <strong>Kubernetes:</strong>
+                            {{ platform.aks.version }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- Helm -->
+
+        <div class="col-md-4 mb-4">
+
+            <a href="/devsecops/platform/helm"
+               class="text-decoration-none text-dark">
 
                 <div class="card-body">
 
-                    <h5>Terraform Scan</h5>
+                    <h4>⛵ Helm</h4>
 
                     <hr>
 
                     <p>
-
                         <strong>Status:</strong>
-
-                        {{ platform.checkov.status }}
-
+                        {{ platform.helm.status }}
                     </p>
 
                     <p>
-
                         <strong>Findings:</strong>
-
-                        {{ platform.checkov.findings }}
-
+                        {{ platform.helm.findings }}
                     </p>
 
                     <p>
-
                         <strong>Critical:</strong>
-
-                        {{ platform.checkov.critical }}
-
+                        {{ platform.helm.critical }}
                     </p>
 
                 </div>
 
-            </div>
+            </a>
 
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card">
+        <!-- Workflows -->
+
+        <div class="col-md-6 mb-4">
+
+            <a href="/devsecops/platform/workflows"
+               class="text-decoration-none text-dark">
+
                 <div class="card-body">
-                    <h5>AKS Scan</h5>
+
+                    <h4>📄 GitHub Workflows</h4>
 
                     <hr>
 
                     <p>
-
                         <strong>Status:</strong>
-
-                        {{ platform.aks.status }}
-
+                        {{ platform.workflows.status }}
                     </p>
 
                     <p>
-
-                        <strong>Cluster:</strong>
-
-                        {{ platform.aks.cluster }}
-
+                        <strong>Findings:</strong>
+                        {{ platform.workflows.findings }}
                     </p>
 
                     <p>
-
-                        <strong>Kubernetes:</strong>
-
-                        {{ platform.aks.version }}
-
+                        <strong>Critical:</strong>
+                        {{ platform.workflows.critical }}
                     </p>
+
                 </div>
-            </div>
+
+            </a>
+
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Helm Scan</h5>
-                    <p>Not Implemented</p>
-                </div>
-            </div>
-        </div>
+        <!-- Dockerfiles -->
 
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5>Workflow Scan</h5>
-                    <p>Not Implemented</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-md-6 mb-4">
-            <div class="card">
+            <a href="/devsecops/platform/dockerfiles"
+               class="text-decoration-none text-dark">
+
                 <div class="card-body">
-                    <h5>Dockerfile Scan</h5>
-                    <p>Not Implemented</p>
+
+                    <h4>🐳 Dockerfiles</h4>
+
+                    <hr>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {{ platform.dockerfiles.status }}
+                    </p>
+
+                    <p>
+                        <strong>Findings:</strong>
+                        {{ platform.dockerfiles.findings }}
+                    </p>
+
+                    <p>
+                        <strong>Critical:</strong>
+                        {{ platform.dockerfiles.critical }}
+                    </p>
+
                 </div>
-            </div>
+
+            </a>
+
         </div>
 
     </div>

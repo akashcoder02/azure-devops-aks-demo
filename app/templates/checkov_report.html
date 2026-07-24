@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}
+Checkov Report
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>🌍 Checkov Report</h2>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <h4>Summary</h4>
+
+            <hr>
+
+            <p>
+                <strong>Status:</strong>
+                {{ data.status }}
+            </p>
+
+            <p>
+                <strong>Findings:</strong>
+                {{ data.findings }}
+            </p>
+
+            <p>
+                <strong>Critical:</strong>
+                {{ data.critical }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header">
+
+            Terraform Findings
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Check</th>
+                        <th>Resource</th>
+                        <th>File</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for finding in data.data %}
+
+                    <tr>
+
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ finding.check_name or "-" }}</td>
+
+                        <td>{{ finding.resource or "-" }}</td>
+
+                        <td>{{ finding.file_path or "-" }}</td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center">
+
+                            No findings available.
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

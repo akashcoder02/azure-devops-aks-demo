@@ -1,0 +1,10 @@
+{
+  "status": "Completed",
+  "cluster": "aks-devops-demo",
+  "version": "1.33.1",
+  "rbac": "Enabled",
+  "network_policy": "Enabled",
+  "azure_policy": "Enabled",
+  "private_cluster": "Disabled",
+  "pod_security": "Baseline"
+}

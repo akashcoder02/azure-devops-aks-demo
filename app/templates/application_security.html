@@ -1,46 +1,139 @@
 {% extends "base.html" %}
 
-{% block title %}
-Application Security
-{% endblock %}
+{% block title %}Application Security{% endblock %}
 
 {% block content %}
 
 <div class="container-fluid mt-4">
 
-    <h2>Application Security</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-0">🔐 Application Security</h2>
+
+            <small class="text-muted">
+                Secure coding, dependency, container and Kubernetes security overview.
+            </small>
+
+        </div>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">Scanners</h6>
+
+                    <h2>5</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">Critical Issues</h6>
+
+                    <h2>
+                        {{ data.gitleaks.critical
+                        + data.semgrep.critical
+                        + data["pip-audit"].critical
+                        + data.trivy.critical
+                        + data.kubernetes.critical }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">Total Findings</h6>
+
+                    <h2>
+                        {{ data.gitleaks.findings
+                        + data.semgrep.findings
+                        + data["pip-audit"].findings
+                        + data.trivy.findings
+                        + data.kubernetes.findings }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">Overall Status</h6>
+
+                    <h4 class="text-success">
+
+                        Healthy
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Scanner Cards -->
 
     <div class="row">
 
         <!-- Gitleaks -->
 
-        <div class="col-md-4 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
 
             <a href="/devsecops/application/gitleaks"
                class="text-decoration-none text-dark">
 
-                <div class="card h-100">
+                <div class="card h-100 shadow-sm">
 
                     <div class="card-body">
 
                         <h4>🔐 Gitleaks</h4>
 
+                        <span class="badge bg-danger">
+                            Secrets
+                        </span>
+
                         <hr>
 
-                        <p>
-                            <strong>Status:</strong>
-                            {{ data.gitleaks.status }}
-                        </p>
+                        <p><strong>Status:</strong> {{ data.gitleaks.status }}</p>
 
-                        <p>
-                            <strong>Findings:</strong>
-                            {{ data.gitleaks.findings }}
-                        </p>
+                        <p><strong>Findings:</strong> {{ data.gitleaks.findings }}</p>
 
-                        <p>
-                            <strong>Critical:</strong>
-                            {{ data.gitleaks.critical }}
-                        </p>
+                        <p><strong>Critical:</strong> {{ data.gitleaks.critical }}</p>
 
                     </div>
 
@@ -52,33 +145,61 @@ Application Security
 
         <!-- Semgrep -->
 
-        <div class="col-md-4 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
 
             <a href="/devsecops/application/semgrep"
                class="text-decoration-none text-dark">
 
-                <div class="card h-100">
+                <div class="card h-100 shadow-sm">
 
                     <div class="card-body">
 
                         <h4>🧠 Semgrep</h4>
 
+                        <span class="badge bg-primary">
+                            SAST
+                        </span>
+
                         <hr>
 
-                        <p>
-                            <strong>Status:</strong>
-                            {{ data.semgrep.status }}
-                        </p>
+                        <p><strong>Status:</strong> {{ data.semgrep.status }}</p>
 
-                        <p>
-                            <strong>Findings:</strong>
-                            {{ data.semgrep.findings }}
-                        </p>
+                        <p><strong>Findings:</strong> {{ data.semgrep.findings }}</p>
 
-                        <p>
-                            <strong>Critical:</strong>
-                            {{ data.semgrep.critical }}
-                        </p>
+                        <p><strong>Critical:</strong> {{ data.semgrep.critical }}</p>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- Pip Audit -->
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <a href="/devsecops/application/pip-audit"
+               class="text-decoration-none text-dark">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-body">
+
+                        <h4>📦 Pip Audit</h4>
+
+                        <span class="badge bg-warning text-dark">
+                            Dependencies
+                        </span>
+
+                        <hr>
+
+                        <p><strong>Status:</strong> {{ data["pip-audit"].status }}</p>
+
+                        <p><strong>Findings:</strong> {{ data["pip-audit"].findings }}</p>
+
+                        <p><strong>Critical:</strong> {{ data["pip-audit"].critical }}</p>
 
                     </div>
 
@@ -90,33 +211,28 @@ Application Security
 
         <!-- Trivy -->
 
-        <div class="col-md-4 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4">
 
             <a href="/devsecops/application/trivy"
                class="text-decoration-none text-dark">
 
-                <div class="card h-100">
+                <div class="card h-100 shadow-sm">
 
                     <div class="card-body">
 
                         <h4>🐳 Trivy</h4>
 
+                        <span class="badge bg-info text-dark">
+                            Container
+                        </span>
+
                         <hr>
 
-                        <p>
-                            <strong>Status:</strong>
-                            {{ data.trivy.status }}
-                        </p>
+                        <p><strong>Status:</strong> {{ data.trivy.status }}</p>
 
-                        <p>
-                            <strong>Findings:</strong>
-                            {{ data.trivy.findings }}
-                        </p>
+                        <p><strong>Findings:</strong> {{ data.trivy.findings }}</p>
 
-                        <p>
-                            <strong>Critical:</strong>
-                            {{ data.trivy.critical }}
-                        </p>
+                        <p><strong>Critical:</strong> {{ data.trivy.critical }}</p>
 
                     </div>
 
@@ -126,68 +242,36 @@ Application Security
 
         </div>
 
-    </div>
+        <!-- Kubernetes -->
 
-    <!-- Gitleaks Findings -->
+        <div class="col-lg-4 col-md-6 mb-4">
 
-    <div class="card">
+            <a href="/devsecops/application/kubernetes"
+               class="text-decoration-none text-dark">
 
-        <div class="card-header">
+                <div class="card h-100 shadow-sm">
 
-            Gitleaks Findings
+                    <div class="card-body">
 
-        </div>
+                        <h4>☸️ Kubernetes</h4>
 
-        <div class="card-body">
+                        <span class="badge bg-success">
+                            Manifest Security
+                        </span>
 
-            <table class="table table-hover">
+                        <hr>
 
-                <thead>
+                        <p><strong>Status:</strong> {{ data.kubernetes.status }}</p>
 
-                    <tr>
+                        <p><strong>Findings:</strong> {{ data.kubernetes.findings }}</p>
 
-                        <th>#</th>
-                        <th>Rule</th>
-                        <th>File</th>
-                        <th>Line</th>
+                        <p><strong>Critical:</strong> {{ data.kubernetes.critical }}</p>
 
-                    </tr>
+                    </div>
 
-                </thead>
+                </div>
 
-                <tbody>
-
-                {% for finding in data.gitleaks.data %}
-
-                    <tr>
-
-                        <td>{{ loop.index }}</td>
-
-                        <td>{{ finding.RuleID or "-" }}</td>
-
-                        <td>{{ finding.File or "-" }}</td>
-
-                        <td>{{ finding.StartLine or "-" }}</td>
-
-                    </tr>
-
-                {% else %}
-
-                    <tr>
-
-                        <td colspan="4" class="text-center">
-
-                            No findings available.
-
-                        </td>
-
-                    </tr>
-
-                {% endfor %}
-
-                </tbody>
-
-            </table>
+            </a>
 
         </div>
 

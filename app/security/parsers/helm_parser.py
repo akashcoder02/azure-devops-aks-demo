@@ -5,14 +5,14 @@ from security.scan_manager import (
 )
 
 
-class CheckovParser:
+class HelmParser:
 
     def __init__(self):
 
         self.report = (
             scan_manager.platform_reports()
-            / "terraform"
-            / "checkov.json"
+            / "helm"
+            / "helm.json"
         )
 
     def parse(self):
@@ -21,7 +21,7 @@ class CheckovParser:
 
             return {
 
-                "status": "Not Scanned",
+                "status": "Not Run",
 
                 "findings": 0,
 
@@ -37,20 +37,20 @@ class CheckovParser:
 
                 data = json.load(file)
 
-            failed_checks = (
-                data.get("results", {})
-                    .get("failed_checks", [])
+            findings = data.get(
+                "findings",
+                []
             )
 
             return {
 
                 "status": "Completed",
 
-                "findings": len(failed_checks),
+                "findings": len(findings),
 
-                "critical": len(failed_checks),
+                "critical": len(findings),
 
-                "data": failed_checks
+                "data": findings
 
             }
 
@@ -69,4 +69,4 @@ class CheckovParser:
             }
 
 
-checkov_parser = CheckovParser()
+helm_parser = HelmParser()

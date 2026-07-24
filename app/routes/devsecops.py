@@ -95,6 +95,18 @@ def trivy_report():
         data=data["trivy"]
     )
 
+@devsecops_bp.route("/devsecops/application/pip-audit")
+def pip_audit_report():
+
+    data = (
+        devsecops_service
+        .get_application_security()
+    )
+
+    return render_template(
+        "pip_audit_report.html",
+        data=data["pip-audit"]
+    )
 
 @devsecops_bp.route("/devsecops/platform")
 def platform_security():
@@ -162,3 +174,121 @@ def policy_status():
 def release_gate_status():
 
     return release_gate.evaluate()
+
+@devsecops_bp.route("/devsecops/platform/checkov")
+def checkov_report():
+
+    data = (
+        devsecops_service
+        .get_platform_security()
+    )
+
+    return render_template(
+        "checkov_report.html",
+        data=data["checkov"]
+    )
+
+
+@devsecops_bp.route("/devsecops/platform/aks")
+def aks_report():
+
+    data = (
+        devsecops_service
+        .get_platform_security()
+    )
+
+    return render_template(
+        "aks_report.html",
+        data=data["aks"]
+    )
+
+
+@devsecops_bp.route("/devsecops/platform/helm")
+def helm_report():
+
+    data = (
+        devsecops_service
+        .get_platform_security()
+    )
+
+    return render_template(
+        "helm_report.html",
+        data=data["helm"]
+    )
+
+
+@devsecops_bp.route("/devsecops/platform/workflows")
+def workflow_report():
+
+    data = (
+        devsecops_service
+        .get_platform_security()
+    )
+
+    return render_template(
+        "workflow_report.html",
+        data=data["workflows"]
+    )
+
+
+@devsecops_bp.route("/devsecops/platform/dockerfiles")
+def dockerfile_report():
+
+    data = (
+        devsecops_service
+        .get_platform_security()
+    )
+
+    return render_template(
+        "dockerfile_report.html",
+        data=data["dockerfiles"]
+    )
+
+@devsecops_bp.route("/devsecops/application/kubernetes")
+def kubernetes_report():
+
+    data = (
+        devsecops_service
+        .get_application_security()
+    )
+
+    return render_template(
+        "kubernetes_report.html",
+        data=data["kubernetes"]
+    )
+
+@devsecops_bp.route("/devsecops/analytics")
+def security_analytics():
+
+    dashboard = (
+        devsecops_service
+        .get_dashboard()
+    )
+
+    return render_template(
+        "security_analytics.html",
+        dashboard=dashboard
+    )
+
+@devsecops_bp.route("/devsecops/notifications")
+def security_notifications():
+
+    dashboard = (
+        devsecops_service
+        .get_dashboard()
+    )
+
+    return render_template(
+        "security_notifications.html",
+        dashboard=dashboard
+    )
+
+@devsecops_bp.route("/devsecops/trends")
+def security_trends():
+
+    history = history_manager.read()
+
+    return render_template(
+        "security_trends.html",
+        history=history
+    )

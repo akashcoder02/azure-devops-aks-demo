@@ -5,14 +5,14 @@ from security.scan_manager import (
 )
 
 
-class CheckovParser:
+class KubernetesParser:
 
     def __init__(self):
 
         self.report = (
-            scan_manager.platform_reports()
-            / "terraform"
-            / "checkov.json"
+            scan_manager.application_reports()
+            / "kubernetes"
+            / "kubernetes.json"
         )
 
     def parse(self):
@@ -21,7 +21,7 @@ class CheckovParser:
 
             return {
 
-                "status": "Not Scanned",
+                "status": "Not Run",
 
                 "findings": 0,
 
@@ -37,20 +37,15 @@ class CheckovParser:
 
                 data = json.load(file)
 
-            failed_checks = (
-                data.get("results", {})
-                    .get("failed_checks", [])
-            )
-
             return {
 
                 "status": "Completed",
 
-                "findings": len(failed_checks),
+                "findings": len(data),
 
-                "critical": len(failed_checks),
+                "critical": len(data),
 
-                "data": failed_checks
+                "data": data
 
             }
 
@@ -69,4 +64,4 @@ class CheckovParser:
             }
 
 
-checkov_parser = CheckovParser()
+kubernetes_parser = KubernetesParser()

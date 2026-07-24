@@ -1,0 +1,16 @@
+[
+  {
+    "kind": "Deployment",
+    "name": "tic-tac-toe",
+    "namespace": "default",
+    "issue": "Container running as root",
+    "severity": "High"
+  },
+  {
+    "kind": "Service",
+    "name": "tic-tac-toe",
+    "namespace": "default",
+    "issue": "No Network Policy",
+    "severity": "Medium"
+  }
+]
