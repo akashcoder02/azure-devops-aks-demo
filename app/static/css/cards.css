@@ -278,3 +278,15 @@
     color: inherit !important;
 
 }
+
+/* ==========================
+   Bootstrap Dark Theme Fix
+========================== */
+
+.card .text-muted {
+    color: #cbd5e1 !important;
+}
+
+.card h6 {
+    color: #cbd5e1 !important;
+}

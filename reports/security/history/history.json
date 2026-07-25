@@ -622,5 +622,645 @@
         "findings": 0,
         "critical": 0,
         "timestamp": "2026-07-24 15:03:16"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:30"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-24 15:14:37"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:50:37"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:21"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 06:56:24"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:00"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:00:16"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:01:59"
     }
 ]

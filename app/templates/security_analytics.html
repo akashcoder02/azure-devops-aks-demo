@@ -85,7 +85,11 @@
                         + dashboard.application["pip-audit"].findings
                         + dashboard.application.trivy.findings
                         + dashboard.application.kubernetes.findings
-                        + dashboard.platform.checkov.findings }}
+                        + dashboard.platform.checkov.findings
+                        + dashboard.platform.aks.findings
+                        + dashboard.platform.helm.findings
+                        + dashboard.platform.dockerfiles.findings
+                        + dashboard.platform.workflows.findings }}
 
                     </h2>
 
@@ -114,7 +118,11 @@
                         + dashboard.application["pip-audit"].critical
                         + dashboard.application.trivy.critical
                         + dashboard.application.kubernetes.critical
-                        + dashboard.platform.checkov.critical }}
+                        + dashboard.platform.checkov.critical
+                        + dashboard.platform.aks.critical
+                        + dashboard.platform.helm.critical
+                        + dashboard.platform.dockerfiles.critical
+                        + dashboard.platform.workflows.critical }}
 
                     </h2>
 

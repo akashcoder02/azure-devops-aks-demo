@@ -120,3 +120,7 @@ body {
 .dashboard-header{
     margin-bottom:40px;
 }
+
+:root{
+    --bs-heading-color:#ffffff;
+}

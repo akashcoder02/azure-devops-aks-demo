@@ -12,6 +12,8 @@
 
     <div class="row">
 
+        <!-- Application Security -->
+
         <div class="col-md-6 mb-4">
 
             <div class="card">
@@ -20,27 +22,63 @@
 
                     <h4>Application Security</h4>
 
-                    <table class="table">
+                    <table class="table table-hover">
 
-                        <tr>
-                            <th>Scanner</th>
-                            <th>Status</th>
-                        </tr>
+                        <thead>
 
-                        <tr>
-                            <td>Gitleaks</td>
-                            <td>{{ application.gitleaks.status }}</td>
-                        </tr>
+                            <tr>
 
-                        <tr>
-                            <td>Semgrep</td>
-                            <td>{{ application.semgrep.status }}</td>
-                        </tr>
+                                <th>Scanner</th>
+                                <th>Status</th>
+                                <th>Findings</th>
 
-                        <tr>
-                            <td>Trivy</td>
-                            <td>{{ application.trivy.status }}</td>
-                        </tr>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>Gitleaks</td>
+                                <td>{{ application.gitleaks.status }}</td>
+                                <td>{{ application.gitleaks.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Semgrep</td>
+                                <td>{{ application.semgrep.status }}</td>
+                                <td>{{ application.semgrep.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Pip Audit</td>
+                                <td>{{ application["pip-audit"].status }}</td>
+                                <td>{{ application["pip-audit"].findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Trivy</td>
+                                <td>{{ application.trivy.status }}</td>
+                                <td>{{ application.trivy.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Kubernetes</td>
+                                <td>{{ application.kubernetes.status }}</td>
+                                <td>{{ application.kubernetes.findings }}</td>
+
+                            </tr>
+
+                        </tbody>
 
                     </table>
 
@@ -50,6 +88,8 @@
 
         </div>
 
+        <!-- Platform Security -->
+
         <div class="col-md-6 mb-4">
 
             <div class="card">
@@ -58,22 +98,63 @@
 
                     <h4>Platform Security</h4>
 
-                    <table class="table">
+                    <table class="table table-hover">
 
-                        <tr>
-                            <th>Scanner</th>
-                            <th>Status</th>
-                        </tr>
+                        <thead>
 
-                        <tr>
-                            <td>Checkov</td>
-                            <td>{{ platform.checkov.status }}</td>
-                        </tr>
+                            <tr>
 
-                        <tr>
-                            <td>AKS</td>
-                            <td>{{ platform.aks.status }}</td>
-                        </tr>
+                                <th>Scanner</th>
+                                <th>Status</th>
+                                <th>Findings</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>Checkov</td>
+                                <td>{{ platform.checkov.status }}</td>
+                                <td>{{ platform.checkov.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>AKS</td>
+                                <td>{{ platform.aks.status }}</td>
+                                <td>{{ platform.aks.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Helm</td>
+                                <td>{{ platform.helm.status }}</td>
+                                <td>{{ platform.helm.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Dockerfile</td>
+                                <td>{{ platform.dockerfiles.status }}</td>
+                                <td>{{ platform.dockerfiles.findings }}</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>GitHub Workflows</td>
+                                <td>{{ platform.workflows.status }}</td>
+                                <td>{{ platform.workflows.findings }}</td>
+
+                            </tr>
+
+                        </tbody>
 
                     </table>
 
