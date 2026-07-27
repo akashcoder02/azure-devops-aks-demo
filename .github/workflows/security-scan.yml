@@ -488,6 +488,52 @@ jobs:
           EOF
 
       ####################################################
+      # Add Scan Timestamp
+      ####################################################
+
+      - name: Add Scan Timestamp
+        if: always()
+        run: |
+          python3 <<EOF
+          import json
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          files = list(Path("reports/security").rglob("*.json"))
+
+          for file in files:
+              try:
+                  with open(file) as f:
+                      data = json.load(f)
+
+                  if isinstance(data, dict):
+                      data["scan_time"] = datetime.now(
+                          timezone.utc
+                      ).strftime("%Y-%m-%d %H:%M:%S UTC")
+
+                  else:
+                      data = {
+                          "scan_time": datetime.now(
+                              timezone.utc
+                          ).strftime("%Y-%m-%d %H:%M:%S UTC"),
+                          "results": data
+                      }
+
+                  with open(file, "w") as f:
+                      json.dump(
+                          data,
+                          f,
+                          indent=2
+                      )
+
+                  print("Updated:", file)
+
+              except Exception as e:
+                  print("Skipped:", file, e)
+
+          EOF
+
+      ####################################################
       # Scan History
       ####################################################
 

@@ -7,6 +7,9 @@ from security.scanner_registry import (
     get_platform_scanners
 )
 
+from security.utils.time_utils import (
+    get_scan_time
+)
 
 class DevSecOpsOrchestrator:
     """
@@ -19,7 +22,11 @@ class DevSecOpsOrchestrator:
 
     def application_security(self):
 
-        results = {}
+        results = {
+
+            "scan_time": get_scan_time()
+
+        }
 
         for scanner in get_application_scanners():
 
@@ -41,7 +48,11 @@ class DevSecOpsOrchestrator:
 
     def platform_security(self):
 
-        results = {}
+        results = {
+
+            "scan_time": get_scan_time()
+
+        }
 
         for scanner in get_platform_scanners():
 
