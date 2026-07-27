@@ -13,6 +13,7 @@ on:
           - tic-tac-toe
           - tetris
 
+
       environment:
         description: "Environment"
         required: true
@@ -48,6 +49,9 @@ on:
         options:
           - "false"
           - "true"
+
+permissions:
+  contents: write
 
 jobs:
 
