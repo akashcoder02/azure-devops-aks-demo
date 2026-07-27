@@ -99,7 +99,7 @@ jobs:
       - name: Run Gitleaks
         if: |
           inputs.scanner == 'gitleaks' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -117,7 +117,7 @@ jobs:
       - name: Run Semgrep
         if: |
           inputs.scanner == 'semgrep' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
         uses: returntocorp/semgrep-action@v1
         with:
           config: auto
@@ -125,7 +125,7 @@ jobs:
       - name: Save Semgrep Report
         if: |
           inputs.scanner == 'semgrep' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
         run: |
           mkdir -p reports/security/application/sast
           cp semgrep.json reports/security/application/sast/semgrep.json || echo "[]" > reports/security/application/sast/semgrep.json
@@ -138,7 +138,7 @@ jobs:
 
         if: |
           inputs.scanner == 'pip-audit' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
 
         run: |
 
@@ -150,7 +150,7 @@ jobs:
 
         if: |
           inputs.scanner == 'pip-audit' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
 
         run: |
 
@@ -168,7 +168,7 @@ jobs:
       - name: Install Trivy
         if: |
           inputs.scanner == 'trivy' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
         run: |
           sudo apt-get update
           sudo apt-get install -y wget
@@ -178,7 +178,7 @@ jobs:
       - name: Run Trivy
         if: |
           inputs.scanner == 'trivy' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
         run: |
 
           mkdir -p reports/security/application/trivy
@@ -203,7 +203,7 @@ jobs:
 
         if: |
           inputs.scanner == 'kubernetes' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
 
         run: |
 
@@ -228,7 +228,7 @@ jobs:
 
         if: |
           inputs.scanner == 'kubernetes' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
 
         run: |
 
@@ -292,7 +292,7 @@ jobs:
 
         if: |
           inputs.scanner == 'checkov' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -303,7 +303,7 @@ jobs:
       - name: Run Checkov
         if: |
           inputs.scanner == 'checkov' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -324,7 +324,7 @@ jobs:
 
         if: |
           inputs.scanner == 'aks' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         uses: azure/login@v2
 
@@ -335,7 +335,7 @@ jobs:
 
         if: |
           inputs.scanner == 'aks' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         uses: azure/setup-kubectl@v4
 
@@ -343,7 +343,7 @@ jobs:
 
         if: |
           inputs.scanner == 'aks' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -356,7 +356,7 @@ jobs:
 
         if: |
           inputs.scanner == 'aks' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
           sudo apt-get update
@@ -366,7 +366,7 @@ jobs:
 
         if: |
           inputs.scanner == 'aks' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -395,7 +395,7 @@ jobs:
 
         if: |
           inputs.scanner == 'helm' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         uses: azure/setup-helm@v4
 
@@ -403,7 +403,7 @@ jobs:
 
         if: |
           inputs.scanner == 'helm' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -427,7 +427,7 @@ jobs:
 
         if: |
           inputs.scanner == 'dockerfiles' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -441,7 +441,7 @@ jobs:
 
         if: |
           inputs.scanner == 'dockerfiles' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -465,7 +465,7 @@ jobs:
 
         if: |
           inputs.scanner == 'workflows' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
@@ -477,7 +477,7 @@ jobs:
 
         if: |
           inputs.scanner == 'workflows' ||
-          inputs.scanner == 'all'
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
 
         run: |
 
