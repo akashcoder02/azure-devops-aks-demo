@@ -113,14 +113,36 @@ jobs:
           test -f reports/security/application/secrets/gitleaks.json || echo "[]" > reports/security/application/secrets/gitleaks.json
 
 
-      - name: Debug Gitleaks Report
+      - name: Normalize Gitleaks Report
         if: always()
         run: |
-          echo "Gitleaks report folder:"
-          ls -lh reports/security/application/secrets/ || true
 
-          echo "Gitleaks report content:"
-          cat reports/security/application/secrets/gitleaks.json || true
+          mkdir -p reports/security/application/secrets
+
+          python3 - <<EOF
+
+          import json
+          from datetime import datetime
+
+          path = "reports/security/application/secrets/gitleaks.json"
+
+          try:
+              with open(path) as f:
+                  findings = json.load(f)
+          except:
+              findings = []
+
+          report = {
+              "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
+              "findings": findings
+          }
+
+          with open(path, "w") as f:
+              json.dump(report, f, indent=2)
+
+          EOF
+
+          cat reports/security/application/secrets/gitleaks.json
 
 
       ####################################################
