@@ -1,16 +1,1 @@
-[
-  {
-    "kind": "Deployment",
-    "name": "tic-tac-toe",
-    "namespace": "default",
-    "issue": "Container running as root",
-    "severity": "High"
-  },
-  {
-    "kind": "Service",
-    "name": "tic-tac-toe",
-    "namespace": "default",
-    "issue": "No Network Policy",
-    "severity": "Medium"
-  }
-]
+Open /home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/k8s/*.yaml: no such file or directory

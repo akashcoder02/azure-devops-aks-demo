@@ -1,0 +1,3 @@
+==> Linting helm/tic-tac-toe
+Error unable to check Chart.yaml file in chart: stat helm/tic-tac-toe/Chart.yaml: no such file or directory
+

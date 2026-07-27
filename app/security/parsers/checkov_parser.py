@@ -43,6 +43,10 @@ class CheckovParser:
 
                 data = json.load(file)
 
+            if isinstance(data, list):
+
+                data = data[0]
+
             failed_checks = (
                 data.get("results", {})
                     .get("failed_checks", [])

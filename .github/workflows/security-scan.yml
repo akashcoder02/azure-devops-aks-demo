@@ -172,9 +172,12 @@ jobs:
           inputs.scanner == 'trivy' ||
           inputs.scanner == 'all'
         run: |
+
+          mkdir -p reports/security/application/trivy
+
           trivy fs . \
             --format json \
-            -o reports/security/trivy.json
+            -o reports/security/application/trivy/trivy.json
 
       ####################################################
       # Kubernetes Manifest Scan

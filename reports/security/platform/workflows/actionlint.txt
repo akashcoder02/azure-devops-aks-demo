@@ -1,0 +1,113 @@
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:104:24: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:113:24: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:122:24: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:131:24: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:155:39: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:164:12: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:173:22: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:174:12: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:183:22: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:184:20: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:189:20: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:199:20: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:200:22: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/azure-running-resources.yml:38:9: shellcheck reported issue in this script: SC2086:info:95:24: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+38 |         run: |
+   |         ^~~~
+.github/workflows/build.yaml:59:9: shellcheck reported issue in this script: SC2086:info:2:42: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+59 |         run: |
+   |         ^~~~
+.github/workflows/build.yaml:67:9: shellcheck reported issue in this script: SC2086:info:2:56: Double quote to prevent globbing and word splitting [shellcheck]
+   |
+67 |         run: |
+   |         ^~~~
+.github/workflows/deploy.yml:103:9: shellcheck reported issue in this script: SC2086:info:5:15: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+103 |         run: |
+    |         ^~~~
+.github/workflows/gitops-deploy.yml:123:9: shellcheck reported issue in this script: SC2086:info:11:42: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+123 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:104:9: shellcheck reported issue in this script: SC2086:info:13:40: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+104 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:121:9: shellcheck reported issue in this script: SC2086:info:9:36: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+121 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:134:9: shellcheck reported issue in this script: SC2086:info:15:21: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+134 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:134:9: shellcheck reported issue in this script: SC2086:info:16:17: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+134 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:134:9: shellcheck reported issue in this script: SC2086:info:17:15: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+134 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:134:9: shellcheck reported issue in this script: SC2129:style:15:1: Consider using { cmd1; cmd2; } >> file instead of individual redirects [shellcheck]
+    |
+134 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:155:9: shellcheck reported issue in this script: SC2086:info:44:38: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+155 |         run: |
+    |         ^~~~
+.github/workflows/gitops-rollback.yml:203:9: shellcheck reported issue in this script: SC2086:info:25:32: Double quote to prevent globbing and word splitting [shellcheck]
+    |
+203 |         run: |
+    |         ^~~~
+.github/workflows/gitops-scale.yml:129:9: shellcheck reported issue in this script: SC2034:warning:2:1: i appears unused. Verify use (or export if used externally) [shellcheck]
+    |
+129 |         run: |
+    |         ^~~~
+.github/workflows/infra.yaml:35:9: shellcheck reported issue in this script: SC2034:warning:9:3: i appears unused. Verify use (or export if used externally) [shellcheck]
+   |
+35 |         run: |
+   |         ^~~~
+.github/workflows/pip-audit.yml:1:1: workflow is empty [syntax-check]
