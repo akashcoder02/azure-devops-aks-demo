@@ -3,16 +3,16 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa374-8abf-72e2-a6c7-03e656c4971a",
-  "CreatedAt": "2026-07-27T12:02:31.743190047Z",
-  "ArtifactID": "sha256:d2d50d01ab33ca452864d9b4faec75e1448cdeb72a195de8f059b72a2c76cc32",
+  "ReportID": "019fa379-8ead-78dd-82cf-9b815369dd7f",
+  "CreatedAt": "2026-07-27T12:08:00.429583181Z",
+  "ArtifactID": "sha256:ecec313252e687036cc2cbadbc40b3f5b47aad601047c610ba028a1d23d6630f",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "0d2be305514ddb4a2485789dbf1168d75cf9ed47",
-    "CommitMsg": "Allow security workflow to update reports",
+    "Commit": "118a5bbdd0f8eb291245c6ae30c4debd1d8a514a",
+    "CommitMsg": "535",
     "Author": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e",
     "Committer": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e"
   },
@@ -239,7 +239,7 @@
             "Name": "GitHub Security Advisory pip",
             "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
           },
-          "Fingerprint": "sha256:44191d39e592e76ac1da69863521aacb8e3c4c33ae8e4ad300fa5eb1ce55f5ac",
+          "Fingerprint": "sha256:2d4c3e9e558e07ea99d309136fa6c0d5a9c0f7e6d6957a844d09e4798ade9a3a",
           "Title": "flask: Flask: Information disclosure via improper caching of session data",
           "Description": "Flask is a web server gateway interface (WSGI) web application framework. In versions 3.1.2 and below, when the session object is accessed, Flask should set the Vary: Cookie header., resulting in a Use of Cache Containing Sensitive Information vulnerability. The logic instructs caches not to cache the response, as it may contain information specific to a logged in user. This is handled in most cases, but some forms of access such as the Python in operator were overlooked. The severity and risk depend on the application being hosted behind a caching proxy that doesn't ignore responses with cookies, not setting a Cache-Control header to mark pages as private or non-cacheable, and accessing the session in a way that only touches keys without reading values or mutating the session. The issue has been fixed in version 3.1.3.",
           "Severity": "LOW",
