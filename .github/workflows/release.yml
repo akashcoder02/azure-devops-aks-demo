@@ -90,14 +90,14 @@ jobs:
   # Release Gate
   ####################################################
 
-    release-gate:
+  release-gate:
 
     if: ${{ github.event.inputs.enable_devsecops == 'true' }}
-
+  
     needs: security
-
+  
     runs-on: ubuntu-latest
-
+  
     steps:
 
       - name: Checkout Repository
