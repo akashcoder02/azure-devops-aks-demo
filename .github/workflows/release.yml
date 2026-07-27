@@ -90,7 +90,7 @@ jobs:
   # Release Gate
   ####################################################
 
-  release-gate:
+    release-gate:
 
     if: ${{ github.event.inputs.enable_devsecops == 'true' }}
 
@@ -100,16 +100,17 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Evaluate Security Policy
+      - name: Evaluate DevSecOps Policy
+        env:
+          PYTHONPATH: ${{ github.workspace }}/app
         run: |
 
           echo "Evaluating DevSecOps Policy..."
 
-          cd app
-
-          python security/policies/policy_engine.py
+          python app/security/policies/policy_engine.py
 
   ####################################################
   # Traditional Deployment (Without DevSecOps)
