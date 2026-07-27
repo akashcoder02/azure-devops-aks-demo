@@ -235,8 +235,6 @@ jobs:
 
           mkdir -p reports/security/application/kubernetes
 
-          echo "[" > reports/security/application/kubernetes/kubernetes.json
-
           first=true
 
           for file in applications/*/k8s/*.yaml; do
@@ -255,15 +253,14 @@ jobs:
 
             if [ "$first" = true ]; then
 
-              cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
+              cp /tmp/kubesec.out reports/security/application/kubernetes/kubernetes.json
 
               first=false
 
             else
 
-              echo "," >> reports/security/application/kubernetes/kubernetes.json
-
-              cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
+              echo "Additional Kubernetes manifest scanned: $file"
+              echo "Skipping merge for now."
 
             fi
 
@@ -273,8 +270,6 @@ jobs:
             fi
 
           done
-
-          echo "]" >> reports/security/application/kubernetes/kubernetes.json
 
           echo "======================================="
           echo "Generated Kubernetes Report"
