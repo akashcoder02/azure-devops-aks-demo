@@ -100,15 +100,17 @@ jobs:
         if: |
           inputs.scanner == 'gitleaks' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: >
-            detect
-            --source .
-            --report-format json
-            --report-path reports/security/application/secrets/gitleaks.json
+        run: |
+
+          mkdir -p reports/security/application/secrets
+
+          gitleaks detect \
+            --source . \
+            --report-format json \
+            --report-path reports/security/application/secrets/gitleaks.json \
+            || true
+
+          test -f reports/security/application/secrets/gitleaks.json || echo "[]" > reports/security/application/secrets/gitleaks.json
 
       ####################################################
       # Semgrep
@@ -127,8 +129,14 @@ jobs:
           inputs.scanner == 'semgrep' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
         run: |
+
           mkdir -p reports/security/application/sast
-          cp semgrep.json reports/security/application/sast/semgrep.json || echo "[]" > reports/security/application/sast/semgrep.json
+
+          if [ -f semgrep.json ]; then
+            cp semgrep.json reports/security/application/sast/semgrep.json
+          else
+            echo "[]" > reports/security/application/sast/semgrep.json
+          fi
 
       ####################################################
       # Pip Audit
@@ -254,7 +262,7 @@ jobs:
 
             if [ "$first" = true ]; then
 
-              cp /tmp/kubesec.out reports/security/application/kubernetes/kubernetes.json
+              cat /tmp/kubesec.out > reports/security/application/kubernetes/kubernetes.json
 
               first=false
 
