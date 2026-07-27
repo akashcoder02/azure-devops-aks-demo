@@ -5721,12 +5721,12 @@
       "start": {
         "line": 431,
         "col": 9,
-        "offset": 10227
+        "offset": 10221
       },
       "end": {
         "line": 431,
         "col": 34,
-        "offset": 10252
+        "offset": 10246
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -5773,12 +5773,12 @@
       "start": {
         "line": 517,
         "col": 9,
-        "offset": 12295
+        "offset": 12289
       },
       "end": {
         "line": 524,
         "col": 3,
-        "offset": 12470
+        "offset": 12464
       },
       "extra": {
         "message": "A `run:` step pipes the output of `curl` or `wget` directly into a shell interpreter. This is the \"curl | bash\" install pattern \u2014 if the remote server is compromised or the URL is hijacked, an attacker can execute arbitrary code in your CI runner. Consider downloading the file first, verifying its checksum or signature, and then executing it.",
@@ -5828,12 +5828,12 @@
       "start": {
         "line": 555,
         "col": 9,
-        "offset": 13269
+        "offset": 13263
       },
       "end": {
         "line": 567,
         "col": 3,
-        "offset": 13641
+        "offset": 13635
       },
       "extra": {
         "message": "Using variable interpolation `${{...}}` with `github` context data in a `run:` step could allow an attacker to inject their own code into the runner. This would allow them to steal secrets and code. `github` context data can have arbitrary user input and should be treated as untrusted. Instead, use an intermediate environment variable with `env:` to store the data and use the environment variable in the `run:` script. Be sure to use double-quotes the environment variable, like this: \"$ENVVAR\".",
@@ -5882,12 +5882,12 @@
       "start": {
         "line": 602,
         "col": 9,
-        "offset": 14411
+        "offset": 14405
       },
       "end": {
         "line": 602,
         "col": 41,
-        "offset": 14443
+        "offset": 14437
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -22580,12 +22580,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.40071606636047363,
+    "rules_parse_time": 0.4777350425720215,
     "profiling_times": {
-      "config_time": 0.7539496421813965,
-      "core_time": 2.680157423019409,
-      "ignores_time": 0.0013928413391113281,
-      "total_time": 3.4405789375305176
+      "config_time": 0.9552865028381348,
+      "core_time": 3.292041063308716,
+      "ignores_time": 0.0016772747039794922,
+      "total_time": 4.25455641746521
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22600,10 +22600,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 3.8612794876098633,
+      "total_time": 4.678870439529419,
       "per_file_time": {
-        "mean": 0.003666932086998922,
-        "std_dev": 0.0002837999762454728
+        "mean": 0.004443371737444845,
+        "std_dev": 0.00046487354203113474
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22646,10 +22646,10 @@
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1085218176
+    "max_memory_bytes": 1008832704
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-27 18:45:27 IST"
+  "scan_time": "2026-07-27 18:52:04 IST"
 }
