@@ -103,12 +103,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Evaluate Security Policy
-
         run: |
 
           echo "Evaluating DevSecOps Policy..."
 
-          python app/security/policies/policy_engine.py
+          cd app
+
+          python security/policies/policy_engine.py
 
   ####################################################
   # Traditional Deployment (Without DevSecOps)
