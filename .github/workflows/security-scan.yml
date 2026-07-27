@@ -157,6 +157,7 @@ jobs:
           mkdir -p reports/security/application/dependencies
 
           pip-audit \
+            -r app/requirements.txt \
             --format json \
             --output reports/security/application/dependencies/pip-audit.json || true
 
