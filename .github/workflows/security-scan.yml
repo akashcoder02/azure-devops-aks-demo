@@ -177,7 +177,15 @@ jobs:
 
           trivy fs . \
             --format json \
-            -o reports/security/application/trivy/trivy.json
+            -o reports/security/application/trivy/trivy.json || true
+
+          echo "===== Trivy Report ====="
+
+          ls -lh reports/security/application/trivy/
+
+          wc -c reports/security/application/trivy/trivy.json
+
+          head -20 reports/security/application/trivy/trivy.json || true
 
       ####################################################
       # Kubernetes Manifest Scan
