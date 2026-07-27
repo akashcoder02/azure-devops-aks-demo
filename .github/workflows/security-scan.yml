@@ -560,6 +560,19 @@ jobs:
           ]
           EOF
 
+      - name: Commit Security Reports
+        if: always()
+        run: |
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add reports/security/
+
+          git commit -m "Update security scan reports" || echo "No report changes"
+
+          git push
+
       ####################################################
       # Upload Reports
       ####################################################
