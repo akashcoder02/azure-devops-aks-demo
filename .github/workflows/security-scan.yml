@@ -195,7 +195,7 @@ jobs:
           head -20 reports/security/application/trivy/trivy.json || true
 
       ####################################################
-      # Kubernetes Manifest Scan
+      # Install Kubesec
       ####################################################
 
       - name: Install Kubesec
@@ -206,26 +206,31 @@ jobs:
 
         run: |
 
-          wget https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz
+          wget -q https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz
 
           tar -xzf kubesec_linux_amd64.tar.gz
 
+          chmod +x kubesec
+
           sudo mv kubesec /usr/local/bin/
 
+          which kubesec
+
+          kubesec --help || true
+
+      ####################################################
+      # Kubernetes Manifest Scan
+      ####################################################
+
       - name: Run Kubernetes Manifest Scan
+
         if: |
           inputs.scanner == 'kubernetes' ||
           inputs.scanner == 'all'
+
         run: |
 
-          set -x
-
-          pwd
-
-          ls -la
-
-          echo "===== Applications ====="
-          find applications -type f
+          set +e
 
           mkdir -p reports/security/application/kubernetes
 
@@ -234,20 +239,41 @@ jobs:
           first=true
 
           for file in applications/*/k8s/*.yaml; do
+
+            echo "======================================="
             echo "Scanning: $file"
+            echo "======================================="
+
+            kubesec scan "$file" > /tmp/kubesec.out 2>&1
+
+            EXIT_CODE=$?
+
+            cat /tmp/kubesec.out
+
+            if [ $EXIT_CODE -ne 0 ]; then
+              echo ""
+              echo "Kubesec failed on $file"
+              echo "Exit Code: $EXIT_CODE"
+              exit $EXIT_CODE
+            fi
 
             if [ "$first" = true ]; then
-              kubesec scan "$file" >> reports/security/application/kubernetes/kubernetes.json
+              cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
               first=false
             else
               echo "," >> reports/security/application/kubernetes/kubernetes.json
-              kubesec scan "$file" >> reports/security/application/kubernetes/kubernetes.json
+              cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
             fi
+
           done
 
           echo "]" >> reports/security/application/kubernetes/kubernetes.json
 
-          ls -lh reports/security/application/kubernetes
+          echo "===== Generated Report ====="
+
+          ls -lh reports/security/application/kubernetes/
+
+          wc -c reports/security/application/kubernetes/kubernetes.json
 
       ####################################################
       # Checkov
