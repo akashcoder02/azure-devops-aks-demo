@@ -3,16 +3,16 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa49e-abdd-7706-9396-d259582e3d22",
-  "CreatedAt": "2026-07-27T17:28:09.949461321Z",
-  "ArtifactID": "sha256:ac07814739e843a102866baa5ed2743f1277d32786c0205ca8e10f77c09d5379",
+  "ReportID": "019fa4a5-b0b6-7ca6-9720-effc6c41bb22",
+  "CreatedAt": "2026-07-27T17:35:49.942830209Z",
+  "ArtifactID": "sha256:ec9abf2b148e4c91cde2e831fdd584afbe03f147ab96e6b2809273f25e4a557e",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "1dbee43f6b80733024a53e66d8cc2fedf76f3db2",
-    "CommitMsg": "1057",
+    "Commit": "f546026d9e49188ddcb7dc34fa92799f3454780e",
+    "CommitMsg": "Fix application security report generation",
     "Author": "akashcoder02 <akashgoyalit1998@gmail.com>",
     "Committer": "akashcoder02 <akashgoyalit1998@gmail.com>"
   },
@@ -332,5 +332,5 @@
       ]
     }
   ],
-  "scan_time": "2026-07-27 17:28:10 UTC"
+  "scan_time": "2026-07-27 17:35:51 UTC"
 }

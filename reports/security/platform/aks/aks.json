@@ -7,5 +7,5 @@
   "azure_policy": "Enabled",
   "private_cluster": "Disabled",
   "pod_security": "Baseline",
-  "scan_time": "2026-07-27 17:28:10 UTC"
+  "scan_time": "2026-07-27 17:35:51 UTC"
 }
