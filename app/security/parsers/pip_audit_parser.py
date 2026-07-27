@@ -15,6 +15,7 @@ class PipAuditParser:
             / "pip-audit.json"
         )
 
+
     def parse(self):
 
         if not self.report.exists():
@@ -31,25 +32,47 @@ class PipAuditParser:
 
             }
 
+
         try:
 
             with open(self.report, "r") as file:
 
                 data = json.load(file)
 
+
+            vulnerabilities = []
+
+
+            for dependency in data.get(
+                "dependencies",
+                []
+            ):
+
+                for vulnerability in dependency.get(
+                    "vulns",
+                    []
+                ):
+
+                    vulnerabilities.append(
+                        vulnerability
+                    )
+
+
             return {
 
                 "status": "Completed",
 
-                "findings": len(data),
+                "findings": len(vulnerabilities),
 
-                "critical": len(data),
+                "critical": len(vulnerabilities),
 
-                "data": data
+                "data": vulnerabilities
 
             }
 
+
         except Exception:
+
 
             return {
 

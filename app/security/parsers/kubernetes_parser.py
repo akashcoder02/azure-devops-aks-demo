@@ -51,11 +51,9 @@ class KubernetesParser:
 
                 "critical": 0,
 
-                "high": len(data),
-
+                "high": 0,
                 "medium": 0,
-
-                "low": 0,
+                "low": len(data),
 
                 "data": data
 
