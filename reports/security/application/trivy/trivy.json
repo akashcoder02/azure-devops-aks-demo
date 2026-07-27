@@ -3,18 +3,18 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa3a0-b646-74a2-865f-db77b25f9c1b",
-  "CreatedAt": "2026-07-27T12:50:46.470305861Z",
-  "ArtifactID": "sha256:dac4eeab52252c1ae70dee43b8c78561a832626f81206a94f3837990df51e806",
+  "ReportID": "019fa499-5049-7c6b-9997-fea25fb07d6a",
+  "CreatedAt": "2026-07-27T17:22:18.825815324Z",
+  "ArtifactID": "sha256:8f71322c19eca5b47927910a4ef436b46bf714f899af146ae09bec3e17e0be55",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "5cb7b01fa4a6ccc6a2a870fbd58aa2bcbaa18b5e",
-    "CommitMsg": "Fix pip-audit to scan application dependencies only",
-    "Author": "akashcoder02 <akashgoyalit1998@gmail.com>",
-    "Committer": "akashcoder02 <akashgoyalit1998@gmail.com>"
+    "Commit": "805b3ce5f563cd3e2a5370770341f4460fcaccf2",
+    "CommitMsg": "Update security scan reports",
+    "Author": "github-actions <github-actions@github.com>",
+    "Committer": "github-actions <github-actions@github.com>"
   },
   "Results": [
     {
@@ -332,5 +332,5 @@
       ]
     }
   ],
-  "scan_time": "2026-07-27 17:17:31 UTC"
+  "scan_time": "2026-07-27 17:22:20 UTC"
 }
