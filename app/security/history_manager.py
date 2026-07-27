@@ -73,7 +73,7 @@ class HistoryManager:
 
         )
 
-         self.history.parent.mkdir(
+        self.history.parent.mkdir(
             parents=True,
             exist_ok=True
         )
