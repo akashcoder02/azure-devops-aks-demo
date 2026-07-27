@@ -111,3 +111,7 @@
 35 |         run: |
    |         ^~~~
 .github/workflows/pip-audit.yml:1:1: workflow is empty [syntax-check]
+.github/workflows/release.yml:81:11: error while parsing reusable workflow "./.github/workflows/security-scan.yml": "workflow_call" event trigger is not found in "on:" at line:5, column:3 [workflow-call]
+   |
+81 |     uses: ./.github/workflows/security-scan.yml
+   |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
