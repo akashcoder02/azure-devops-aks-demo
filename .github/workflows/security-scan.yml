@@ -413,6 +413,8 @@ jobs:
 
           cat <<EOF > reports/security/platform/helm/helm.json
           {
+            "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "status": "Completed",
             "findings": []
           }
           EOF
@@ -449,6 +451,8 @@ jobs:
 
           cat <<EOF > reports/security/platform/dockerfiles/dockerfile.json
           {
+            "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "status": "Completed",
             "findings": []
           }
           EOF
@@ -483,6 +487,8 @@ jobs:
 
           cat <<EOF > reports/security/platform/workflows/workflow.json
           {
+            "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "status": "Completed",
             "findings": []
           }
           EOF
