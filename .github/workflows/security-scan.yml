@@ -259,7 +259,22 @@ jobs:
           inputs.scanner == 'trivy' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
 
-        uses: aquasecurity/setup-trivy@v0.2.3
+        run: |
+
+          sudo apt-get update
+
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
+          | sudo gpg --dearmor \
+          -o /usr/share/keyrings/trivy.gpg
+
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" \
+          | sudo tee /etc/apt/sources.list.d/trivy.list
+
+          sudo apt-get update
+
+          sudo apt-get install -y trivy
 
 
 
@@ -298,6 +313,8 @@ jobs:
           tar -xzf kubesec.tar.gz
 
           chmod +x kubesec
+
+          ./kubesec version || true
 
 
 
