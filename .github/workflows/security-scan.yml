@@ -175,8 +175,30 @@ jobs:
 
           fi
 
-          echo "Semgrep report:"
-          ls -lh reports/security/application/sast/
+          python3 - <<EOF
+
+          import json
+          from datetime import datetime
+
+          path="reports/security/application/sast/semgrep.json"
+
+          try:
+              with open(path) as f:
+                  findings=json.load(f)
+          except:
+              findings=[]
+
+          report={
+              "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
+              "findings": findings
+          }
+
+          with open(path,"w") as f:
+              json.dump(report,f,indent=2)
+
+          EOF
+
+          cat reports/security/application/sast/semgrep.json
 
       ####################################################
       # Pip Audit
@@ -303,6 +325,29 @@ jobs:
             if [ "$first" = true ]; then
 
               cat /tmp/kubesec.out > reports/security/application/kubernetes/kubernetes.json
+
+              python3 - <<EOF
+
+              import json
+              from datetime import datetime
+
+              path="reports/security/application/kubernetes/kubernetes.json"
+
+              try:
+                  with open(path) as f:
+                      findings=json.load(f)
+              except:
+                  findings=[]
+
+              report={
+                  "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
+                  "findings": findings
+              }
+
+              with open(path,"w") as f:
+                  json.dump(report,f,indent=2)
+
+              EOF
 
               first=false
 
