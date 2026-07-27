@@ -124,6 +124,36 @@ jobs:
           cp semgrep.json reports/security/application/sast/semgrep.json || echo "[]" > reports/security/application/sast/semgrep.json
 
       ####################################################
+      # Pip Audit
+      ####################################################
+
+      - name: Install Pip Audit
+
+        if: |
+          inputs.scanner == 'pip-audit' ||
+          inputs.scanner == 'all'
+
+        run: |
+
+          python -m pip install --upgrade pip
+
+          pip install pip-audit
+
+      - name: Run Pip Audit
+
+        if: |
+          inputs.scanner == 'pip-audit' ||
+          inputs.scanner == 'all'
+
+        run: |
+
+          mkdir -p reports/security/application/dependencies
+
+          pip-audit \
+            --format json \
+            --output reports/security/application/dependencies/pip-audit.json || true
+
+      ####################################################
       # Trivy
       ####################################################
 
@@ -145,6 +175,37 @@ jobs:
           trivy fs . \
             --format json \
             -o reports/security/trivy.json
+
+      ####################################################
+      # Kubernetes Manifest Scan
+      ####################################################
+
+      - name: Install Kubesec
+
+        if: |
+          inputs.scanner == 'kubernetes' ||
+          inputs.scanner == 'all'
+
+        run: |
+
+          wget https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz
+
+          tar -xzf kubesec_linux_amd64.tar.gz
+
+          sudo mv kubesec /usr/local/bin/
+
+      - name: Run Kubernetes Manifest Scan
+
+        if: |
+          inputs.scanner == 'kubernetes' ||
+          inputs.scanner == 'all'
+
+        run: |
+
+          mkdir -p reports/security/application/kubernetes
+
+          kubesec scan k8s/*.yaml \
+            > reports/security/application/kubernetes/kubernetes.json || true
 
       ####################################################
       # Checkov

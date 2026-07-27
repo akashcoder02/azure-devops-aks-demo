@@ -1262,5 +1262,165 @@
         "findings": 0,
         "critical": 0,
         "timestamp": "2026-07-25 07:01:59"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 07:23:26"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Checkov",
+        "category": "Terraform",
+        "status": "Not Scanned",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "AKS",
+        "category": "Platform",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Helm",
+        "category": "Helm",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Dockerfiles",
+        "category": "Dockerfile",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
+    },
+    {
+        "scanner": "Workflows",
+        "category": "GitHub Actions",
+        "status": "Not Run",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-25 08:46:35"
     }
 ]

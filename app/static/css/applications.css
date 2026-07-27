@@ -204,6 +204,8 @@
 
 .modal-content{
 
+    position:relative;
+
     width:650px;
 
     max-width:90%;
@@ -222,13 +224,19 @@
 
 .close{
 
-    float:right;
+    position:absolute;
+
+    top:18px;
+
+    right:20px;
 
     cursor:pointer;
 
     font-size:28px;
 
     color:white;
+
+    line-height:1;
 
 }
 
