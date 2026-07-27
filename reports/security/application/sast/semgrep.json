@@ -2034,60 +2034,6 @@
       }
     },
     {
-      "check_id": "yaml.github-actions.security.run-shell-injection.run-shell-injection",
-      "path": ".github/workflows/gitops-deploy.yml",
-      "start": {
-        "line": 271,
-        "col": 9,
-        "offset": 7068
-      },
-      "end": {
-        "line": 282,
-        "col": 2,
-        "offset": 7623
-      },
-      "extra": {
-        "message": "Using variable interpolation `${{...}}` with `github` context data in a `run:` step could allow an attacker to inject their own code into the runner. This would allow them to steal secrets and code. `github` context data can have arbitrary user input and should be treated as untrusted. Instead, use an intermediate environment variable with `env:` to store the data and use the environment variable in the `run:` script. Be sure to use double-quotes the environment variable, like this: \"$ENVVAR\".",
-        "metadata": {
-          "category": "security",
-          "cwe": [
-            "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
-          ],
-          "owasp": [
-            "A01:2017 - Injection",
-            "A03:2021 - Injection",
-            "A05:2025 - Injection"
-          ],
-          "references": [
-            "https://docs.github.com/en/actions/learn-github-actions/security-hardening-for-github-actions#understanding-the-risk-of-script-injections",
-            "https://securitylab.github.com/research/github-actions-untrusted-input/"
-          ],
-          "technology": [
-            "github-actions"
-          ],
-          "cwe2022-top25": true,
-          "cwe2021-top25": true,
-          "subcategory": [
-            "vuln"
-          ],
-          "likelihood": "HIGH",
-          "impact": "HIGH",
-          "confidence": "HIGH",
-          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
-          "vulnerability_class": [
-            "Command Injection"
-          ],
-          "source": "https://semgrep.dev/r/yaml.github-actions.security.run-shell-injection.run-shell-injection",
-          "shortlink": "https://sg.run/pkzk"
-        },
-        "severity": "ERROR",
-        "fingerprint": "requires login",
-        "lines": "requires login",
-        "validation_state": "NO_VALIDATOR",
-        "engine_kind": "OSS"
-      }
-    },
-    {
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/gitops-rollback.yml",
       "start": {
@@ -5882,12 +5828,12 @@
       "start": {
         "line": 602,
         "col": 9,
-        "offset": 14405
+        "offset": 14408
       },
       "end": {
         "line": 602,
         "col": 41,
-        "offset": 14437
+        "offset": 14440
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -22461,6 +22407,7 @@
       "reports/security/application/kubernetes/kubernetes.json",
       "reports/security/application/sast/.gitkeep",
       "reports/security/application/sast/semgrep.json",
+      "reports/security/application/secrets/gitleaks.json",
       "reports/security/application/trivy/trivy.json",
       "reports/security/checkov.json",
       "reports/security/gitleaks.json",
@@ -22580,12 +22527,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.513685941696167,
+    "rules_parse_time": 0.5024058818817139,
     "profiling_times": {
-      "config_time": 0.8666324615478516,
-      "core_time": 4.896313905715942,
-      "ignores_time": 0.001998424530029297,
-      "total_time": 5.770643949508667
+      "config_time": 0.8947267532348633,
+      "core_time": 4.028918027877808,
+      "ignores_time": 0.0017733573913574219,
+      "total_time": 4.930837869644165
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22600,10 +22547,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 9.678845405578613,
+      "total_time": 6.559739112854004,
       "per_file_time": {
-        "mean": 0.00919168604518387,
-        "std_dev": 0.0019343722921459042
+        "mean": 0.006211874159899624,
+        "std_dev": 0.0010143995664106077
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22640,16 +22587,16 @@
       "project_level_time": 0.0,
       "file_level_time": 0.0,
       "rules_with_project_prefilters_ratio": 0.0,
-      "rules_with_file_prefilters_ratio": 0.955727350228629,
-      "rules_selected_ratio": 0.09197473455785476,
-      "rules_matched_ratio": 0.09197473455785476
+      "rules_with_file_prefilters_ratio": 0.9557129860828834,
+      "rules_selected_ratio": 0.09194200878772042,
+      "rules_matched_ratio": 0.09194200878772042
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1098882496
+    "max_memory_bytes": 1032097536
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-27 19:00:01 IST"
+  "scan_time": "2026-07-27 19:07:38 IST"
 }
