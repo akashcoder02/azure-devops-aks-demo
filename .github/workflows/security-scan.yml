@@ -411,6 +411,8 @@ jobs:
 
           helm lint helm/tic-tac-toe > reports/security/platform/helm/helm.txt || true
 
+          echo "Creating Helm JSON report"
+
           cat <<EOF > reports/security/platform/helm/helm.json
           {
             "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
@@ -418,6 +420,9 @@ jobs:
             "findings": []
           }
           EOF
+
+                    echo "Generated Helm report:"
+                    cat reports/security/platform/helm/helm.json
 
       ####################################################
       # Dockerfile Security Scan
