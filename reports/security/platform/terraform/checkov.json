@@ -131,6 +131,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -148,20 +162,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -297,6 +297,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -314,20 +328,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -463,6 +463,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -480,20 +494,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -629,6 +629,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -646,20 +660,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -795,6 +795,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -812,20 +826,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -961,6 +961,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -978,20 +992,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -1363,10 +1363,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1377,10 +1377,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1494,10 +1494,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1508,10 +1508,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1625,10 +1625,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1639,10 +1639,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1756,10 +1756,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1770,10 +1770,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1887,10 +1887,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -1901,10 +1901,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -2018,10 +2018,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -2032,10 +2032,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -2195,20 +2195,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -2232,6 +2218,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -3674,6 +3674,34 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/main.tf",
                     "breadcrumbs": {
+                        "tenant_id": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "tenant_id",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -3700,20 +3728,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "tenant_id": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "tenant_id",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "module",
@@ -3724,20 +3738,6 @@
                             {
                                 "type": "variable",
                                 "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
                                 "module_connection": false
                             }
@@ -3983,8 +3983,8 @@
                         },
                         "evaluated_keys": [
                             "resource_type",
-                            "container_access_type",
-                            "enabled"
+                            "enabled",
+                            "container_access_type"
                         ]
                     },
                     "code_block": [
@@ -4092,8 +4092,8 @@
                         },
                         "evaluated_keys": [
                             "resource_type",
-                            "container_access_type",
-                            "enabled"
+                            "enabled",
+                            "container_access_type"
                         ]
                     },
                     "code_block": [
@@ -4201,8 +4201,8 @@
                         },
                         "evaluated_keys": [
                             "resource_type",
-                            "container_access_type",
-                            "enabled"
+                            "enabled",
+                            "container_access_type"
                         ]
                     },
                     "code_block": [
@@ -4310,8 +4310,8 @@
                         },
                         "evaluated_keys": [
                             "resource_type",
-                            "container_access_type",
-                            "enabled"
+                            "enabled",
+                            "container_access_type"
                         ]
                     },
                     "code_block": [
@@ -4547,6 +4547,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -4564,20 +4578,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -4714,10 +4714,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -4728,10 +4728,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -4876,6 +4876,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -4893,20 +4907,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -5042,6 +5042,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -5059,20 +5073,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -5208,6 +5208,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -5225,20 +5239,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -5345,10 +5345,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -5359,10 +5359,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -5476,10 +5476,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -5490,10 +5490,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -5607,10 +5607,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -5621,10 +5621,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -5711,20 +5711,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -5748,6 +5734,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -5850,20 +5850,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -5887,6 +5873,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -5990,20 +5990,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6027,6 +6013,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -6130,20 +6130,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6167,6 +6153,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -6269,20 +6269,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6306,6 +6292,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -6409,20 +6409,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6446,6 +6432,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -6548,20 +6548,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6585,6 +6571,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -6687,20 +6687,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6724,6 +6710,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -6826,20 +6826,6 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/main.tf",
                     "breadcrumbs": {
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "acr",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -6863,6 +6849,20 @@
                                 "type": "output",
                                 "name": "acr_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/outputs.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "acr",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/acr/variables.tf",
                                 "module_connection": false
                             }
                         ],
@@ -9838,6 +9838,34 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/main.tf",
                     "breadcrumbs": {
+                        "tenant_id": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "tenant_id",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -9864,20 +9892,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "tenant_id": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "tenant_id",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "module",
@@ -9888,20 +9902,6 @@
                             {
                                 "type": "variable",
                                 "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
                                 "module_connection": false
                             }
@@ -10016,6 +10016,34 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/main.tf",
                     "breadcrumbs": {
+                        "tenant_id": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "tenant_id",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -10042,20 +10070,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "tenant_id": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "tenant_id",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "module",
@@ -10066,20 +10080,6 @@
                             {
                                 "type": "variable",
                                 "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
                                 "module_connection": false
                             }
@@ -10193,6 +10193,34 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/main.tf",
                     "breadcrumbs": {
+                        "tenant_id": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "tenant_id",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -10219,20 +10247,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "tenant_id": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "tenant_id",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "module",
@@ -10243,20 +10257,6 @@
                             {
                                 "type": "variable",
                                 "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
                                 "module_connection": false
                             }
@@ -10370,6 +10370,34 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/main.tf",
                     "breadcrumbs": {
+                        "tenant_id": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "tenant_id",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -10396,20 +10424,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "tenant_id": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "tenant_id",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "module",
@@ -10420,20 +10434,6 @@
                             {
                                 "type": "variable",
                                 "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
                                 "module_connection": false
                             }
@@ -10495,8 +10495,8 @@
                         },
                         "evaluated_keys": [
                             "account_kind",
-                            "blob_properties/delete_retention_policy",
-                            "blob_properties/delete_retention_policy/days"
+                            "blob_properties/delete_retention_policy/days",
+                            "blob_properties/delete_retention_policy"
                         ]
                     },
                     "code_block": [
@@ -10619,6 +10619,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -10636,20 +10650,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -10693,8 +10693,8 @@
                         },
                         "evaluated_keys": [
                             "account_kind",
-                            "blob_properties/delete_retention_policy",
-                            "blob_properties/delete_retention_policy/days"
+                            "blob_properties/delete_retention_policy/days",
+                            "blob_properties/delete_retention_policy"
                         ]
                     },
                     "code_block": [
@@ -10788,10 +10788,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -10802,10 +10802,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -10946,6 +10946,34 @@
                     "check_len": null,
                     "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/main.tf",
                     "breadcrumbs": {
+                        "tenant_id": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "tenant_id",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "module",
+                                "name": "keyvault",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "module",
@@ -10972,20 +11000,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "tenant_id": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "tenant_id",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "module",
@@ -10996,20 +11010,6 @@
                             {
                                 "type": "variable",
                                 "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "module",
-                                "name": "keyvault",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/main.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/modules/keyvault/variables.tf",
                                 "module_connection": false
                             }
@@ -11193,6 +11193,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -11210,20 +11224,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -11360,10 +11360,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -11374,10 +11374,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -11558,6 +11558,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -11575,20 +11589,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -11725,10 +11725,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
+                        "location": [
                             {
                                 "type": "variable",
-                                "name": "resource_group_name",
+                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -11739,10 +11739,10 @@
                                 "module_connection": false
                             }
                         ],
-                        "location": [
+                        "resource_group_name": [
                             {
                                 "type": "variable",
-                                "name": "location",
+                                "name": "resource_group_name",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -11800,8 +11800,8 @@
                             }
                         },
                         "evaluated_keys": [
-                            "shared_access_key_enabled",
                             "sas_policy",
+                            "shared_access_key_enabled",
                             "sas_policy/expiration_period"
                         ]
                     },
@@ -11925,6 +11925,20 @@
                                 "module_connection": false
                             }
                         ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
                         "name": [
                             {
                                 "type": "tfvar",
@@ -11942,20 +11956,6 @@
                                 "type": "resource",
                                 "name": "azurerm_storage_account.devsecops",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
                                 "module_connection": false
                             }
                         ]
@@ -11998,8 +11998,8 @@
                             }
                         },
                         "evaluated_keys": [
-                            "shared_access_key_enabled",
                             "sas_policy",
+                            "shared_access_key_enabled",
                             "sas_policy/expiration_period"
                         ]
                     },
@@ -12094,20 +12094,6 @@
                                 "module_connection": false
                             }
                         ],
-                        "resource_group_name": [
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "resource",
-                                "name": "azurerm_resource_group.backend",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
-                                "module_connection": false
-                            }
-                        ],
                         "location": [
                             {
                                 "type": "variable",
@@ -12121,364 +12107,11 @@
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
                                 "module_connection": false
                             }
-                        ]
-                    }
-                },
-                {
-                    "check_id": "CKV2_AZURE_1",
-                    "bc_check_id": "BC_AZR_GENERAL_32",
-                    "check_name": "Ensure storage for critical data are encrypted with Customer Managed Key",
-                    "check_result": {
-                        "result": "FAILED",
-                        "entity": {
-                            "azurerm_storage_account": {
-                                "devsecops": {
-                                    "__end_line__": 16,
-                                    "__start_line__": 1,
-                                    "account_replication_type": [
-                                        "LRS"
-                                    ],
-                                    "account_tier": [
-                                        "Standard"
-                                    ],
-                                    "allow_nested_items_to_be_public": [
-                                        false
-                                    ],
-                                    "location": [
-                                        "Central India"
-                                    ],
-                                    "min_tls_version": [
-                                        "TLS1_2"
-                                    ],
-                                    "name": [
-                                        "agdevsecops2026"
-                                    ],
-                                    "resource_group_name": [
-                                        "rg-devops-demo"
-                                    ],
-                                    "tags": [
-                                        {
-                                            "Environment": "Development",
-                                            "ManagedBy": "Terraform",
-                                            "Module": "DevSecOps",
-                                            "Project": "Internal-Developer-Platform"
-                                        }
-                                    ],
-                                    "__address__": "azurerm_storage_account.devsecops"
-                                }
-                            }
-                        },
-                        "evaluated_keys": [
-                            "customer_managed_key/key_vault_key_id",
-                            "resource_type"
-                        ]
-                    },
-                    "code_block": [
-                        [
-                            1,
-                            "resource \"azurerm_storage_account\" \"devsecops\" {\n"
-                        ],
-                        [
-                            2,
-                            "\n"
-                        ],
-                        [
-                            3,
-                            "  name                = var.storage_account_name\n"
-                        ],
-                        [
-                            4,
-                            "  resource_group_name = var.resource_group_name\n"
-                        ],
-                        [
-                            5,
-                            "  location            = var.location\n"
-                        ],
-                        [
-                            6,
-                            "\n"
-                        ],
-                        [
-                            7,
-                            "  account_tier             = \"Standard\"\n"
-                        ],
-                        [
-                            8,
-                            "  account_replication_type = \"LRS\"\n"
-                        ],
-                        [
-                            9,
-                            "\n"
-                        ],
-                        [
-                            10,
-                            "  min_tls_version = \"TLS1_2\"\n"
-                        ],
-                        [
-                            11,
-                            "\n"
-                        ],
-                        [
-                            12,
-                            "  allow_nested_items_to_be_public = false\n"
-                        ],
-                        [
-                            13,
-                            "\n"
-                        ],
-                        [
-                            14,
-                            "  tags = local.tags\n"
-                        ],
-                        [
-                            15,
-                            "\n"
-                        ],
-                        [
-                            16,
-                            "}\n"
-                        ]
-                    ],
-                    "file_path": "/addons/devsecops/storage.tf",
-                    "file_abs_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                    "repo_file_path": "/terraform/addons/devsecops/storage.tf",
-                    "file_line_range": [
-                        1,
-                        16
-                    ],
-                    "resource": "azurerm_storage_account.devsecops",
-                    "evaluations": null,
-                    "check_class": "checkov.common.graph.checks_infra.base_check",
-                    "fixed_definition": null,
-                    "entity_tags": {
-                        "Environment": "Development",
-                        "ManagedBy": "Terraform",
-                        "Module": "DevSecOps",
-                        "Project": "Internal-Developer-Platform"
-                    },
-                    "caller_file_path": null,
-                    "caller_file_line_range": null,
-                    "resource_address": null,
-                    "severity": null,
-                    "bc_category": null,
-                    "benchmarks": null,
-                    "description": null,
-                    "short_description": null,
-                    "vulnerability_details": null,
-                    "connected_node": null,
-                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/ensure-storage-for-critical-data-are-encrypted-with-customer-managed-key",
-                    "details": [],
-                    "check_len": null,
-                    "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                    "breadcrumbs": {
-                        "tags": [
-                            {
-                                "type": "locals",
-                                "name": "tags",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/main.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "location": [
-                            {
-                                "type": "tfvar",
-                                "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "location",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "name": [
-                            {
-                                "type": "tfvar",
-                                "name": "storage_account_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "storage_account_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "resource",
-                                "name": "azurerm_storage_account.devsecops",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "resource_group_name": [
-                            {
-                                "type": "tfvar",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "variable",
-                                "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
-                                "module_connection": false
-                            }
-                        ]
-                    }
-                },
-                {
-                    "check_id": "CKV2_AZURE_1",
-                    "bc_check_id": "BC_AZR_GENERAL_32",
-                    "check_name": "Ensure storage for critical data are encrypted with Customer Managed Key",
-                    "check_result": {
-                        "result": "FAILED",
-                        "entity": {
-                            "azurerm_storage_account": {
-                                "backend": {
-                                    "__end_line__": 17,
-                                    "__start_line__": 6,
-                                    "account_replication_type": [
-                                        "LRS"
-                                    ],
-                                    "account_tier": [
-                                        "Standard"
-                                    ],
-                                    "allow_nested_items_to_be_public": [
-                                        false
-                                    ],
-                                    "location": [
-                                        "Central India"
-                                    ],
-                                    "min_tls_version": [
-                                        "TLS1_2"
-                                    ],
-                                    "name": [
-                                        "agtfstate2026xyz"
-                                    ],
-                                    "resource_group_name": [
-                                        "rg-tf-backend"
-                                    ],
-                                    "__address__": "azurerm_storage_account.backend"
-                                }
-                            }
-                        },
-                        "evaluated_keys": [
-                            "customer_managed_key/key_vault_key_id",
-                            "resource_type"
-                        ]
-                    },
-                    "code_block": [
-                        [
-                            6,
-                            "resource \"azurerm_storage_account\" \"backend\" {\n"
-                        ],
-                        [
-                            7,
-                            "  name                = var.storage_account_name\n"
-                        ],
-                        [
-                            8,
-                            "  resource_group_name = azurerm_resource_group.backend.name\n"
-                        ],
-                        [
-                            9,
-                            "  location            = azurerm_resource_group.backend.location\n"
-                        ],
-                        [
-                            10,
-                            "\n"
-                        ],
-                        [
-                            11,
-                            "  account_tier             = \"Standard\"\n"
-                        ],
-                        [
-                            12,
-                            "  account_replication_type = \"LRS\"\n"
-                        ],
-                        [
-                            13,
-                            "\n"
-                        ],
-                        [
-                            14,
-                            "  min_tls_version = \"TLS1_2\"\n"
-                        ],
-                        [
-                            15,
-                            "\n"
-                        ],
-                        [
-                            16,
-                            "  allow_nested_items_to_be_public = false\n"
-                        ],
-                        [
-                            17,
-                            "}\n"
-                        ]
-                    ],
-                    "file_path": "/backend/main.tf",
-                    "file_abs_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
-                    "repo_file_path": "/terraform/backend/main.tf",
-                    "file_line_range": [
-                        6,
-                        17
-                    ],
-                    "resource": "azurerm_storage_account.backend",
-                    "evaluations": null,
-                    "check_class": "checkov.common.graph.checks_infra.base_check",
-                    "fixed_definition": null,
-                    "entity_tags": null,
-                    "caller_file_path": null,
-                    "caller_file_line_range": null,
-                    "resource_address": null,
-                    "severity": null,
-                    "bc_category": null,
-                    "benchmarks": null,
-                    "description": null,
-                    "short_description": null,
-                    "vulnerability_details": null,
-                    "connected_node": null,
-                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/ensure-storage-for-critical-data-are-encrypted-with-customer-managed-key",
-                    "details": [],
-                    "check_len": null,
-                    "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
-                    "breadcrumbs": {
-                        "name": [
-                            {
-                                "type": "variable",
-                                "name": "storage_account_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "resource",
-                                "name": "azurerm_storage_account.backend",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
-                                "module_connection": false
-                            }
                         ],
                         "resource_group_name": [
                             {
                                 "type": "variable",
                                 "name": "resource_group_name",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
-                                "module_connection": false
-                            },
-                            {
-                                "type": "resource",
-                                "name": "azurerm_resource_group.backend",
-                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
-                                "module_connection": false
-                            }
-                        ],
-                        "location": [
-                            {
-                                "type": "variable",
-                                "name": "location",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
                                 "module_connection": false
                             },
@@ -12793,9 +12426,9 @@
                             }
                         },
                         "evaluated_keys": [
-                            "blob_container_names",
                             "container_access_type",
-                            "resource_type"
+                            "resource_type",
+                            "blob_container_names"
                         ]
                     },
                     "code_block": [
@@ -12902,9 +12535,9 @@
                             }
                         },
                         "evaluated_keys": [
-                            "blob_container_names",
                             "container_access_type",
-                            "resource_type"
+                            "resource_type",
+                            "blob_container_names"
                         ]
                     },
                     "code_block": [
@@ -13011,9 +12644,9 @@
                             }
                         },
                         "evaluated_keys": [
-                            "blob_container_names",
                             "container_access_type",
-                            "resource_type"
+                            "resource_type",
+                            "blob_container_names"
                         ]
                     },
                     "code_block": [
@@ -13120,9 +12753,9 @@
                             }
                         },
                         "evaluated_keys": [
-                            "blob_container_names",
                             "container_access_type",
-                            "resource_type"
+                            "resource_type",
+                            "blob_container_names"
                         ]
                     },
                     "code_block": [
@@ -13184,6 +12817,373 @@
                             {
                                 "type": "resource",
                                 "name": "azurerm_storage_container.backend",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV2_AZURE_1",
+                    "bc_check_id": "BC_AZR_GENERAL_32",
+                    "check_name": "Ensure storage for critical data are encrypted with Customer Managed Key",
+                    "check_result": {
+                        "result": "FAILED",
+                        "entity": {
+                            "azurerm_storage_account": {
+                                "devsecops": {
+                                    "__end_line__": 16,
+                                    "__start_line__": 1,
+                                    "account_replication_type": [
+                                        "LRS"
+                                    ],
+                                    "account_tier": [
+                                        "Standard"
+                                    ],
+                                    "allow_nested_items_to_be_public": [
+                                        false
+                                    ],
+                                    "location": [
+                                        "Central India"
+                                    ],
+                                    "min_tls_version": [
+                                        "TLS1_2"
+                                    ],
+                                    "name": [
+                                        "agdevsecops2026"
+                                    ],
+                                    "resource_group_name": [
+                                        "rg-devops-demo"
+                                    ],
+                                    "tags": [
+                                        {
+                                            "Environment": "Development",
+                                            "ManagedBy": "Terraform",
+                                            "Module": "DevSecOps",
+                                            "Project": "Internal-Developer-Platform"
+                                        }
+                                    ],
+                                    "__address__": "azurerm_storage_account.devsecops"
+                                }
+                            }
+                        },
+                        "evaluated_keys": [
+                            "resource_type",
+                            "customer_managed_key/key_vault_key_id"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            1,
+                            "resource \"azurerm_storage_account\" \"devsecops\" {\n"
+                        ],
+                        [
+                            2,
+                            "\n"
+                        ],
+                        [
+                            3,
+                            "  name                = var.storage_account_name\n"
+                        ],
+                        [
+                            4,
+                            "  resource_group_name = var.resource_group_name\n"
+                        ],
+                        [
+                            5,
+                            "  location            = var.location\n"
+                        ],
+                        [
+                            6,
+                            "\n"
+                        ],
+                        [
+                            7,
+                            "  account_tier             = \"Standard\"\n"
+                        ],
+                        [
+                            8,
+                            "  account_replication_type = \"LRS\"\n"
+                        ],
+                        [
+                            9,
+                            "\n"
+                        ],
+                        [
+                            10,
+                            "  min_tls_version = \"TLS1_2\"\n"
+                        ],
+                        [
+                            11,
+                            "\n"
+                        ],
+                        [
+                            12,
+                            "  allow_nested_items_to_be_public = false\n"
+                        ],
+                        [
+                            13,
+                            "\n"
+                        ],
+                        [
+                            14,
+                            "  tags = local.tags\n"
+                        ],
+                        [
+                            15,
+                            "\n"
+                        ],
+                        [
+                            16,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/addons/devsecops/storage.tf",
+                    "file_abs_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
+                    "repo_file_path": "/terraform/addons/devsecops/storage.tf",
+                    "file_line_range": [
+                        1,
+                        16
+                    ],
+                    "resource": "azurerm_storage_account.devsecops",
+                    "evaluations": null,
+                    "check_class": "checkov.common.graph.checks_infra.base_check",
+                    "fixed_definition": null,
+                    "entity_tags": {
+                        "Environment": "Development",
+                        "ManagedBy": "Terraform",
+                        "Module": "DevSecOps",
+                        "Project": "Internal-Developer-Platform"
+                    },
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/ensure-storage-for-critical-data-are-encrypted-with-customer-managed-key",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
+                    "breadcrumbs": {
+                        "tags": [
+                            {
+                                "type": "locals",
+                                "name": "tags",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/main.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "location": [
+                            {
+                                "type": "tfvar",
+                                "name": "location",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "location",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "tfvar",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "name": [
+                            {
+                                "type": "tfvar",
+                                "name": "storage_account_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/terraform.tfvars",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "variable",
+                                "name": "storage_account_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/variables.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "resource",
+                                "name": "azurerm_storage_account.devsecops",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/addons/devsecops/storage.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV2_AZURE_1",
+                    "bc_check_id": "BC_AZR_GENERAL_32",
+                    "check_name": "Ensure storage for critical data are encrypted with Customer Managed Key",
+                    "check_result": {
+                        "result": "FAILED",
+                        "entity": {
+                            "azurerm_storage_account": {
+                                "backend": {
+                                    "__end_line__": 17,
+                                    "__start_line__": 6,
+                                    "account_replication_type": [
+                                        "LRS"
+                                    ],
+                                    "account_tier": [
+                                        "Standard"
+                                    ],
+                                    "allow_nested_items_to_be_public": [
+                                        false
+                                    ],
+                                    "location": [
+                                        "Central India"
+                                    ],
+                                    "min_tls_version": [
+                                        "TLS1_2"
+                                    ],
+                                    "name": [
+                                        "agtfstate2026xyz"
+                                    ],
+                                    "resource_group_name": [
+                                        "rg-tf-backend"
+                                    ],
+                                    "__address__": "azurerm_storage_account.backend"
+                                }
+                            }
+                        },
+                        "evaluated_keys": [
+                            "resource_type",
+                            "customer_managed_key/key_vault_key_id"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            6,
+                            "resource \"azurerm_storage_account\" \"backend\" {\n"
+                        ],
+                        [
+                            7,
+                            "  name                = var.storage_account_name\n"
+                        ],
+                        [
+                            8,
+                            "  resource_group_name = azurerm_resource_group.backend.name\n"
+                        ],
+                        [
+                            9,
+                            "  location            = azurerm_resource_group.backend.location\n"
+                        ],
+                        [
+                            10,
+                            "\n"
+                        ],
+                        [
+                            11,
+                            "  account_tier             = \"Standard\"\n"
+                        ],
+                        [
+                            12,
+                            "  account_replication_type = \"LRS\"\n"
+                        ],
+                        [
+                            13,
+                            "\n"
+                        ],
+                        [
+                            14,
+                            "  min_tls_version = \"TLS1_2\"\n"
+                        ],
+                        [
+                            15,
+                            "\n"
+                        ],
+                        [
+                            16,
+                            "  allow_nested_items_to_be_public = false\n"
+                        ],
+                        [
+                            17,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/backend/main.tf",
+                    "file_abs_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
+                    "repo_file_path": "/terraform/backend/main.tf",
+                    "file_line_range": [
+                        6,
+                        17
+                    ],
+                    "resource": "azurerm_storage_account.backend",
+                    "evaluations": null,
+                    "check_class": "checkov.common.graph.checks_infra.base_check",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/ensure-storage-for-critical-data-are-encrypted-with-customer-managed-key",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "storage_account_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "resource",
+                                "name": "azurerm_storage_account.backend",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "location": [
+                            {
+                                "type": "variable",
+                                "name": "location",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "resource",
+                                "name": "azurerm_resource_group.backend",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "resource_group_name": [
+                            {
+                                "type": "variable",
+                                "name": "resource_group_name",
+                                "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/variables.tf",
+                                "module_connection": false
+                            },
+                            {
+                                "type": "resource",
+                                "name": "azurerm_resource_group.backend",
                                 "path": "/home/runner/work/azure-devops-aks-demo/azure-devops-aks-demo/terraform/backend/main.tf",
                                 "module_connection": false
                             }
