@@ -32,7 +32,8 @@ class GitHubActionsService:
                 "application_name": data["application_name"],
                 "environment": data["environment"],
                 "deployment_strategy": data["deployment_strategy"],
-                "deployment_type": data["deployment_type"]
+                "deployment_type": data["deployment_type"],
+                "enable_devsecops": data.get("enable_devsecops", "false"),
             }
         }
 

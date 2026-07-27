@@ -81,6 +81,11 @@ releaseButton.addEventListener("click", async () => {
         deployment_type:
             document.querySelector(
                 '[data-type="deployment_type"].selected'
+            ).dataset.value,
+
+        enable_devsecops:
+            document.querySelector(
+                '[data-type="enable_devsecops"].selected'
             ).dataset.value
 
     };
