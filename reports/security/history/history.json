@@ -1,8 +1,8 @@
 [
   {
-    "scanner":"kubernetes",
+    "scanner":"all",
     "category":"application",
     "status":"Completed",
-    "timestamp":"2026-07-27T11:45:31Z"
+    "timestamp":"2026-07-27T11:49:08Z"
   }
 ]
