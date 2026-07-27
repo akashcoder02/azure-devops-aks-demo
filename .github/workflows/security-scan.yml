@@ -581,7 +581,7 @@ jobs:
           git config user.email "github-actions@github.com"
 
 
-          git add reports/security/
+          git add -A reports/security/
 
 
           git commit \
