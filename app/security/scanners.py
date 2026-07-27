@@ -21,7 +21,7 @@ SCANNERS = {
     "trivy": {
         "category": "application",
         "type": "Containers",
-        "report": "application/containers/trivy.json"
+        "report": "application/trivy/trivy.json"
     },
 
     "checkov": {

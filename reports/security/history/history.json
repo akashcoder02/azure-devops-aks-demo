@@ -1,8 +1,82 @@
 [
-  {
-    "scanner":"trivy",
-    "category":"application",
-    "status":"Completed",
-    "timestamp":"2026-07-27T10:42:43Z"
-  }
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:50"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:50"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-27 10:59:50"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Completed",
+        "findings": 1,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:50"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:50"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:55"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:55"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-27 10:59:55"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Completed",
+        "findings": 1,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:55"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 10:59:55"
+    }
 ]

@@ -11,6 +11,7 @@ class TrivyParser:
 
         report = (
             scan_manager.application_reports()
+            / "trivy"
             / "trivy.json"
         )
 
@@ -34,9 +35,29 @@ class TrivyParser:
 
             }
 
-        with open(report) as file:
+        try:
+            with open(report, "r") as file:
+                data = json.load(file)
 
-            data = json.load(file)
+        except Exception:
+
+            return {
+
+                "status": "Not Run",
+
+                "findings": 0,
+
+                "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
+                "data": []
+
+            }
 
         critical = 0
         high = 0
