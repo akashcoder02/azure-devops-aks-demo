@@ -112,6 +112,17 @@ jobs:
 
           test -f reports/security/application/secrets/gitleaks.json || echo "[]" > reports/security/application/secrets/gitleaks.json
 
+
+      - name: Debug Gitleaks Report
+        if: always()
+        run: |
+          echo "Gitleaks report folder:"
+          ls -lh reports/security/application/secrets/ || true
+
+          echo "Gitleaks report content:"
+          cat reports/security/application/secrets/gitleaks.json || true
+
+
       ####################################################
       # Semgrep
       ####################################################
@@ -133,10 +144,17 @@ jobs:
           mkdir -p reports/security/application/sast
 
           if [ -f semgrep.json ]; then
+
             cp semgrep.json reports/security/application/sast/semgrep.json
+
           else
+
             echo "[]" > reports/security/application/sast/semgrep.json
+
           fi
+
+          echo "Semgrep report:"
+          ls -lh reports/security/application/sast/
 
       ####################################################
       # Pip Audit
@@ -279,6 +297,9 @@ jobs:
             fi
 
           done
+
+          echo "Kubernetes report:"
+          ls -lh reports/security/application/kubernetes/
 
           echo "======================================="
           echo "Generated Kubernetes Report"
