@@ -218,6 +218,7 @@ jobs:
 
           kubesec --help || true
 
+
       ####################################################
       # Kubernetes Manifest Scan
       ####################################################
@@ -252,27 +253,40 @@ jobs:
 
             echo "Exit Code: $EXIT_CODE"
 
-            cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
-
-            first=false
-
             if [ "$first" = true ]; then
+
               cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
+
               first=false
+
             else
+
               echo "," >> reports/security/application/kubernetes/kubernetes.json
+
               cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
+
+            fi
+
+            if [ $EXIT_CODE -ne 0 ]; then
+              echo "Kubesec reported security findings."
+              echo "Continuing so Policy Engine can evaluate them."
             fi
 
           done
 
           echo "]" >> reports/security/application/kubernetes/kubernetes.json
 
-          echo "===== Generated Report ====="
+          echo "======================================="
+          echo "Generated Kubernetes Report"
+          echo "======================================="
 
           ls -lh reports/security/application/kubernetes/
 
           wc -c reports/security/application/kubernetes/kubernetes.json
+
+          head -20 reports/security/application/kubernetes/kubernetes.json
+
+          exit 0
 
       ####################################################
       # Checkov
