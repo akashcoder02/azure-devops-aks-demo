@@ -222,8 +222,23 @@ jobs:
 
           mkdir -p reports/security/application/kubernetes
 
-          kubesec scan k8s/*.yaml \
-            > reports/security/application/kubernetes/kubernetes.json || true
+          echo "[" > reports/security/application/kubernetes/kubernetes.json
+
+          first=true
+
+          for file in applications/*/k8s/*.yaml; do
+
+            if [ "$first" = true ]; then
+              kubesec scan "$file" >> reports/security/application/kubernetes/kubernetes.json
+              first=false
+            else
+              echo "," >> reports/security/application/kubernetes/kubernetes.json
+              kubesec scan "$file" >> reports/security/application/kubernetes/kubernetes.json
+            fi
+
+          done
+
+          echo "]" >> reports/security/application/kubernetes/kubernetes.json
 
       ####################################################
       # Checkov

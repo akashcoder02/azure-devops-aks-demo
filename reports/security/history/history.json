@@ -78,5 +78,85 @@
         "findings": 0,
         "critical": 0,
         "timestamp": "2026-07-27 10:59:55"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:44"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:44"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-27 11:04:44"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Completed",
+        "findings": 1,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:44"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:44"
+    },
+    {
+        "scanner": "Gitleaks",
+        "category": "Secrets",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:58"
+    },
+    {
+        "scanner": "Semgrep",
+        "category": "SAST",
+        "status": "Completed",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:58"
+    },
+    {
+        "scanner": "Pip-Audit",
+        "category": "Dependencies",
+        "status": "Completed",
+        "findings": 2,
+        "critical": 2,
+        "timestamp": "2026-07-27 11:04:58"
+    },
+    {
+        "scanner": "Trivy",
+        "category": "Container",
+        "status": "Completed",
+        "findings": 1,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:58"
+    },
+    {
+        "scanner": "Kubernetes",
+        "category": "Kubernetes",
+        "status": "Error",
+        "findings": 0,
+        "critical": 0,
+        "timestamp": "2026-07-27 11:04:58"
     }
 ]
