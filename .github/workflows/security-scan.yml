@@ -415,7 +415,7 @@ jobs:
 
           cat <<EOF > reports/security/platform/helm/helm.json
           {
-            "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "scan_time": "$(TZ="Asia/Kolkata" date +"%Y-%m-%d %H:%M:%S IST")",
             "status": "Completed",
             "findings": []
           }
@@ -456,7 +456,7 @@ jobs:
 
           cat <<EOF > reports/security/platform/dockerfiles/dockerfile.json
           {
-            "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "scan_time": "$(TZ="Asia/Kolkata" date +"%Y-%m-%d %H:%M:%S IST")",
             "status": "Completed",
             "findings": []
           }
@@ -492,7 +492,7 @@ jobs:
 
           cat <<EOF > reports/security/platform/workflows/workflow.json
           {
-            "scan_time": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+            "scan_time": "$(TZ="Asia/Kolkata" date +"%Y-%m-%d %H:%M:%S IST")",
             "status": "Completed",
             "findings": []
           }
