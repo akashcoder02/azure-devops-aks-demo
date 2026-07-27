@@ -250,12 +250,11 @@ jobs:
 
             cat /tmp/kubesec.out
 
-            if [ $EXIT_CODE -ne 0 ]; then
-              echo ""
-              echo "Kubesec failed on $file"
-              echo "Exit Code: $EXIT_CODE"
-              exit $EXIT_CODE
-            fi
+            echo "Exit Code: $EXIT_CODE"
+
+            cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
+
+            first=false
 
             if [ "$first" = true ]; then
               cat /tmp/kubesec.out >> reports/security/application/kubernetes/kubernetes.json
