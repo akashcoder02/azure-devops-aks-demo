@@ -27,4 +27,5 @@ secrets/argocd/argocd-github
 # Repository Secret containing private key
 gitops/repository-secret.yaml
 
+app/.envreports/security/history/history.json
 app/.env
