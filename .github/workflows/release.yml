@@ -41,7 +41,7 @@ on:
           - hpa
 
       enable_devsecops:
-        description: Enable DevSecOps Scan
+        description: "Enable DevSecOps"
         required: true
         default: "false"
         type: choice
@@ -51,6 +51,9 @@ on:
 
 jobs:
 
+  ####################################################
+  # Build
+  ####################################################
 
   build:
 
@@ -61,7 +64,10 @@ jobs:
     with:
       application_name: ${{ github.event.inputs.application_name }}
 
-  
+  ####################################################
+  # DevSecOps Security Scan
+  ####################################################
+
   security:
 
     if: ${{ github.event.inputs.enable_devsecops == 'true' }}
@@ -76,6 +82,10 @@ jobs:
       scan_type: application
       scanner: all
 
+  ####################################################
+  # Release Gate
+  ####################################################
+
   release-gate:
 
     if: ${{ github.event.inputs.enable_devsecops == 'true' }}
@@ -86,59 +96,122 @@ jobs:
 
     steps:
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Evaluate Release Gate
+      - name: Evaluate Security Policy
+
         run: |
+
           echo "Evaluating DevSecOps Policy..."
+
           python app/security/policies/policy_engine.py
+
+  ####################################################
+  # Traditional Deployment (Without DevSecOps)
+  ####################################################
 
   traditional-deploy:
 
-    needs:
-      - build
-      - release-gate
-
     if: >
       github.event.inputs.deployment_strategy == 'traditional' &&
-      (
-        github.event.inputs.enable_devsecops == 'false' ||
-        needs.release-gate.result == 'success'
-      )
+      github.event.inputs.enable_devsecops == 'false'
+
+    needs:
+      - build
 
     uses: ./.github/workflows/deploy.yml
 
     secrets: inherit
 
     with:
+
       application_name: ${{ needs.build.outputs.application_name }}
+
       image_tag: ${{ needs.build.outputs.image_tag }}
+
       environment: ${{ github.event.inputs.environment }}
+
       deployment_type: ${{ github.event.inputs.deployment_type }}
 
+  ####################################################
+  # Traditional Deployment (With DevSecOps)
+  ####################################################
 
-  gitops-deploy:
+  traditional-deploy-secure:
+
+    if: >
+      github.event.inputs.deployment_strategy == 'traditional' &&
+      github.event.inputs.enable_devsecops == 'true'
 
     needs:
       - build
       - release-gate
 
+    uses: ./.github/workflows/deploy.yml
+
+    secrets: inherit
+
+    with:
+
+      application_name: ${{ needs.build.outputs.application_name }}
+
+      image_tag: ${{ needs.build.outputs.image_tag }}
+
+      environment: ${{ github.event.inputs.environment }}
+
+      deployment_type: ${{ github.event.inputs.deployment_type }}
+
+  ####################################################
+  # GitOps Deployment (Without DevSecOps)
+  ####################################################
+
+  gitops-deploy:
+
     if: >
-      github.event.inputs.deployment_strategy == 'traditional' &&
-      (
-        github.event.inputs.enable_devsecops == 'false' ||
-        needs.release-gate.result == 'success'
-      )
+      github.event.inputs.deployment_strategy == 'gitops' &&
+      github.event.inputs.enable_devsecops == 'false'
+
+    needs:
+      - build
 
     uses: ./.github/workflows/gitops-deploy.yml
 
     secrets: inherit
 
     with:
+
       application_name: ${{ needs.build.outputs.application_name }}
+
       image_tag: ${{ needs.build.outputs.image_tag }}
+
       environment: ${{ github.event.inputs.environment }}
+
       deployment_type: ${{ github.event.inputs.deployment_type }}
 
-  
+  ####################################################
+  # GitOps Deployment (With DevSecOps)
+  ####################################################
+
+  gitops-deploy-secure:
+
+    if: >
+      github.event.inputs.deployment_strategy == 'gitops' &&
+      github.event.inputs.enable_devsecops == 'true'
+
+    needs:
+      - build
+      - release-gate
+
+    uses: ./.github/workflows/gitops-deploy.yml
+
+    secrets: inherit
+
+    with:
+
+      application_name: ${{ needs.build.outputs.application_name }}
+
+      image_tag: ${{ needs.build.outputs.image_tag }}
+
+      environment: ${{ github.event.inputs.environment }}
+
+      deployment_type: ${{ github.event.inputs.deployment_type }}
