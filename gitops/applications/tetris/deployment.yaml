@@ -21,7 +21,7 @@ spec:
       containers:
       - name: tetris
 
-        image: agdevopsacr2026.azurecr.io/tetris:a0eed4691a819af699d38c44a94404fca3ad7947
+        image: agdevopsacr2026.azurecr.io/tetris:6b57c63f6fd565e137ddbd14570f6376f7d4de7e
 
         imagePullPolicy: Always
 
