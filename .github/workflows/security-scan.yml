@@ -518,12 +518,7 @@ jobs:
                       ).strftime("%Y-%m-%d %H:%M:%S UTC")
 
                   else:
-                      data = {
-                          "scan_time": datetime.now(
-                              timezone.utc
-                          ).strftime("%Y-%m-%d %H:%M:%S UTC"),
-                          "results": data
-                      }
+                      continue
 
                   with open(file, "w") as f:
                       json.dump(
