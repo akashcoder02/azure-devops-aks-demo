@@ -19,6 +19,8 @@ from services.release_gate import (
     release_gate
 )
 
+from flask import render_template
+
 
 devsecops_bp = Blueprint(
     "devsecops",
@@ -173,7 +175,12 @@ def policy_status():
 @devsecops_bp.route("/devsecops/release-gate")
 def release_gate_status():
 
-    return release_gate.evaluate()
+    result = release_gate.evaluate()
+
+    return render_template(
+        "release_gate.html",
+        result=result
+    )
 
 @devsecops_bp.route("/devsecops/platform/checkov")
 def checkov_report():

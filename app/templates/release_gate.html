@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+Release Gate
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2>🚀 Release Gate</h2>
+
+
+    <div class="card mt-4">
+
+        <div class="card-body">
+
+
+            {% if result.success %}
+
+            <h3 style="color:#22c55e;">
+                ✅ Deployment Approved
+            </h3>
+
+            {% else %}
+
+            <h3 style="color:#ef4444;">
+                ❌ Deployment Blocked
+            </h3>
+
+            {% endif %}
+
+
+            <p>
+                {{ result.message }}
+            </p>
+
+
+            <hr>
+
+
+            <h4>Security Policy</h4>
+
+
+            <p>
+                <strong>Mode:</strong>
+                {{ result.policy.mode }}
+            </p>
+
+
+            <p>
+                <strong>Critical:</strong>
+                {{ result.policy.critical }}
+            </p>
+
+
+            <p>
+                <strong>High:</strong>
+                {{ result.policy.high }}
+            </p>
+
+
+            <p>
+                <strong>Blocked:</strong>
+                {{ result.policy.blocked }}
+            </p>
+
+
+            {% if result.policy.reasons %}
+
+            <h4>Reasons</h4>
+
+            <ul>
+
+            {% for reason in result.policy.reasons %}
+
+            <li>{{ reason }}</li>
+
+            {% endfor %}
+
+            </ul>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

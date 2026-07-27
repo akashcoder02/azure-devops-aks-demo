@@ -15,6 +15,7 @@ class AKSParser:
             / "aks.json"
         )
 
+
     def parse(self):
 
         if not self.report.exists():
@@ -23,6 +24,15 @@ class AKSParser:
 
                 "status": "Not Scanned",
 
+                # Common security fields
+                "findings": 0,
+                "critical": 0,
+                "high": 0,
+                "medium": 0,
+                "low": 0,
+                "data": [],
+
+                # AKS details
                 "cluster": "-",
 
                 "version": "-",
@@ -39,11 +49,13 @@ class AKSParser:
 
             }
 
+
         try:
 
             with open(self.report, "r") as file:
 
                 data = json.load(file)
+
 
             return {
 
@@ -52,6 +64,21 @@ class AKSParser:
                     "Completed"
                 ),
 
+                # Common security fields
+                "findings": 0,
+
+                "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
+                "data": [],
+
+
+                # AKS details
                 "cluster": data.get(
                     "cluster",
                     "-"
@@ -89,12 +116,29 @@ class AKSParser:
 
             }
 
+
         except Exception:
+
 
             return {
 
                 "status": "Error",
 
+                # Common security fields
+                "findings": 0,
+
+                "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
+                "data": [],
+
+
+                # AKS details
                 "cluster": "-",
 
                 "version": "-",
