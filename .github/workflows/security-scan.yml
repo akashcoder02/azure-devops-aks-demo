@@ -118,7 +118,7 @@ jobs:
 
           mkdir -p reports/security/application/secrets
 
-          python3 -c '
+                    cat > /tmp/gitleaks_time.py <<'PYTHON'
           import json
           from datetime import datetime
 
@@ -137,7 +137,9 @@ jobs:
 
           with open(path,"w") as f:
               json.dump(report,f,indent=2)
-          '
+          PYTHON
+
+                    python3 /tmp/gitleaks_time.py
 
 
       ####################################################
@@ -171,26 +173,28 @@ jobs:
 
           fi
 
-                python3 -c '
-                import json
-                from datetime import datetime
+                          cat > /tmp/semgrep_time.py <<'PYTHON'
+                  import json
+                  from datetime import datetime
 
-                path="reports/security/application/sast/semgrep.json"
+                  path="reports/security/application/sast/semgrep.json"
 
-                try:
-                    with open(path) as f:
-                        findings=json.load(f)
-                except:
-                    findings=[]
+                  try:
+                      with open(path) as f:
+                          findings=json.load(f)
+                  except:
+                      findings=[]
 
-                report={
-                    "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-                    "findings": findings
-                }
+                  report={
+                      "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
+                      "findings": findings
+                  }
 
-                with open(path,"w") as f:
-                    json.dump(report,f,indent=2)
-                '
+                  with open(path,"w") as f:
+                      json.dump(report,f,indent=2)
+                  PYTHON
+
+                            python3 /tmp/semgrep_time.py
 
           cat reports/security/application/sast/semgrep.json
 
@@ -320,26 +324,28 @@ jobs:
 
               cat /tmp/kubesec.out > reports/security/application/kubernetes/kubernetes.json
 
-              python3 -c '
-              import json
-              from datetime import datetime
+                            cat > /tmp/kubernetes_time.py <<'PYTHON'
+                import json
+                from datetime import datetime
 
-              path="reports/security/application/kubernetes/kubernetes.json"
+                path="reports/security/application/kubernetes/kubernetes.json"
 
-              try:
-                  with open(path) as f:
-                      findings=json.load(f)
-              except:
-                  findings=[]
+                try:
+                    with open(path) as f:
+                        findings=json.load(f)
+                except:
+                    findings=[]
 
-              report={
-                  "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-                  "findings": findings
-              }
+                report={
+                    "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
+                    "findings": findings
+                }
 
-              with open(path,"w") as f:
-                  json.dump(report,f,indent=2)
-              '
+                with open(path,"w") as f:
+                    json.dump(report,f,indent=2)
+                PYTHON
+
+                              python3 /tmp/kubernetes_time.py
 
               first=false
 
