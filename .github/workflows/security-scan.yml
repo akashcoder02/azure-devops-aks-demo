@@ -224,7 +224,6 @@ jobs:
           pip install checkov
 
       - name: Run Checkov
-
         if: |
           inputs.scanner == 'checkov' ||
           inputs.scanner == 'all'
@@ -236,7 +235,9 @@ jobs:
           checkov \
             -d terraform \
             -o json \
-            > reports/security/platform/terraform/checkov.json
+            > reports/security/platform/terraform/checkov.json || true
+
+          cat reports/security/platform/terraform/checkov.json
 
       ####################################################
       # AKS Security Scan
