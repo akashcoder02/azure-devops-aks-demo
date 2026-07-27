@@ -500,37 +500,40 @@ jobs:
       - name: Add Scan Timestamp
         if: always()
         run: |
+
           python3 <<EOF
+
           import json
           from pathlib import Path
           from datetime import datetime, timezone
 
-          files = list(Path("reports/security").rglob("*.json"))
+          for file in Path("reports/security").rglob("*.json"):
 
-          for file in files:
               try:
+
                   with open(file) as f:
                       data = json.load(f)
 
                   if isinstance(data, dict):
+
                       data["scan_time"] = datetime.now(
                           timezone.utc
                       ).strftime("%Y-%m-%d %H:%M:%S UTC")
 
+                      with open(file, "w") as f:
+                          json.dump(
+                              data,
+                              f,
+                              indent=2
+                          )
+
+                      print("Updated:", file)
+
                   else:
-                      continue
-
-                  with open(file, "w") as f:
-                      json.dump(
-                          data,
-                          f,
-                          indent=2
-                      )
-
-                  print("Updated:", file)
+                      print("Skipped list:", file)
 
               except Exception as e:
-                  print("Skipped:", file, e)
+                  print("Error:", file, e)
 
           EOF
 
