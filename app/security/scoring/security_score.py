@@ -13,17 +13,34 @@ class SecurityScore:
             dashboard["application"].get("kubernetes", {}),
 
             dashboard["platform"].get("checkov", {}),
-            dashboard["platform"].get("aks", {})
+            dashboard["platform"].get("aks", {}),
+            dashboard["platform"].get("helm", {}),
+            dashboard["platform"].get("dockerfiles", {}),
+            dashboard["platform"].get("workflows", {})
 
         ]
 
         for scanner in scanners:
 
             critical = scanner.get("critical", 0)
+            high = scanner.get("high", 0)
+            medium = scanner.get("medium", 0)
+            low = scanner.get("low", 0)
             findings = scanner.get("findings", 0)
 
             score -= critical * 10
-            score -= findings
+            score -= high * 5
+            score -= medium * 2
+            score -= low
+
+            if (
+                critical == 0 and
+                high == 0 and
+                medium == 0 and
+                low == 0 and
+                findings > 0
+            ):
+                score -= findings
 
         score = max(score, 0)
 

@@ -27,6 +27,12 @@ class KubernetesParser:
 
                 "critical": 0,
 
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
                 "data": []
 
             }
@@ -43,7 +49,13 @@ class KubernetesParser:
 
                 "findings": len(data),
 
-                "critical": len(data),
+                "critical": 0,
+
+                "high": len(data),
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": data
 
@@ -58,6 +70,12 @@ class KubernetesParser:
                 "findings": 0,
 
                 "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": []
 

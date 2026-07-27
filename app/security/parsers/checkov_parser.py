@@ -27,6 +27,12 @@ class CheckovParser:
 
                 "critical": 0,
 
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
                 "data": []
 
             }
@@ -48,7 +54,13 @@ class CheckovParser:
 
                 "findings": len(failed_checks),
 
-                "critical": len(failed_checks),
+                "critical": 0,
+
+                "high": len(failed_checks),
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": failed_checks
 
@@ -63,6 +75,12 @@ class CheckovParser:
                 "findings": 0,
 
                 "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": []
 

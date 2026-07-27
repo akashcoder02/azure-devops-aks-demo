@@ -27,10 +27,15 @@ class DockerfileParser:
 
                 "critical": 0,
 
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
                 "data": []
 
             }
-
         try:
 
             with open(self.report, "r") as file:
@@ -48,7 +53,13 @@ class DockerfileParser:
 
                 "findings": len(findings),
 
-                "critical": len(findings),
+                "critical": 0,
+
+                "high": len(findings),
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": findings
 
@@ -63,6 +74,12 @@ class DockerfileParser:
                 "findings": 0,
 
                 "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": []
 

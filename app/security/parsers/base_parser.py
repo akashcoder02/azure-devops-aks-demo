@@ -14,6 +14,9 @@ class BaseParser:
             "status": "Not Scanned",
             "findings": 0,
             "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
             "data": []
         }
 
@@ -30,7 +33,10 @@ class BaseParser:
             return {
                 "status": "Completed",
                 "findings": len(data),
-                "critical": len(data),
+                "critical": 0,
+                "high": 0,
+                "medium": 0,
+                "low": 0,
                 "data": data
             }
 
@@ -40,5 +46,8 @@ class BaseParser:
                 "status": "Error",
                 "findings": 0,
                 "critical": 0,
+                "high": 0,
+                "medium": 0,
+                "low": 0,
                 "data": []
             }

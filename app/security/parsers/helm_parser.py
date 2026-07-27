@@ -27,6 +27,12 @@ class HelmParser:
 
                 "critical": 0,
 
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
+
                 "data": []
 
             }
@@ -48,7 +54,13 @@ class HelmParser:
 
                 "findings": len(findings),
 
-                "critical": len(findings),
+                "critical": 0,
+
+                "high": len(findings),
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": findings
 
@@ -63,6 +75,12 @@ class HelmParser:
                 "findings": 0,
 
                 "critical": 0,
+
+                "high": 0,
+
+                "medium": 0,
+
+                "low": 0,
 
                 "data": []
 
