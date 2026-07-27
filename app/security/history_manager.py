@@ -73,6 +73,11 @@ class HistoryManager:
 
         )
 
+         self.history.parent.mkdir(
+            parents=True,
+            exist_ok=True
+        )
+
         with open(self.history, "w") as file:
 
             json.dump(
