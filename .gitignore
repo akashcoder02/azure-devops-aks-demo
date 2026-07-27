@@ -29,3 +29,4 @@ gitops/repository-secret.yaml
 
 app/.envreports/security/history/history.json
 app/.env
+reports/security/history/
