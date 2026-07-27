@@ -3,18 +3,18 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa4b0-53ac-7a11-90d3-a96ff18214bc",
-  "CreatedAt": "2026-07-27T17:47:27.020661098Z",
-  "ArtifactID": "sha256:7526b327e805b995efbed3a376b1021af67f86967c7b1a6f86a141c35b832ae7",
+  "ReportID": "019fa4db-d347-79f5-ae61-fbadeec7182b",
+  "CreatedAt": "2026-07-27T18:34:57.735654467Z",
+  "ArtifactID": "sha256:1c68a0d9d2d29ad931d61f474a167e7416ad7d2ddabaa5c3a721538c26d47a3c",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "82ab71325f65925647e08951f8d082e4d90d6838",
-    "CommitMsg": "1116",
-    "Author": "akashcoder02 <akashgoyalit1998@gmail.com>",
-    "Committer": "akashcoder02 <akashgoyalit1998@gmail.com>"
+    "Commit": "2217477951afabb17e0c1055b8639870ac664c0e",
+    "CommitMsg": "1203",
+    "Author": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e",
+    "Committer": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e"
   },
   "Results": [
     {
@@ -116,9 +116,12 @@
           "Name": "charset-normalizer",
           "Identifier": {
             "PURL": "pkg:pypi/charset-normalizer@3.4.9",
-            "UID": "9debb6a493de1965"
+            "UID": "d0720012fddfde20"
           },
           "Version": "3.4.9",
+          "Licenses": [
+            "MIT"
+          ],
           "Locations": [
             {
               "StartLine": 3,
@@ -131,9 +134,12 @@
           "Name": "click",
           "Identifier": {
             "PURL": "pkg:pypi/click@8.4.2",
-            "UID": "1a13a64e477128aa"
+            "UID": "4b3972e5084dca4d"
           },
           "Version": "8.4.2",
+          "Licenses": [
+            "BSD-3-Clause"
+          ],
           "Locations": [
             {
               "StartLine": 4,
@@ -146,9 +152,12 @@
           "Name": "idna",
           "Identifier": {
             "PURL": "pkg:pypi/idna@3.18",
-            "UID": "cef57bd1da7df3fe"
+            "UID": "ee5584e17fb72df5"
           },
           "Version": "3.18",
+          "Licenses": [
+            "BSD-3-Clause"
+          ],
           "Locations": [
             {
               "StartLine": 6,
@@ -176,9 +185,12 @@
           "Name": "python-dotenv",
           "Identifier": {
             "PURL": "pkg:pypi/python-dotenv@1.2.2",
-            "UID": "50bb1173ceacf144"
+            "UID": "d0652b3d51c59f4b"
           },
           "Version": "1.2.2",
+          "Licenses": [
+            "BSD-3-Clause"
+          ],
           "Locations": [
             {
               "StartLine": 10,
@@ -191,9 +203,12 @@
           "Name": "requests",
           "Identifier": {
             "PURL": "pkg:pypi/requests@2.34.2",
-            "UID": "51be52f0b6b66492"
+            "UID": "55d8d15eaec1d58"
           },
           "Version": "2.34.2",
+          "Licenses": [
+            "Apache-2.0"
+          ],
           "Locations": [
             {
               "StartLine": 11,
@@ -206,9 +221,12 @@
           "Name": "urllib3",
           "Identifier": {
             "PURL": "pkg:pypi/urllib3@2.7.0",
-            "UID": "b43c908d2d409f11"
+            "UID": "90dcc22f86980344"
           },
           "Version": "2.7.0",
+          "Licenses": [
+            "MIT"
+          ],
           "Locations": [
             {
               "StartLine": 12,
@@ -303,9 +321,12 @@
           "Name": "click",
           "Identifier": {
             "PURL": "pkg:pypi/click@8.4.2",
-            "UID": "c5b2fabce5955ee"
+            "UID": "b716a02cde1f3de6"
           },
           "Version": "8.4.2",
+          "Licenses": [
+            "BSD-3-Clause"
+          ],
           "Locations": [
             {
               "StartLine": 2,
@@ -331,6 +352,5 @@
         }
       ]
     }
-  ],
-  "scan_time": "2026-07-27 18:03:20 UTC"
+  ]
 }
