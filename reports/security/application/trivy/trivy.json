@@ -13,8 +13,8 @@
     "Branch": "main",
     "Commit": "5cb7b01fa4a6ccc6a2a870fbd58aa2bcbaa18b5e",
     "CommitMsg": "Fix pip-audit to scan application dependencies only",
-    "Author": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e",
-    "Committer": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e"
+    "Author": "akashcoder02 <akashgoyalit1998@gmail.com>",
+    "Committer": "akashcoder02 <akashgoyalit1998@gmail.com>"
   },
   "Results": [
     {
@@ -331,5 +331,6 @@
         }
       ]
     }
-  ]
+  ],
+  "scan_time": "2026-07-27 17:17:31 UTC"
 }
