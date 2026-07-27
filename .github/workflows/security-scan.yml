@@ -509,28 +509,12 @@ jobs:
       # Upload Reports
       ####################################################
 
-      - name: Upload Report
+      - name: Upload Security Reports
         if: always()
+
         uses: actions/upload-artifact@v4
+
         with:
-          name: security-report
-          path: reports/security
-
-      ####################################################
-      # Commit Reports
-      ####################################################
-
-      - name: Commit Security Reports
-        if: always()
-
-        run: |
-
-          git config user.name "github-actions"
-
-          git config user.email "github-actions@github.com"
-
-          git add reports/security
-
-          git diff --cached --quiet || git commit -m "Update DevSecOps reports"
-
-          git push
+          name: devsecops-security-reports
+          path: reports/security/
+          retention-days: 30
