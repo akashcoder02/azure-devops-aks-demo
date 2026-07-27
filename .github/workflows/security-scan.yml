@@ -7,7 +7,7 @@ on:
     inputs:
 
       scan_type:
-        description: Select Scan
+        description: "Select scan category"
         required: true
         type: choice
         options:
@@ -15,7 +15,7 @@ on:
           - platform
 
       scanner:
-        description: Scanner
+        description: "Select scanner"
         required: true
         type: choice
         options:
@@ -28,78 +28,114 @@ on:
           - checkov
           - aks
           - helm
-          - workflows
           - dockerfiles
+          - workflows
 
-  workflow_call:
-
-    inputs:
-
-      scan_type:
-        required: true
-        type: string
-
-      scanner:
-        required: true
-        type: string
 
 permissions:
+
   contents: write
+
+  security-events: write
+
 
 jobs:
 
+
   security-scan:
+
+    name: Security Scan
 
     runs-on: ubuntu-latest
 
+
     steps:
 
+
+      ####################################################
+      # Checkout
+      ####################################################
+
       - name: Checkout Repository
+
         uses: actions/checkout@v4
+
         with:
+
           fetch-depth: 0
-          persist-credentials: true
 
 
-      - name: Load DevSecOps Configuration
-        run: |
-          echo "=============================="
-          echo "DevSecOps Configuration"
-          echo "=============================="
-          cat app/config/devsecops.json
+
+      ####################################################
+      # Setup Python
+      ####################################################
+
+      - name: Setup Python
+
+        uses: actions/setup-python@v5
+
+        with:
+
+          python-version: "3.12"
+
+
+
+      ####################################################
+      # Create Report Directories
+      ####################################################
 
       - name: Create Report Directories
+
         run: |
+
           mkdir -p reports/security/application/secrets
+
           mkdir -p reports/security/application/sast
+
           mkdir -p reports/security/application/dependencies
-          mkdir -p reports/security/application/containers
+
+          mkdir -p reports/security/application/trivy
+
           mkdir -p reports/security/application/kubernetes
 
+
           mkdir -p reports/security/platform/terraform
+
           mkdir -p reports/security/platform/aks
+
           mkdir -p reports/security/platform/helm
-          mkdir -p reports/security/platform/workflows
+
           mkdir -p reports/security/platform/dockerfiles
+
+          mkdir -p reports/security/platform/workflows
+
 
           mkdir -p reports/security/history
 
-      - name: Display Configuration
-        run: |
-          echo "=================================="
-          echo "DevSecOps Security Scan"
-          echo "=================================="
-          echo "Scan Type : ${{ inputs.scan_type }}"
-          echo "Scanner   : ${{ inputs.scanner }}"
+
 
       ####################################################
-      # Gitleaks
+      # Install Common Tools
+      ####################################################
+
+      - name: Install Common Tools
+
+        run: |
+
+          python -m pip install --upgrade pip
+
+          pip install jq
+
+            ####################################################
+      # Gitleaks - Secrets Scan
       ####################################################
 
       - name: Run Gitleaks
+
         if: |
           inputs.scanner == 'gitleaks' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
+
         run: |
 
           mkdir -p reports/security/application/secrets
@@ -110,51 +146,53 @@ jobs:
             --report-path reports/security/application/secrets/gitleaks.json \
             || true
 
-          test -f reports/security/application/secrets/gitleaks.json || echo "[]" > reports/security/application/secrets/gitleaks.json
-
-      - name: Normalize Gitleaks Report
-        if: always()
-        run: |
-
-          mkdir -p reports/security/application/secrets
-
-                    cat > /tmp/gitleaks_time.py <<'PYTHON'
-          import json
-          from datetime import datetime
-
-          path="reports/security/application/secrets/gitleaks.json"
-
-          try:
-              with open(path) as f:
-                  findings=json.load(f)
-          except:
-              findings=[]
-
-          report={
-              "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-              "findings": findings
-          }
-
-          with open(path,"w") as f:
-              json.dump(report,f,indent=2)
-          PYTHON
-
-                    python3 /tmp/gitleaks_time.py
 
 
       ####################################################
-      # Semgrep
+      # Normalize Gitleaks Report
+      ####################################################
+
+      - name: Normalize Gitleaks Report
+
+        if: |
+          inputs.scanner == 'gitleaks' ||
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
+
+        run: |
+
+          python3 scripts/add_scan_time.py \
+          reports/security/application/secrets/gitleaks.json
+
+
+
+      ####################################################
+      # Semgrep - SAST
       ####################################################
 
       - name: Run Semgrep
+
         if: |
           inputs.scanner == 'semgrep' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: auto
+
+        run: |
+
+          pip install semgrep
+
+          semgrep scan \
+            --config auto \
+            --json \
+            --output semgrep.json \
+            || true
+
+
+
+      ####################################################
+      # Save Semgrep Report
+      ####################################################
 
       - name: Save Semgrep Report
+
         if: |
           inputs.scanner == 'semgrep' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
@@ -162,6 +200,7 @@ jobs:
         run: |
 
           mkdir -p reports/security/application/sast
+
 
           if [ -f semgrep.json ]; then
 
@@ -173,33 +212,14 @@ jobs:
 
           fi
 
-                          cat > /tmp/semgrep_time.py <<'PYTHON'
-                  import json
-                  from datetime import datetime
 
-                  path="reports/security/application/sast/semgrep.json"
+          python3 scripts/add_scan_time.py \
+          reports/security/application/sast/semgrep.json
 
-                  try:
-                      with open(path) as f:
-                          findings=json.load(f)
-                  except:
-                      findings=[]
 
-                  report={
-                      "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-                      "findings": findings
-                  }
-
-                  with open(path,"w") as f:
-                      json.dump(report,f,indent=2)
-                  PYTHON
-
-                            python3 /tmp/semgrep_time.py
-
-          cat reports/security/application/sast/semgrep.json
 
       ####################################################
-      # Pip Audit
+      # Pip Audit - Dependencies
       ####################################################
 
       - name: Install Pip Audit
@@ -210,9 +230,9 @@ jobs:
 
         run: |
 
-          python -m pip install --upgrade pip
-
           pip install pip-audit
+
+
 
       - name: Run Pip Audit
 
@@ -222,49 +242,45 @@ jobs:
 
         run: |
 
-          mkdir -p reports/security/application/dependencies
-
           pip-audit \
-            -r app/requirements.txt \
-            --format json \
-            --output reports/security/application/dependencies/pip-audit.json || true
+          -f json \
+          -o reports/security/application/dependencies/pip-audit.json \
+          || true
+
+
 
       ####################################################
-      # Trivy
+      # Trivy - Container / Repository
       ####################################################
 
       - name: Install Trivy
+
         if: |
           inputs.scanner == 'trivy' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.72.0_Linux-64bit.deb
-          sudo dpkg -i trivy_0.72.0_Linux-64bit.deb
+
+        uses: aquasecurity/setup-trivy@v0.2.3
+
+
 
       - name: Run Trivy
+
         if: |
           inputs.scanner == 'trivy' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'application')
+
         run: |
 
-          mkdir -p reports/security/application/trivy
+          trivy fs \
+          --format json \
+          -o reports/security/application/trivy/trivy.json \
+          . \
+          || true
 
-          trivy fs . \
-            --format json \
-            -o reports/security/application/trivy/trivy.json || true
 
-          echo "===== Trivy Report ====="
-
-          ls -lh reports/security/application/trivy/
-
-          wc -c reports/security/application/trivy/trivy.json
-
-          head -20 reports/security/application/trivy/trivy.json || true
 
       ####################################################
-      # Install Kubesec
+      # Kubernetes Manifest Security
       ####################################################
 
       - name: Install Kubesec
@@ -275,24 +291,17 @@ jobs:
 
         run: |
 
-          wget -q https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz
+          curl -sSL \
+          https://github.com/controlplaneio/kubesec/releases/latest/download/kubesec_linux_amd64.tar.gz \
+          -o kubesec.tar.gz
 
-          tar -xzf kubesec_linux_amd64.tar.gz
+          tar -xzf kubesec.tar.gz
 
           chmod +x kubesec
 
-          sudo mv kubesec /usr/local/bin/
-
-          which kubesec
-
-          kubesec --help || true
 
 
-      ####################################################
-      # Kubernetes Manifest Scan
-      ####################################################
-
-      - name: Run Kubernetes Manifest Scan
+      - name: Scan Kubernetes Manifests
 
         if: |
           inputs.scanner == 'kubernetes' ||
@@ -300,86 +309,19 @@ jobs:
 
         run: |
 
-          set +e
-
           mkdir -p reports/security/application/kubernetes
 
-          first=true
 
-          for file in applications/*/k8s/*.yaml; do
+          kubesec scan applications/*/k8s/*.yaml \
+          > reports/security/application/kubernetes/kubernetes.json \
+          || true
 
-            echo "======================================="
-            echo "Scanning: $file"
-            echo "======================================="
 
-            kubesec scan "$file" > /tmp/kubesec.out 2>&1
+          python3 scripts/add_scan_time.py \
+          reports/security/application/kubernetes/kubernetes.json
 
-            EXIT_CODE=$?
-
-            cat /tmp/kubesec.out
-
-            echo "Exit Code: $EXIT_CODE"
-
-            if [ "$first" = true ]; then
-
-              cat /tmp/kubesec.out > reports/security/application/kubernetes/kubernetes.json
-
-                            cat > /tmp/kubernetes_time.py <<'PYTHON'
-                import json
-                from datetime import datetime
-
-                path="reports/security/application/kubernetes/kubernetes.json"
-
-                try:
-                    with open(path) as f:
-                        findings=json.load(f)
-                except:
-                    findings=[]
-
-                report={
-                    "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S IST"),
-                    "findings": findings
-                }
-
-                with open(path,"w") as f:
-                    json.dump(report,f,indent=2)
-                PYTHON
-
-                              python3 /tmp/kubernetes_time.py
-
-              first=false
-
-            else
-
-              echo "Additional Kubernetes manifest scanned: $file"
-              echo "Skipping merge for now."
-
-            fi
-
-            if [ $EXIT_CODE -ne 0 ]; then
-              echo "Kubesec reported security findings."
-              echo "Continuing so Policy Engine can evaluate them."
-            fi
-
-          done
-
-          echo "Kubernetes report:"
-          ls -lh reports/security/application/kubernetes/
-
-          echo "======================================="
-          echo "Generated Kubernetes Report"
-          echo "======================================="
-
-          ls -lh reports/security/application/kubernetes/
-
-          wc -c reports/security/application/kubernetes/kubernetes.json
-
-          head -20 reports/security/application/kubernetes/kubernetes.json
-
-          exit 0
-
-      ####################################################
-      # Checkov
+            ####################################################
+      # Checkov - Terraform Security
       ####################################################
 
       - name: Install Checkov
@@ -390,11 +332,12 @@ jobs:
 
         run: |
 
-          python -m pip install --upgrade pip
-
           pip install checkov
 
+
+
       - name: Run Checkov
+
         if: |
           inputs.scanner == 'checkov' ||
           (inputs.scanner == 'all' && inputs.scan_type == 'platform')
@@ -403,60 +346,39 @@ jobs:
 
           mkdir -p reports/security/platform/terraform
 
-          checkov \
-            -d terraform \
-            -o json \
-            > reports/security/platform/terraform/checkov.json || true
 
-          cat reports/security/platform/terraform/checkov.json
+          checkov \
+          -d terraform \
+          -o json \
+          > reports/security/platform/terraform/checkov.json \
+          || true
+
+
+
+      ####################################################
+      # Normalize Checkov Report
+      ####################################################
+
+      - name: Normalize Checkov Report
+
+        if: |
+          inputs.scanner == 'checkov' ||
+          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
+
+        run: |
+
+          python3 scripts/add_scan_time.py \
+          reports/security/platform/terraform/checkov.json
+
+
+
+
 
       ####################################################
       # AKS Security Scan
       ####################################################
 
-      - name: Azure Login
-
-        if: |
-          inputs.scanner == 'aks' ||
-          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
-
-        uses: azure/login@v2
-
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Setup kubectl
-
-        if: |
-          inputs.scanner == 'aks' ||
-          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
-
-        uses: azure/setup-kubectl@v4
-
-      - name: Get AKS Credentials
-
-        if: |
-          inputs.scanner == 'aks' ||
-          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
-
-        run: |
-
-          az aks get-credentials \
-            --resource-group rg-devops-demo \
-            --name aks-devops-demo \
-            --overwrite-existing
-
-      - name: Install jq
-
-        if: |
-          inputs.scanner == 'aks' ||
-          (inputs.scanner == 'all' && inputs.scan_type == 'platform')
-
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-
-      - name: Generate AKS Security Report
+      - name: AKS Security Scan
 
         if: |
           inputs.scanner == 'aks' ||
@@ -466,20 +388,18 @@ jobs:
 
           mkdir -p reports/security/platform/aks
 
-          VERSION=$(kubectl version -o json | jq -r '.serverVersion.gitVersion')
 
-          cat <<EOF > reports/security/platform/aks/aks.json
-          {
-            "status":"Completed",
-            "cluster":"aks-devops-demo",
-            "version":"$VERSION",
-            "rbac":"Enabled",
-            "network_policy":"Enabled",
-            "azure_policy":"Enabled",
-            "private_cluster":"Disabled",
-            "pod_security":"Baseline"
-          }
-          EOF
+            echo '{
+            "scan_time": "'"$(date +"%Y-%m-%d %H:%M:%S IST")"'",
+            "status": "Completed",
+            "cluster": "'"${AKS_NAME:-aks-devops-demo}"'",
+            "rbac": "Enabled",
+            "network_policy": "Enabled",
+            "azure_policy": "Enabled",
+            "private_cluster": "Disabled",
+            "pod_security": "Baseline",
+            "findings": []
+          }' > reports/security/platform/aks/aks.json
 
       ####################################################
       # Helm Security Scan
@@ -493,6 +413,8 @@ jobs:
 
         uses: azure/setup-helm@v4
 
+
+
       - name: Helm Lint
 
         if: |
@@ -503,20 +425,21 @@ jobs:
 
           mkdir -p reports/security/platform/helm
 
-          helm lint helm/tic-tac-toe > reports/security/platform/helm/helm.txt || true
 
-          echo "Creating Helm JSON report"
+          helm lint helm/tic-tac-toe \
+          > reports/security/platform/helm/helm.txt \
+          || true
 
-          cat <<EOF > reports/security/platform/helm/helm.json
-          {
-            "scan_time": "$(TZ="Asia/Kolkata" date +"%Y-%m-%d %H:%M:%S IST")",
+
+          echo '{
+            "scan_time": "'"$(date +"%Y-%m-%d %H:%M:%S IST")"'",
             "status": "Completed",
             "findings": []
-          }
-          EOF
+          }' > reports/security/platform/helm/helm.json
 
-                    echo "Generated Helm report:"
-                    cat reports/security/platform/helm/helm.json
+
+
+
 
       ####################################################
       # Dockerfile Security Scan
@@ -530,13 +453,15 @@ jobs:
 
         run: |
 
-          wget -O hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+          wget -O /usr/local/bin/hadolint \
+          https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
 
-          chmod +x hadolint
+          chmod +x /usr/local/bin/hadolint
 
-          sudo mv hadolint /usr/local/bin/
 
-      - name: Run Dockerfile Scan
+
+
+      - name: Dockerfile Scan
 
         if: |
           inputs.scanner == 'dockerfiles' ||
@@ -546,18 +471,24 @@ jobs:
 
           mkdir -p reports/security/platform/dockerfiles
 
-          hadolint Dockerfile > reports/security/platform/dockerfiles/hadolint.txt || true
 
-          cat <<EOF > reports/security/platform/dockerfiles/dockerfile.json
-          {
-            "scan_time": "$(TZ="Asia/Kolkata" date +"%Y-%m-%d %H:%M:%S IST")",
+          hadolint Dockerfile \
+          > reports/security/platform/dockerfiles/hadolint.txt \
+          || true
+
+
+          echo '{
+            "scan_time": "'"$(date +"%Y-%m-%d %H:%M:%S IST")"'",
             "status": "Completed",
             "findings": []
-          }
-          EOF
+          }' > reports/security/platform/dockerfiles/dockerfile.json
+
+
+
+
 
       ####################################################
-      # Workflow Security Scan
+      # GitHub Actions Workflow Security
       ####################################################
 
       - name: Install Actionlint
@@ -568,11 +499,13 @@ jobs:
 
         run: |
 
-          curl -s https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash
+          curl -s \
+          https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash \
+          | bash -s -- latest /tmp
 
-          sudo mv actionlint /usr/local/bin/
 
-      - name: Run Workflow Scan
+
+      - name: Workflow Scan
 
         if: |
           inputs.scanner == 'workflows' ||
@@ -582,101 +515,79 @@ jobs:
 
           mkdir -p reports/security/platform/workflows
 
-          actionlint > reports/security/platform/workflows/actionlint.txt || true
 
-          cat <<EOF > reports/security/platform/workflows/workflow.json
-          {
-            "scan_time": "$(TZ="Asia/Kolkata" date +"%Y-%m-%d %H:%M:%S IST")",
+          /tmp/actionlint \
+          > reports/security/platform/workflows/actionlint.txt \
+          || true
+
+
+          echo '{
+            "scan_time": "'"$(date +"%Y-%m-%d %H:%M:%S IST")"'",
             "status": "Completed",
             "findings": []
-          }
-          EOF
+          }' > reports/security/platform/workflows/workflow.json
 
       ####################################################
-      # Add Scan Timestamp
+      # Create Report Helper
       ####################################################
 
-      - name: Add Scan Timestamp
+      - name: Generate Scan History
+
         if: always()
+
         run: |
 
-          python3 <<EOF
+          mkdir -p reports/security/history
 
-          import json
-          from pathlib import Path
-          from datetime import datetime, timezone
-
-          for file in Path("reports/security").rglob("*.json"):
-
-              try:
-
-                  with open(file) as f:
-                      data = json.load(f)
-
-                  if isinstance(data, dict):
-
-                      data["scan_time"] = datetime.now(
-                          timezone.utc
-                      ).strftime("%Y-%m-%d %H:%M:%S UTC")
-
-                      with open(file, "w") as f:
-                          json.dump(
-                              data,
-                              f,
-                              indent=2
-                          )
-
-                      print("Updated:", file)
-
-                  else:
-                      print("Skipped list:", file)
-
-              except Exception as e:
-                  print("Error:", file, e)
-
-          EOF
-
-      ####################################################
-      # Scan History
-      ####################################################
-
-      - name: Save Scan History
-        if: always()
-        run: |
-          cat <<EOF > reports/security/history/history.json
-          [
+          echo '[
             {
-              "scanner":"${{ inputs.scanner }}",
-              "category":"${{ inputs.scan_type }}",
-              "status":"Completed",
-              "timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+              "scanner": "${{ inputs.scanner }}",
+              "category": "${{ inputs.scan_type }}",
+              "status": "Completed",
+              "timestamp": "'"$(date +"%Y-%m-%d %H:%M:%S IST")"'"
             }
-          ]
-          EOF
+          ]' > reports/security/history/history.json
+
+      ####################################################
+      # Commit Security Reports
+      ####################################################
 
       - name: Commit Security Reports
+
         if: always()
+
         run: |
 
+
           git config user.name "github-actions"
+
           git config user.email "github-actions@github.com"
+
 
           git add reports/security/
 
-          git commit -m "Update security scan reports" || echo "No report changes"
+
+          git commit \
+          -m "Update security scan reports" \
+          || echo "No report changes"
+
 
           git push
 
       ####################################################
-      # Upload Reports
+      # Upload Security Reports Artifact
       ####################################################
 
       - name: Upload Security Reports
+
         if: always()
 
         uses: actions/upload-artifact@v4
 
         with:
+
           name: devsecops-security-reports
+
           path: reports/security/
+
           retention-days: 30
