@@ -5665,14 +5665,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 464,
+        "line": 468,
         "col": 9,
-        "offset": 10868
+        "offset": 10997
       },
       "end": {
-        "line": 464,
+        "line": 468,
         "col": 34,
-        "offset": 10893
+        "offset": 11022
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -5717,14 +5717,14 @@
       "check_id": "yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 550,
+        "line": 554,
         "col": 9,
-        "offset": 12936
+        "offset": 13065
       },
       "end": {
-        "line": 557,
+        "line": 561,
         "col": 3,
-        "offset": 13111
+        "offset": 13240
       },
       "extra": {
         "message": "A `run:` step pipes the output of `curl` or `wget` directly into a shell interpreter. This is the \"curl | bash\" install pattern \u2014 if the remote server is compromised or the URL is hijacked, an attacker can execute arbitrary code in your CI runner. Consider downloading the file first, verifying its checksum or signature, and then executing it.",
@@ -5772,14 +5772,14 @@
       "check_id": "yaml.github-actions.security.run-shell-injection.run-shell-injection",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 588,
+        "line": 592,
         "col": 9,
-        "offset": 13910
+        "offset": 14039
       },
       "end": {
-        "line": 600,
+        "line": 604,
         "col": 3,
-        "offset": 14282
+        "offset": 14411
       },
       "extra": {
         "message": "Using variable interpolation `${{...}}` with `github` context data in a `run:` step could allow an attacker to inject their own code into the runner. This would allow them to steal secrets and code. `github` context data can have arbitrary user input and should be treated as untrusted. Instead, use an intermediate environment variable with `env:` to store the data and use the environment variable in the `run:` script. Be sure to use double-quotes the environment variable, like this: \"$ENVVAR\".",
@@ -5826,14 +5826,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 635,
+        "line": 639,
         "col": 9,
-        "offset": 15065
+        "offset": 15194
       },
       "end": {
-        "line": 635,
+        "line": 639,
         "col": 41,
-        "offset": 15097
+        "offset": 15226
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -22432,6 +22432,7 @@
       "scripts/git-push.sh",
       "scripts/lib/common.sh",
       "scripts/lib/config.sh",
+      "scripts/merge_kubernetes_reports.py",
       "scripts/start.sh",
       "scripts/status.sh",
       "scripts/stop.sh",
@@ -22526,12 +22527,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.4954490661621094,
+    "rules_parse_time": 0.46152186393737793,
     "profiling_times": {
-      "config_time": 0.9519660472869873,
-      "core_time": 3.2098464965820312,
-      "ignores_time": 0.0018165111541748047,
-      "total_time": 4.169148683547974
+      "config_time": 0.8265664577484131,
+      "core_time": 4.344236135482788,
+      "ignores_time": 0.0016641616821289062,
+      "total_time": 5.1778810024261475
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22546,10 +22547,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.465288877487183,
+      "total_time": 8.508320808410645,
       "per_file_time": {
-        "mean": 0.004240540244527238,
-        "std_dev": 0.00045640837559544407
+        "mean": 0.008057121977661605,
+        "std_dev": 0.0018460084348340916
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22586,16 +22587,16 @@
       "project_level_time": 0.0,
       "file_level_time": 0.0,
       "rules_with_project_prefilters_ratio": 0.0,
-      "rules_with_file_prefilters_ratio": 0.9562629650452686,
-      "rules_selected_ratio": 0.09146778852678311,
-      "rules_matched_ratio": 0.09146778852678311
+      "rules_with_file_prefilters_ratio": 0.9564496539492202,
+      "rules_selected_ratio": 0.09101424688168726,
+      "rules_matched_ratio": 0.09101424688168726
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1012166528
+    "max_memory_bytes": 1025365824
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 18:08:51 IST"
+  "scan_time": "2026-07-28 18:38:28 IST"
 }
