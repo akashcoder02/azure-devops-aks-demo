@@ -22527,12 +22527,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.5172300338745117,
+    "rules_parse_time": 0.48767590522766113,
     "profiling_times": {
-      "config_time": 0.9603524208068848,
-      "core_time": 3.3288447856903076,
-      "ignores_time": 0.0020341873168945312,
-      "total_time": 4.296962261199951
+      "config_time": 0.8342392444610596,
+      "core_time": 3.3424055576324463,
+      "ignores_time": 0.0018734931945800781,
+      "total_time": 4.183974027633667
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22547,10 +22547,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.626396179199219,
+      "total_time": 4.608892917633057,
       "per_file_time": {
-        "mean": 0.004381056987878045,
-        "std_dev": 0.0004492343113045904
+        "mean": 0.004364481929576755,
+        "std_dev": 0.00040316734051195783
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22588,15 +22588,15 @@
       "file_level_time": 0.0,
       "rules_with_project_prefilters_ratio": 0.0,
       "rules_with_file_prefilters_ratio": 0.9557129860828834,
-      "rules_selected_ratio": 0.09194200878772042,
-      "rules_matched_ratio": 0.09194200878772042
+      "rules_selected_ratio": 0.09192265257534406,
+      "rules_matched_ratio": 0.09192265257534406
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1055493888
+    "max_memory_bytes": 1102688640
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 06:35:14 IST"
+  "scan_time": "2026-07-28 06:45:13 IST"
 }
