@@ -260,6 +260,17 @@ jobs:
           -o reports/security/application/dependencies/pip-audit.json \
           || true
 
+      - name: Add Pip Audit Scan Time
+
+        if: |
+          inputs.scanner == 'pip-audit' ||
+          (inputs.scanner == 'all' && inputs.scan_type == 'application')
+
+        run: |
+
+          python3 scripts/add_scan_time.py \
+          reports/security/application/dependencies/pip-audit.json
+
 
 
       ####################################################
