@@ -45,6 +45,9 @@ class KubernetesParser:
 
                 data = json.load(file)
 
+            if isinstance(data, dict):
+                data = data.get("findings", [])
+
 
             findings = []
 
