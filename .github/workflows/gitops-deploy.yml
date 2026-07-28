@@ -197,9 +197,14 @@ jobs:
 
           fi
 
+      - name: Sync with Latest Main
+        run: |
+          git fetch origin
+          git rebase origin/main
+
       - name: Push Changes
         run: |
-          git push origin main
+          git push origin HEAD:main
 
       - name: Verify Argo CD Installation
         run: |
