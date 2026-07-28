@@ -350,25 +350,29 @@ jobs:
 
         run: |
 
-          set +e
+          mkdir -p reports/security/application/kubernetes
+
+          rm -f temp-*.json
+
+          INDEX=0
 
           for file in applications/*/k8s/*.yaml
           do
             echo "=================================="
             echo "Scanning: $file"
 
-            ./kubesec scan "$file" > out.json 2> err.log
+            ./kubesec scan "$file" \
+            > temp-$INDEX.json
+            || true
 
-            echo "Exit Code: $?"
+            INDEX=$((INDEX + 1))
 
-            echo "STDERR:"
-            cat err.log
-
-            echo "OBJECT:"
-            grep '"object"' out.json || echo "No object produced"
           done
 
-          exit 0
+          python3 scripts/merge_kubernetes_reports.py
+
+          python3 scripts/add_scan_time.py \
+          reports/security/application/kubernetes/kubernetes.json
 
       ####################################################
       # Checkov - Terraform Security
