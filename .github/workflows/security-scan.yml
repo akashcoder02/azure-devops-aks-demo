@@ -31,6 +31,18 @@ on:
           - dockerfiles
           - workflows
 
+  workflow_call:
+
+    inputs:
+
+      scan_type:
+        required: true
+        type: string
+
+      scanner:
+        required: true
+        type: string
+
 
 permissions:
 
