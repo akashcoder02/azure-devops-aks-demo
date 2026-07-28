@@ -12085,32 +12085,32 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 221,
+              "line": 226,
               "col": 24,
-              "offset": 5532
+              "offset": 5649
             },
             "end": {
-              "line": 221,
+              "line": 226,
               "col": 27,
-              "offset": 5535
+              "offset": 5652
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:221:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:226:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 221,
+            "line": 226,
             "col": 24,
-            "offset": 5532
+            "offset": 5649
           },
           "end": {
-            "line": 221,
+            "line": 226,
             "col": 27,
-            "offset": 5535
+            "offset": 5652
           }
         }
       ]
@@ -12124,32 +12124,32 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 221,
+              "line": 226,
               "col": 24,
-              "offset": 5532
+              "offset": 5649
             },
             "end": {
-              "line": 221,
+              "line": 226,
               "col": 27,
-              "offset": 5535
+              "offset": 5652
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:221:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:226:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 221,
+            "line": 226,
             "col": 24,
-            "offset": 5532
+            "offset": 5649
           },
           "end": {
-            "line": 221,
+            "line": 226,
             "col": 27,
-            "offset": 5535
+            "offset": 5652
           }
         }
       ]
@@ -12163,58 +12163,58 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 230,
+              "line": 235,
               "col": 15,
-              "offset": 5907
+              "offset": 6024
             },
             "end": {
-              "line": 230,
+              "line": 235,
               "col": 18,
-              "offset": 5910
+              "offset": 6027
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 236,
+              "line": 241,
               "col": 15,
-              "offset": 5907
+              "offset": 6024
             },
             "end": {
-              "line": 236,
+              "line": 241,
               "col": 18,
-              "offset": 5910
+              "offset": 6027
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:230:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:235:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 230,
+            "line": 235,
             "col": 15,
-            "offset": 5907
+            "offset": 6024
           },
           "end": {
-            "line": 230,
+            "line": 235,
             "col": 18,
-            "offset": 5910
+            "offset": 6027
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 236,
+            "line": 241,
             "col": 15,
-            "offset": 5907
+            "offset": 6024
           },
           "end": {
-            "line": 236,
+            "line": 241,
             "col": 18,
-            "offset": 5910
+            "offset": 6027
           }
         }
       ]
@@ -12228,58 +12228,58 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 230,
+              "line": 235,
               "col": 15,
-              "offset": 5907
+              "offset": 6024
             },
             "end": {
-              "line": 230,
+              "line": 235,
               "col": 18,
-              "offset": 5910
+              "offset": 6027
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 236,
+              "line": 241,
               "col": 15,
-              "offset": 5907
+              "offset": 6024
             },
             "end": {
-              "line": 236,
+              "line": 241,
               "col": 18,
-              "offset": 5910
+              "offset": 6027
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:230:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:235:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 230,
+            "line": 235,
             "col": 15,
-            "offset": 5907
+            "offset": 6024
           },
           "end": {
-            "line": 230,
+            "line": 235,
             "col": 18,
-            "offset": 5910
+            "offset": 6027
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 236,
+            "line": 241,
             "col": 15,
-            "offset": 5907
+            "offset": 6024
           },
           "end": {
-            "line": 236,
+            "line": 241,
             "col": 18,
-            "offset": 5910
+            "offset": 6027
           }
         }
       ]
@@ -12293,58 +12293,58 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 244,
+              "line": 249,
               "col": 14,
-              "offset": 6358
+              "offset": 6475
             },
             "end": {
-              "line": 244,
+              "line": 249,
               "col": 17,
-              "offset": 6361
+              "offset": 6478
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 263,
+              "line": 268,
               "col": 1,
-              "offset": 6358
+              "offset": 6475
             },
             "end": {
-              "line": 263,
+              "line": 268,
               "col": 4,
-              "offset": 6361
+              "offset": 6478
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:244:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:249:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 244,
+            "line": 249,
             "col": 14,
-            "offset": 6358
+            "offset": 6475
           },
           "end": {
-            "line": 244,
+            "line": 249,
             "col": 17,
-            "offset": 6361
+            "offset": 6478
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 263,
+            "line": 268,
             "col": 1,
-            "offset": 6358
+            "offset": 6475
           },
           "end": {
-            "line": 263,
+            "line": 268,
             "col": 4,
-            "offset": 6361
+            "offset": 6478
           }
         }
       ]
@@ -12358,58 +12358,58 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 244,
+              "line": 249,
               "col": 14,
-              "offset": 6358
+              "offset": 6475
             },
             "end": {
-              "line": 244,
+              "line": 249,
               "col": 17,
-              "offset": 6361
+              "offset": 6478
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 263,
+              "line": 268,
               "col": 1,
-              "offset": 6358
+              "offset": 6475
             },
             "end": {
-              "line": 263,
+              "line": 268,
               "col": 4,
-              "offset": 6361
+              "offset": 6478
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:244:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:249:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 244,
+            "line": 249,
             "col": 14,
-            "offset": 6358
+            "offset": 6475
           },
           "end": {
-            "line": 244,
+            "line": 249,
             "col": 17,
-            "offset": 6361
+            "offset": 6478
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 263,
+            "line": 268,
             "col": 1,
-            "offset": 6358
+            "offset": 6475
           },
           "end": {
-            "line": 263,
+            "line": 268,
             "col": 4,
-            "offset": 6361
+            "offset": 6478
           }
         }
       ]
@@ -12423,162 +12423,162 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 273,
+              "line": 278,
               "col": 3,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 273,
+              "line": 278,
               "col": 6,
-              "offset": 7077
+              "offset": 7194
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 277,
+              "line": 282,
               "col": 3,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 277,
+              "line": 282,
               "col": 6,
-              "offset": 7077
+              "offset": 7194
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 38,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 60,
-              "offset": 7096
+              "offset": 7213
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 110,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 122,
-              "offset": 7086
+              "offset": 7203
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 128,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 145,
-              "offset": 7091
+              "offset": 7208
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 151,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 165,
-              "offset": 7088
+              "offset": 7205
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:273:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:278:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 273,
+            "line": 278,
             "col": 3,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 273,
+            "line": 278,
             "col": 6,
-            "offset": 7077
+            "offset": 7194
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 277,
+            "line": 282,
             "col": 3,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 277,
+            "line": 282,
             "col": 6,
-            "offset": 7077
+            "offset": 7194
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 38,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 60,
-            "offset": 7096
+            "offset": 7213
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 110,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 122,
-            "offset": 7086
+            "offset": 7203
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 128,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 145,
-            "offset": 7091
+            "offset": 7208
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 151,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 165,
-            "offset": 7088
+            "offset": 7205
           }
         }
       ]
@@ -12592,162 +12592,162 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 273,
+              "line": 278,
               "col": 3,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 273,
+              "line": 278,
               "col": 6,
-              "offset": 7077
+              "offset": 7194
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 277,
+              "line": 282,
               "col": 3,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 277,
+              "line": 282,
               "col": 6,
-              "offset": 7077
+              "offset": 7194
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 38,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 60,
-              "offset": 7096
+              "offset": 7213
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 110,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 122,
-              "offset": 7086
+              "offset": 7203
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 128,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 145,
-              "offset": 7091
+              "offset": 7208
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 280,
+              "line": 285,
               "col": 151,
-              "offset": 7074
+              "offset": 7191
             },
             "end": {
-              "line": 280,
+              "line": 285,
               "col": 165,
-              "offset": 7088
+              "offset": 7205
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:273:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:278:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `${{` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 273,
+            "line": 278,
             "col": 3,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 273,
+            "line": 278,
             "col": 6,
-            "offset": 7077
+            "offset": 7194
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 277,
+            "line": 282,
             "col": 3,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 277,
+            "line": 282,
             "col": 6,
-            "offset": 7077
+            "offset": 7194
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 38,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 60,
-            "offset": 7096
+            "offset": 7213
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 110,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 122,
-            "offset": 7086
+            "offset": 7203
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 128,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 145,
-            "offset": 7091
+            "offset": 7208
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 280,
+            "line": 285,
             "col": 151,
-            "offset": 7074
+            "offset": 7191
           },
           "end": {
-            "line": 280,
+            "line": 285,
             "col": 165,
-            "offset": 7088
+            "offset": 7205
           }
         }
       ]
@@ -12761,162 +12761,162 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 308,
+              "line": 313,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 308,
+              "line": 313,
               "col": 40,
-              "offset": 8097
+              "offset": 8214
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 309,
+              "line": 314,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 309,
+              "line": 314,
               "col": 45,
-              "offset": 8102
+              "offset": 8219
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 310,
+              "line": 315,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 310,
+              "line": 315,
               "col": 44,
-              "offset": 8101
+              "offset": 8218
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 311,
+              "line": 316,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 311,
+              "line": 316,
               "col": 38,
-              "offset": 8095
+              "offset": 8212
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 314,
+              "line": 319,
               "col": 9,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 314,
+              "line": 319,
               "col": 30,
-              "offset": 8101
+              "offset": 8218
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 324,
+              "line": 329,
               "col": 3,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 324,
+              "line": 329,
               "col": 6,
-              "offset": 8083
+              "offset": 8200
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:308:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `{ env.ENVIRONMENT` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:313:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.curl-eval.curl-eval', `{ env.ENVIRONMENT` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 308,
+            "line": 313,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 308,
+            "line": 313,
             "col": 40,
-            "offset": 8097
+            "offset": 8214
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 309,
+            "line": 314,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 309,
+            "line": 314,
             "col": 45,
-            "offset": 8102
+            "offset": 8219
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 310,
+            "line": 315,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 310,
+            "line": 315,
             "col": 44,
-            "offset": 8101
+            "offset": 8218
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 311,
+            "line": 316,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 311,
+            "line": 316,
             "col": 38,
-            "offset": 8095
+            "offset": 8212
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 314,
+            "line": 319,
             "col": 9,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 314,
+            "line": 319,
             "col": 30,
-            "offset": 8101
+            "offset": 8218
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 324,
+            "line": 329,
             "col": 3,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 324,
+            "line": 329,
             "col": 6,
-            "offset": 8083
+            "offset": 8200
           }
         }
       ]
@@ -12930,162 +12930,162 @@
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 308,
+              "line": 313,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 308,
+              "line": 313,
               "col": 40,
-              "offset": 8097
+              "offset": 8214
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 309,
+              "line": 314,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 309,
+              "line": 314,
               "col": 45,
-              "offset": 8102
+              "offset": 8219
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 310,
+              "line": 315,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 310,
+              "line": 315,
               "col": 44,
-              "offset": 8101
+              "offset": 8218
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 311,
+              "line": 316,
               "col": 23,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 311,
+              "line": 316,
               "col": 38,
-              "offset": 8095
+              "offset": 8212
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 314,
+              "line": 319,
               "col": 9,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 314,
+              "line": 319,
               "col": 30,
-              "offset": 8101
+              "offset": 8218
             }
           },
           {
             "path": ".github/workflows/gitops-deploy.yml",
             "start": {
-              "line": 324,
+              "line": 329,
               "col": 3,
-              "offset": 8080
+              "offset": 8197
             },
             "end": {
-              "line": 324,
+              "line": 329,
               "col": 6,
-              "offset": 8083
+              "offset": 8200
             }
           }
         ]
       ],
-      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:308:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `{ env.ENVIRONMENT` was unexpected",
+      "message": "Syntax error at line .github/workflows/gitops-deploy.yml:313:\n When parsing a snippet as Bash for metavariable-pattern in rule 'yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell', `{ env.ENVIRONMENT` was unexpected",
       "path": ".github/workflows/gitops-deploy.yml",
       "spans": [
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 308,
+            "line": 313,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 308,
+            "line": 313,
             "col": 40,
-            "offset": 8097
+            "offset": 8214
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 309,
+            "line": 314,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 309,
+            "line": 314,
             "col": 45,
-            "offset": 8102
+            "offset": 8219
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 310,
+            "line": 315,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 310,
+            "line": 315,
             "col": 44,
-            "offset": 8101
+            "offset": 8218
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 311,
+            "line": 316,
             "col": 23,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 311,
+            "line": 316,
             "col": 38,
-            "offset": 8095
+            "offset": 8212
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 314,
+            "line": 319,
             "col": 9,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 314,
+            "line": 319,
             "col": 30,
-            "offset": 8101
+            "offset": 8218
           }
         },
         {
           "file": ".github/workflows/gitops-deploy.yml",
           "start": {
-            "line": 324,
+            "line": 329,
             "col": 3,
-            "offset": 8080
+            "offset": 8197
           },
           "end": {
-            "line": 324,
+            "line": 329,
             "col": 6,
-            "offset": 8083
+            "offset": 8200
           }
         }
       ]
@@ -22527,12 +22527,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.48995113372802734,
+    "rules_parse_time": 0.4966728687286377,
     "profiling_times": {
-      "config_time": 1.0239644050598145,
-      "core_time": 3.2471611499786377,
-      "ignores_time": 0.0017092227935791016,
-      "total_time": 4.278361558914185
+      "config_time": 0.8601830005645752,
+      "core_time": 3.327709674835205,
+      "ignores_time": 0.001847982406616211,
+      "total_time": 4.195168733596802
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22547,10 +22547,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.30754828453064,
+      "total_time": 4.530731916427612,
       "per_file_time": {
-        "mean": 0.004079117693684319,
-        "std_dev": 0.0003744120529632469
+        "mean": 0.004290465829950392,
+        "std_dev": 0.00039862347900042236
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22593,10 +22593,10 @@
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1279651584
+    "max_memory_bytes": 1089247744
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 06:59:56 IST"
+  "scan_time": "2026-07-28 07:18:20 IST"
 }
