@@ -601,7 +601,7 @@ jobs:
           -m "Update security scan reports" \
           || echo "No report changes"
 
-
+          git pull --rebase origin main
           git push
 
       ####################################################
