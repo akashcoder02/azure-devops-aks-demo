@@ -350,27 +350,23 @@ jobs:
 
         run: |
 
-          mkdir -p reports/security/application/kubernetes
-
           set +e
 
-          ./kubesec scan applications/*/k8s/*.yaml \
-          > reports/security/application/kubernetes/kubernetes.json \
-          2> kubesec-error.log
+          for file in applications/*/k8s/*.yaml
+          do
+            echo "=================================="
+            echo "Scanning: $file"
 
-          EXIT_CODE=$?
+            ./kubesec scan "$file" > out.json 2> err.log
 
-          echo "===== EXIT CODE ====="
-          echo "$EXIT_CODE"
+            echo "Exit Code: $?"
 
-          echo "===== STDERR ====="
-          cat kubesec-error.log
+            echo "STDERR:"
+            cat err.log
 
-          echo "===== STDOUT ====="
-          cat reports/security/application/kubernetes/kubernetes.json
-
-          python3 scripts/add_scan_time.py \
-          reports/security/application/kubernetes/kubernetes.json
+            echo "OBJECT:"
+            grep '"object"' out.json || echo "No object produced"
+          done
 
           exit 0
 
