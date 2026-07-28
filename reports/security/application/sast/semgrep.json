@@ -5828,12 +5828,12 @@
       "start": {
         "line": 615,
         "col": 9,
-        "offset": 14616
+        "offset": 14626
       },
       "end": {
         "line": 615,
         "col": 41,
-        "offset": 14648
+        "offset": 14658
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -22527,12 +22527,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.48767590522766113,
+    "rules_parse_time": 0.48995113372802734,
     "profiling_times": {
-      "config_time": 0.8342392444610596,
-      "core_time": 3.3424055576324463,
-      "ignores_time": 0.0018734931945800781,
-      "total_time": 4.183974027633667
+      "config_time": 1.0239644050598145,
+      "core_time": 3.2471611499786377,
+      "ignores_time": 0.0017092227935791016,
+      "total_time": 4.278361558914185
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22547,10 +22547,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.608892917633057,
+      "total_time": 4.30754828453064,
       "per_file_time": {
-        "mean": 0.004364481929576755,
-        "std_dev": 0.00040316734051195783
+        "mean": 0.004079117693684319,
+        "std_dev": 0.0003744120529632469
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22593,10 +22593,10 @@
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1102688640
+    "max_memory_bytes": 1279651584
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 06:45:13 IST"
+  "scan_time": "2026-07-28 06:59:56 IST"
 }
