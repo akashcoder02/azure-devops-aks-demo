@@ -3,16 +3,16 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa7d5-4e98-7ce9-bcf5-c52c18856f8f",
-  "CreatedAt": "2026-07-28T08:26:42.20084726Z",
-  "ArtifactID": "sha256:c1bdb3da9b81f5654abc337ce9cd5bd7442184b7e2b82c2b3a1da48c6f956899",
+  "ReportID": "019fa7de-c2fd-7899-89d9-4c3d7c4e29da",
+  "CreatedAt": "2026-07-28T08:37:01.821564509Z",
+  "ArtifactID": "sha256:05e8e2f197a88af0b8c76cc5a14f06e85d9e1ad4c1c44d8b821a98e19fd01594",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "5c9aa0d25fb19c5bdb016bec3c7f512126eb6a9a",
-    "CommitMsg": "151",
+    "Commit": "84c69068b5dc2666a0529431701b7a43916eacb0",
+    "CommitMsg": "205",
     "Author": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e",
     "Committer": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e"
   },
