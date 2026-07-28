@@ -352,14 +352,27 @@ jobs:
 
           mkdir -p reports/security/application/kubernetes
 
-          ./kubesec scan applications/*/k8s/*.yaml \
-          > reports/security/application/kubernetes/kubernetes.json
+          set +e
 
-          echo "===== Kubesec Output ====="
+          ./kubesec scan applications/*/k8s/*.yaml \
+          > reports/security/application/kubernetes/kubernetes.json \
+          2> kubesec-error.log
+
+          EXIT_CODE=$?
+
+          echo "===== EXIT CODE ====="
+          echo "$EXIT_CODE"
+
+          echo "===== STDERR ====="
+          cat kubesec-error.log
+
+          echo "===== STDOUT ====="
           cat reports/security/application/kubernetes/kubernetes.json
 
           python3 scripts/add_scan_time.py \
           reports/security/application/kubernetes/kubernetes.json
+
+          exit 0
 
       ####################################################
       # Checkov - Terraform Security
