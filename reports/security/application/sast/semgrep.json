@@ -22176,7 +22176,6 @@
       ".github/workflows/install-monitoring.yml",
       ".github/workflows/logging.yml",
       ".github/workflows/logs.yaml",
-      ".github/workflows/pip-audit.yml",
       ".github/workflows/platform-doctor.yaml",
       ".github/workflows/platform-installation-status.yml",
       ".github/workflows/platform-status.yaml",
@@ -22527,12 +22526,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.4966728687286377,
+    "rules_parse_time": 0.5027260780334473,
     "profiling_times": {
-      "config_time": 0.8601830005645752,
-      "core_time": 3.327709674835205,
-      "ignores_time": 0.001847982406616211,
-      "total_time": 4.195168733596802
+      "config_time": 0.9727284908294678,
+      "core_time": 3.4069552421569824,
+      "ignores_time": 0.0019125938415527344,
+      "total_time": 4.387178897857666
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22547,10 +22546,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.530731916427612,
+      "total_time": 4.7512736320495605,
       "per_file_time": {
-        "mean": 0.004290465829950392,
-        "std_dev": 0.00039862347900042236
+        "mean": 0.004512130704700439,
+        "std_dev": 0.00042574683288748295
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22587,16 +22586,16 @@
       "project_level_time": 0.0,
       "file_level_time": 0.0,
       "rules_with_project_prefilters_ratio": 0.0,
-      "rules_with_file_prefilters_ratio": 0.9557129860828834,
-      "rules_selected_ratio": 0.09192265257534406,
-      "rules_matched_ratio": 0.09192265257534406
+      "rules_with_file_prefilters_ratio": 0.9562629650452686,
+      "rules_selected_ratio": 0.0914484015432039,
+      "rules_matched_ratio": 0.0914484015432039
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1089247744
+    "max_memory_bytes": 1061505216
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 07:18:20 IST"
+  "scan_time": "2026-07-28 07:30:23 IST"
 }

@@ -3,16 +3,16 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa797-2751-76db-9e4b-19888b4b8a5d",
-  "CreatedAt": "2026-07-28T07:18:48.913450854Z",
-  "ArtifactID": "sha256:42c83ca54d47b8e5081f912a13453bbc8bc94604f748df416f8d6b2015263b77",
+  "ReportID": "019fa7a2-27ce-7baa-b3bb-5dd9db13aeea",
+  "CreatedAt": "2026-07-28T07:30:49.93476683Z",
+  "ArtifactID": "sha256:a8c37e7e293afedf0bbb96c1cd48a38763a42c45a53674a95db91ecb84d7223a",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "9342125ea5997af813b7eb16874b2650dc145e1b",
-    "CommitMsg": "1246",
+    "Commit": "ba9711c73b8e1d140e78a7d8691b9f86d5030c27",
+    "CommitMsg": "Remove unused pip-audit workflow",
     "Author": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e",
     "Committer": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e"
   },
