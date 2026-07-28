@@ -352,7 +352,7 @@ jobs:
 
           mkdir -p reports/security/application/kubernetes
 
-          kubesec scan applications/*/k8s/*.yaml \
+          ./kubesec scan applications/*/k8s/*.yaml \
           > reports/security/application/kubernetes/kubernetes.json
 
           echo "===== Kubesec Output ====="
