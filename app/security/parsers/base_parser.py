@@ -30,14 +30,22 @@ class BaseParser:
             with open(self.report, "r") as file:
                 data = json.load(file)
 
+            scan_time = None
+            findings = data
+
+            if isinstance(data, dict):
+                scan_time = data.get("scan_time")
+                findings = data.get("findings", [])
+
             return {
                 "status": "Completed",
-                "findings": len(data),
+                "scan_time": scan_time,
+                "findings": len(findings),
                 "critical": 0,
                 "high": 0,
                 "medium": 0,
                 "low": 0,
-                "data": data
+                "data": findings
             }
 
         except Exception:
