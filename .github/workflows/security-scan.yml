@@ -244,7 +244,7 @@ jobs:
 
           pip-audit \
           -r app/requirements.txt \
-          -f json \
+          --format json \
           -o reports/security/application/dependencies/pip-audit.json \
           || true
 

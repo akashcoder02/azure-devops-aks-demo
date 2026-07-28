@@ -86,6 +86,7 @@ jobs:
       scan_type: application
       scanner: all
 
+
   ####################################################
   # Release Gate
   ####################################################
@@ -93,11 +94,11 @@ jobs:
   release-gate:
 
     if: ${{ github.event.inputs.enable_devsecops == 'true' }}
-  
+
     needs: security
-  
+
     runs-on: ubuntu-latest
-  
+
     steps:
 
       - name: Checkout Repository
@@ -106,6 +107,7 @@ jobs:
       - name: Evaluate DevSecOps Policy
         env:
           PYTHONPATH: ${{ github.workspace }}/app
+
         run: |
 
           echo "Evaluating DevSecOps Policy..."
