@@ -352,16 +352,16 @@ jobs:
 
           mkdir -p reports/security/application/kubernetes
 
-
           kubesec scan applications/*/k8s/*.yaml \
-          > reports/security/application/kubernetes/kubernetes.json \
-          || true
+          > reports/security/application/kubernetes/kubernetes.json
 
+          echo "===== Kubesec Output ====="
+          cat reports/security/application/kubernetes/kubernetes.json
 
           python3 scripts/add_scan_time.py \
           reports/security/application/kubernetes/kubernetes.json
 
-            ####################################################
+      ####################################################
       # Checkov - Terraform Security
       ####################################################
 
