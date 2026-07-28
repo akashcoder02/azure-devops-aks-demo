@@ -361,9 +361,7 @@ jobs:
             echo "=================================="
             echo "Scanning: $file"
 
-            ./kubesec scan "$file" \
-            > temp-$INDEX.json
-            || true
+            ./kubesec scan "$file" > temp-$INDEX.json || true
 
             INDEX=$((INDEX + 1))
 
