@@ -4243,14 +4243,14 @@
       "check_id": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 66,
+        "line": 67,
         "col": 5,
-        "offset": 1249
+        "offset": 1274
       },
       "end": {
-        "line": 66,
+        "line": 67,
         "col": 21,
-        "offset": 1265
+        "offset": 1290
       },
       "extra": {
         "message": "This workflow uses `secrets: inherit` to pass all of the calling workflow's secrets to a reusable workflow. This violates the principle of least privilege because the called workflow receives access to every secret in the repository, not just the ones it needs. If the called workflow is compromised or sourced from a third party, an attacker gains access to all repository secrets. Instead, explicitly pass only the secrets that the called workflow requires using the `secrets:` map, e.g. `secrets: { MY_SECRET: ${{ secrets.MY_SECRET }} }`.",
@@ -4294,14 +4294,14 @@
       "check_id": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 83,
+        "line": 84,
         "col": 5,
-        "offset": 1632
+        "offset": 1657
       },
       "end": {
-        "line": 83,
+        "line": 84,
         "col": 21,
-        "offset": 1648
+        "offset": 1673
       },
       "extra": {
         "message": "This workflow uses `secrets: inherit` to pass all of the calling workflow's secrets to a reusable workflow. This violates the principle of least privilege because the called workflow receives access to every secret in the repository, not just the ones it needs. If the called workflow is compromised or sourced from a third party, an attacker gains access to all repository secrets. Instead, explicitly pass only the secrets that the called workflow requires using the `secrets:` map, e.g. `secrets: { MY_SECRET: ${{ secrets.MY_SECRET }} }`.",
@@ -4345,14 +4345,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 104,
+        "line": 106,
         "col": 9,
-        "offset": 2026
+        "offset": 2046
       },
       "end": {
-        "line": 104,
+        "line": 106,
         "col": 34,
-        "offset": 2051
+        "offset": 2071
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -4397,14 +4397,14 @@
       "check_id": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 130,
+        "line": 133,
         "col": 5,
-        "offset": 2662
+        "offset": 2683
       },
       "end": {
-        "line": 130,
+        "line": 133,
         "col": 21,
-        "offset": 2678
+        "offset": 2699
       },
       "extra": {
         "message": "This workflow uses `secrets: inherit` to pass all of the calling workflow's secrets to a reusable workflow. This violates the principle of least privilege because the called workflow receives access to every secret in the repository, not just the ones it needs. If the called workflow is compromised or sourced from a third party, an attacker gains access to all repository secrets. Instead, explicitly pass only the secrets that the called workflow requires using the `secrets:` map, e.g. `secrets: { MY_SECRET: ${{ secrets.MY_SECRET }} }`.",
@@ -4448,14 +4448,14 @@
       "check_id": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 158,
+        "line": 161,
         "col": 5,
-        "offset": 3349
+        "offset": 3370
       },
       "end": {
-        "line": 158,
+        "line": 161,
         "col": 21,
-        "offset": 3365
+        "offset": 3386
       },
       "extra": {
         "message": "This workflow uses `secrets: inherit` to pass all of the calling workflow's secrets to a reusable workflow. This violates the principle of least privilege because the called workflow receives access to every secret in the repository, not just the ones it needs. If the called workflow is compromised or sourced from a third party, an attacker gains access to all repository secrets. Instead, explicitly pass only the secrets that the called workflow requires using the `secrets:` map, e.g. `secrets: { MY_SECRET: ${{ secrets.MY_SECRET }} }`.",
@@ -4499,14 +4499,14 @@
       "check_id": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 185,
+        "line": 188,
         "col": 5,
-        "offset": 4004
+        "offset": 4025
       },
       "end": {
-        "line": 185,
+        "line": 188,
         "col": 21,
-        "offset": 4020
+        "offset": 4041
       },
       "extra": {
         "message": "This workflow uses `secrets: inherit` to pass all of the calling workflow's secrets to a reusable workflow. This violates the principle of least privilege because the called workflow receives access to every secret in the repository, not just the ones it needs. If the called workflow is compromised or sourced from a third party, an attacker gains access to all repository secrets. Instead, explicitly pass only the secrets that the called workflow requires using the `secrets:` map, e.g. `secrets: { MY_SECRET: ${{ secrets.MY_SECRET }} }`.",
@@ -4550,14 +4550,14 @@
       "check_id": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
       "path": ".github/workflows/release.yml",
       "start": {
-        "line": 213,
+        "line": 216,
         "col": 5,
-        "offset": 4683
+        "offset": 4704
       },
       "end": {
-        "line": 213,
+        "line": 216,
         "col": 21,
-        "offset": 4699
+        "offset": 4720
       },
       "extra": {
         "message": "This workflow uses `secrets: inherit` to pass all of the calling workflow's secrets to a reusable workflow. This violates the principle of least privilege because the called workflow receives access to every secret in the repository, not just the ones it needs. If the called workflow is compromised or sourced from a third party, an attacker gains access to all repository secrets. Instead, explicitly pass only the secrets that the called workflow requires using the `secrets:` map, e.g. `secrets: { MY_SECRET: ${{ secrets.MY_SECRET }} }`.",
@@ -5561,14 +5561,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 61,
+        "line": 73,
         "col": 9,
-        "offset": 966
+        "offset": 1131
       },
       "end": {
-        "line": 61,
+        "line": 73,
         "col": 34,
-        "offset": 991
+        "offset": 1156
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -5613,14 +5613,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 75,
+        "line": 87,
         "col": 9,
-        "offset": 1226
+        "offset": 1391
       },
       "end": {
-        "line": 75,
+        "line": 87,
         "col": 38,
-        "offset": 1255
+        "offset": 1420
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -5665,14 +5665,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 431,
+        "line": 444,
         "col": 9,
-        "offset": 10221
+        "offset": 10429
       },
       "end": {
-        "line": 431,
+        "line": 444,
         "col": 34,
-        "offset": 10246
+        "offset": 10454
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -5717,14 +5717,14 @@
       "check_id": "yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 517,
+        "line": 530,
         "col": 9,
-        "offset": 12289
+        "offset": 12497
       },
       "end": {
-        "line": 524,
+        "line": 537,
         "col": 3,
-        "offset": 12464
+        "offset": 12672
       },
       "extra": {
         "message": "A `run:` step pipes the output of `curl` or `wget` directly into a shell interpreter. This is the \"curl | bash\" install pattern \u2014 if the remote server is compromised or the URL is hijacked, an attacker can execute arbitrary code in your CI runner. Consider downloading the file first, verifying its checksum or signature, and then executing it.",
@@ -5772,14 +5772,14 @@
       "check_id": "yaml.github-actions.security.run-shell-injection.run-shell-injection",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 555,
+        "line": 568,
         "col": 9,
-        "offset": 13263
+        "offset": 13471
       },
       "end": {
-        "line": 567,
+        "line": 580,
         "col": 3,
-        "offset": 13635
+        "offset": 13843
       },
       "extra": {
         "message": "Using variable interpolation `${{...}}` with `github` context data in a `run:` step could allow an attacker to inject their own code into the runner. This would allow them to steal secrets and code. `github` context data can have arbitrary user input and should be treated as untrusted. Instead, use an intermediate environment variable with `env:` to store the data and use the environment variable in the `run:` script. Be sure to use double-quotes the environment variable, like this: \"$ENVVAR\".",
@@ -5826,14 +5826,14 @@
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
       "path": ".github/workflows/security-scan.yml",
       "start": {
-        "line": 602,
+        "line": 615,
         "col": 9,
-        "offset": 14408
+        "offset": 14616
       },
       "end": {
-        "line": 602,
+        "line": 615,
         "col": 41,
-        "offset": 14440
+        "offset": 14648
       },
       "extra": {
         "message": "GitHub Actions step uses a mutable tag or branch reference. Tags and branch names can be silently repointed by the action owner, enabling supply-chain attacks \u2014 as seen in the trivy-action and kics-github-action compromises. Pin the reference to a full 40-character commit SHA instead, e.g. `uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608`.",
@@ -22527,12 +22527,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.5024058818817139,
+    "rules_parse_time": 0.5172300338745117,
     "profiling_times": {
-      "config_time": 0.8947267532348633,
-      "core_time": 4.028918027877808,
-      "ignores_time": 0.0017733573913574219,
-      "total_time": 4.930837869644165
+      "config_time": 0.9603524208068848,
+      "core_time": 3.3288447856903076,
+      "ignores_time": 0.0020341873168945312,
+      "total_time": 4.296962261199951
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22547,10 +22547,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 6.559739112854004,
+      "total_time": 4.626396179199219,
       "per_file_time": {
-        "mean": 0.006211874159899624,
-        "std_dev": 0.0010143995664106077
+        "mean": 0.004381056987878045,
+        "std_dev": 0.0004492343113045904
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22593,10 +22593,10 @@
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1032097536
+    "max_memory_bytes": 1055493888
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-27 19:07:38 IST"
+  "scan_time": "2026-07-28 06:35:14 IST"
 }
