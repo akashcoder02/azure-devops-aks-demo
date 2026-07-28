@@ -22526,12 +22526,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.4952969551086426,
+    "rules_parse_time": 0.5123097896575928,
     "profiling_times": {
-      "config_time": 0.8524391651153564,
-      "core_time": 3.3542733192443848,
-      "ignores_time": 0.0017266273498535156,
-      "total_time": 4.213778972625732
+      "config_time": 0.9805488586425781,
+      "core_time": 3.907829761505127,
+      "ignores_time": 0.0020198822021484375,
+      "total_time": 4.900075912475586
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22546,10 +22546,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.52280592918396,
+      "total_time": 6.374959468841553,
       "per_file_time": {
-        "mean": 0.004295162325910692,
-        "std_dev": 0.0004001276976731649
+        "mean": 0.006054092563002417,
+        "std_dev": 0.0009484298909486323
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22592,10 +22592,10 @@
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1278366144
+    "max_memory_bytes": 1011569536
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 14:06:36 IST"
+  "scan_time": "2026-07-28 17:41:49 IST"
 }

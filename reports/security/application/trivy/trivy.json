@@ -3,18 +3,18 @@
   "Trivy": {
     "Version": "0.72.0"
   },
-  "ReportID": "019fa7de-c2fd-7899-89d9-4c3d7c4e29da",
-  "CreatedAt": "2026-07-28T08:37:01.821564509Z",
-  "ArtifactID": "sha256:05e8e2f197a88af0b8c76cc5a14f06e85d9e1ad4c1c44d8b821a98e19fd01594",
+  "ReportID": "019fa8a3-d7dc-74d4-b9aa-5656580ee244",
+  "CreatedAt": "2026-07-28T12:12:17.756317916Z",
+  "ArtifactID": "sha256:5d1f747e9aa27ab07635ba6ffb2bdc925ad7709b7ea381778e4f4b1ef3760e1f",
   "ArtifactName": ".",
   "ArtifactType": "repository",
   "Metadata": {
     "RepoURL": "https://github.com/akashcoder02/azure-devops-aks-demo",
     "Branch": "main",
-    "Commit": "84c69068b5dc2666a0529431701b7a43916eacb0",
-    "CommitMsg": "205",
-    "Author": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e",
-    "Committer": "akashcoder02 \u003cakashgoyalit1998@gmail.com\u003e"
+    "Commit": "ce22358b9fa7f92f8c4b1554d729f4e75cd1c143",
+    "CommitMsg": "Update security scan reports",
+    "Author": "github-actions \u003cgithub-actions@github.com\u003e",
+    "Committer": "github-actions \u003cgithub-actions@github.com\u003e"
   },
   "Results": [
     {
