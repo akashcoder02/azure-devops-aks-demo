@@ -22,7 +22,7 @@ function bindButtons() {
 
     document
         .getElementById("start-btn")
-        ?.addEventListener("click", () => run("start"));
+        ?.addEventListener("click", showEnvironmentDialog);
 
     document
         .getElementById("stop-btn")
@@ -50,11 +50,23 @@ function bindButtons() {
 
 }
 
+function showEnvironmentDialog() {
+
+    const environment = confirm(
+        "Click OK for Production.\n\nClick Cancel for Development."
+    )
+        ? "production"
+        : "development";
+
+    run("start", environment);
+
+}
+
 // ========================================
 // Execute Platform Actions
 // ========================================
 
-async function run(action) {
+async function run(action, environment = null) {
 
     let url = "";
 
@@ -90,9 +102,14 @@ async function run(action) {
         const response = await fetch(url, {
 
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+
+            body: JSON.stringify({
+                environment: environment
+            })
 
         });
 

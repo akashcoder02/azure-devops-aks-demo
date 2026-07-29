@@ -10,7 +10,7 @@ from config.github import (
 
 class PlatformActionsService:
 
-    def trigger(self, workflow):
+    def trigger(self, workflow, environment=None):
 
         url = (
             f"{GITHUB_API}/repos/"
@@ -26,8 +26,13 @@ class PlatformActionsService:
         }
 
         payload = {
-            "ref": "main",
+            "ref": "main"
         }
+
+        if environment:
+            payload["inputs"] = {
+                "environment": environment
+            }
 
         response = requests.post(
             url,

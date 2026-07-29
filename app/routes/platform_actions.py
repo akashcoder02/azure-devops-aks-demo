@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 from services.platform_actions import (
     platform_actions_service
@@ -16,18 +16,24 @@ platform_actions_bp = Blueprint(
 )
 def start_platform():
 
-    success = platform_actions_service.trigger(
-        "infra.yaml"
+    data = request.get_json() or {}
+
+    environment = data.get("environment", "development")
+
+    result = platform_actions_service.trigger(
+        "infra.yaml",
+        environment
     )
 
     return jsonify({
-        "success": success,
+        "success": result["success"],
         "message": (
-            "Platform Start Triggered"
-            if success
+            f"Platform Start Triggered ({environment})"
+            if result["success"]
             else
             "Unable to trigger platform."
-        )
+        ),
+        "details": result
     })
 
 
