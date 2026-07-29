@@ -47,10 +47,21 @@ resource "helm_release" "istiod" {
 
   timeout = 600
 
+  values = [
+    <<-EOF
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+EOF
+  ]
+
   depends_on = [
     helm_release.istio_base
   ]
-
 }
 
 resource "helm_release" "istio_ingressgateway" {
