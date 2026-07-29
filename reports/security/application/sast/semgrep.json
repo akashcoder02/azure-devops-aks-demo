@@ -1,5 +1,5 @@
 {
-  "version": "1.171.0",
+  "version": "1.172.0",
   "results": [
     {
       "check_id": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
@@ -22184,6 +22184,7 @@
       ".github/workflows/rollback.yaml",
       ".github/workflows/scale.yaml",
       ".github/workflows/security-scan.yml",
+      ".github/workflows/service-mesh.yml",
       ".github/workflows/trivy.yml",
       ".github/workflows/undeploy-application.yml",
       ".gitignore",
@@ -22215,6 +22216,7 @@
       "app/routes/security_history.py",
       "app/routes/security_policies.py",
       "app/routes/security_reports.py",
+      "app/routes/service_mesh.py",
       "app/routes/settings.py",
       "app/routes/status.py",
       "app/security/__init__.py",
@@ -22274,6 +22276,7 @@
       "app/services/security_history.py",
       "app/services/security_policies.py",
       "app/services/security_reports.py",
+      "app/services/service_mesh.py",
       "app/services/terraform.py",
       "app/static/css/application_details.css",
       "app/static/css/application_security.css",
@@ -22292,6 +22295,7 @@
       "app/static/css/security_history.css",
       "app/static/css/security_policies.css",
       "app/static/css/security_reports.css",
+      "app/static/css/service_mesh.css",
       "app/static/css/sidebar.css",
       "app/static/css/style.css",
       "app/static/js/app.js",
@@ -22312,6 +22316,7 @@
       "app/static/js/security_history.js",
       "app/static/js/security_policies.js",
       "app/static/js/security_reports.js",
+      "app/static/js/service_mesh.js",
       "app/static/js/sidebar.js",
       "app/templates/about.html",
       "app/templates/aks_report.html",
@@ -22345,6 +22350,7 @@
       "app/templates/security_reports.html",
       "app/templates/security_trends.html",
       "app/templates/semgrep_report.html",
+      "app/templates/service_mesh.html",
       "app/templates/settings.html",
       "app/templates/trivy_report.html",
       "app/templates/workflow_report.html",
@@ -22383,6 +22389,7 @@
       "gitops/addons/hpa/tetris.yaml",
       "gitops/addons/hpa/tic-tac-toe.yaml",
       "gitops/applications/tetris/deployment.yaml",
+      "gitops/applications/tetris/hpa.yaml",
       "gitops/applications/tetris/ingress.yaml",
       "gitops/applications/tetris/service.yaml",
       "gitops/applications/tic-tac-toe/deployment.yaml",
@@ -22485,6 +22492,17 @@
       "terraform/addons/monitoring/providers.tf",
       "terraform/addons/monitoring/variables.tf",
       "terraform/addons/monitoring/versions.tf",
+      "terraform/addons/service-mesh/.terraform.lock.hcl",
+      "terraform/addons/service-mesh/backend.tf",
+      "terraform/addons/service-mesh/data.tf",
+      "terraform/addons/service-mesh/helm.tf",
+      "terraform/addons/service-mesh/main.tf",
+      "terraform/addons/service-mesh/namespace.tf",
+      "terraform/addons/service-mesh/outputs.tf",
+      "terraform/addons/service-mesh/providers.tf",
+      "terraform/addons/service-mesh/terraform.tfvars",
+      "terraform/addons/service-mesh/variables.tf",
+      "terraform/addons/service-mesh/versions.tf",
       "terraform/backend/.terraform.lock.hcl",
       "terraform/backend/main.tf",
       "terraform/backend/outputs.tf",
@@ -22527,12 +22545,12 @@
   },
   "time": {
     "rules": [],
-    "rules_parse_time": 0.4656679630279541,
+    "rules_parse_time": 0.514646053314209,
     "profiling_times": {
-      "config_time": 0.9711551666259766,
-      "core_time": 2.9199178218841553,
-      "ignores_time": 0.0017867088317871094,
-      "total_time": 3.898015022277832
+      "config_time": 0.8590013980865479,
+      "core_time": 3.563415050506592,
+      "ignores_time": 0.07981181144714355,
+      "total_time": 4.50786280632019
     },
     "parsing_time": {
       "total_time": 0.0,
@@ -22547,10 +22565,10 @@
       "very_slow_files": []
     },
     "scanning_time": {
-      "total_time": 4.0384228229522705,
+      "total_time": 4.900545597076416,
       "per_file_time": {
-        "mean": 0.00382426403688662,
-        "std_dev": 0.0002922585563560954
+        "mean": 0.004418886922521563,
+        "std_dev": 0.000424818219817539
       },
       "very_slow_stats": {
         "time_ratio": 0.0,
@@ -22587,16 +22605,16 @@
       "project_level_time": 0.0,
       "file_level_time": 0.0,
       "rules_with_project_prefilters_ratio": 0.0,
-      "rules_with_file_prefilters_ratio": 0.9564496539492202,
-      "rules_selected_ratio": 0.09101424688168726,
-      "rules_matched_ratio": 0.09101424688168726
+      "rules_with_file_prefilters_ratio": 0.9572510128136973,
+      "rules_selected_ratio": 0.09283056222617367,
+      "rules_matched_ratio": 0.09283056222617367
     },
     "targets": [],
     "total_bytes": 0,
-    "max_memory_bytes": 1036081728
+    "max_memory_bytes": 1282476608
   },
   "engine_requested": "OSS",
   "skipped_rules": [],
   "profiling_results": [],
-  "scan_time": "2026-07-28 18:49:29 IST"
+  "scan_time": "2026-07-29 19:34:25 IST"
 }
