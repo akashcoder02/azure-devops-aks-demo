@@ -36,3 +36,4 @@ Timestamp,Application,Operation,Image,PreviousImage,Replicas,GitCommit,Workflow,
 2026-07-29 14:06:08,tic-tac-toe,Release,agdevopsacr2026.azurecr.io/tic-tac-toe:2f1f4d30b3d248fb24d0abdd120b6e62df29fe8e,NA,1,2f1f4d30b3d248fb24d0abdd120b6e62df29fe8e,Release Application,akashcoder02,Success,Application Released
 2026-07-29 14:23:01,tetris,Release,agdevopsacr2026.azurecr.io/tetris:d211370722dc11fa8a7303b2815527bd4a183576,NA,1,d211370722dc11fa8a7303b2815527bd4a183576,Release Application,akashcoder02,Success,Application Released
 2026-07-29 14:52:55,tetris,Release,agdevopsacr2026.azurecr.io/tetris:d211370722dc11fa8a7303b2815527bd4a183576,NA,1,c4742cee7780f452194c3395cf4f512f285481d2,Release Application,akashcoder02,Success,Application Released
+2026-07-30 10:12:35,tic-tac-toe,Release,agdevopsacr2026.azurecr.io/tic-tac-toe:e88e6b72d8f5350814ae0691070a2ef5123595d0,NA,1,e88e6b72d8f5350814ae0691070a2ef5123595d0,Release Application,akashcoder02,Success,Application Released
