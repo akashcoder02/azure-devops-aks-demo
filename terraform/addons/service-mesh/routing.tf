@@ -1,22 +1,24 @@
-resource "kubernetes_manifest" "tic_tac_toe_virtualservice" {
+resource "kubernetes_manifest" "virtualservice" {
+
+  for_each = var.applications
 
   manifest = {
     apiVersion = "networking.istio.io/v1"
     kind       = "VirtualService"
 
     metadata = {
-      name      = "tic-tac-toe"
-      namespace = "default"
+      name      = each.key
+      namespace = var.namespace
     }
 
     spec = {
 
       gateways = [
-        kubernetes_manifest.tic_tac_toe_gateway.manifest.metadata.name
+        kubernetes_manifest.gateway.manifest.metadata.name
       ]
 
       hosts = [
-        "*"
+        var.host
       ]
 
       http = [
@@ -24,20 +26,30 @@ resource "kubernetes_manifest" "tic_tac_toe_virtualservice" {
           match = [
             {
               uri = {
-                prefix = "/"
+                prefix = "/${each.key}"
               }
             }
           ]
 
+          retries = {
+            attempts      = 3
+            perTryTimeout = "2s"
+            retryOn       = "gateway-error,connect-failure,refused-stream,5xx"
+          }
+
+          timeout = "5s"
+
           route = [
             {
               destination = {
-                host = "tic-tac-toe"
+                host = each.key
 
                 port = {
-                  number = 80
+                  number = each.value.service_port
                 }
               }
+
+              weight = 100
             }
           ]
         }
@@ -46,6 +58,6 @@ resource "kubernetes_manifest" "tic_tac_toe_virtualservice" {
   }
 
   depends_on = [
-    kubernetes_manifest.tic_tac_toe_gateway
+    kubernetes_manifest.gateway
   ]
 }

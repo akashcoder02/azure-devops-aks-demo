@@ -1,17 +1,19 @@
-resource "kubernetes_manifest" "tic_tac_toe_destinationrule" {
+resource "kubernetes_manifest" "destinationrule" {
+
+  for_each = var.applications
 
   manifest = {
     apiVersion = "networking.istio.io/v1"
     kind       = "DestinationRule"
 
     metadata = {
-      name      = "tic-tac-toe"
-      namespace = "default"
+      name      = each.key
+      namespace = var.namespace
     }
 
     spec = {
 
-      host = "tic-tac-toe"
+      host = each.key
 
       trafficPolicy = {
 
@@ -42,6 +44,6 @@ resource "kubernetes_manifest" "tic_tac_toe_destinationrule" {
   }
 
   depends_on = [
-    kubernetes_manifest.tic_tac_toe_virtualservice
+    kubernetes_manifest.virtualservice
   ]
 }

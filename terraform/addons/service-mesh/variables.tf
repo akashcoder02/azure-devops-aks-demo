@@ -38,3 +38,29 @@ variable "gateway_version" {
   type        = string
   default     = "1.27.1"
 }
+
+variable "namespace" {
+  description = "Kubernetes Namespace"
+  type        = string
+  default     = "default"
+}
+
+variable "host" {
+  description = "Application Host"
+  type        = string
+  default     = "*"
+}
+
+variable "gateway_name" {
+  description = "Istio Gateway Name"
+  type        = string
+  default     = "platform-gateway"
+}
+
+variable "applications" {
+  description = "Applications to expose through Istio"
+
+  type = map(object({
+    service_port = number
+  }))
+}

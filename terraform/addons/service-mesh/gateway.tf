@@ -1,12 +1,12 @@
-resource "kubernetes_manifest" "tic_tac_toe_gateway" {
+resource "kubernetes_manifest" "gateway" {
 
   manifest = {
     apiVersion = "networking.istio.io/v1"
     kind       = "Gateway"
 
     metadata = {
-      name      = "tic-tac-toe-gateway"
-      namespace = "default"
+      name      = "platform-gateway"
+      namespace = var.namespace
     }
 
     spec = {
@@ -23,7 +23,7 @@ resource "kubernetes_manifest" "tic_tac_toe_gateway" {
           }
 
           hosts = [
-            "*"
+            var.host
           ]
         }
       ]

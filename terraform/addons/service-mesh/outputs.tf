@@ -36,3 +36,39 @@ output "istio_ingress_ip" {
     null
   )
 }
+
+output "gateway_name" {
+  description = "Service Mesh Gateway Name"
+
+  value = kubernetes_manifest.gateway.manifest.metadata.name
+}
+
+output "virtualservice_names" {
+  description = "Virtual Service Names"
+
+  value = {
+    for app, vs in kubernetes_manifest.virtualservice :
+    app => vs.manifest.metadata.name
+  }
+}
+
+output "destinationrule_names" {
+  description = "Destination Rule Names"
+
+  value = {
+    for app, dr in kubernetes_manifest.destinationrule :
+    app => dr.manifest.metadata.name
+  }
+}
+
+output "application_urls" {
+  description = "Application URLs via Istio"
+
+  value = try(
+    {
+      for app in keys(var.applications) :
+      app => "http://${data.kubernetes_service.istio_ingressgateway.status[0].load_balancer[0].ingress[0].ip}/${app}"
+    },
+    {}
+  )
+}
