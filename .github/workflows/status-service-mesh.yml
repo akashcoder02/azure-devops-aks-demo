@@ -1,0 +1,50 @@
+name: Service Mesh Status
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  service-mesh-status:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group rg-devops-demo \
+            --name aks-devops-demo \
+            --overwrite-existing
+
+      - name: Istio Control Plane
+        run: kubectl get pods -n istio-system
+
+      - name: Gateway
+        run: kubectl get gateway -A
+
+      - name: VirtualService
+        run: kubectl get virtualservice -A
+
+      - name: DestinationRule
+        run: kubectl get destinationrule -A
+
+      - name: Sidecar Injection
+        run: |
+          kubectl get namespace default --show-labels
+
+      - name: Ingress Gateway
+        run: |
+          kubectl get svc istio-ingressgateway -n istio-system
