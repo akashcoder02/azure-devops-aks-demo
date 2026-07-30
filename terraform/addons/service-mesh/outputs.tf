@@ -27,3 +27,12 @@ output "gateway_version" {
 
   value = helm_release.istio_ingressgateway.version
 }
+
+output "istio_ingress_ip" {
+  description = "Istio Ingress Gateway External IP"
+
+  value = try(
+    data.kubernetes_service.istio_ingressgateway.status[0].load_balancer[0].ingress[0].ip,
+    null
+  )
+}

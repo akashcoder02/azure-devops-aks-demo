@@ -30,11 +30,11 @@ variable "create_namespace" {
 variable "istio_version" {
   description = "Istio Helm Chart Version"
   type        = string
-  default = "1.27.1"
+  default     = "1.27.1"
 }
 
 variable "gateway_version" {
   description = "Istio Gateway Chart Version"
   type        = string
-  default = "1.27.1"
+  default     = "1.27.1"
 }
