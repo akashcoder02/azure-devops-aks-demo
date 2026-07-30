@@ -347,6 +347,50 @@ Dashboard
 <!-- END OF DASHBOARD -->
 <!-- ====================================================== -->
 
+ <!-- Environment Selection Modal -->
+<div id="environment-modal" class="modal hidden">
+
+    <div class="modal-content">
+
+        <h3>Start Platform</h3>
+
+        <p>Select the deployment environment.</p>
+
+        <label class="radio-option">
+            <input
+                type="radio"
+                name="environment"
+                value="development"
+                checked
+            >
+            Development
+        </label>
+
+        <label class="radio-option">
+            <input
+                type="radio"
+                name="environment"
+                value="production"
+            >
+            Production
+        </label>
+
+        <div class="modal-buttons">
+
+            <button id="cancel-environment-btn">
+                Cancel
+            </button>
+
+            <button id="confirm-environment-btn">
+                Start
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
 
 {% block scripts %}

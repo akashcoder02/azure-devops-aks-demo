@@ -48,17 +48,46 @@ function bindButtons() {
 
         });
 
+    // ===============================
+    // Environment Modal
+    // ===============================
+
+    document
+        .getElementById("cancel-environment-btn")
+        ?.addEventListener("click", () => {
+
+            document
+                .getElementById("environment-modal")
+                .classList
+                .add("hidden");
+
+        });
+
+    document
+        .getElementById("confirm-environment-btn")
+        ?.addEventListener("click", () => {
+
+            const environment = document.querySelector(
+                'input[name="environment"]:checked'
+            ).value;
+
+            document
+                .getElementById("environment-modal")
+                .classList
+                .add("hidden");
+
+            run("start", environment);
+
+        });
+
 }
 
 function showEnvironmentDialog() {
 
-    const environment = confirm(
-        "Click OK for Production.\n\nClick Cancel for Development."
-    )
-        ? "production"
-        : "development";
-
-    run("start", environment);
+    document
+        .getElementById("environment-modal")
+        .classList
+        .remove("hidden");
 
 }
 
