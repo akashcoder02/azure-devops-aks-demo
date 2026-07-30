@@ -64,3 +64,9 @@ variable "applications" {
     service_port = number
   }))
 }
+
+variable "service_port" {
+  description = "Application Service Port"
+  type        = number
+  default     = 80
+}

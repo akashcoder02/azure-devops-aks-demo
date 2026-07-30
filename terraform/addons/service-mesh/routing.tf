@@ -26,10 +26,17 @@ resource "kubernetes_manifest" "virtualservice" {
           match = [
             {
               uri = {
-                prefix = "/${each.key}"
+                regex = "^/${each.key}(/|$)(.*)"
               }
             }
           ]
+
+          rewrite = {
+            uriRegexRewrite = {
+              match   = "^/${each.key}(/|$)(.*)"
+              rewrite = "/$2"
+            }
+          }
 
           retries = {
             attempts      = 3
@@ -43,12 +50,10 @@ resource "kubernetes_manifest" "virtualservice" {
             {
               destination = {
                 host = each.key
-
                 port = {
-                  number = each.value.service_port
+                  number = var.service_port
                 }
               }
-
               weight = 100
             }
           ]
