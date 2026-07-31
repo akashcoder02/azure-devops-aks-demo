@@ -10,6 +10,8 @@ permissions:
 jobs:
   install-service-mesh:
 
+    name: Install Istio Service Mesh
+
     runs-on: ubuntu-latest
 
     defaults:
@@ -18,8 +20,16 @@ jobs:
 
     steps:
 
+      # ==========================================================
+      # Checkout Repository
+      # ==========================================================
+
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      # ==========================================================
+      # Azure Login
+      # ==========================================================
 
       - name: Azure Login
         uses: azure/login@v2
@@ -28,8 +38,34 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # ==========================================================
+      # Install Terraform
+      # ==========================================================
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      # ==========================================================
+      # Install kubectl
+      # ==========================================================
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      # ==========================================================
+      # Connect to AKS
+      # ==========================================================
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group rg-devops-demo \
+            --name aks-devops-demo \
+            --overwrite-existing
+
+      # ==========================================================
+      # Terraform
+      # ==========================================================
 
       - name: Terraform Init
         run: terraform init
@@ -38,14 +74,56 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan
 
       - name: Install Service Mesh
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
 
-      - name: Verify Istio
+      # ==========================================================
+      # Verify Installation
+      # ==========================================================
+
+      - name: Verify Istio Installation
         run: |
+
+          echo "=============================="
+          echo "Namespaces"
+          echo "=============================="
+          kubectl get ns
+
+          echo "=============================="
+          echo "Istio Pods"
+          echo "=============================="
           kubectl get pods -n istio-system
+
+          echo "=============================="
+          echo "Istio Services"
+          echo "=============================="
+          kubectl get svc -n istio-system
+
+          echo "=============================="
+          echo "Gateways"
+          echo "=============================="
           kubectl get gateway -A
+
+          echo "=============================="
+          echo "Virtual Services"
+          echo "=============================="
           kubectl get virtualservice -A
+
+          echo "=============================="
+          echo "Destination Rules"
+          echo "=============================="
           kubectl get destinationrule -A
+
+      # ==========================================================
+      # Workflow Summary
+      # ==========================================================
+
+      - name: Installation Summary
+        run: |
+          echo "======================================"
+          echo "Service Mesh installation completed."
+          echo "Terraform Apply : SUCCESS"
+          echo "Istio Verification : COMPLETED"
+          echo "======================================"
