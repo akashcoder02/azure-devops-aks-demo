@@ -46,38 +46,32 @@ resource "kubernetes_manifest" "virtualservice" {
 
           timeout = "5s"
 
-          route = each.value.canary_enabled ? [
-            {
-              destination = {
-                host   = each.key
-                subset = each.value.primary.version
-                port = {
-                  number = each.value.service_port
+          route = concat(
+            [
+              {
+                destination = {
+                  host   = each.key
+                  subset = each.value.primary.version
+                  port = {
+                    number = each.value.service_port
+                  }
                 }
+                weight = each.value.canary_enabled ? each.value.primary.weight : 100
               }
-              weight = each.value.primary.weight
-            },
-            {
-              destination = {
-                host   = each.key
-                subset = each.value.canary.version
-                port = {
-                  number = each.value.service_port
+            ],
+            each.value.canary_enabled ? [
+              {
+                destination = {
+                  host   = each.key
+                  subset = each.value.canary.version
+                  port = {
+                    number = each.value.service_port
+                  }
                 }
+                weight = each.value.canary.weight
               }
-              weight = each.value.canary.weight
-            }
-          ] : [
-            {
-              destination = {
-                host = each.key
-                port = {
-                  number = each.value.service_port
-                }
-              }
-              weight = 100
-            }
-          ]
+            ] : []
+          )
         }
       ]
     }
