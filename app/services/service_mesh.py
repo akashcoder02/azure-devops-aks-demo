@@ -1,5 +1,6 @@
 import json
 import subprocess
+from datetime import datetime
 
 
 # ==========================================================
@@ -30,19 +31,25 @@ def get_istio_version():
 
     result = _run([
         "kubectl",
-        "version",
+        "get",
+        "deployment",
+        "istiod",
+        "-n",
+        "istio-system",
         "-o",
         "json"
     ])
 
     if not result or result.returncode != 0:
-        return "Unknown"
+        return "Not Installed"
 
     try:
 
         data = json.loads(result.stdout)
 
-        return data["clientVersion"]["gitVersion"]
+        image = data["spec"]["template"]["spec"]["containers"][0]["image"]
+
+        return image.split(":")[-1]
 
     except Exception:
 
@@ -220,13 +227,16 @@ def get_overview():
 
     ]
 
-    healthy = all(
+    statuses = [c["status"] for c in components]
 
-        component["status"] == "Running"
+    if all(s == "Running" for s in statuses):
+        health = "Healthy"
 
-        for component in components
+    elif any(s == "Not Installed" for s in statuses):
+        health = "Not Installed"
 
-    )
+    else:
+        health = "Warning"
 
     gateways_list = get_gateways()
 
@@ -238,7 +248,7 @@ def get_overview():
 
         "version": get_istio_version(),
 
-        "health": "Healthy" if healthy else "Warning",
+        "health": health,
 
         "gateways": get_gateway_count(),
 
@@ -254,7 +264,9 @@ def get_overview():
 
         "destination_rules_list": destination_rules_list,
 
-        "components": components
+        "components": components,
+
+        "last_updated": datetime.now().strftime("%d %b %Y %I:%M:%S %p"),
 
     }
 

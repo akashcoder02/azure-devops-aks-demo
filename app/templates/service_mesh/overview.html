@@ -1,6 +1,15 @@
 <div class="mesh-overview">
 
     <!-- ===================================================== -->
+    <!-- LAST UPDATED -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-last-updated">
+        Last Updated:
+        <span id="mesh-last-updated">--</span>
+    </div>
+
+    <!-- ===================================================== -->
     <!-- SUMMARY -->
     <!-- ===================================================== -->
 
@@ -8,42 +17,41 @@
 
         <div class="mesh-card">
             <div class="mesh-card-title">Istio Version</div>
-            <div class="mesh-card-value" id="mesh-version">--</div>
+            <div class="mesh-card-value" id="mesh-version">Not Installed</div>
             <div class="mesh-card-subtitle">Installed Version</div>
         </div>
 
         <div class="mesh-card">
             <div class="mesh-card-title">Health</div>
-            <div class="mesh-card-value" id="mesh-health">--</div>
+            <div class="mesh-card-value" id="mesh-health">Not Installed</div>
             <div class="mesh-card-subtitle">Overall Service Mesh Health</div>
         </div>
 
-        <div class="mesh-card">
+        <div class="mesh-card clickable" id="gateway-card">
             <div class="mesh-card-title">Gateways</div>
-            <div class="mesh-card-value" id="mesh-gateways">--</div>
+            <div class="mesh-card-value" id="mesh-gateways">0</div>
             <div class="mesh-card-subtitle">Configured Gateways</div>
         </div>
 
-        <div class="mesh-card">
+        <div class="mesh-card clickable" id="virtualservice-card">
             <div class="mesh-card-title">Virtual Services</div>
-            <div class="mesh-card-value" id="mesh-virtualservices">--</div>
+            <div class="mesh-card-value" id="mesh-virtualservices">0</div>
             <div class="mesh-card-subtitle">Routing Rules</div>
         </div>
 
-        <div class="mesh-card">
+        <div class="mesh-card clickable" id="destinationrule-card">
             <div class="mesh-card-title">Destination Rules</div>
-            <div class="mesh-card-value" id="mesh-destinationrules">--</div>
+            <div class="mesh-card-value" id="mesh-destinationrules">0</div>
             <div class="mesh-card-subtitle">Traffic Policies</div>
         </div>
 
-        <div class="mesh-card">
+        <div class="mesh-card clickable" id="applications-card">
             <div class="mesh-card-title">Applications</div>
-            <div class="mesh-card-value" id="mesh-applications">--</div>
+            <div class="mesh-card-value" id="mesh-applications">0</div>
             <div class="mesh-card-subtitle">Mesh Enabled Apps</div>
         </div>
 
     </div>
-
 
     <!-- ===================================================== -->
     <!-- CONTROL PLANE -->
@@ -72,7 +80,7 @@
                 <tr>
 
                     <td colspan="3">
-                        Loading...
+                        Loading Service Mesh Status...
                     </td>
 
                 </tr>
@@ -82,7 +90,6 @@
         </table>
 
     </div>
-
 
     <!-- ===================================================== -->
     <!-- CONFIGURATION SUMMARY -->
@@ -100,22 +107,22 @@
 
                 <tr>
                     <td>Gateways</td>
-                    <td id="gateway-count">--</td>
+                    <td id="gateway-count">0</td>
                 </tr>
 
                 <tr>
                     <td>Virtual Services</td>
-                    <td id="virtualservice-count">--</td>
+                    <td id="virtualservice-count">0</td>
                 </tr>
 
                 <tr>
                     <td>Destination Rules</td>
-                    <td id="destinationrule-count">--</td>
+                    <td id="destinationrule-count">0</td>
                 </tr>
 
                 <tr>
                     <td>Applications</td>
-                    <td id="application-count">--</td>
+                    <td id="application-count">0</td>
                 </tr>
 
             </tbody>
@@ -123,7 +130,6 @@
         </table>
 
     </div>
-
 
     <!-- ===================================================== -->
     <!-- QUICK ACTIONS -->
@@ -137,19 +143,23 @@
 
         <div class="mesh-actions">
 
-            <button class="mesh-action-btn mesh-primary">
+            <button id="install-mesh-btn" class="mesh-action-btn mesh-primary">
                 Install
             </button>
 
-            <button class="mesh-action-btn mesh-secondary">
+            <button id="upgrade-mesh-btn" class="mesh-action-btn mesh-secondary">
                 Upgrade
             </button>
 
-            <button class="mesh-action-btn mesh-secondary">
+            <button id="destroy-mesh-btn" class="mesh-action-btn mesh-danger">
+                Destroy
+            </button>
+
+            <button id="configure-mesh-btn" class="mesh-action-btn mesh-secondary">
                 Configure
             </button>
 
-            <button class="mesh-action-btn mesh-secondary">
+            <button id="demo-mesh-btn" class="mesh-action-btn mesh-secondary">
                 Demo Lab
             </button>
 
@@ -158,4 +168,3 @@
     </div>
 
 </div>
-```

@@ -10,6 +10,8 @@ permissions:
 jobs:
   destroy-service-mesh:
 
+    name: Destroy Istio Service Mesh
+
     runs-on: ubuntu-latest
 
     defaults:
@@ -18,18 +20,111 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+      # ==========================================================
+      # Checkout Repository
+      # ==========================================================
 
-      - uses: azure/login@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # ==========================================================
+      # Azure Login
+      # ==========================================================
+
+      - name: Azure Login
+        uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - uses: hashicorp/setup-terraform@v3
+      # ==========================================================
+      # Install Terraform
+      # ==========================================================
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # ==========================================================
+      # Install kubectl
+      # ==========================================================
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      # ==========================================================
+      # Connect to AKS
+      # ==========================================================
+
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group rg-devops-demo \
+            --name aks-devops-demo \
+            --overwrite-existing
+
+      # ==========================================================
+      # Terraform
+      # ==========================================================
 
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Destroy Plan
+        run: terraform plan -destroy -out=tfplan
+
       - name: Destroy Service Mesh
-        run: terraform destroy -auto-approve
+        run: terraform apply -auto-approve tfplan
+
+      # ==========================================================
+      # Verify Removal
+      # ==========================================================
+
+      - name: Verify Service Mesh Removal
+        continue-on-error: true
+        run: |
+
+          echo "=============================="
+          echo "Namespaces"
+          echo "=============================="
+          kubectl get ns
+
+          echo "=============================="
+          echo "Istio Pods"
+          echo "=============================="
+          kubectl get pods -n istio-system || true
+
+          echo "=============================="
+          echo "Istio Services"
+          echo "=============================="
+          kubectl get svc -n istio-system || true
+
+          echo "=============================="
+          echo "Gateways"
+          echo "=============================="
+          kubectl get gateway -A || true
+
+          echo "=============================="
+          echo "Virtual Services"
+          echo "=============================="
+          kubectl get virtualservice -A || true
+
+          echo "=============================="
+          echo "Destination Rules"
+          echo "=============================="
+          kubectl get destinationrule -A || true
+
+      # ==========================================================
+      # Workflow Summary
+      # ==========================================================
+
+      - name: Destruction Summary
+        run: |
+          echo "======================================"
+          echo "Service Mesh destroyed successfully."
+          echo "Terraform Destroy : SUCCESS"
+          echo "Verification : COMPLETED"
+          echo "======================================"

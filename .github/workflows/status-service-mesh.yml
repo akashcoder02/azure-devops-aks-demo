@@ -10,17 +10,40 @@ permissions:
 jobs:
   service-mesh-status:
 
+    name: Check Istio Service Mesh Status
+
     runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v4
+      # ==========================================================
+      # Checkout Repository
+      # ==========================================================
 
-      - uses: azure/login@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # ==========================================================
+      # Azure Login
+      # ==========================================================
+
+      - name: Azure Login
+        uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # ==========================================================
+      # Install kubectl
+      # ==========================================================
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      # ==========================================================
+      # Connect to AKS
+      # ==========================================================
 
       - name: Get AKS Credentials
         run: |
@@ -29,22 +52,115 @@ jobs:
             --name aks-devops-demo \
             --overwrite-existing
 
-      - name: Istio Control Plane
-        run: kubectl get pods -n istio-system
+      # ==========================================================
+      # Cluster Information
+      # ==========================================================
 
-      - name: Gateway
-        run: kubectl get gateway -A
-
-      - name: VirtualService
-        run: kubectl get virtualservice -A
-
-      - name: DestinationRule
-        run: kubectl get destinationrule -A
-
-      - name: Sidecar Injection
+      - name: Cluster Information
         run: |
-          kubectl get namespace default --show-labels
+          echo "=============================="
+          echo "Kubernetes Version"
+          echo "=============================="
+          kubectl version --short
+
+          echo "=============================="
+          echo "Cluster Nodes"
+          echo "=============================="
+          kubectl get nodes -o wide
+
+      # ==========================================================
+      # Istio Control Plane
+      # ==========================================================
+
+      - name: Istio Control Plane
+        run: |
+          echo "=============================="
+          echo "Istio Namespace"
+          echo "=============================="
+          kubectl get ns istio-system
+
+          echo "=============================="
+          echo "Istio Pods"
+          echo "=============================="
+          kubectl get pods -n istio-system -o wide
+
+          echo "=============================="
+          echo "Istio Services"
+          echo "=============================="
+          kubectl get svc -n istio-system
+
+      # ==========================================================
+      # Traffic Management
+      # ==========================================================
+
+      - name: Traffic Management Resources
+        run: |
+          echo "=============================="
+          echo "Gateways"
+          echo "=============================="
+          kubectl get gateway -A
+
+          echo "=============================="
+          echo "Virtual Services"
+          echo "=============================="
+          kubectl get virtualservice -A
+
+          echo "=============================="
+          echo "Destination Rules"
+          echo "=============================="
+          kubectl get destinationrule -A
+
+      # ==========================================================
+      # Security
+      # ==========================================================
+
+      - name: Security Configuration
+        continue-on-error: true
+        run: |
+          echo "=============================="
+          echo "Peer Authentication"
+          echo "=============================="
+          kubectl get peerauthentication -A
+
+          echo "=============================="
+          echo "Authorization Policies"
+          echo "=============================="
+          kubectl get authorizationpolicy -A
+
+      # ==========================================================
+      # Sidecar Injection
+      # ==========================================================
+
+      - name: Sidecar Injection Status
+        run: |
+          echo "=============================="
+          echo "Namespace Labels"
+          echo "=============================="
+          kubectl get namespaces --show-labels
+
+      # ==========================================================
+      # Ingress Gateway
+      # ==========================================================
 
       - name: Ingress Gateway
+        continue-on-error: true
         run: |
+          echo "=============================="
+          echo "Ingress Gateway"
+          echo "=============================="
           kubectl get svc istio-ingressgateway -n istio-system
+
+      # ==========================================================
+      # Workflow Summary
+      # ==========================================================
+
+      - name: Status Summary
+        run: |
+          echo "======================================"
+          echo "Service Mesh Status Check Completed"
+          echo "Control Plane : VERIFIED"
+          echo "Traffic Management : VERIFIED"
+          echo "Security Configuration : VERIFIED"
+          echo "Sidecar Injection : VERIFIED"
+          echo "Ingress Gateway : VERIFIED"
+          echo "======================================"

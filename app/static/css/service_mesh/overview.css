@@ -9,15 +9,23 @@
 }
 
 /* ==========================================================
+   LAST UPDATED
+========================================================== */
+
+.mesh-last-updated {
+    text-align: right;
+    color: #8b949e;
+    font-size: 13px;
+    margin-bottom: -10px;
+}
+
+/* ==========================================================
    SUMMARY GRID
 ========================================================== */
 
 .mesh-summary-grid {
-
     display: grid;
-
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-
     gap: 20px;
 }
 
@@ -26,154 +34,160 @@
 ========================================================== */
 
 .mesh-card {
-
     background: #0d1117;
-
     border: 1px solid #30363d;
-
     border-radius: 12px;
-
     padding: 20px;
-
-    transition: .25s;
+    transition: all 0.25s ease;
 }
 
 .mesh-card:hover {
-
     transform: translateY(-4px);
-
     border-color: #238636;
 }
 
+/* ==========================================================
+   CLICKABLE CARDS
+========================================================== */
+
+.mesh-card.clickable {
+    cursor: pointer;
+}
+
+.mesh-card.clickable:hover {
+    transform: translateY(-6px);
+}
+
 .mesh-card-title {
-
     font-size: 14px;
-
     color: #8b949e;
-
     margin-bottom: 10px;
 }
 
 .mesh-card-value {
-
     font-size: 32px;
-
     font-weight: bold;
-
     color: white;
 }
 
 .mesh-card-subtitle {
-
     margin-top: 10px;
-
     color: #8b949e;
-
     font-size: 13px;
 }
-
 
 /* ==========================================================
    QUICK ACTIONS
 ========================================================== */
 
 .mesh-actions {
-
     display: flex;
-
     gap: 15px;
-
     flex-wrap: wrap;
 }
 
 .mesh-action-btn {
-
     padding: 12px 24px;
-
     border-radius: 8px;
-
     border: none;
-
     cursor: pointer;
-
     font-weight: 600;
-
-    transition: .25s;
+    transition: all 0.25s ease;
 }
 
 .mesh-primary {
-
     background: #238636;
-
     color: white;
 }
 
 .mesh-primary:hover {
-
     background: #2ea043;
 }
 
 .mesh-secondary {
-
     background: #21262d;
-
     color: white;
-
     border: 1px solid #30363d;
 }
 
 .mesh-secondary:hover {
-
     background: #30363d;
 }
 
+/* ==========================================================
+   DESTROY BUTTON
+========================================================== */
+
+.mesh-danger {
+    background: #da3633;
+    color: white;
+}
+
+.mesh-danger:hover {
+    background: #f85149;
+}
 
 /* ==========================================================
    STATUS TABLE
 ========================================================== */
 
 .mesh-status-table {
-
     width: 100%;
-
     border-collapse: collapse;
 }
 
 .mesh-status-table th {
-
     text-align: left;
-
     padding: 15px;
-
     border-bottom: 1px solid #30363d;
-
     color: #8b949e;
 }
 
 .mesh-status-table td {
-
     padding: 15px;
-
     border-bottom: 1px solid #21262d;
 }
 
+/* ==========================================================
+   STATUS BADGES
+========================================================== */
+
 .status-running {
-
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(46, 160, 67, 0.15);
     color: #2ea043;
-
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .status-warning {
-
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(210, 153, 34, 0.15);
     color: #d29922;
-
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .status-error {
-
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(248, 81, 73, 0.15);
     color: #f85149;
+    font-size: 12px;
+    font-weight: 600;
+}
 
-    font-weight: bold;
+.status-notfound {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(139, 148, 158, 0.15);
+    color: #8b949e;
+    font-size: 12px;
+    font-weight: 600;
 }
