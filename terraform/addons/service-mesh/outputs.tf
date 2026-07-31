@@ -38,27 +38,19 @@ output "istio_ingress_ip" {
 }
 
 output "gateway_name" {
-  description = "Service Mesh Gateway Name"
-
-  value = kubernetes_manifest.gateway.manifest.metadata.name
+  value = var.gateway_name
 }
 
 output "virtualservice_names" {
   description = "Virtual Service Names"
 
-  value = {
-    for app, vs in kubernetes_manifest.virtualservice :
-    app => vs.manifest.metadata.name
-  }
+  value = keys(var.applications)
 }
 
 output "destinationrule_names" {
   description = "Destination Rule Names"
 
-  value = {
-    for app, dr in kubernetes_manifest.destinationrule :
-    app => dr.manifest.metadata.name
-  }
+  value = keys(var.applications)
 }
 
 output "application_urls" {

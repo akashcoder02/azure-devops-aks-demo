@@ -1,10 +1,12 @@
-resource "kubernetes_manifest" "destinationrule" {
+resource "kubectl_manifest" "destinationrule" {
 
   for_each = var.applications
 
-  manifest = {
+  yaml_body = yamlencode({
+
     apiVersion = "networking.istio.io/v1"
-    kind       = "DestinationRule"
+
+    kind = "DestinationRule"
 
     metadata = {
       name      = each.key
@@ -15,22 +17,26 @@ resource "kubernetes_manifest" "destinationrule" {
 
       host = each.key
 
-      subsets = each.value.canary_enabled ? [
-        {
-          name = each.value.primary.version
+      subsets = concat(
+        [
+          {
+            name = each.value.primary.version
 
-          labels = {
-            version = each.value.primary.version
+            labels = {
+              version = each.value.primary.version
+            }
           }
-        },
-        {
-          name = each.value.canary.version
+        ],
+        each.value.canary_enabled ? [
+          {
+            name = each.value.canary.version
 
-          labels = {
-            version = each.value.canary.version
+            labels = {
+              version = each.value.canary.version
+            }
           }
-        }
-      ] : []
+        ] : []
+      )
 
       trafficPolicy = {
 
@@ -50,6 +56,7 @@ resource "kubernetes_manifest" "destinationrule" {
             maxRetries               = 3
             idleTimeout              = "30s"
           }
+
         }
 
         outlierDetection = {
@@ -58,11 +65,14 @@ resource "kubernetes_manifest" "destinationrule" {
           baseEjectionTime     = "30s"
           maxEjectionPercent   = 50
         }
+
       }
+
     }
-  }
+
+  })
 
   depends_on = [
-    kubernetes_manifest.virtualservice
+    kubectl_manifest.virtualservice
   ]
 }

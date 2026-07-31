@@ -1,10 +1,12 @@
-resource "kubernetes_manifest" "virtualservice" {
+resource "kubectl_manifest" "virtualservice" {
 
   for_each = var.applications
 
-  manifest = {
+  yaml_body = yamlencode({
+
     apiVersion = "networking.istio.io/v1"
-    kind       = "VirtualService"
+
+    kind = "VirtualService"
 
     metadata = {
       name      = each.key
@@ -14,7 +16,7 @@ resource "kubernetes_manifest" "virtualservice" {
     spec = {
 
       gateways = [
-        kubernetes_manifest.gateway.manifest.metadata.name
+        var.gateway_name
       ]
 
       hosts = [
@@ -23,6 +25,7 @@ resource "kubernetes_manifest" "virtualservice" {
 
       http = [
         {
+
           match = [
             {
               uri = {
@@ -47,37 +50,48 @@ resource "kubernetes_manifest" "virtualservice" {
           timeout = "5s"
 
           route = concat(
+
             [
               {
                 destination = {
                   host   = each.key
                   subset = each.value.primary.version
+
                   port = {
                     number = each.value.service_port
                   }
                 }
+
                 weight = each.value.canary_enabled ? each.value.primary.weight : 100
               }
             ],
+
             each.value.canary_enabled ? [
+
               {
                 destination = {
                   host   = each.key
                   subset = each.value.canary.version
+
                   port = {
                     number = each.value.service_port
                   }
                 }
+
                 weight = each.value.canary.weight
               }
+
             ] : []
+
           )
+
         }
       ]
+
     }
-  }
+  })
 
   depends_on = [
-    kubernetes_manifest.gateway
+    kubectl_manifest.gateway
   ]
 }
