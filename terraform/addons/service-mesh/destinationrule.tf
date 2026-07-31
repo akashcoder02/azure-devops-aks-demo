@@ -15,6 +15,23 @@ resource "kubernetes_manifest" "destinationrule" {
 
       host = each.key
 
+      subsets = each.value.canary_enabled ? [
+        {
+          name = each.value.primary.version
+
+          labels = {
+            version = each.value.primary.version
+          }
+        },
+        {
+          name = each.value.canary.version
+
+          labels = {
+            version = each.value.canary.version
+          }
+        }
+      ] : []
+
       trafficPolicy = {
 
         loadBalancer = {
@@ -30,6 +47,8 @@ resource "kubernetes_manifest" "destinationrule" {
           http = {
             http1MaxPendingRequests  = 50
             maxRequestsPerConnection = 20
+            maxRetries               = 3
+            idleTimeout              = "30s"
           }
         }
 

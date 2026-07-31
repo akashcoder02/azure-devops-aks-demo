@@ -1,0 +1,189 @@
+/* ==========================================================
+   SERVICE MESH
+========================================================== */
+
+.mesh-page {
+    padding: 25px;
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.mesh-header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+}
+
+.mesh-header h1 {
+
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+
+}
+
+.mesh-header p {
+
+    margin-top: 8px;
+    color: #8b949e;
+    font-size: 15px;
+
+}
+
+
+/* ==========================================================
+   HEALTH CARD
+========================================================== */
+
+.mesh-health-card {
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+
+    border-radius: 12px;
+
+    padding: 18px 22px;
+
+    min-width: 220px;
+
+}
+
+.mesh-health-dot {
+
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+
+}
+
+.mesh-health-dot.healthy {
+
+    background: #2ea043;
+    box-shadow: 0 0 10px rgba(46,160,67,.7);
+
+}
+
+.mesh-health-title {
+
+    color: #8b949e;
+    font-size: 13px;
+
+}
+
+.mesh-health-value {
+
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+
+}
+
+
+/* ==========================================================
+   NAVIGATION
+========================================================== */
+
+.mesh-navigation {
+
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+
+    margin-bottom: 30px;
+
+}
+
+.mesh-nav-item {
+
+    border: none;
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+
+    color: white;
+
+    border-radius: 10px;
+
+    padding: 13px 24px;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+.mesh-nav-item:hover {
+
+    background: #21262d;
+
+    transform: translateY(-2px);
+
+}
+
+.mesh-nav-item.active {
+
+    background: #238636;
+
+    border-color: #238636;
+
+}
+
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.mesh-content {
+
+    min-height: 700px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+    .mesh-header{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .mesh-navigation{
+
+        flex-direction:column;
+
+    }
+
+    .mesh-nav-item{
+
+        width:100%;
+
+    }
+
+}

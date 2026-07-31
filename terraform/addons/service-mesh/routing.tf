@@ -34,7 +34,7 @@ resource "kubernetes_manifest" "virtualservice" {
           rewrite = {
             uriRegexRewrite = {
               match   = "^/${each.key}(/|$)(.*)"
-              rewrite = "/$2"
+              rewrite = "/\\2"
             }
           }
 
@@ -46,12 +46,33 @@ resource "kubernetes_manifest" "virtualservice" {
 
           timeout = "5s"
 
-          route = [
+          route = each.value.canary_enabled ? [
+            {
+              destination = {
+                host   = each.key
+                subset = each.value.primary.version
+                port = {
+                  number = each.value.service_port
+                }
+              }
+              weight = each.value.primary.weight
+            },
+            {
+              destination = {
+                host   = each.key
+                subset = each.value.canary.version
+                port = {
+                  number = each.value.service_port
+                }
+              }
+              weight = each.value.canary.weight
+            }
+          ] : [
             {
               destination = {
                 host = each.key
                 port = {
-                  number = var.service_port
+                  number = each.value.service_port
                 }
               }
               weight = 100

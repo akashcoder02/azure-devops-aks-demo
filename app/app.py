@@ -21,6 +21,7 @@ from routes.devsecops import (
 from routes.application_security import (
     application_security_bp
 )
+from routes.service_mesh import service_mesh_bp
 
 app = Flask(__name__)
 
@@ -45,6 +46,7 @@ app.register_blueprint(
 app.register_blueprint(
     application_security_bp
 )
+app.register_blueprint(service_mesh_bp)
 
 
 if __name__ == "__main__":

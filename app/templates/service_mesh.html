@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Service Mesh{% endblock %}
+
+{% block css %}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/service_mesh/service_mesh.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/service_mesh/overview.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/service_mesh/traffic_management.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="mesh-page">
+
+    <!-- ===================================================== -->
+    <!-- PAGE HEADER -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-header">
+
+        <div>
+
+            <h1>Service Mesh</h1>
+
+            <p>
+                Secure, Observe and Control Application Traffic using Istio
+            </p>
+
+        </div>
+
+        <div class="mesh-health-card">
+
+            <span class="mesh-health-dot healthy"></span>
+
+            <div>
+
+                <div class="mesh-health-title">
+                    Platform Status
+                </div>
+
+                <div class="mesh-health-value">
+                    Healthy
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- NAVIGATION -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-navigation">
+
+        <button class="mesh-nav-item active"
+                data-page="overview">
+
+            Overview
+
+        </button>
+
+        <button class="mesh-nav-item"
+                data-page="traffic">
+
+            Traffic Management
+
+        </button>
+
+        <button class="mesh-nav-item"
+                data-page="security">
+
+            Security
+
+        </button>
+
+        <button class="mesh-nav-item"
+                data-page="resilience">
+
+            Resilience
+
+        </button>
+
+        <button class="mesh-nav-item"
+                data-page="observability">
+
+            Observability
+
+        </button>
+
+        <button class="mesh-nav-item"
+                data-page="demo">
+
+            Demo Lab
+
+        </button>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CONTENT -->
+    <!-- ===================================================== -->
+
+    <div id="service-mesh-content"
+         class="mesh-content">
+
+        {% include "service_mesh/overview.html" %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{ url_for('static',
+filename='js/service_mesh/service_mesh.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/service_mesh/overview.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/service_mesh/traffic_management.js') }}"></script>
+
+{% endblock %}

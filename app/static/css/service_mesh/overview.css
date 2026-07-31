@@ -1,0 +1,179 @@
+/* ==========================================================
+   OVERVIEW
+========================================================== */
+
+.mesh-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ==========================================================
+   SUMMARY GRID
+========================================================== */
+
+.mesh-summary-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 20px;
+}
+
+/* ==========================================================
+   SUMMARY CARD
+========================================================== */
+
+.mesh-card {
+
+    background: #0d1117;
+
+    border: 1px solid #30363d;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    transition: .25s;
+}
+
+.mesh-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: #238636;
+}
+
+.mesh-card-title {
+
+    font-size: 14px;
+
+    color: #8b949e;
+
+    margin-bottom: 10px;
+}
+
+.mesh-card-value {
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    color: white;
+}
+
+.mesh-card-subtitle {
+
+    margin-top: 10px;
+
+    color: #8b949e;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================================
+   QUICK ACTIONS
+========================================================== */
+
+.mesh-actions {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.mesh-action-btn {
+
+    padding: 12px 24px;
+
+    border-radius: 8px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    transition: .25s;
+}
+
+.mesh-primary {
+
+    background: #238636;
+
+    color: white;
+}
+
+.mesh-primary:hover {
+
+    background: #2ea043;
+}
+
+.mesh-secondary {
+
+    background: #21262d;
+
+    color: white;
+
+    border: 1px solid #30363d;
+}
+
+.mesh-secondary:hover {
+
+    background: #30363d;
+}
+
+
+/* ==========================================================
+   STATUS TABLE
+========================================================== */
+
+.mesh-status-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.mesh-status-table th {
+
+    text-align: left;
+
+    padding: 15px;
+
+    border-bottom: 1px solid #30363d;
+
+    color: #8b949e;
+}
+
+.mesh-status-table td {
+
+    padding: 15px;
+
+    border-bottom: 1px solid #21262d;
+}
+
+.status-running {
+
+    color: #2ea043;
+
+    font-weight: bold;
+}
+
+.status-warning {
+
+    color: #d29922;
+
+    font-weight: bold;
+}
+
+.status-error {
+
+    color: #f85149;
+
+    font-weight: bold;
+}

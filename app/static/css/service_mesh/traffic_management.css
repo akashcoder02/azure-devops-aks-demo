@@ -1,0 +1,162 @@
+/* ==========================================================
+   TRAFFIC MANAGEMENT
+========================================================== */
+
+.mesh-traffic {
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+}
+
+
+/* ==========================================================
+   SUMMARY GRID
+========================================================== */
+
+.mesh-summary-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 20px;
+
+}
+
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.mesh-card {
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    transition: all .25s ease;
+
+}
+
+.mesh-card:hover {
+
+    border-color: #238636;
+
+    transform: translateY(-3px);
+
+}
+
+.mesh-card-title {
+
+    color: #8b949e;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+
+}
+
+.mesh-card-value {
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    color: #ffffff;
+
+}
+
+.mesh-card-subtitle {
+
+    margin-top: 8px;
+
+    color: #8b949e;
+
+    font-size: 13px;
+
+}
+
+
+/* ==========================================================
+   TABLE
+========================================================== */
+
+.mesh-status-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 15px;
+
+}
+
+.mesh-status-table thead {
+
+    background: #0d1117;
+
+}
+
+.mesh-status-table th {
+
+    padding: 14px;
+
+    text-align: left;
+
+    color: #8b949e;
+
+    border-bottom: 1px solid #30363d;
+
+    font-size: 14px;
+
+}
+
+.mesh-status-table td {
+
+    padding: 14px;
+
+    border-bottom: 1px solid #21262d;
+
+    color: #ffffff;
+
+}
+
+.mesh-status-table tbody tr:hover {
+
+    background: rgba(255,255,255,0.03);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+
+    .mesh-summary-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .mesh-card-value {
+
+        font-size: 28px;
+
+    }
+
+    .mesh-status-table {
+
+        display: block;
+        overflow-x: auto;
+
+    }
+
+}

@@ -62,11 +62,32 @@ variable "applications" {
 
   type = map(object({
     service_port = number
-  }))
-}
 
-variable "service_port" {
-  description = "Application Service Port"
-  type        = number
-  default     = 80
+    canary_enabled = optional(bool, false)
+
+    primary = optional(object({
+      version = string
+      weight  = number
+    }), {
+      version = "v1"
+      weight  = 100
+    })
+
+    canary = optional(object({
+      version = string
+      weight  = number
+    }), {
+      version = "v2"
+      weight  = 0
+    })
+  }))
+
+  validation {
+    condition = alltrue([
+      for app in values(var.applications) :
+      app.primary.weight + app.canary.weight == 100
+    ])
+
+    error_message = "For each application, primary.weight and canary.weight must equal 100."
+  }
 }
