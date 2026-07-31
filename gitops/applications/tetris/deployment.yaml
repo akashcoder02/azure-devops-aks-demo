@@ -23,11 +23,7 @@ spec:
       containers:
       - name: tetris
 
-<<<<<<< HEAD
         image: agdevopsacr2026.azurecr.io/tetris:8d383cc0c1d05c0d61b25f0b9ebe8d03053102ac
-=======
-        image: agdevopsacr2026.azurecr.io/tetris:f6372a13e059336237a45aac5d292a31be400969
->>>>>>> ead7998 (Add standard version labels for Istio subsets)
 
         imagePullPolicy: Always
 
