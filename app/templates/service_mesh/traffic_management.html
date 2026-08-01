@@ -404,87 +404,78 @@
 
                 </h3>
 
-                <div class="traffic-info-grid">
+                <div class="traffic-status-grid">
 
-                    <div>
+                    <!-- Primary -->
 
-                        <span class="traffic-label">
+                    <div class="traffic-status-card">
 
-                            Primary Version
+                        <div class="traffic-status-title">
 
-                        </span>
+                            Primary
 
-                        <span id="current-primary-version">
+                        </div>
+
+                        <div class="traffic-version"
+                            id="current-primary-version">
 
                             v1
 
-                        </span>
+                        </div>
 
-                    </div>
-
-                    <div>
-
-                        <span class="traffic-label">
-
-                            Primary Traffic
-
-                        </span>
-
-                        <span id="current-primary-weight">
+                        <div class="traffic-percentage"
+                            id="current-primary-weight">
 
                             100%
 
-                        </span>
+                        </div>
+
+                        <div class="traffic-progress">
+
+                            <div
+                                id="primary-progress"
+                                class="traffic-progress-fill"
+                                style="width:100%">
+                            </div>
+
+                        </div>
 
                     </div>
 
-                    <div>
 
-                        <span class="traffic-label">
+                    <!-- Canary -->
 
-                            Canary Version
+                    <div class="traffic-status-card">
 
-                        </span>
+                        <div class="traffic-status-title">
 
-                        <span id="current-canary-version">
+                            Canary
+
+                        </div>
+
+                        <div class="traffic-version"
+                            id="current-canary-version">
 
                             v2
 
-                        </span>
+                        </div>
 
-                    </div>
-
-                    <div>
-
-                        <span class="traffic-label">
-
-                            Canary Traffic
-
-                        </span>
-
-                        <span id="current-canary-weight">
+                        <div class="traffic-percentage"
+                            id="current-canary-weight">
 
                             0%
 
-                        </span>
+                        </div>
 
-                    </div>
+                        <div class="traffic-progress">
 
-                    <div>
+                            <div
+                                id="canary-progress"
+                                class="traffic-progress-fill"
+                                style="width:0%">
+                            </div>
 
-                        <span class="traffic-label">
-
-                            Canary Status
-
-                        </span>
-
-                        <span
-                            id="current-canary-status"
-                            class="status-badge status-notfound">
-
-                            Disabled
-
-                        </span>
+                        </div>
 
                     </div>
 
@@ -515,10 +506,18 @@
 
                     <input
                         id="primary-weight"
-                        type="number"
+                        type="range"
                         min="0"
                         max="100"
                         value="100">
+
+                    <div
+                        id="primary-slider-value"
+                        class="slider-value">
+
+                        100%
+
+                    </div>
 
                 </div>
 
@@ -532,24 +531,18 @@
 
                     <input
                         id="canary-weight"
-                        type="number"
+                        type="range"
                         min="0"
                         max="100"
                         value="0">
 
-                </div>
+                    <div
+                        id="canary-slider-value"
+                        class="slider-value">
 
-                <div class="mesh-form-group">
+                        0%
 
-                    <label>
-
-                        <input
-                            id="canary-enabled"
-                            type="checkbox">
-
-                        Enable Canary
-
-                    </label>
+                    </div>
 
                 </div>
 
@@ -579,6 +572,26 @@
                 Apply Traffic
 
             </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- TOAST NOTIFICATION -->
+    <!-- ===================================================== -->
+
+    <div id="mesh-toast" class="mesh-toast">
+
+        <div id="mesh-toast-title" class="mesh-toast-title">
+
+            Success
+
+        </div>
+
+        <div id="mesh-toast-message" class="mesh-toast-message">
+
+            Operation completed successfully.
 
         </div>
 

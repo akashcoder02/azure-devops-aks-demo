@@ -160,3 +160,467 @@
     }
 
 }
+
+/* ==========================================================
+   TRAFFIC MODAL
+========================================================== */
+
+.mesh-modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.65);
+
+    backdrop-filter: blur(6px);
+
+    z-index: 9999;
+
+    justify-content: center;
+
+    align-items: center;
+
+    animation: fadeIn .25s ease;
+
+}
+
+
+.traffic-modal {
+
+    width: 900px;
+
+    max-width: 95%;
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,.45);
+
+}
+
+
+.mesh-modal-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 25px 30px;
+
+    border-bottom: 1px solid #30363d;
+
+}
+
+
+.mesh-modal-header h2 {
+
+    margin: 0;
+
+    color: white;
+
+}
+
+
+.mesh-modal-subtitle {
+
+    color: #8b949e;
+
+    margin-top: 6px;
+
+}
+
+
+.mesh-modal-close {
+
+    cursor: pointer;
+
+    font-size: 30px;
+
+    color: #8b949e;
+
+    transition: .25s;
+
+}
+
+.mesh-modal-close:hover {
+
+    color: white;
+
+    transform: rotate(90deg);
+
+}
+
+
+.mesh-modal-body {
+
+    padding: 30px;
+
+}
+
+
+.mesh-modal-footer {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 15px;
+
+    padding: 25px 30px;
+
+    border-top: 1px solid #30363d;
+
+}
+
+
+.traffic-section {
+
+    margin-top: 30px;
+
+    background: #0d1117;
+
+    border: 1px solid #30363d;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+}
+
+
+.traffic-section h3 {
+
+    margin-top: 0;
+
+    color: white;
+
+}
+
+
+.traffic-info-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 18px;
+
+}
+
+
+.traffic-info-grid div {
+
+    background: #161b22;
+
+    border: 1px solid #30363d;
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+}
+
+
+.traffic-label {
+
+    display: block;
+
+    color: #8b949e;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.mesh-form-group {
+
+    margin-bottom: 20px;
+
+}
+
+
+.mesh-form-group label {
+
+    display: block;
+
+    color: white;
+
+    margin-bottom: 8px;
+
+}
+
+
+.mesh-form-group input,
+
+.mesh-form-group select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    border: 1px solid #30363d;
+
+    background: #0d1117;
+
+    color: white;
+
+}
+
+
+.mesh-form-group input:focus,
+
+.mesh-form-group select:focus {
+
+    border-color: #2ea043;
+
+    outline: none;
+
+    box-shadow: 0 0 0 3px rgba(46,160,67,.2);
+
+}
+
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity:0;
+
+    }
+
+    to {
+
+        opacity:1;
+
+    }
+
+}
+
+
+@media(max-width:900px){
+
+    .traffic-info-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* ==========================================================
+   TRAFFIC STATUS CARDS
+========================================================== */
+
+.traffic-status-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+    margin-top:20px;
+
+}
+
+.traffic-status-card{
+
+    background:#161b22;
+
+    border:1px solid #30363d;
+
+    border-radius:12px;
+
+    padding:22px;
+
+    transition:.25s;
+
+}
+
+.traffic-status-card:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#2ea043;
+
+}
+
+.traffic-status-title{
+
+    color:#8b949e;
+
+    margin-bottom:15px;
+
+    font-size:14px;
+
+}
+
+.traffic-version{
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+.traffic-percentage{
+
+    color:#2ea043;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-top:15px;
+
+}
+
+/* ==========================================================
+   PROGRESS BAR
+========================================================== */
+
+.traffic-progress{
+
+    width:100%;
+
+    height:12px;
+
+    background:#30363d;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:12px;
+
+}
+
+.traffic-progress-fill{
+
+    height:100%;
+
+    width:0%;
+
+    background:linear-gradient(
+        90deg,
+        #238636,
+        #2ea043
+    );
+
+    transition:width .35s ease;
+
+}
+
+/* ==========================================================
+   RANGE SLIDER
+========================================================== */
+
+input[type="range"] {
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    cursor: pointer;
+
+}
+
+.slider-value {
+
+    margin-top: 10px;
+
+    text-align: right;
+
+    color: #2ea043;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+/* ==========================================================
+   TOAST
+========================================================== */
+
+.mesh-toast {
+
+    position: fixed;
+
+    top: 30px;
+
+    right: 30px;
+
+    width: 360px;
+
+    background: #161b22;
+
+    border-left: 5px solid #2ea043;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    color: white;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.4);
+
+    display: none;
+
+    z-index: 99999;
+
+    animation: slideToast .3s ease;
+
+}
+
+.mesh-toast-title {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+.mesh-toast-message {
+
+    margin-top: 8px;
+
+    color: #c9d1d9;
+
+}
+
+@keyframes slideToast {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(100px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}

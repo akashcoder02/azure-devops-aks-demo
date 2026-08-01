@@ -373,40 +373,58 @@ function initializeTrafficActions() {
 
 function initializeTrafficWeights() {
 
-    const primary =
-        document.getElementById("primary-weight");
+    const primary = document.getElementById("primary-weight");
+    const canary = document.getElementById("canary-weight");
 
-    const canary =
-        document.getElementById("canary-weight");
+    const primaryProgress = document.getElementById("primary-progress");
+    const canaryProgress = document.getElementById("canary-progress");
 
-    if (!primary || !canary) {
+    const primaryText = document.getElementById("current-primary-weight");
+    const canaryText = document.getElementById("current-canary-weight");
+
+    const primarySlider = document.getElementById("primary-slider-value");
+    const canarySlider = document.getElementById("canary-slider-value");
+
+    if (
+        !primary ||
+        !canary ||
+        !primaryProgress ||
+        !canaryProgress
+    ) {
         return;
     }
 
+    function updateTraffic(primaryValue) {
+
+        primaryValue = Math.max(0, Math.min(100, Number(primaryValue)));
+
+        const canaryValue = 100 - primaryValue;
+
+        primary.value = primaryValue;
+        canary.value = canaryValue;
+
+        primaryProgress.style.width = primaryValue + "%";
+        canaryProgress.style.width = canaryValue + "%";
+
+        primaryText.textContent = primaryValue + "%";
+        canaryText.textContent = canaryValue + "%";
+
+        if (primarySlider)
+            primarySlider.textContent = primaryValue + "%";
+
+        if (canarySlider)
+            canarySlider.textContent = canaryValue + "%";
+    }
+
     primary.addEventListener("input", () => {
-
-        let value = Number(primary.value);
-
-        value = Math.max(0, Math.min(100, value));
-
-        primary.value = value;
-
-        canary.value = 100 - value;
-
+        updateTraffic(primary.value);
     });
 
     canary.addEventListener("input", () => {
-
-        let value = Number(canary.value);
-
-        value = Math.max(0, Math.min(100, value));
-
-        canary.value = value;
-
-        primary.value = 100 - value;
-
+        updateTraffic(100 - Number(canary.value));
     });
 
+    updateTraffic(primary.value);
 }
 
 
@@ -609,6 +627,12 @@ async function loadApplicationConfiguration(application) {
         document.getElementById("canary-enabled").checked =
             config.canary_enabled;
 
+        document.getElementById("primary-progress").style.width =
+            config.primary.weight + "%";
+
+        document.getElementById("canary-progress").style.width =
+            config.canary.weight + "%";
+
     }
     catch (error) {
 
@@ -713,7 +737,10 @@ async function executeTrafficOperation() {
 
         const result = await response.json();
 
-        alert(result.message);
+        showToast(
+            "Traffic Operation",
+            result.message
+        );
 
         closeTrafficOperation();
 
@@ -722,7 +749,10 @@ async function executeTrafficOperation() {
 
         console.error(error);
 
-        alert("Operation failed.");
+        showToast(
+            "Operation Failed",
+            "Unable to execute the traffic operation."
+        );
 
     }
 
@@ -752,18 +782,30 @@ function initTrafficManagementPage() {
 
 function initializeTrafficWeights() {
 
-    console.log("initializeTrafficWeights called");
-
     const primary =
         document.getElementById("primary-weight");
 
     const canary =
         document.getElementById("canary-weight");
 
-    console.log(primary);
-    console.log(canary);
+    const primaryProgress =
+        document.getElementById("primary-progress");
 
-    if (!primary || !canary) {
+    const canaryProgress =
+        document.getElementById("canary-progress");
+
+    const primaryText =
+        document.getElementById("current-primary-weight");
+
+    const canaryText =
+        document.getElementById("current-canary-weight");
+
+    if (
+        !primary ||
+        !canary ||
+        !primaryProgress ||
+        !canaryProgress
+    ) {
         return;
     }
 
@@ -777,6 +819,18 @@ function initializeTrafficWeights() {
 
         canary.value = 100 - value;
 
+        primaryProgress.style.width =
+            value + "%";
+
+        canaryProgress.style.width =
+            (100 - value) + "%";
+
+        primaryText.textContent =
+            value + "%";
+
+        canaryText.textContent =
+            (100 - value) + "%";
+
     });
 
     canary.addEventListener("input", () => {
@@ -789,6 +843,51 @@ function initializeTrafficWeights() {
 
         primary.value = 100 - value;
 
+        canaryProgress.style.width =
+            value + "%";
+
+        primaryProgress.style.width =
+            (100 - value) + "%";
+
+        canaryText.textContent =
+            value + "%";
+
+        primaryText.textContent =
+            (100 - value) + "%";
+
     });
+
+}
+
+// ==========================================================
+// TOAST
+// ==========================================================
+
+function showToast(title, message) {
+
+    const toast =
+        document.getElementById("mesh-toast");
+
+    const toastTitle =
+        document.getElementById("mesh-toast-title");
+
+    const toastMessage =
+        document.getElementById("mesh-toast-message");
+
+    if (!toast) {
+        return;
+    }
+
+    toastTitle.textContent = title;
+
+    toastMessage.textContent = message;
+
+    toast.style.display = "block";
+
+    setTimeout(() => {
+
+        toast.style.display = "none";
+
+    }, 3500);
 
 }
