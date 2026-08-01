@@ -479,11 +479,25 @@ def shift_traffic(payload):
 # CANARY DEPLOYMENT
 # ==========================================================
 
-def start_canary():
+def start_canary(payload):
 
     return trigger_workflow(
 
-        workflow_file="canary-deployment.yml"
+        workflow_file="canary-deployment.yml",
+
+        inputs={
+
+            "application": payload.get("application"),
+
+            "service_port": str(payload.get("service_port")),
+
+            "primary_version": payload.get("primary_version"),
+
+            "canary_version": payload.get("canary_version"),
+
+            "canary_weight": str(payload.get("canary_weight"))
+
+        }
 
     )
 
@@ -492,14 +506,19 @@ def start_canary():
 # ROLLBACK
 # ==========================================================
 
-def rollback_traffic():
+def rollback_traffic(payload):
 
     return trigger_workflow(
 
-        workflow_file="rollback.yml"
+        workflow_file="rollback-traffic.yml",
+
+        inputs={
+
+            "application": payload.get("application")
+
+        }
 
     )
-
 # ==========================================================
 # APPLICATION CONFIGURATION
 # ==========================================================

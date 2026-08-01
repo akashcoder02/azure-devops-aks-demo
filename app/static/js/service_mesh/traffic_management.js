@@ -345,7 +345,7 @@ function initializeTrafficActions() {
     .getElementById("rollback-btn")
     ?.addEventListener("click", () => {
 
-        openTrafficOperation("Rollback");
+        openTrafficOperation("Rollback Traffic");
 
     });
 
@@ -732,7 +732,7 @@ async function executeTrafficOperation() {
 
             break;
 
-        case "Rollback":
+        case "Rollback Traffic":
 
             url = "/api/service-mesh/rollback";
 

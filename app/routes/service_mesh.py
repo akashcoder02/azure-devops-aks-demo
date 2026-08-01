@@ -119,7 +119,9 @@ def traffic_shift():
 )
 def canary():
 
-    result = start_canary()
+    payload = request.get_json()
+
+    result = start_canary(payload)
 
     return jsonify(result)
 
@@ -134,7 +136,9 @@ def canary():
 )
 def rollback():
 
-    result = rollback_traffic()
+    payload = request.get_json()
+
+    result = rollback_traffic(payload)
 
     return jsonify(result)
 
