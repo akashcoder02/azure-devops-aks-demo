@@ -1,11 +1,12 @@
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 
 from services.service_mesh import (
     get_overview,
     get_traffic_management,
     shift_traffic,
     start_canary,
-    rollback_traffic
+    rollback_traffic,
+    get_application_configuration
 )
 
 from services.github import trigger_workflow
@@ -101,7 +102,9 @@ def destroy():
 )
 def traffic_shift():
 
-    result = shift_traffic()
+    payload = request.get_json()
+
+    result = shift_traffic(payload)
 
     return jsonify(result)
 
@@ -134,3 +137,18 @@ def rollback():
     result = rollback_traffic()
 
     return jsonify(result)
+
+# ==========================================================
+# APPLICATION CONFIGURATION
+# ==========================================================
+
+@service_mesh_bp.route(
+    "/api/service-mesh/application/<application>"
+)
+def application_configuration(application):
+
+    return jsonify(
+
+        get_application_configuration(application)
+
+    )

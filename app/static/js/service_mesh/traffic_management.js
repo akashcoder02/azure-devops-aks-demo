@@ -367,6 +367,48 @@ function initializeTrafficActions() {
 
 }
 
+// ==========================================================
+// TRAFFIC WEIGHT SYNCHRONIZATION
+// ==========================================================
+
+function initializeTrafficWeights() {
+
+    const primary =
+        document.getElementById("primary-weight");
+
+    const canary =
+        document.getElementById("canary-weight");
+
+    if (!primary || !canary) {
+        return;
+    }
+
+    primary.addEventListener("input", () => {
+
+        let value = Number(primary.value);
+
+        value = Math.max(0, Math.min(100, value));
+
+        primary.value = value;
+
+        canary.value = 100 - value;
+
+    });
+
+    canary.addEventListener("input", () => {
+
+        let value = Number(canary.value);
+
+        value = Math.max(0, Math.min(100, value));
+
+        canary.value = value;
+
+        primary.value = 100 - value;
+
+    });
+
+}
+
 
 /* ==========================================================
    ERROR HANDLING
@@ -500,8 +542,81 @@ function openTrafficOperation(operation) {
     document.getElementById("traffic-modal-title").textContent =
         operation;
 
+    const application =
+        document.getElementById("traffic-application").value;
+
+    loadApplicationConfiguration(application);
+
     document.getElementById("traffic-operation-modal").style.display =
         "flex";
+
+}
+
+// ==========================================================
+// LOAD APPLICATION CONFIGURATION
+// ==========================================================
+
+async function loadApplicationConfiguration(application) {
+
+    try {
+
+        const response = await fetch(
+            `/api/service-mesh/application/${application}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Unable to load application configuration.");
+        }
+
+        const config = await response.json();
+
+        // ----------------------------------------
+        // Application
+        // ----------------------------------------
+
+        document.getElementById("traffic-application").value =
+            config.application;
+
+        // ----------------------------------------
+        // Current Configuration
+        // ----------------------------------------
+
+        document.getElementById("current-primary-version").textContent =
+            config.primary.version;
+
+        document.getElementById("current-primary-weight").textContent =
+            config.primary.weight + "%";
+
+        document.getElementById("current-canary-version").textContent =
+            config.canary.version;
+
+        document.getElementById("current-canary-weight").textContent =
+            config.canary.weight + "%";
+
+        document.getElementById("current-canary-status").textContent =
+            config.canary_enabled ? "Enabled" : "Disabled";
+
+        // ----------------------------------------
+        // New Configuration
+        // ----------------------------------------
+
+        document.getElementById("primary-weight").value =
+            config.primary.weight;
+
+        document.getElementById("canary-weight").value =
+            config.canary.weight;
+
+        document.getElementById("canary-enabled").checked =
+            config.canary_enabled;
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to load application configuration.");
+
+    }
 
 }
 
@@ -524,7 +639,7 @@ async function executeTrafficOperation() {
 
     let url = "";
 
-    switch(currentTrafficOperation) {
+    switch (currentTrafficOperation) {
 
         case "Shift Traffic":
 
@@ -550,11 +665,49 @@ async function executeTrafficOperation() {
 
     }
 
+    const payload = {
+
+        application: document.getElementById(
+            "traffic-application"
+        ).value,
+
+        service_port: 80,
+
+        primary_version: document.getElementById(
+            "current-primary-version"
+        ).textContent,
+
+        primary_weight: document.getElementById(
+            "primary-weight"
+        ).value,
+
+        canary_version: document.getElementById(
+            "current-canary-version"
+        ).textContent,
+
+        canary_weight: document.getElementById(
+            "canary-weight"
+        ).value,
+
+        canary_enabled: document.getElementById(
+            "canary-enabled"
+        ).checked
+
+    };
+
     try {
 
         const response = await fetch(url, {
 
-            method: "POST"
+            method: "POST",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify(payload)
 
         });
 
@@ -565,7 +718,7 @@ async function executeTrafficOperation() {
         closeTrafficOperation();
 
     }
-    catch(error) {
+    catch (error) {
 
         console.error(error);
 
@@ -586,5 +739,56 @@ function initTrafficManagementPage() {
     loadTrafficManagement();
 
     initializeTrafficActions();
+
+    console.log("Calling initializeTrafficWeights");
+
+    initializeTrafficWeights();
+
+}
+
+// ==========================================================
+// TRAFFIC SYNCHRONIZATION
+// ==========================================================
+
+function initializeTrafficWeights() {
+
+    console.log("initializeTrafficWeights called");
+
+    const primary =
+        document.getElementById("primary-weight");
+
+    const canary =
+        document.getElementById("canary-weight");
+
+    console.log(primary);
+    console.log(canary);
+
+    if (!primary || !canary) {
+        return;
+    }
+
+    primary.addEventListener("input", () => {
+
+        let value = Number(primary.value);
+
+        value = Math.max(0, Math.min(100, value));
+
+        primary.value = value;
+
+        canary.value = 100 - value;
+
+    });
+
+    canary.addEventListener("input", () => {
+
+        let value = Number(canary.value);
+
+        value = Math.max(0, Math.min(100, value));
+
+        canary.value = value;
+
+        primary.value = 100 - value;
+
+    });
 
 }

@@ -62,11 +62,26 @@ resource "kubectl_manifest" "virtualservice" {
                   }
                 }
 
-                weight = each.value.canary_enabled ? each.value.primary.weight : 100
+                weight = (
+                  each.key == var.traffic_application &&
+                  var.primary_weight_override >= 0
+                )
+                ? var.primary_weight_override
+                : (
+                    each.value.canary_enabled
+                    ? each.value.primary.weight
+                    : 100
+                  )
               }
             ],
 
-            each.value.canary_enabled ? [
+            (
+              (
+                each.key == var.traffic_application
+                ? var.canary_enabled_override
+                : each.value.canary_enabled
+              )
+            ) ? [
 
               {
                 destination = {
@@ -78,7 +93,12 @@ resource "kubectl_manifest" "virtualservice" {
                   }
                 }
 
-                weight = each.value.canary.weight
+                weight = (
+                  each.key == var.traffic_application &&
+                  var.canary_weight_override >= 0
+                )
+                ? var.canary_weight_override
+                : each.value.canary.weight
               }
 
             ] : []

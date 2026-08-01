@@ -429,14 +429,51 @@ def get_destination_rules():
 # TRAFFIC SHIFT
 # ==========================================================
 
-def shift_traffic():
+# ==========================================================
+# SHIFT TRAFFIC
+# ==========================================================
+
+def shift_traffic(payload):
+
+    application = payload.get("application")
+
+    service_port = str(payload.get("service_port"))
+
+    primary_version = payload.get("primary_version")
+
+    primary_weight = str(payload.get("primary_weight"))
+
+    canary_version = payload.get("canary_version")
+
+    canary_weight = str(payload.get("canary_weight"))
+
+    canary_enabled = str(
+        payload.get("canary_enabled")
+    ).lower()
 
     return trigger_workflow(
 
-        workflow_file="traffic-shift.yml"
+        workflow_file="traffic-shift.yml",
+
+        inputs={
+
+            "application": application,
+
+            "service_port": service_port,
+
+            "primary_version": primary_version,
+
+            "primary_weight": primary_weight,
+
+            "canary_version": canary_version,
+
+            "canary_weight": canary_weight,
+
+            "canary_enabled": canary_enabled
+
+        }
 
     )
-
 
 # ==========================================================
 # CANARY DEPLOYMENT
@@ -462,3 +499,67 @@ def rollback_traffic():
         workflow_file="rollback.yml"
 
     )
+
+# ==========================================================
+# APPLICATION CONFIGURATION
+# ==========================================================
+
+def get_application_configuration(application):
+
+    applications = {
+
+        "tic-tac-toe": {
+
+            "application": "tic-tac-toe",
+
+            "service_port": 80,
+
+            "primary": {
+
+                "version": "v1",
+
+                "weight": 100
+
+            },
+
+            "canary": {
+
+                "version": "v2",
+
+                "weight": 0
+
+            },
+
+            "canary_enabled": False
+
+        },
+
+        "tetris": {
+
+            "application": "tetris",
+
+            "service_port": 80,
+
+            "primary": {
+
+                "version": "v1",
+
+                "weight": 100
+
+            },
+
+            "canary": {
+
+                "version": "v2",
+
+                "weight": 0
+
+            },
+
+            "canary_enabled": False
+
+        }
+
+    }
+
+    return applications.get(application)

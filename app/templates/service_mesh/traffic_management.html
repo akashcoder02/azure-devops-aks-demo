@@ -320,37 +320,71 @@
 
 <div id="traffic-operation-modal" class="mesh-modal">
 
-    <div class="mesh-modal-content">
+    <div class="mesh-modal-content traffic-modal">
+
+        <!-- ============================================= -->
+        <!-- HEADER -->
+        <!-- ============================================= -->
 
         <div class="mesh-modal-header">
 
-            <h2 id="traffic-modal-title">
-                Traffic Operation
-            </h2>
+            <div>
 
-            <span id="close-traffic-modal"
-                  class="mesh-modal-close">
+                <h2 id="traffic-modal-title">
+
+                    🚦 Shift Traffic
+
+                </h2>
+
+                <p class="mesh-modal-subtitle">
+
+                    Manage live Istio traffic routing
+
+                </p>
+
+            </div>
+
+            <span
+                id="close-traffic-modal"
+                class="mesh-modal-close">
+
                 &times;
+
             </span>
 
         </div>
 
+
+        <!-- ============================================= -->
+        <!-- BODY -->
+        <!-- ============================================= -->
+
         <div class="mesh-modal-body">
+
+            <!-- ========================================= -->
+            <!-- APPLICATION -->
+            <!-- ========================================= -->
 
             <div class="mesh-form-group">
 
                 <label>
+
                     Application
+
                 </label>
 
                 <select id="traffic-application">
 
                     <option value="tic-tac-toe">
+
                         tic-tac-toe
+
                     </option>
 
                     <option value="tetris">
+
                         tetris
+
                     </option>
 
                 </select>
@@ -358,51 +392,191 @@
             </div>
 
 
-            <div class="mesh-form-group">
+            <!-- ========================================= -->
+            <!-- CURRENT CONFIGURATION -->
+            <!-- ========================================= -->
 
-                <label>
-                    Version
-                </label>
+            <div class="traffic-section">
 
-                <select id="traffic-version">
+                <h3>
 
-                    <option value="v1">
-                        v1
-                    </option>
+                    Current Configuration
 
-                    <option value="v2">
-                        v2
-                    </option>
+                </h3>
 
-                </select>
+                <div class="traffic-info-grid">
+
+                    <div>
+
+                        <span class="traffic-label">
+
+                            Primary Version
+
+                        </span>
+
+                        <span id="current-primary-version">
+
+                            v1
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="traffic-label">
+
+                            Primary Traffic
+
+                        </span>
+
+                        <span id="current-primary-weight">
+
+                            100%
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="traffic-label">
+
+                            Canary Version
+
+                        </span>
+
+                        <span id="current-canary-version">
+
+                            v2
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="traffic-label">
+
+                            Canary Traffic
+
+                        </span>
+
+                        <span id="current-canary-weight">
+
+                            0%
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <span class="traffic-label">
+
+                            Canary Status
+
+                        </span>
+
+                        <span
+                            id="current-canary-status"
+                            class="status-badge status-notfound">
+
+                            Disabled
+
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
 
-            <div class="mesh-form-group">
+            <!-- ========================================= -->
+            <!-- NEW CONFIGURATION -->
+            <!-- ========================================= -->
 
-                <label>
-                    Traffic Percentage
-                </label>
+            <div class="traffic-section">
 
-                <input
-                    id="traffic-weight"
-                    type="number"
-                    min="0"
-                    max="100"
-                    value="20">
+                <h3>
+
+                    New Traffic Allocation
+
+                </h3>
+
+                <div class="mesh-form-group">
+
+                    <label>
+
+                        Primary Traffic (%)
+
+                    </label>
+
+                    <input
+                        id="primary-weight"
+                        type="number"
+                        min="0"
+                        max="100"
+                        value="100">
+
+                </div>
+
+                <div class="mesh-form-group">
+
+                    <label>
+
+                        Canary Traffic (%)
+
+                    </label>
+
+                    <input
+                        id="canary-weight"
+                        type="number"
+                        min="0"
+                        max="100"
+                        value="0">
+
+                </div>
+
+                <div class="mesh-form-group">
+
+                    <label>
+
+                        <input
+                            id="canary-enabled"
+                            type="checkbox">
+
+                        Enable Canary
+
+                    </label>
+
+                </div>
 
             </div>
 
         </div>
 
+
+        <!-- ============================================= -->
+        <!-- FOOTER -->
+        <!-- ============================================= -->
+
         <div class="mesh-modal-footer">
+
+            <button
+                id="cancel-traffic-operation"
+                class="mesh-action">
+
+                Cancel
+
+            </button>
 
             <button
                 id="execute-traffic-operation"
                 class="mesh-action primary">
 
-                Execute
+                Apply Traffic
 
             </button>
 

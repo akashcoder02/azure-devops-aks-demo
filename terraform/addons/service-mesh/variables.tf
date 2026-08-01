@@ -91,3 +91,41 @@ variable "applications" {
     error_message = "For each application, primary.weight and canary.weight must equal 100."
   }
 }
+
+# ==========================================================
+# TRAFFIC MANAGEMENT OVERRIDES
+# ==========================================================
+
+variable "traffic_application" {
+  description = "Application to override traffic configuration"
+  type        = string
+  default     = ""
+}
+
+variable "primary_weight_override" {
+  description = "Override primary traffic weight"
+  type        = number
+  default     = -1
+
+  validation {
+    condition     = var.primary_weight_override == -1 || (var.primary_weight_override >= 0 && var.primary_weight_override <= 100)
+    error_message = "Primary traffic override must be between 0 and 100 or -1."
+  }
+}
+
+variable "canary_weight_override" {
+  description = "Override canary traffic weight"
+  type        = number
+  default     = -1
+
+  validation {
+    condition     = var.canary_weight_override == -1 || (var.canary_weight_override >= 0 && var.canary_weight_override <= 100)
+    error_message = "Canary traffic override must be between 0 and 100 or -1."
+  }
+}
+
+variable "canary_enabled_override" {
+  description = "Override canary enabled flag"
+  type        = bool
+  default     = false
+}

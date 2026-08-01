@@ -27,7 +27,11 @@ resource "kubectl_manifest" "destinationrule" {
             }
           }
         ],
-        each.value.canary_enabled ? [
+        (
+          each.key == var.traffic_application
+          ? var.canary_enabled_override
+          : each.value.canary_enabled
+        ) ? [
           {
             name = each.value.canary.version
 
