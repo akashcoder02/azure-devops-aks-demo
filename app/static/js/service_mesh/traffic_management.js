@@ -599,7 +599,7 @@ function openTrafficOperation(operation) {
 
     }
 
-    else if (operation === "Rollback") {
+    else if (operation === "Rollback Traffic") {
 
         applyButton.textContent = "Rollback Traffic";
         
