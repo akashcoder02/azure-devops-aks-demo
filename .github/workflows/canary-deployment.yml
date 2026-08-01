@@ -1,0 +1,331 @@
+name: Canary Deployment
+
+# ==========================================================
+# MANUAL TRIGGER
+# ==========================================================
+
+on:
+  workflow_dispatch:
+
+    inputs:
+
+      application:
+        description: "Application Name"
+        required: true
+        type: string
+
+      service_port:
+        description: "Application Service Port"
+        required: true
+        type: string
+
+      primary_version:
+        description: "Primary Version"
+        required: true
+        type: string
+
+      canary_version:
+        description: "Canary Version"
+        required: true
+        type: string
+
+      canary_weight:
+        description: "Initial Canary Traffic Weight"
+        required: true
+        type: string
+
+# ==========================================================
+# PERMISSIONS
+# ==========================================================
+
+permissions:
+  id-token: write
+  contents: read
+
+# ==========================================================
+# CANARY DEPLOYMENT
+# ==========================================================
+
+jobs:
+
+  canary-deployment:
+
+    name: Deploy Canary Version
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/addons/service-mesh
+
+    steps:
+
+    # ======================================================
+    # Checkout Repository
+    # ======================================================
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # ======================================================
+    # Display Deployment Request
+    # ======================================================
+
+    - name: Display Deployment Request
+
+      run: |
+
+        PRIMARY_WEIGHT=$((100 - ${{ github.event.inputs.canary_weight }}))
+
+        echo "========================================"
+        echo "Canary Deployment Request"
+        echo "========================================"
+
+        echo "Application      : ${{ github.event.inputs.application }}"
+        echo "Service Port     : ${{ github.event.inputs.service_port }}"
+        echo "Primary Version  : ${{ github.event.inputs.primary_version }}"
+        echo "Canary Version   : ${{ github.event.inputs.canary_version }}"
+        echo "Primary Weight   : ${PRIMARY_WEIGHT}"
+        echo "Canary Weight    : ${{ github.event.inputs.canary_weight }}"
+        echo "Canary Enabled   : TRUE"
+
+        echo "========================================"
+
+    # ======================================================
+    # Azure Login
+    # ======================================================
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # ======================================================
+    # Install Terraform
+    # ======================================================
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    # ======================================================
+    # Install kubectl
+    # ======================================================
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v4
+
+    # ======================================================
+    # Connect to AKS
+    # ======================================================
+
+    - name: Get AKS Credentials
+
+      run: |
+        az aks get-credentials \
+          --resource-group rg-devops-demo \
+          --name aks-devops-demo \
+          --overwrite-existing
+
+    # ======================================================
+    # Verify Cluster
+    # ======================================================
+
+    - name: Verify Cluster
+
+      run: |
+
+        kubectl cluster-info
+
+        kubectl get nodes
+
+    # ======================================================
+    # Terraform Init
+    # ======================================================
+
+    - name: Terraform Init
+
+      run: terraform init
+
+    # ======================================================
+    # Terraform Validate
+    # ======================================================
+
+    - name: Terraform Validate
+
+      run: terraform validate
+
+    # ======================================================
+    # Current Service Mesh
+    # ======================================================
+
+    - name: Current Istio Configuration
+
+      run: |
+
+        echo "Gateways"
+
+        kubectl get gateway -A
+
+        echo ""
+
+        echo "Virtual Services"
+
+        kubectl get virtualservice -A
+
+        echo ""
+
+        echo "Destination Rules"
+
+        kubectl get destinationrule -A
+
+    # ======================================================
+    # Terraform Plan
+    # ======================================================
+
+    - name: Terraform Plan
+
+      run: |
+
+        PRIMARY_WEIGHT=$((100 - ${{ github.event.inputs.canary_weight }}))
+
+        terraform plan \
+          -out=tfplan \
+          -var="traffic_application=${{ github.event.inputs.application }}" \
+          -var="primary_weight_override=${PRIMARY_WEIGHT}" \
+          -var="canary_weight_override=${{ github.event.inputs.canary_weight }}" \
+          -var="canary_enabled_override=true"
+
+    # ======================================================
+    # Terraform Apply
+    # ======================================================
+
+    - name: Terraform Apply
+
+      run: |
+
+        terraform apply -auto-approve tfplan
+
+    # ======================================================
+    # Verify Application Deployment
+    # ======================================================
+
+    - name: Verify Deployment
+
+      run: |
+
+        echo "===================================="
+        echo "Deployments"
+        echo "===================================="
+
+        kubectl get deployment -n default
+
+        echo ""
+
+        kubectl describe deployment \
+          ${{ github.event.inputs.application }} \
+          -n default
+
+    # ======================================================
+    # Verify Pods
+    # ======================================================
+
+    - name: Verify Pods
+
+      run: |
+
+        echo "===================================="
+        echo "Pods"
+        echo "===================================="
+
+        kubectl get pods -n default -o wide
+
+    # ======================================================
+    # Verify Virtual Service
+    # ======================================================
+
+    - name: Verify Virtual Service
+
+      run: |
+
+        echo "===================================="
+        echo "Virtual Service"
+        echo "===================================="
+
+        kubectl get virtualservice -A
+
+        echo ""
+
+        kubectl describe virtualservice \
+          ${{ github.event.inputs.application }} \
+          -n default
+
+    # ======================================================
+    # Verify Destination Rule
+    # ======================================================
+
+    - name: Verify Destination Rule
+
+      run: |
+
+        echo "===================================="
+        echo "Destination Rule"
+        echo "===================================="
+
+        kubectl get destinationrule -A
+
+        echo ""
+
+        kubectl describe destinationrule \
+          ${{ github.event.inputs.application }} \
+          -n default
+
+    # ======================================================
+    # Verify Canary Traffic
+    # ======================================================
+
+    - name: Verify Canary Traffic
+
+      run: |
+
+        echo "===================================="
+        echo "Canary Traffic Configuration"
+        echo "===================================="
+
+        kubectl describe virtualservice \
+          ${{ github.event.inputs.application }} \
+          -n default | grep -A 20 "Route"
+
+    # ======================================================
+    # Workflow Summary
+    # ======================================================
+
+    - name: Workflow Summary
+
+      run: |
+
+        PRIMARY_WEIGHT=$((100 - ${{ github.event.inputs.canary_weight }}))
+
+        echo "========================================"
+        echo "Canary Deployment Completed"
+        echo "========================================"
+
+        echo ""
+        echo "Dashboard            : SUCCESS"
+        echo "GitHub Workflow      : SUCCESS"
+        echo "Azure Login          : SUCCESS"
+        echo "AKS Connection       : SUCCESS"
+        echo "Terraform Init       : SUCCESS"
+        echo "Terraform Validate   : SUCCESS"
+        echo "Terraform Apply      : SUCCESS"
+        echo ""
+
+        echo "Application          : ${{ github.event.inputs.application }}"
+        echo "Primary Version      : ${{ github.event.inputs.primary_version }}"
+        echo "Canary Version       : ${{ github.event.inputs.canary_version }}"
+        echo "Primary Traffic      : ${PRIMARY_WEIGHT}%"
+        echo "Canary Traffic       : ${{ github.event.inputs.canary_weight }}%"
+        echo "Canary Enabled       : TRUE"
+
+        echo ""
+        echo "Canary deployment completed successfully."
+        echo "========================================"

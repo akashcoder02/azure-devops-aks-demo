@@ -1,0 +1,305 @@
+name: Rollback Traffic
+
+# ==========================================================
+# MANUAL TRIGGER
+# ==========================================================
+
+on:
+  workflow_dispatch:
+
+    inputs:
+
+      application:
+        description: "Application Name"
+        required: true
+        type: string
+
+# ==========================================================
+# PERMISSIONS
+# ==========================================================
+
+permissions:
+  id-token: write
+  contents: read
+
+# ==========================================================
+# ROLLBACK TRAFFIC
+# ==========================================================
+
+jobs:
+
+  rollback-traffic:
+
+    name: Rollback Traffic
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/addons/service-mesh
+
+    steps:
+
+    # ======================================================
+    # Checkout Repository
+    # ======================================================
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # ======================================================
+    # Display Rollback Request
+    # ======================================================
+
+    - name: Display Rollback Request
+
+      run: |
+
+        echo "========================================"
+        echo "Rollback Traffic Request"
+        echo "========================================"
+
+        echo "Application      : ${{ github.event.inputs.application }}"
+        echo "Primary Traffic  : 100%"
+        echo "Canary Traffic   : 0%"
+        echo "Canary Enabled   : FALSE"
+
+        echo "========================================"
+
+    # ======================================================
+    # Azure Login
+    # ======================================================
+
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # ======================================================
+    # Install Terraform
+    # ======================================================
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    # ======================================================
+    # Install kubectl
+    # ======================================================
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v4
+
+    # ======================================================
+    # Connect to AKS
+    # ======================================================
+
+    - name: Get AKS Credentials
+
+      run: |
+
+        az aks get-credentials \
+          --resource-group rg-devops-demo \
+          --name aks-devops-demo \
+          --overwrite-existing
+
+    # ======================================================
+    # Verify Cluster
+    # ======================================================
+
+    - name: Verify Cluster
+
+      run: |
+
+        kubectl cluster-info
+
+        kubectl get nodes
+
+    # ======================================================
+    # Terraform Init
+    # ======================================================
+
+    - name: Terraform Init
+
+      run: terraform init
+
+    # ======================================================
+    # Terraform Validate
+    # ======================================================
+
+    - name: Terraform Validate
+
+      run: terraform validate
+
+    # ======================================================
+    # Current Service Mesh
+    # ======================================================
+
+    - name: Current Istio Configuration
+
+      run: |
+
+        echo "Gateways"
+
+        kubectl get gateway -A
+
+        echo ""
+
+        echo "Virtual Services"
+
+        kubectl get virtualservice -A
+
+        echo ""
+
+        echo "Destination Rules"
+
+        kubectl get destinationrule -A
+
+    # ======================================================
+    # Terraform Plan
+    # ======================================================
+
+    - name: Terraform Plan
+
+      run: |
+
+        terraform plan \
+          -out=tfplan \
+          -var="traffic_application=${{ github.event.inputs.application }}" \
+          -var="primary_weight_override=100" \
+          -var="canary_weight_override=0" \
+          -var="canary_enabled_override=false"
+
+    # ======================================================
+    # Terraform Apply
+    # ======================================================
+
+    - name: Terraform Apply
+
+      run: |
+
+        terraform apply -auto-approve tfplan
+
+    # ======================================================
+    # Verify Deployment
+    # ======================================================
+
+    - name: Verify Deployment
+
+      run: |
+
+        echo "===================================="
+        echo "Deployments"
+        echo "===================================="
+
+        kubectl get deployment -n default
+
+        echo ""
+
+        kubectl describe deployment \
+          ${{ github.event.inputs.application }} \
+          -n default
+
+    # ======================================================
+    # Verify Pods
+    # ======================================================
+
+    - name: Verify Pods
+
+      run: |
+
+        echo "===================================="
+        echo "Pods"
+        echo "===================================="
+
+        kubectl get pods -n default -o wide
+
+    # ======================================================
+    # Verify Virtual Service
+    # ======================================================
+
+    - name: Verify Virtual Service
+
+      run: |
+
+        echo "===================================="
+        echo "Virtual Service"
+        echo "===================================="
+
+        kubectl get virtualservice -A
+
+        echo ""
+
+        kubectl describe virtualservice \
+          ${{ github.event.inputs.application }} \
+          -n default
+
+    # ======================================================
+    # Verify Destination Rule
+    # ======================================================
+
+    - name: Verify Destination Rule
+
+      run: |
+
+        echo "===================================="
+        echo "Destination Rule"
+        echo "===================================="
+
+        kubectl get destinationrule -A
+
+        echo ""
+
+        kubectl describe destinationrule \
+          ${{ github.event.inputs.application }} \
+          -n default
+
+    # ======================================================
+    # Verify Rollback
+    # ======================================================
+
+    - name: Verify Rollback
+
+      run: |
+
+        echo "===================================="
+        echo "Rollback Verification"
+        echo "===================================="
+
+        kubectl describe virtualservice \
+          ${{ github.event.inputs.application }} \
+          -n default | grep -A 20 "Route"
+
+    # ======================================================
+    # Workflow Summary
+    # ======================================================
+
+    - name: Workflow Summary
+
+      run: |
+
+        echo "========================================"
+        echo "Rollback Traffic Completed"
+        echo "========================================"
+
+        echo ""
+
+        echo "Dashboard            : SUCCESS"
+        echo "GitHub Workflow      : SUCCESS"
+        echo "Azure Login          : SUCCESS"
+        echo "AKS Connection       : SUCCESS"
+        echo "Terraform Init       : SUCCESS"
+        echo "Terraform Validate   : SUCCESS"
+        echo "Terraform Apply      : SUCCESS"
+
+        echo ""
+
+        echo "Application          : ${{ github.event.inputs.application }}"
+        echo "Primary Traffic      : 100%"
+        echo "Canary Traffic       : 0%"
+        echo "Canary Enabled       : FALSE"
+
+        echo ""
+
+        echo "Traffic rollback completed successfully."
+
+        echo "========================================"

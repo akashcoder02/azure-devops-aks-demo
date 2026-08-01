@@ -557,8 +557,59 @@ function openTrafficOperation(operation) {
 
     currentTrafficOperation = operation;
 
+    const applyButton =
+        document.getElementById("execute-traffic-operation");
+
+    const primaryGroup =
+        document.getElementById("primary-weight").closest(".mesh-form-group");
+
+    const canaryGroup =
+        document.getElementById("canary-weight").closest(".mesh-form-group");
+
+    
+
+    const allocationSection =
+        document.querySelector(".traffic-section:last-child");
+
     document.getElementById("traffic-modal-title").textContent =
         operation;
+
+    if (operation === "Shift Traffic") {
+
+        applyButton.textContent = "Apply Traffic";
+
+        allocationSection.style.display = "block";
+
+        primaryGroup.style.display = "block";
+        canaryGroup.style.display = "block";
+
+    }
+
+    else if (operation === "Canary Deployment") {
+
+        applyButton.textContent = "Deploy Canary";
+
+        allocationSection.style.display = "block";
+
+        primaryGroup.style.display = "none";
+
+        canaryGroup.style.display = "block";
+
+        document.getElementById("canary-weight").value = 10;
+
+    }
+
+    else if (operation === "Rollback") {
+
+        applyButton.textContent = "Rollback Traffic";
+        
+        allocationSection.style.display = "none";
+
+        primaryGroup.style.display = "none";
+
+        canaryGroup.style.display = "none";
+
+    }
 
     const application =
         document.getElementById("traffic-application").value;
