@@ -13,12 +13,12 @@
             </div>
 
             <div class="mesh-card-value"
-                 id="traffic-gateways">
+                id="traffic-gateways">
                 --
             </div>
 
             <div class="mesh-card-subtitle">
-                Total Gateways
+                Active Ingress Gateways
             </div>
 
         </div>
@@ -30,12 +30,12 @@
             </div>
 
             <div class="mesh-card-value"
-                 id="traffic-virtual-services">
+                id="traffic-virtual-services">
                 --
             </div>
 
             <div class="mesh-card-subtitle">
-                Routing Rules
+                Routing Configurations
             </div>
 
         </div>
@@ -47,7 +47,7 @@
             </div>
 
             <div class="mesh-card-value"
-                 id="traffic-destination-rules">
+                id="traffic-destination-rules">
                 --
             </div>
 
@@ -57,19 +57,38 @@
 
         </div>
 
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Applications
+            </div>
+
+            <div class="mesh-card-value"
+                id="traffic-applications">
+                --
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Service Mesh Enabled Apps
+            </div>
+
+        </div>
+
     </div>
 
 
     <!-- ===================================================== -->
-    <!-- GATEWAYS -->
+    <!-- APPLICATION ROUTING -->
     <!-- ===================================================== -->
 
     <div class="mesh-card">
 
         <div class="mesh-card-title">
+            Application Routing
+        </div>
 
-            Gateways
-
+        <div class="mesh-card-subtitle">
+            Active routing configuration for applications in the service mesh.
         </div>
 
         <table class="mesh-status-table">
@@ -78,21 +97,29 @@
 
                 <tr>
 
-                    <th>Name</th>
+                    <th>Application</th>
 
-                    <th>Namespace</th>
+                    <th>Route</th>
+
+                    <th>Gateway</th>
+
+                    <th>Version</th>
+
+                    <th>Weight</th>
+
+                    <th>Status</th>
 
                 </tr>
 
             </thead>
 
-            <tbody id="gateway-table">
+            <tbody id="application-routing-table">
 
                 <tr>
 
-                    <td colspan="2">
+                    <td colspan="6" class="text-center">
 
-                        Loading...
+                        Loading routing configuration...
 
                     </td>
 
@@ -106,15 +133,17 @@
 
 
     <!-- ===================================================== -->
-    <!-- VIRTUAL SERVICES -->
+    <!-- TRAFFIC POLICIES -->
     <!-- ===================================================== -->
 
     <div class="mesh-card">
 
         <div class="mesh-card-title">
+            Traffic Policies
+        </div>
 
-            Virtual Services
-
+        <div class="mesh-card-subtitle">
+            Retry, timeout and load balancing policies applied to applications.
         </div>
 
         <table class="mesh-status-table">
@@ -123,21 +152,29 @@
 
                 <tr>
 
-                    <th>Name</th>
+                    <th>Application</th>
 
-                    <th>Namespace</th>
+                    <th>Retry</th>
+
+                    <th>Timeout</th>
+
+                    <th>Subset</th>
+
+                    <th>Load Balancer</th>
+
+                    <th>Status</th>
 
                 </tr>
 
             </thead>
 
-            <tbody id="virtual-service-table">
+            <tbody id="traffic-policy-table">
 
                 <tr>
 
-                    <td colspan="2">
+                    <td colspan="6" class="text-center">
 
-                        Loading...
+                        Loading traffic policies...
 
                     </td>
 
@@ -151,15 +188,17 @@
 
 
     <!-- ===================================================== -->
-    <!-- DESTINATION RULES -->
+    <!-- GATEWAY DETAILS -->
     <!-- ===================================================== -->
 
     <div class="mesh-card">
 
         <div class="mesh-card-title">
+            Gateway Details
+        </div>
 
-            Destination Rules
-
+        <div class="mesh-card-subtitle">
+            Service mesh ingress gateways and listener configuration.
         </div>
 
         <table class="mesh-status-table">
@@ -168,21 +207,27 @@
 
                 <tr>
 
-                    <th>Name</th>
+                    <th>Gateway</th>
 
-                    <th>Namespace</th>
+                    <th>Hosts</th>
+
+                    <th>Port</th>
+
+                    <th>Selector</th>
+
+                    <th>Status</th>
 
                 </tr>
 
             </thead>
 
-            <tbody id="destination-rule-table">
+            <tbody id="gateway-details-table">
 
                 <tr>
 
-                    <td colspan="2">
+                    <td colspan="5" class="text-center">
 
-                        Loading...
+                        Loading gateway information...
 
                     </td>
 
@@ -191,6 +236,177 @@
             </tbody>
 
         </table>
+
+    </div>
+
+<!-- ===================================================== -->
+<!-- QUICK ACTIONS -->
+<!-- ===================================================== -->
+
+<div class="mesh-card quick-actions">
+
+    <div class="mesh-card-title">
+        Quick Actions
+    </div>
+
+    <div class="mesh-card-subtitle">
+        Service mesh operations and traffic control
+    </div>
+
+    <div class="quick-action-buttons">
+
+        <button id="shift-traffic-btn"
+                class="mesh-action primary">
+
+            🚦 Shift Traffic
+
+        </button>
+
+
+        <button id="canary-btn"
+                class="mesh-action">
+
+            🐤 Canary Deployment
+
+        </button>
+
+
+        <button id="rollback-btn"
+                class="mesh-action danger">
+
+            🔙 Rollback Traffic
+
+        </button>
+
+
+        <button id="refresh-mesh-btn"
+                class="mesh-action">
+
+            🔄 Refresh Mesh
+
+        </button>
+
+
+        <button id="gateway-status-btn"
+                class="mesh-action">
+
+            🌐 Gateway Status
+
+        </button>
+
+
+        <button id="metrics-btn"
+                class="mesh-action">
+
+            📊 View Metrics
+
+        </button>
+
+
+        <button id="argocd-btn"
+                class="mesh-action">
+
+            🚀 Open ArgoCD
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- TRAFFIC OPERATION MODAL -->
+<!-- ===================================================== -->
+
+<div id="traffic-operation-modal" class="mesh-modal">
+
+    <div class="mesh-modal-content">
+
+        <div class="mesh-modal-header">
+
+            <h2 id="traffic-modal-title">
+                Traffic Operation
+            </h2>
+
+            <span id="close-traffic-modal"
+                  class="mesh-modal-close">
+                &times;
+            </span>
+
+        </div>
+
+        <div class="mesh-modal-body">
+
+            <div class="mesh-form-group">
+
+                <label>
+                    Application
+                </label>
+
+                <select id="traffic-application">
+
+                    <option value="tic-tac-toe">
+                        tic-tac-toe
+                    </option>
+
+                    <option value="tetris">
+                        tetris
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="mesh-form-group">
+
+                <label>
+                    Version
+                </label>
+
+                <select id="traffic-version">
+
+                    <option value="v1">
+                        v1
+                    </option>
+
+                    <option value="v2">
+                        v2
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="mesh-form-group">
+
+                <label>
+                    Traffic Percentage
+                </label>
+
+                <input
+                    id="traffic-weight"
+                    type="number"
+                    min="0"
+                    max="100"
+                    value="20">
+
+            </div>
+
+        </div>
+
+        <div class="mesh-modal-footer">
+
+            <button
+                id="execute-traffic-operation"
+                class="mesh-action primary">
+
+                Execute
+
+            </button>
+
+        </div>
 
     </div>
 

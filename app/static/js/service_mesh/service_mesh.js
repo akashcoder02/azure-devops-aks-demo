@@ -108,7 +108,16 @@ async function loadPage(page) {
         if (page === "traffic") {
 
             if (typeof loadTrafficManagement === "function") {
+
                 loadTrafficManagement();
+
+            }
+
+
+            if (typeof initializeTrafficActions === "function") {
+
+                initializeTrafficActions();
+
             }
 
         }

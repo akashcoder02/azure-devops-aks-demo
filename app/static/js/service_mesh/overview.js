@@ -49,35 +49,43 @@ async function loadOverview() {
 
 function updateSummaryCards(data) {
 
-    document.getElementById("mesh-version").textContent =
-        data.version ?? "Not Installed";
 
-    document.getElementById("mesh-health").textContent =
-        data.health ?? "Not Installed";
+    const elements = {
 
-    document.getElementById("mesh-gateways").textContent =
-        data.gateways ?? 0;
+        "mesh-version": data.version ?? "Not Installed",
 
-    document.getElementById("mesh-virtualservices").textContent =
-        data.virtual_services ?? 0;
+        "mesh-health": data.health ?? "Not Installed",
 
-    document.getElementById("mesh-destinationrules").textContent =
-        data.destination_rules ?? 0;
+        "mesh-gateways": data.gateways ?? 0,
 
-    document.getElementById("mesh-applications").textContent =
-        data.applications ?? 0;
+        "mesh-virtualservices": data.virtual_services ?? 0,
 
-    document.getElementById("gateway-count").textContent =
-        data.gateways ?? 0;
+        "mesh-destinationrules": data.destination_rules ?? 0,
 
-    document.getElementById("virtualservice-count").textContent =
-        data.virtual_services ?? 0;
+        "mesh-applications": data.applications ?? 0,
 
-    document.getElementById("destinationrule-count").textContent =
-        data.destination_rules ?? 0;
+        "gateway-count": data.gateways ?? 0,
 
-    document.getElementById("application-count").textContent =
-        data.applications ?? 0;
+        "virtualservice-count": data.virtual_services ?? 0,
+
+        "destinationrule-count": data.destination_rules ?? 0,
+
+        "application-count": data.applications ?? 0
+
+    };
+
+
+    Object.entries(elements).forEach(([id, value]) => {
+
+        const element = document.getElementById(id);
+
+        if (element) {
+
+            element.textContent = value;
+
+        }
+
+    });
 
 }
 

@@ -275,12 +275,22 @@ def get_traffic_management():
     Returns all traffic management resources.
     """
 
-    return {
-        "gateways": get_gateways(),
-        "virtual_services": get_virtual_services(),
-        "destination_rules": get_destination_rules()
-    }
+    gateways = get_gateways()
+    virtual_services = get_virtual_services()
+    destination_rules = get_destination_rules()
 
+    return {
+        "summary": {
+            "gateways": len(gateways),
+            "virtual_services": len(virtual_services),
+            "destination_rules": len(destination_rules),
+            "applications": len(virtual_services)
+        },
+        "gateways": gateways,
+        "virtual_services": virtual_services,
+        "destination_rules": destination_rules
+    }
+    
 def get_gateways():
 
     result = _run([
@@ -300,7 +310,20 @@ def get_gateways():
     return [
         {
             "namespace": item["metadata"]["namespace"],
-            "name": item["metadata"]["name"]
+            "name": item["metadata"]["name"],
+            "hosts": ", ".join(
+                item.get("spec", {})
+                    .get("servers", [{}])[0]
+                    .get("hosts", [])
+            ),
+            "port": item.get("spec", {})
+                        .get("servers", [{}])[0]
+                        .get("port", {})
+                        .get("number", "-"),
+            "selector": item.get("spec", {})
+                            .get("selector", {})
+                            .get("istio", "-"),
+            "status": "Healthy"
         }
         for item in data.get("items", [])
     ]
@@ -323,8 +346,32 @@ def get_virtual_services():
 
     return [
         {
-            "namespace": item["metadata"]["namespace"],
-            "name": item["metadata"]["name"]
+            "application": item["metadata"]["name"],
+            "name": item["metadata"]["name"],
+            "gateway": item.get("spec", {}).get("gateways", ["-"])[0],
+            "host": item.get("spec", {}).get("hosts", ["-"])[0],
+            "route": item.get("spec", {})
+                        .get("http", [{}])[0]
+                        .get("match", [{}])[0]
+                        .get("uri", {})
+                        .get("regex", "-"),
+            "subset": item.get("spec", {})
+                        .get("http", [{}])[0]
+                        .get("route", [{}])[0]
+                        .get("destination", {})
+                        .get("subset", "-"),
+            "weight": item.get("spec", {})
+                        .get("http", [{}])[0]
+                        .get("route", [{}])[0]
+                        .get("weight", 0),
+            "retry": item.get("spec", {})
+                        .get("http", [{}])[0]
+                        .get("retries", {})
+                        .get("attempts", 0),
+            "timeout": item.get("spec", {})
+                        .get("http", [{}])[0]
+                        .get("timeout", "-"),
+            "status": "Healthy"
         }
         for item in data.get("items", [])
     ]
@@ -347,9 +394,88 @@ def get_destination_rules():
 
     return [
         {
-            "namespace": item["metadata"]["namespace"],
-            "name": item["metadata"]["name"]
+            "application": item["metadata"]["name"],
+            "host": item.get("spec", {}).get("host", "-"),
+            "subset": item.get("spec", {})
+                        .get("subsets", [{}])[0]
+                        .get("name", "-"),
+            "load_balancer": item.get("spec", {})
+                                .get("trafficPolicy", {})
+                                .get("loadBalancer", {})
+                                .get("simple", "-"),
+            "max_connections": item.get("spec", {})
+                                .get("trafficPolicy", {})
+                                .get("connectionPool", {})
+                                .get("tcp", {})
+                                .get("maxConnections", "-"),
+            "max_retries": item.get("spec", {})
+                                .get("trafficPolicy", {})
+                                .get("connectionPool", {})
+                                .get("http", {})
+                                .get("maxRetries", "-"),
+            "idle_timeout": item.get("spec", {})
+                                .get("trafficPolicy", {})
+                                .get("connectionPool", {})
+                                .get("http", {})
+                                .get("idleTimeout", "-"),
+            "status": "Healthy"
         }
         for item in data.get("items", [])
     ]
 
+
+# ==========================================================
+# TRAFFIC SHIFT
+# ==========================================================
+
+def shift_traffic():
+
+    return {
+
+        "success": True,
+
+        "operation": "traffic_shift",
+
+        "message": "Traffic Shift workflow will be implemented in the next phase.",
+
+        "status": "Pending"
+
+    }
+
+
+# ==========================================================
+# CANARY DEPLOYMENT
+# ==========================================================
+
+def start_canary():
+
+    return {
+
+        "success": True,
+
+        "operation": "canary",
+
+        "message": "Canary Deployment workflow will be implemented in the next phase.",
+
+        "status": "Pending"
+
+    }
+
+
+# ==========================================================
+# ROLLBACK
+# ==========================================================
+
+def rollback_traffic():
+
+    return {
+
+        "success": True,
+
+        "operation": "rollback",
+
+        "message": "Rollback workflow will be implemented in the next phase.",
+
+        "status": "Pending"
+
+    }
