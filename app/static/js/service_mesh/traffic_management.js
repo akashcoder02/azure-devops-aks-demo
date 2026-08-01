@@ -568,6 +568,8 @@ function openTrafficOperation(operation) {
     document.getElementById("traffic-operation-modal").style.display =
         "flex";
 
+    initializeTrafficWeights();
+
 }
 
 // ==========================================================
@@ -611,9 +613,6 @@ async function loadApplicationConfiguration(application) {
         document.getElementById("current-canary-weight").textContent =
             config.canary.weight + "%";
 
-        document.getElementById("current-canary-status").textContent =
-            config.canary_enabled ? "Enabled" : "Disabled";
-
         // ----------------------------------------
         // New Configuration
         // ----------------------------------------
@@ -624,8 +623,11 @@ async function loadApplicationConfiguration(application) {
         document.getElementById("canary-weight").value =
             config.canary.weight;
 
-        document.getElementById("canary-enabled").checked =
-            config.canary_enabled;
+        document.getElementById("primary-slider-value").textContent =
+            config.primary.weight + "%";
+
+        document.getElementById("canary-slider-value").textContent =
+            config.canary.weight + "%";
 
         document.getElementById("primary-progress").style.width =
             config.primary.weight + "%";
@@ -652,6 +654,8 @@ function closeTrafficOperation() {
 
     document.getElementById("traffic-operation-modal").style.display =
         "none";
+
+        
 
 }
 
@@ -713,10 +717,6 @@ async function executeTrafficOperation() {
             "canary-weight"
         ).value,
 
-        canary_enabled: document.getElementById(
-            "canary-enabled"
-        ).checked
-
     };
 
     try {
@@ -776,88 +776,6 @@ function initTrafficManagementPage() {
 
 }
 
-// ==========================================================
-// TRAFFIC SYNCHRONIZATION
-// ==========================================================
-
-function initializeTrafficWeights() {
-
-    const primary =
-        document.getElementById("primary-weight");
-
-    const canary =
-        document.getElementById("canary-weight");
-
-    const primaryProgress =
-        document.getElementById("primary-progress");
-
-    const canaryProgress =
-        document.getElementById("canary-progress");
-
-    const primaryText =
-        document.getElementById("current-primary-weight");
-
-    const canaryText =
-        document.getElementById("current-canary-weight");
-
-    if (
-        !primary ||
-        !canary ||
-        !primaryProgress ||
-        !canaryProgress
-    ) {
-        return;
-    }
-
-    primary.addEventListener("input", () => {
-
-        let value = Number(primary.value);
-
-        value = Math.max(0, Math.min(100, value));
-
-        primary.value = value;
-
-        canary.value = 100 - value;
-
-        primaryProgress.style.width =
-            value + "%";
-
-        canaryProgress.style.width =
-            (100 - value) + "%";
-
-        primaryText.textContent =
-            value + "%";
-
-        canaryText.textContent =
-            (100 - value) + "%";
-
-    });
-
-    canary.addEventListener("input", () => {
-
-        let value = Number(canary.value);
-
-        value = Math.max(0, Math.min(100, value));
-
-        canary.value = value;
-
-        primary.value = 100 - value;
-
-        canaryProgress.style.width =
-            value + "%";
-
-        primaryProgress.style.width =
-            (100 - value) + "%";
-
-        canaryText.textContent =
-            value + "%";
-
-        primaryText.textContent =
-            (100 - value) + "%";
-
-    });
-
-}
 
 // ==========================================================
 // TOAST
