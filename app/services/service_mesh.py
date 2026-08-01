@@ -1,6 +1,7 @@
 import json
 import subprocess
 from datetime import datetime
+from services.github import trigger_workflow
 
 
 # ==========================================================
@@ -430,17 +431,11 @@ def get_destination_rules():
 
 def shift_traffic():
 
-    return {
+    return trigger_workflow(
 
-        "success": True,
+        workflow_file="traffic-shift.yml"
 
-        "operation": "traffic_shift",
-
-        "message": "Traffic Shift workflow will be implemented in the next phase.",
-
-        "status": "Pending"
-
-    }
+    )
 
 
 # ==========================================================
@@ -449,17 +444,11 @@ def shift_traffic():
 
 def start_canary():
 
-    return {
+    return trigger_workflow(
 
-        "success": True,
+        workflow_file="canary-deployment.yml"
 
-        "operation": "canary",
-
-        "message": "Canary Deployment workflow will be implemented in the next phase.",
-
-        "status": "Pending"
-
-    }
+    )
 
 
 # ==========================================================
@@ -468,14 +457,8 @@ def start_canary():
 
 def rollback_traffic():
 
-    return {
+    return trigger_workflow(
 
-        "success": True,
+        workflow_file="rollback.yml"
 
-        "operation": "rollback",
-
-        "message": "Rollback workflow will be implemented in the next phase.",
-
-        "status": "Pending"
-
-    }
+    )

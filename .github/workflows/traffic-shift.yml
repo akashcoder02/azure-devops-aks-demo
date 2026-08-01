@@ -1,0 +1,49 @@
+name: Traffic Shift
+
+on:
+  workflow_dispatch:
+
+    inputs:
+
+      application:
+        description: "Application Name"
+        required: true
+        type: string
+
+      primary_weight:
+        description: "Primary Traffic %"
+        required: true
+        type: string
+
+      canary_weight:
+        description: "Canary Traffic %"
+        required: true
+        type: string
+
+jobs:
+
+  traffic-shift:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+
+        uses: actions/checkout@v4
+
+      - name: Display Inputs
+
+        run: |
+
+          echo "Application = ${{ github.event.inputs.application }}"
+
+          echo "Primary Weight = ${{ github.event.inputs.primary_weight }}"
+
+          echo "Canary Weight = ${{ github.event.inputs.canary_weight }}"
+
+      - name: Success
+
+        run: |
+
+          echo "Traffic Shift Workflow Triggered Successfully"
