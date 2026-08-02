@@ -63,15 +63,15 @@ resource "kubectl_manifest" "virtualservice" {
                 }
 
                 weight = (
-                  each.key == var.traffic_application &&
-                  var.primary_weight_override >= 0
+                  (each.key == var.traffic_application &&
+                  var.primary_weight_override >= 0)
+                  ? var.primary_weight_override
+                  : (
+                      each.value.canary_enabled
+                      ? each.value.primary.weight
+                      : 100
+                    )
                 )
-                ? var.primary_weight_override
-                : (
-                    each.value.canary_enabled
-                    ? each.value.primary.weight
-                    : 100
-                  )
               }
             ],
 
