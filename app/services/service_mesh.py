@@ -488,18 +488,21 @@ def start_canary(payload):
 
             "application": payload.get("application"),
 
-            "service_port": str(payload.get("service_port")),
+            "image_tag": payload.get("image_tag"),
 
-            "primary_version": payload.get("primary_version"),
+            "replicas": str(payload.get("replicas", 1)),
 
-            "canary_version": payload.get("canary_version"),
+            "service_port": str(payload.get("service_port", 80)),
 
-            "canary_weight": str(payload.get("canary_weight"))
+            "primary_version": payload.get("primary_version", "v1"),
+
+            "canary_version": payload.get("canary_version", "v2"),
+
+            "canary_weight": str(payload.get("canary_weight", 0))
 
         }
 
     )
-
 
 # ==========================================================
 # ROLLBACK

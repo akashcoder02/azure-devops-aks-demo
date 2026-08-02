@@ -119,9 +119,15 @@ def traffic_shift():
 )
 def canary():
 
+    print("========== CANARY API CALLED ==========")
+
     payload = request.get_json()
 
+    print(payload)
+
     result = start_canary(payload)
+
+    print(result)
 
     return jsonify(result)
 
