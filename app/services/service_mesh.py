@@ -449,8 +449,6 @@ def shift_traffic(payload):
 
     canary_enabled = bool(payload.get("canary_enabled", False))
 
-    canary_enabled:
-    Number(document.getElementById("canary-weight").value) > 0
 
     return trigger_workflow(
 
@@ -470,9 +468,7 @@ def shift_traffic(payload):
 
             "canary_weight": canary_weight,
 
-            "canary_enabled": canary_enabled
-
-            
+            "canary_enabled": canary_enabled,
 
         }
 
