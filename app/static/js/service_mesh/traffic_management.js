@@ -768,6 +768,9 @@ async function executeTrafficOperation() {
             "canary-weight"
         ).value,
 
+        canary_enabled:
+            Number(document.getElementById("canary-weight").value) > 0
+
     };
 
     try {
