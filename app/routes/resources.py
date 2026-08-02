@@ -7,6 +7,7 @@ from flask import (
 from services.platform_actions import (
     platform_actions_service
 )
+from services.resources import AzureResourceService
 
 resources_bp = Blueprint(
     "resources",
@@ -48,6 +49,16 @@ def workflow_status():
         "status": "running"
 
     })
+
+@resources_bp.route(
+    "/api/resources",
+    methods=["GET"]
+)
+def get_resources():
+
+    return jsonify(
+        AzureResourceService.build_inventory()
+    )
 
 
 @resources_bp.route(

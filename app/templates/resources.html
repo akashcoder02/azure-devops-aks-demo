@@ -78,7 +78,7 @@
 
                 <h1 id="monthlyCost">
 
-                    ₹7,482
+                    --
 
                 </h1>
 
@@ -237,43 +237,23 @@
                 <div class="resource-body">
 
                     <div class="resource-item">
+                        <span>Status</span>
+                        <strong id="aksStatus">--</strong>
+                    </div>
 
+                    <div class="resource-item">
                         <span>Nodes</span>
-
-                        <strong>3</strong>
-
+                        <strong id="aksNodes">--</strong>
                     </div>
 
                     <div class="resource-item">
-
                         <span>Pods</span>
-
-                        <strong>28</strong>
-
+                        <strong id="aksPods">--</strong>
                     </div>
 
                     <div class="resource-item">
-
-                        <span>CPU</span>
-
-                        <strong>31%</strong>
-
-                    </div>
-
-                    <div class="resource-item">
-
-                        <span>Memory</span>
-
-                        <strong>58%</strong>
-
-                    </div>
-
-                    <div class="resource-item">
-
-                        <span>Version</span>
-
-                        <strong>1.33</strong>
-
+                        <span>Kubernetes</span>
+                        <strong id="aksVersion">--</strong>
                     </div>
 
                 </div>
@@ -284,7 +264,19 @@
 
                 <h3>Networking</h3>
 
-                <div id="networkCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>Public IPs</span>
+                        <strong id="publicIpCount">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Status</span>
+                        <strong id="networkStatus">--</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -292,7 +284,24 @@
 
                 <h3>Container Registry</h3>
 
-                <div id="acrCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>Registry</span>
+                        <strong id="acrName">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Status</span>
+                        <strong id="acrStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Registries</span>
+                        <strong id="acrCount">0</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -300,7 +309,24 @@
 
                 <h3>Key Vault</h3>
 
-                <div id="keyVaultCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>Vault</span>
+                        <strong id="kvName">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Status</span>
+                        <strong id="kvStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Vaults</span>
+                        <strong id="kvCount">0</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -308,7 +334,24 @@
 
                 <h3>Monitoring</h3>
 
-                <div id="monitoringCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>Prometheus</span>
+                        <strong id="prometheusStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Grafana</span>
+                        <strong id="grafanaStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Pods</span>
+                        <strong id="monitoringPods">0</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -316,7 +359,24 @@
 
                 <h3>Logging</h3>
 
-                <div id="loggingCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>Loki</span>
+                        <strong id="lokiStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Fluent Bit</span>
+                        <strong id="fluentBitStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Pods</span>
+                        <strong id="loggingPods">0</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -324,7 +384,24 @@
 
                 <h3>GitOps</h3>
 
-                <div id="gitopsCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>ArgoCD</span>
+                        <strong id="argocdStatus">--</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Applications</span>
+                        <strong id="argocdApps">0</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Synced</span>
+                        <strong id="argocdSynced">0</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -332,7 +409,24 @@
 
                 <h3>Applications</h3>
 
-                <div id="applicationsCard"></div>
+                <div class="resource-body">
+
+                    <div class="resource-item">
+                        <span>Deployments</span>
+                        <strong id="runningDeployments">0</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Services</span>
+                        <strong id="runningServices">0</strong>
+                    </div>
+
+                    <div class="resource-item">
+                        <span>Ingress</span>
+                        <strong id="runningIngress">0</strong>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -442,6 +536,104 @@
                     </h3>
 
                 </div>
+
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+            Azure Resource Inventory
+        ========================================== -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Azure Resource Inventory</h2>
+
+                    <p>
+                        Live Azure infrastructure resources
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="inventory-toolbar">
+
+                <input
+                    type="text"
+                    id="inventorySearch"
+                    placeholder="Search resources..."
+                >
+
+                <select id="resourceFilter">
+
+                    <option value="all">All Types</option>
+
+                    <option value="Microsoft.ContainerService/managedClusters">
+                        AKS
+                    </option>
+
+                    <option value="Microsoft.ContainerRegistry/registries">
+                        Container Registry
+                    </option>
+
+                    <option value="Microsoft.KeyVault/vaults">
+                        Key Vault
+                    </option>
+
+                    <option value="Microsoft.Network/publicIPAddresses">
+                        Public IP
+                    </option>
+
+                    <option value="Microsoft.Storage/storageAccounts">
+                        Storage Account
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="inventory-table-wrapper">
+
+                <table class="inventory-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+
+                            <th>Type</th>
+
+                            <th>Resource Group</th>
+
+                            <th>Location</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="inventoryTable">
+
+                        <tr>
+
+                            <td colspan="5">
+
+                                Loading Azure resources...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -569,7 +761,71 @@
 
 </div>
 
+<!-- ==========================================
+     Resource Details Drawer
+========================================== -->
+
+<div id="resourceDrawer" class="resource-drawer hidden">
+
+    <div class="drawer-header">
+
+        <h2>Resource Details</h2>
+
+        <button id="closeDrawer">✕</button>
+
+    </div>
+
+    <div class="drawer-body">
+
+        <div class="drawer-item">
+            <span>Name</span>
+            <strong id="drawerName">--</strong>
+        </div>
+
+        <div class="drawer-item">
+            <span>Type</span>
+            <strong id="drawerType">--</strong>
+        </div>
+
+        <div class="drawer-item">
+            <span>Resource Group</span>
+            <strong id="drawerGroup">--</strong>
+        </div>
+
+        <div class="drawer-item">
+            <span>Location</span>
+            <strong id="drawerLocation">--</strong>
+        </div>
+
+        <div class="drawer-item">
+            <span>Status</span>
+            <strong id="drawerStatus">--</strong>
+        </div>
+
+        <div class="drawer-item">
+            <span>Resource ID</span>
+            <small id="drawerId">--</small>
+        </div>
+
+        <div class="drawer-item">
+
+            <span>Tags</span>
+
+            <div id="drawerTags">
+
+                No Tags
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="drawerOverlay" class="drawer-overlay hidden"></div>
+
 </body>
 
 </html>
-```
+
