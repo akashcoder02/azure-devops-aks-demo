@@ -64,9 +64,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: terraform/addons/service-mesh
 
     steps:
 
@@ -111,9 +108,6 @@ jobs:
     # Install Terraform
     # ======================================================
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-
     # ======================================================
     # Install kubectl
     # ======================================================
@@ -144,18 +138,104 @@ jobs:
         kubectl get nodes
 
     # ======================================================
-    # Terraform Init
+    # Generate VirtualService
     # ======================================================
 
-    - name: Terraform Init
-      run: terraform init
 
     # ======================================================
-    # Terraform Validate
+    # Validate Traffic
     # ======================================================
 
-    - name: Terraform Validate
-      run: terraform validate
+    - name: Validate Traffic
+
+      run: |
+
+        TOTAL=$((${{ github.event.inputs.primary_weight }} + ${{ github.event.inputs.canary_weight }}))
+
+        if [ "$TOTAL" -ne 100 ]; then
+
+          echo "Traffic weights must total 100"
+
+          exit 1
+
+        fi
+
+    # ======================================================
+    # Install yq
+    # ======================================================
+
+    - name: Install yq
+
+      run: |
+
+        sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+          -O /usr/local/bin/yq
+
+        sudo chmod +x /usr/local/bin/yq
+
+        yq --version
+    
+    - name: Export VirtualService
+
+      run: |
+
+        kubectl get virtualservice \
+          ${{ github.event.inputs.application }} \
+          -n default \
+          -o yaml > virtualservice.yaml
+
+        cat virtualservice.yaml
+
+    - name: Update Traffic Weights
+
+      env:
+        PRIMARY_VERSION: "${{ github.event.inputs.primary_version }}"
+        CANARY_VERSION: "${{ github.event.inputs.canary_version }}"
+        PRIMARY_WEIGHT: "${{ github.event.inputs.primary_weight }}"
+        CANARY_WEIGHT: "${{ github.event.inputs.canary_weight }}"
+
+      run: |
+
+        yq e '
+          (.spec.http[].route[] | select(.destination.subset == env(PRIMARY_VERSION))).weight = (env(PRIMARY_WEIGHT) | tonumber) |
+          (.spec.http[].route[] | select(.destination.subset == env(CANARY_VERSION))).weight = (env(CANARY_WEIGHT) | tonumber)
+        ' -i virtualservice.yaml
+
+    - name: Cleanup Metadata
+
+      run: |
+
+        yq e '
+          del(
+            .metadata.uid,
+            .metadata.resourceVersion,
+            .metadata.creationTimestamp,
+            .metadata.generation,
+            .metadata.managedFields,
+            .metadata.annotations."kubectl.kubernetes.io/last-applied-configuration"
+          )
+        ' -i virtualservice.yaml
+
+    - name: Show Updated VirtualService
+
+      run: |
+
+        echo "========================================"
+
+        cat virtualservice.yaml
+
+    # ======================================================
+    # Apply VirtualService
+    # ======================================================
+
+    - name: Apply VirtualService
+
+      run: |
+
+        kubectl apply -f virtualservice.yaml
+
+
+
 
     # ======================================================
     # Current Service Mesh
@@ -177,31 +257,6 @@ jobs:
         echo "Destination Rules"
         kubectl get destinationrule -A
 
-    # ======================================================
-    # Terraform Plan
-    # ======================================================
-
-    - name: Terraform Plan
-
-      run: |
-
-        terraform plan \
-          -out=tfplan \
-          -var="traffic_application=${{ github.event.inputs.application }}" \
-          -var="primary_weight_override=${{ github.event.inputs.primary_weight }}" \
-          -var="canary_weight_override=${{ github.event.inputs.canary_weight }}" \
-          -var="canary_enabled_override=${{ github.event.inputs.canary_enabled == 'true' }}"
-
-
-    # ======================================================
-    # Terraform Apply
-    # ======================================================
-
-    - name: Terraform Apply
-
-      run: |
-
-        terraform apply -auto-approve tfplan
 
 
     # ======================================================
@@ -221,6 +276,14 @@ jobs:
         kubectl describe virtualservice \
           ${{ github.event.inputs.application }} \
           -n default
+
+        echo ""
+
+        echo "Traffic Routing"
+
+        kubectl get virtualservice \
+        ${{ github.event.inputs.application }} \
+        -o yaml | grep -A12 "route:"
 
 
     # ======================================================
@@ -262,9 +325,9 @@ jobs:
 
         echo "AKS Connection      : SUCCESS"
 
-        echo "Terraform Init      : SUCCESS"
+        echo "VirtualService Generated : SUCCESS"
 
-        echo "Terraform Apply     : PENDING"
+        echo "VirtualService Applied   : SUCCESS"
 
         echo ""
 

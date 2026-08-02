@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+
+metadata:
+  name: __APPLICATION__
+  namespace: default
+
+spec:
+
+  gateways:
+    - platform-gateway
+
+  hosts:
+    - "*"
+
+  http:
+
+    - match:
+        - uri:
+            regex: "^/__APPLICATION__(/|$)(.*)"
+
+      rewrite:
+        uriRegexRewrite:
+          match: "^/__APPLICATION__(/|$)(.*)"
+          rewrite: "/\\2"
+
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: gateway-error,connect-failure,refused-stream,5xx
+
+      timeout: 5s
+
+      route:
+
+        - destination:
+            host: __APPLICATION__
+            subset: __PRIMARY_VERSION__
+
+            port:
+              number: __SERVICE_PORT__
+
+          weight: __PRIMARY_WEIGHT__
+
+        - destination:
+            host: __APPLICATION__
+            subset: __CANARY_VERSION__
+
+            port:
+              number: __SERVICE_PORT__
+
+          weight: __CANARY_WEIGHT__

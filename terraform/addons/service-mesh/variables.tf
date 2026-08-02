@@ -127,5 +127,4 @@ variable "canary_weight_override" {
 variable "canary_enabled_override" {
   description = "Override canary enabled flag"
   type        = bool
-  default     = false
-}
+  d
