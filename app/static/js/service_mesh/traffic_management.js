@@ -750,6 +750,8 @@ async function executeTrafficOperation() {
             "traffic-application"
         ).value,
 
+        replicas: 1,
+
         service_port: 80,
 
         primary_version: document.getElementById(

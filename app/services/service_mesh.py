@@ -478,7 +478,40 @@ def shift_traffic(payload):
 # CANARY DEPLOYMENT
 # ==========================================================
 
+def get_latest_image_tag(application):
+
+    result = _run([
+        "az",
+        "acr",
+        "repository",
+        "show-tags",
+        "--name",
+        "agdevopsacr2026",
+        "--repository",
+        application,
+        "--output",
+        "tsv"
+    ])
+
+    if not result or result.returncode != 0:
+        raise Exception("Unable to fetch image tags from ACR.")
+
+    tags = [
+        tag.strip()
+        for tag in result.stdout.splitlines()
+        if tag.strip()
+    ]
+
+    if not tags:
+        raise Exception("No image tags found.")
+
+    return tags[-1]
+
 def start_canary(payload):
+
+    application = payload.get("application")
+
+    latest_image = get_latest_image_tag(application)
 
     return trigger_workflow(
 
@@ -486,9 +519,9 @@ def start_canary(payload):
 
         inputs={
 
-            "application": payload.get("application"),
+            "application": application,
 
-            "image_tag": payload.get("image_tag"),
+            "image_tag": latest_image,
 
             "replicas": str(payload.get("replicas", 1)),
 
