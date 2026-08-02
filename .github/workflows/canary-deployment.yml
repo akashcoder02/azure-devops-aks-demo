@@ -44,12 +44,6 @@ on:
         default: "v2"
         type: string
 
-      canary_weight:
-        description: "Reserved For Traffic Shift"
-        required: false
-        default: "0"
-        type: string
-
 
 # ==========================================================
 # PERMISSIONS
@@ -152,14 +146,6 @@ jobs:
 
       uses: azure/setup-kubectl@v4
 
-
-# ==========================================================
-# INSTALL TERRAFORM
-# ==========================================================
-
-    - name: Install Terraform
-
-      uses: hashicorp/setup-terraform@v3
 
 
 # ==========================================================
@@ -413,6 +399,14 @@ jobs:
         echo "=============================================="
 
 
+
+    - name: Validate Manifest
+
+      run: |
+
+        kubectl apply \
+          --dry-run=client \
+          -f ${BUILD_DIRECTORY}/canary-deployment.yaml
 # ==========================================================
 # DEPLOY CANARY
 # ==========================================================
@@ -436,6 +430,16 @@ jobs:
         kubectl rollout status \
           deployment/${{ github.event.inputs.application }}-canary \
           --timeout=300s
+
+    - name: Verify Observed Generation
+
+      run: |
+
+        kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary \
+          -o=jsonpath='{.status.observedGeneration}'
+
+        echo ""
 
 
 # ==========================================================
@@ -518,6 +522,18 @@ jobs:
           -o=jsonpath='{.spec.template.spec.containers[0].image}'
 
         echo ""
+
+    - name: Verify Image Tag
+
+      run: |
+
+        DEPLOYED_IMAGE=$(kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary \
+          -o=jsonpath='{.spec.template.spec.containers[0].image}')
+
+        echo "$DEPLOYED_IMAGE"
+
+        echo "$DEPLOYED_IMAGE" | grep "${{ github.event.inputs.image_tag }}"
 
 
 # ==========================================================
