@@ -42,7 +42,7 @@ on:
       canary_enabled:
         description: "Enable Canary"
         required: true
-        type: string
+        type: boolean
 
 # ==========================================================
 # PERMISSIONS
@@ -190,7 +190,7 @@ jobs:
           -var="traffic_application=${{ github.event.inputs.application }}" \
           -var="primary_weight_override=${{ github.event.inputs.primary_weight }}" \
           -var="canary_weight_override=${{ github.event.inputs.canary_weight }}" \
-          -var="canary_enabled_override=${{ github.event.inputs.canary_enabled }}"
+          -var="canary_enabled_override=${{ github.event.inputs.canary_enabled == 'true' }}"
 
 
     # ======================================================
