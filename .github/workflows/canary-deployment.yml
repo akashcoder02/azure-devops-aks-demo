@@ -5,6 +5,7 @@ name: Canary Deployment
 # ==========================================================
 
 on:
+
   workflow_dispatch:
 
     inputs:
@@ -14,33 +15,70 @@ on:
         required: true
         type: string
 
+      image_tag:
+        description: "Docker Image Tag"
+        required: true
+        type: string
+
+      replicas:
+        description: "Canary Replica Count"
+        required: true
+        default: "1"
+        type: string
+
       service_port:
         description: "Application Service Port"
-        required: true
+        required: false
+        default: "80"
         type: string
 
       primary_version:
         description: "Primary Version"
-        required: true
+        required: false
+        default: "v1"
         type: string
 
       canary_version:
         description: "Canary Version"
-        required: true
+        required: false
+        default: "v2"
         type: string
 
       canary_weight:
-        description: "Initial Canary Traffic Weight"
-        required: true
+        description: "Reserved For Traffic Shift"
+        required: false
+        default: "0"
         type: string
+
 
 # ==========================================================
 # PERMISSIONS
 # ==========================================================
 
 permissions:
+
   id-token: write
+
   contents: read
+
+
+# ==========================================================
+# GLOBAL ENVIRONMENT
+# ==========================================================
+
+env:
+
+  RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+  AKS_CLUSTER: ${{ secrets.AKS_CLUSTER }}
+
+  BUILD_DIRECTORY: build
+
+  STABLE_VERSION: v1
+
+  CANARY_VERSION: v2
+
+  NAMESPACE: default
+
 
 # ==========================================================
 # CANARY DEPLOYMENT
@@ -48,284 +86,894 @@ permissions:
 
 jobs:
 
-  canary-deployment:
+  canary:
 
-    name: Deploy Canary Version
+    name: Canary Deployment
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: terraform/addons/service-mesh
-
     steps:
 
-    # ======================================================
-    # Checkout Repository
-    # ======================================================
+# ==========================================================
+# CHECKOUT
+# ==========================================================
 
     - name: Checkout Repository
+
       uses: actions/checkout@v4
 
-    # ======================================================
-    # Display Deployment Request
-    # ======================================================
+
+# ==========================================================
+# DISPLAY REQUEST
+# ==========================================================
 
     - name: Display Deployment Request
 
       run: |
 
-        PRIMARY_WEIGHT=$((100 - ${{ github.event.inputs.canary_weight }}))
-
-        echo "========================================"
-        echo "Canary Deployment Request"
-        echo "========================================"
+        echo ""
+        echo "============================================="
+        echo "        CANARY DEPLOYMENT REQUEST"
+        echo "============================================="
+        echo ""
 
         echo "Application      : ${{ github.event.inputs.application }}"
-        echo "Service Port     : ${{ github.event.inputs.service_port }}"
-        echo "Primary Version  : ${{ github.event.inputs.primary_version }}"
-        echo "Canary Version   : ${{ github.event.inputs.canary_version }}"
-        echo "Primary Weight   : ${PRIMARY_WEIGHT}"
-        echo "Canary Weight    : ${{ github.event.inputs.canary_weight }}"
-        echo "Canary Enabled   : TRUE"
+        echo "Image Tag        : ${{ github.event.inputs.image_tag }}"
+        echo "Replica Count    : ${{ github.event.inputs.replicas }}"
 
-        echo "========================================"
+        echo ""
 
-    # ======================================================
-    # Azure Login
-    # ======================================================
+        echo "Stable Version   : ${STABLE_VERSION}"
+        echo "Canary Version   : ${CANARY_VERSION}"
+
+        echo ""
+
+        echo "============================================="
+
+
+# ==========================================================
+# AZURE LOGIN
+# ==========================================================
 
     - name: Azure Login
+
       uses: azure/login@v2
+
       with:
+
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # ======================================================
-    # Install Terraform
-    # ======================================================
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
+# ==========================================================
+# INSTALL KUBECTL
+# ==========================================================
 
-    # ======================================================
-    # Install kubectl
-    # ======================================================
+    - name: Install kubectl
 
-    - name: Setup kubectl
       uses: azure/setup-kubectl@v4
 
-    # ======================================================
-    # Connect to AKS
-    # ======================================================
+
+# ==========================================================
+# INSTALL TERRAFORM
+# ==========================================================
+
+    - name: Install Terraform
+
+      uses: hashicorp/setup-terraform@v3
+
+
+# ==========================================================
+# INSTALL YQ
+# ==========================================================
+
+    - name: Install yq
+
+      run: |
+
+        sudo wget \
+        https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+        -O /usr/local/bin/yq
+
+        sudo chmod +x /usr/local/bin/yq
+
+        yq --version
+
+
+# ==========================================================
+# CONNECT TO AKS
+# ==========================================================
 
     - name: Get AKS Credentials
 
       run: |
+
         az aks get-credentials \
-          --resource-group rg-devops-demo \
-          --name aks-devops-demo \
+          --resource-group ${RESOURCE_GROUP} \
+          --name ${AKS_CLUSTER} \
           --overwrite-existing
 
-    # ======================================================
-    # Verify Cluster
-    # ======================================================
 
-    - name: Verify Cluster
+# ==========================================================
+# VERIFY CLUSTER
+# ==========================================================
+
+    - name: Verify Kubernetes Cluster
 
       run: |
 
         kubectl cluster-info
 
-        kubectl get nodes
+        echo ""
 
-    # ======================================================
-    # Terraform Init
-    # ======================================================
+        kubectl get nodes -o wide
 
-    - name: Terraform Init
 
-      run: terraform init
+# ==========================================================
+# VERIFY APPLICATION
+# ==========================================================
 
-    # ======================================================
-    # Terraform Validate
-    # ======================================================
-
-    - name: Terraform Validate
-
-      run: terraform validate
-
-    # ======================================================
-    # Current Service Mesh
-    # ======================================================
-
-    - name: Current Istio Configuration
+    - name: Verify Stable Deployment
 
       run: |
 
-        echo "Gateways"
-
-        kubectl get gateway -A
+        kubectl get deployment \
+          ${{ github.event.inputs.application }}
 
         echo ""
 
-        echo "Virtual Services"
+        kubectl get svc \
+          ${{ github.event.inputs.application }}
 
-        kubectl get virtualservice -A
+
+# ==========================================================
+# VERIFY ACR IMAGE
+# ==========================================================
+
+    - name: Verify Image Exists
+
+      run: |
+
+        az acr repository show-tags \
+          --name ${{ secrets.ACR_NAME }} \
+          --repository ${{ github.event.inputs.application }} \
+          --output table
 
         echo ""
 
-        echo "Destination Rules"
+        if ! az acr repository show-tags \
+            --name ${{ secrets.ACR_NAME }} \
+            --repository ${{ github.event.inputs.application }} \
+            --output tsv \
+            | grep -w "${{ github.event.inputs.image_tag }}"
+        then
 
-        kubectl get destinationrule -A
+            echo ""
+            echo "ERROR"
+            echo ""
+            echo "Image tag not found inside Azure Container Registry."
+            exit 1
 
-    # ======================================================
-    # Terraform Plan
-    # ======================================================
+        fi
 
-    - name: Terraform Plan
 
-      run: |
+# ==========================================================
+# CREATE BUILD DIRECTORY
+# ==========================================================
 
-        PRIMARY_WEIGHT=$((100 - ${{ github.event.inputs.canary_weight }}))
-
-        terraform plan \
-          -out=tfplan \
-          -var="traffic_application=${{ github.event.inputs.application }}" \
-          -var="primary_weight_override=${PRIMARY_WEIGHT}" \
-          -var="canary_weight_override=${{ github.event.inputs.canary_weight }}" \
-          -var="canary_enabled_override=true"
-
-    # ======================================================
-    # Terraform Apply
-    # ======================================================
-
-    - name: Terraform Apply
+    - name: Prepare Build Directory
 
       run: |
 
-        terraform apply -auto-approve tfplan
+        rm -rf ${BUILD_DIRECTORY}
 
-    # ======================================================
-    # Verify Application Deployment
-    # ======================================================
+        mkdir -p ${BUILD_DIRECTORY}
 
-    - name: Verify Deployment
+        ls -la
+
+# ==========================================================
+# COPY DEPLOYMENT MANIFEST
+# ==========================================================
+
+    - name: Copy Deployment Manifest
 
       run: |
 
-        echo "===================================="
-        echo "Deployments"
-        echo "===================================="
+        cp \
+          applications/${{ github.event.inputs.application }}/k8s/deployment.yaml \
+          ${BUILD_DIRECTORY}/canary-deployment.yaml
 
-        kubectl get deployment -n default
+
+# ==========================================================
+# REPLACE IMAGE
+# ==========================================================
+
+    - name: Replace Docker Image
+
+      run: |
+
+        sed -i \
+        "s|IMAGE_PLACEHOLDER|${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application }}:${{ github.event.inputs.image_tag }}|g" \
+        ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+
+# ==========================================================
+# UPDATE DEPLOYMENT NAME
+# ==========================================================
+
+    - name: Rename Deployment
+
+      run: |
+
+        yq -i '
+
+          .metadata.name =
+          "${{ github.event.inputs.application }}-canary"
+
+        ' ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+
+# ==========================================================
+# UPDATE REPLICAS
+# ==========================================================
+
+    - name: Update Replica Count
+
+      run: |
+
+        yq -i '
+
+          .spec.replicas =
+          ${{ github.event.inputs.replicas }}
+
+        ' ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+
+# ==========================================================
+# UPDATE SELECTOR LABEL
+# ==========================================================
+
+    - name: Update Selector Version
+
+      run: |
+
+        yq -i '
+
+          .spec.selector.matchLabels.version =
+          env(CANARY_VERSION)
+
+        ' ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+
+# ==========================================================
+# UPDATE POD LABEL
+# ==========================================================
+
+    - name: Update Pod Version Label
+
+      run: |
+
+        yq -i '
+
+          .spec.template.metadata.labels.version =
+          env(CANARY_VERSION)
+
+        ' ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+
+# ==========================================================
+# VERIFY GENERATED MANIFEST
+# ==========================================================
+
+    - name: Show Generated Canary Manifest
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "GENERATED CANARY DEPLOYMENT"
+        echo "=============================================="
+        echo ""
+
+        cat ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+        echo ""
+        echo "=============================================="
+
+# ==========================================================
+# CHECK EXISTING CANARY DEPLOYMENT
+# ==========================================================
+
+    - name: Check Existing Canary Deployment
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "CANARY DEPLOYMENT STATUS"
+        echo "=============================================="
+
+        if kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary \
+          >/dev/null 2>&1
+        then
+
+          echo ""
+          echo "Existing Canary Deployment Found"
+          echo "Deployment will be UPDATED."
+
+        else
+
+          echo ""
+          echo "No Existing Canary Deployment Found"
+          echo "New Canary Deployment will be CREATED."
+
+        fi
+
+        echo ""
+        echo "=============================================="
+
+
+# ==========================================================
+# DEPLOY CANARY
+# ==========================================================
+
+    - name: Deploy Canary Application
+
+      run: |
+
+        kubectl apply \
+          -f ${BUILD_DIRECTORY}/canary-deployment.yaml
+
+
+# ==========================================================
+# WAIT FOR ROLLOUT
+# ==========================================================
+
+    - name: Wait For Canary Rollout
+
+      run: |
+
+        kubectl rollout status \
+          deployment/${{ github.event.inputs.application }}-canary \
+          --timeout=300s
+
+
+# ==========================================================
+# VERIFY DEPLOYMENT
+# ==========================================================
+
+    - name: Verify Canary Deployment
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "CANARY DEPLOYMENT"
+        echo "=============================================="
+
+        kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary
 
         echo ""
 
         kubectl describe deployment \
-          ${{ github.event.inputs.application }} \
-          -n default
+          ${{ github.event.inputs.application }}-canary
 
-    # ======================================================
-    # Verify Pods
-    # ======================================================
 
-    - name: Verify Pods
+# ==========================================================
+# VERIFY REPLICASET
+# ==========================================================
 
-      run: |
-
-        echo "===================================="
-        echo "Pods"
-        echo "===================================="
-
-        kubectl get pods -n default -o wide
-
-    # ======================================================
-    # Verify Virtual Service
-    # ======================================================
-
-    - name: Verify Virtual Service
+    - name: Verify ReplicaSets
 
       run: |
 
-        echo "===================================="
-        echo "Virtual Service"
-        echo "===================================="
+        echo ""
+        echo "=============================================="
+        echo "REPLICA SETS"
+        echo "=============================================="
 
-        kubectl get virtualservice -A
+        kubectl get rs
 
         echo ""
 
-        kubectl describe virtualservice \
-          ${{ github.event.inputs.application }} \
-          -n default
+        kubectl get rs \
+          -l app=${{ github.event.inputs.application }}
 
-    # ======================================================
-    # Verify Destination Rule
-    # ======================================================
+
+# ==========================================================
+# VERIFY PODS
+# ==========================================================
+
+    - name: Verify Canary Pods
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "CANARY PODS"
+        echo "=============================================="
+
+        kubectl get pods \
+          -l app=${{ github.event.inputs.application }} \
+          --show-labels \
+          -o wide
+
+
+# ==========================================================
+# VERIFY IMAGE
+# ==========================================================
+
+    - name: Verify Canary Image
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "DEPLOYED IMAGE"
+        echo "=============================================="
+
+        kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary \
+          -o=jsonpath='{.spec.template.spec.containers[0].image}'
+
+        echo ""
+
+
+# ==========================================================
+# VERIFY VERSION LABEL
+# ==========================================================
+
+    - name: Verify Version Labels
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "VERSION LABELS"
+        echo "=============================================="
+
+        kubectl get pods \
+          -l app=${{ github.event.inputs.application }} \
+          --show-labels | grep version
+
+
+# ==========================================================
+# VERIFY EVENTS
+# ==========================================================
+
+    - name: Check Deployment Events
+
+      if: always()
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "RECENT EVENTS"
+        echo "=============================================="
+
+        kubectl get events \
+          --sort-by=.lastTimestamp \
+          | tail -30
+
+# ==========================================================
+# VERIFY SERVICE
+# ==========================================================
+
+    - name: Verify Kubernetes Service
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "APPLICATION SERVICE"
+        echo "=============================================="
+
+        kubectl get svc \
+          ${{ github.event.inputs.application }}
+
+        echo ""
+
+        kubectl describe svc \
+          ${{ github.event.inputs.application }}
+
+
+# ==========================================================
+# VERIFY ENDPOINTS
+# ==========================================================
+
+    - name: Verify Service Endpoints
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "SERVICE ENDPOINTS"
+        echo "=============================================="
+
+        kubectl get endpoints \
+          ${{ github.event.inputs.application }}
+
+        echo ""
+
+        kubectl describe endpoints \
+          ${{ github.event.inputs.application }}
+
+
+# ==========================================================
+# VERIFY DESTINATION RULE
+# ==========================================================
 
     - name: Verify Destination Rule
 
       run: |
 
-        echo "===================================="
-        echo "Destination Rule"
-        echo "===================================="
+        echo ""
+        echo "=============================================="
+        echo "DESTINATION RULE"
+        echo "=============================================="
 
-        kubectl get destinationrule -A
+        kubectl get destinationrule \
+          ${{ github.event.inputs.application }}
 
         echo ""
 
         kubectl describe destinationrule \
-          ${{ github.event.inputs.application }} \
-          -n default
+          ${{ github.event.inputs.application }}
 
-    # ======================================================
-    # Verify Canary Traffic
-    # ======================================================
 
-    - name: Verify Canary Traffic
+# ==========================================================
+# VERIFY VIRTUAL SERVICE
+# ==========================================================
+
+    - name: Verify Virtual Service
 
       run: |
 
-        echo "===================================="
-        echo "Canary Traffic Configuration"
-        echo "===================================="
+        echo ""
+        echo "=============================================="
+        echo "VIRTUAL SERVICE"
+        echo "=============================================="
+
+        kubectl get virtualservice \
+          ${{ github.event.inputs.application }}
+
+        echo ""
 
         kubectl describe virtualservice \
-          ${{ github.event.inputs.application }} \
-          -n default | grep -A 20 "Route"
+          ${{ github.event.inputs.application }}
 
-    # ======================================================
-    # Workflow Summary
-    # ======================================================
 
-    - name: Workflow Summary
+# ==========================================================
+# VERIFY ISTIO LABELS
+# ==========================================================
+
+    - name: Verify Istio Version Labels
 
       run: |
 
-        PRIMARY_WEIGHT=$((100 - ${{ github.event.inputs.canary_weight }}))
+        echo ""
+        echo "=============================================="
+        echo "ISTIO VERSION LABELS"
+        echo "=============================================="
 
-        echo "========================================"
-        echo "Canary Deployment Completed"
-        echo "========================================"
+        kubectl get pods \
+          -l app=${{ github.event.inputs.application }} \
+          -L version
+
+
+# ==========================================================
+# VERIFY CANARY PODS
+# ==========================================================
+
+    - name: Verify Canary Pods
+
+      run: |
 
         echo ""
-        echo "Dashboard            : SUCCESS"
-        echo "GitHub Workflow      : SUCCESS"
-        echo "Azure Login          : SUCCESS"
-        echo "AKS Connection       : SUCCESS"
-        echo "Terraform Init       : SUCCESS"
-        echo "Terraform Validate   : SUCCESS"
-        echo "Terraform Apply      : SUCCESS"
+        echo "=============================================="
+        echo "CANARY POD STATUS"
+        echo "=============================================="
+
+        kubectl get pods \
+          -l app=${{ github.event.inputs.application }},version=${CANARY_VERSION} \
+          -o wide
+
+
+# ==========================================================
+# VERIFY ROLLING STATUS
+# ==========================================================
+
+    - name: Verify Deployment Health
+
+      run: |
+
+        AVAILABLE=$(kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary \
+          -o jsonpath='{.status.availableReplicas}')
+
+        DESIRED=$(kubectl get deployment \
+          ${{ github.event.inputs.application }}-canary \
+          -o jsonpath='{.status.replicas}')
+
+        echo ""
+        echo "=============================================="
+        echo "CANARY HEALTH"
+        echo "=============================================="
+
+        echo "Desired Replicas   : ${DESIRED}"
+        echo "Available Replicas : ${AVAILABLE}"
+
+        if [ "${AVAILABLE}" != "${DESIRED}" ]; then
+
+          echo ""
+          echo "Canary deployment is not healthy."
+
+          exit 1
+
+        fi
+
+
+# ==========================================================
+# READY FOR TRAFFIC SHIFT
+# ==========================================================
+
+    - name: Ready For Traffic Shift
+
+      run: |
+
+        echo ""
+        echo "=============================================="
+        echo "CANARY IS READY"
+        echo "=============================================="
+
         echo ""
 
-        echo "Application          : ${{ github.event.inputs.application }}"
-        echo "Primary Version      : ${{ github.event.inputs.primary_version }}"
-        echo "Canary Version       : ${{ github.event.inputs.canary_version }}"
-        echo "Primary Traffic      : ${PRIMARY_WEIGHT}%"
-        echo "Canary Traffic       : ${{ github.event.inputs.canary_weight }}%"
-        echo "Canary Enabled       : TRUE"
+        echo "Application"
+
+        echo "  ${{ github.event.inputs.application }}"
 
         echo ""
-        echo "Canary deployment completed successfully."
-        echo "========================================"
+
+        echo "Stable Version"
+
+        echo "  ${STABLE_VERSION}"
+
+        echo ""
+
+        echo "Canary Version"
+
+        echo "  ${CANARY_VERSION}"
+
+        echo ""
+
+        echo "Traffic"
+
+        echo "  Stable : 100%"
+
+        echo "  Canary : 0%"
+
+        echo ""
+
+        echo "Next Step"
+
+        echo "  Execute Traffic Shift Workflow"
+
+        echo ""
+
+        echo "=============================================="
+
+# ==========================================================
+# FAILURE DIAGNOSTICS
+# ==========================================================
+
+    - name: Collect Failure Diagnostics
+
+      if: failure()
+
+      run: |
+
+        echo ""
+        echo "===================================================="
+        echo "DEPLOYMENT FAILED"
+        echo "===================================================="
+
+        echo ""
+        echo "Deployments"
+        kubectl get deployment
+
+        echo ""
+        echo "ReplicaSets"
+        kubectl get rs
+
+        echo ""
+        echo "Pods"
+        kubectl get pods -o wide
+
+        echo ""
+        echo "Services"
+        kubectl get svc
+
+        echo ""
+        echo "Endpoints"
+        kubectl get endpoints
+
+        echo ""
+        echo "Destination Rules"
+        kubectl get destinationrule
+
+        echo ""
+        echo "Virtual Services"
+        kubectl get virtualservice
+
+        echo ""
+        echo "Canary Deployment"
+
+        kubectl describe deployment \
+          ${{ github.event.inputs.application }}-canary || true
+
+        echo ""
+        echo "Canary Pods"
+
+        kubectl describe pods \
+          -l app=${{ github.event.inputs.application }},version=${CANARY_VERSION} || true
+
+        echo ""
+        echo "Recent Events"
+
+        kubectl get events \
+          --sort-by=.lastTimestamp \
+          | tail -50
+
+        echo ""
+        echo "===================================================="
+
+
+# ==========================================================
+# GITHUB ACTION SUMMARY
+# ==========================================================
+
+    - name: Generate Workflow Summary
+
+      if: always()
+
+      run: |
+
+        {
+
+        echo "# Canary Deployment"
+
+        echo ""
+
+        echo "| Item | Value |"
+
+        echo "|------|-------|"
+
+        echo "| Application | ${{ github.event.inputs.application }} |"
+
+        echo "| Image Tag | ${{ github.event.inputs.image_tag }} |"
+
+        echo "| Stable Version | ${STABLE_VERSION} |"
+
+        echo "| Canary Version | ${CANARY_VERSION} |"
+
+        echo "| Replica Count | ${{ github.event.inputs.replicas }} |"
+
+        echo "| Namespace | ${NAMESPACE} |"
+
+        echo "| Status | Completed |"
+
+        echo ""
+
+        echo "## Next Step"
+
+        echo ""
+
+        echo "Run the **Traffic Shift** workflow."
+
+        echo ""
+
+        echo "Suggested sequence"
+
+        echo ""
+
+        echo "100 / 0"
+
+        echo "↓"
+
+        echo "90 / 10"
+
+        echo "↓"
+
+        echo "75 / 25"
+
+        echo "↓"
+
+        echo "50 / 50"
+
+        echo "↓"
+
+        echo "25 / 75"
+
+        echo "↓"
+
+        echo "0 / 100"
+
+        echo ""
+
+        } >> $GITHUB_STEP_SUMMARY
+
+
+# ==========================================================
+# FINAL SUMMARY
+# ==========================================================
+
+    - name: Deployment Summary
+
+      run: |
+
+        echo ""
+        echo "===================================================="
+        echo "CANARY DEPLOYMENT COMPLETED"
+        echo "===================================================="
+
+        echo ""
+
+        echo "Application"
+
+        echo "  ${{ github.event.inputs.application }}"
+
+        echo ""
+
+        echo "Image"
+
+        echo "  ${{ secrets.ACR_NAME }}.azurecr.io/${{ github.event.inputs.application }}:${{ github.event.inputs.image_tag }}"
+
+        echo ""
+
+        echo "Stable Deployment"
+
+        echo "  ${{ github.event.inputs.application }}"
+
+        echo ""
+
+        echo "Canary Deployment"
+
+        echo "  ${{ github.event.inputs.application }}-canary"
+
+        echo ""
+
+        echo "Stable Version"
+
+        echo "  ${STABLE_VERSION}"
+
+        echo ""
+
+        echo "Canary Version"
+
+        echo "  ${CANARY_VERSION}"
+
+        echo ""
+
+        echo "Canary Replicas"
+
+        echo "  ${{ github.event.inputs.replicas }}"
+
+        echo ""
+
+        echo "Traffic"
+
+        echo "  Stable : 100%"
+
+        echo "  Canary : 0%"
+
+        echo ""
+
+        echo "Next Operation"
+
+        echo "  Traffic Shift"
+
+        echo ""
+
+        echo "===================================================="
