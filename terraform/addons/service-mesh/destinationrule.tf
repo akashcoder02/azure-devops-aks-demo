@@ -17,30 +17,25 @@ resource "kubectl_manifest" "destinationrule" {
 
       host = each.key
 
-      subsets = concat(
-        [
-          {
-            name = each.value.primary.version
+      subsets = [
 
-            labels = {
-              version = each.value.primary.version
-            }
-          }
-        ],
-        (
-          each.key == var.traffic_application
-          ? var.canary_enabled_override
-          : each.value.canary_enabled
-        ) ? [
-          {
-            name = each.value.canary.version
+        {
+          name = each.value.primary.version
 
-            labels = {
-              version = each.value.canary.version
-            }
+          labels = {
+            version = each.value.primary.version
           }
-        ] : []
-      )
+        },
+
+        {
+          name = each.value.canary.version
+
+          labels = {
+            version = each.value.canary.version
+          }
+        }
+
+      ]
 
       trafficPolicy = {
 
