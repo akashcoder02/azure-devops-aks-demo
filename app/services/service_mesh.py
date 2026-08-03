@@ -559,60 +559,49 @@ def rollback_traffic(payload):
 
 def get_application_configuration(application):
 
-    applications = {
+    result = _run([
+        "kubectl",
+        "get",
+        "virtualservice",
+        application,
+        "-n",
+        "default",
+        "-o",
+        "json"
+    ])
 
-        "tic-tac-toe": {
+    if not result or result.returncode != 0:
+        return None
 
-            "application": "tic-tac-toe",
+    data = json.loads(result.stdout)
 
-            "service_port": 80,
+    routes = data["spec"]["http"][0]["route"]
 
-            "primary": {
+    primary = routes[0]
+    canary = routes[1]
 
-                "version": "v1",
+    return {
 
-                "weight": 100
+        "application": application,
 
-            },
+        "service_port": primary["destination"]["port"]["number"],
 
-            "canary": {
+        "primary": {
 
-                "version": "v2",
+            "version": primary["destination"]["subset"],
 
-                "weight": 0
-
-            },
-
-            "canary_enabled": False
+            "weight": primary["weight"]
 
         },
 
-        "tetris": {
+        "canary": {
 
-            "application": "tetris",
+            "version": canary["destination"]["subset"],
 
-            "service_port": 80,
+            "weight": canary["weight"]
 
-            "primary": {
+        },
 
-                "version": "v1",
-
-                "weight": 100
-
-            },
-
-            "canary": {
-
-                "version": "v2",
-
-                "weight": 0
-
-            },
-
-            "canary_enabled": False
-
-        }
+        "canary_enabled": canary["weight"] > 0
 
     }
-
-    return applications.get(application)

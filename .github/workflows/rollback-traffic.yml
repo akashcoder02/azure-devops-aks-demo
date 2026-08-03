@@ -114,70 +114,99 @@ jobs:
 
         kubectl get nodes
 
-    # ======================================================
-    # Terraform Init
-    # ======================================================
+# ======================================================
+# Install yq
+# ======================================================
 
-    - name: Terraform Init
-
-      run: terraform init
-
-    # ======================================================
-    # Terraform Validate
-    # ======================================================
-
-    - name: Terraform Validate
-
-      run: terraform validate
-
-    # ======================================================
-    # Current Service Mesh
-    # ======================================================
-
-    - name: Current Istio Configuration
+    - name: Install yq
 
       run: |
 
-        echo "Gateways"
+        sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
+          -O /usr/local/bin/yq
 
-        kubectl get gateway -A
+        sudo chmod +x /usr/local/bin/yq
 
-        echo ""
+        yq --version
 
-        echo "Virtual Services"
-
-        kubectl get virtualservice -A
-
-        echo ""
-
-        echo "Destination Rules"
-
-        kubectl get destinationrule -A
 
     # ======================================================
-    # Terraform Plan
+    # Export VirtualService
     # ======================================================
 
-    - name: Terraform Plan
+    - name: Export VirtualService
 
       run: |
 
-        terraform plan \
-          -out=tfplan \
-          -var="traffic_application=${{ github.event.inputs.application }}" \
-          -var="primary_weight_override=100" \
-          -var="canary_weight_override=0" \
-          -var="canary_enabled_override=false"
+        kubectl get virtualservice \
+          ${{ github.event.inputs.application }} \
+          -n default \
+          -o yaml > virtualservice.yaml
+
+        cat virtualservice.yaml
+
 
     # ======================================================
-    # Terraform Apply
+    # Rollback Traffic
     # ======================================================
 
-    - name: Terraform Apply
+    - name: Rollback Traffic
 
       run: |
 
-        terraform apply -auto-approve tfplan
+        yq e '
+
+          (.spec.http[].route[] |
+          select(.destination.subset == "v1")).weight = 100 |
+
+          (.spec.http[].route[] |
+          select(.destination.subset == "v2")).weight = 0
+
+        ' -i virtualservice.yaml
+
+
+    # ======================================================
+    # Cleanup Metadata
+    # ======================================================
+
+    - name: Cleanup Metadata
+
+      run: |
+
+        yq e '
+
+          del(
+            .metadata.uid,
+            .metadata.resourceVersion,
+            .metadata.creationTimestamp,
+            .metadata.generation,
+            .metadata.managedFields,
+            .metadata.annotations."kubectl.kubernetes.io/last-applied-configuration"
+          )
+
+        ' -i virtualservice.yaml
+
+
+    # ======================================================
+    # Show Updated VirtualService
+    # ======================================================
+
+    - name: Show Updated VirtualService
+
+      run: |
+
+        cat virtualservice.yaml
+
+
+    # ======================================================
+    # Apply VirtualService
+    # ======================================================
+
+    - name: Apply VirtualService
+
+      run: |
+
+        kubectl apply -f virtualservice.yaml
 
     # ======================================================
     # Verify Deployment
