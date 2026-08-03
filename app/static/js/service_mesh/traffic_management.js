@@ -599,12 +599,6 @@ function openTrafficOperation(operation) {
 
         allocationSection.style.display = "block";
 
-        primaryGroup.style.display = "none";
-
-        canaryGroup.style.display = "block";
-
-        document.getElementById("canary-weight").value = 10;
-
     }
 
     else if (operation === "Rollback Traffic") {
@@ -676,23 +670,6 @@ async function loadApplicationConfiguration(application) {
         // New Configuration
         // ----------------------------------------
 
-        document.getElementById("primary-weight").value =
-            config.primary.weight;
-
-        document.getElementById("canary-weight").value =
-            config.canary.weight;
-
-        document.getElementById("primary-slider-value").textContent =
-            config.primary.weight + "%";
-
-        document.getElementById("canary-slider-value").textContent =
-            config.canary.weight + "%";
-
-        document.getElementById("primary-progress").style.width =
-            config.primary.weight + "%";
-
-        document.getElementById("canary-progress").style.width =
-            config.canary.weight + "%";
 
     }
     catch (error) {
@@ -758,28 +735,36 @@ async function executeTrafficOperation() {
             "traffic-application"
         ).value,
 
-        replicas: 1,
+        replicas: Number(
+            document.getElementById("canary-replicas")?.value || 1
+        ),
 
-        service_port: 80,
-
+        service_port: Number(
+            document.getElementById("canary-service-port")?.value || 80
+        ),
         primary_version: document.getElementById(
             "current-primary-version"
         ).textContent,
-
-        primary_weight: document.getElementById(
-            "primary-weight"
-        ).value,
 
         canary_version: document.getElementById(
             "current-canary-version"
         ).textContent,
 
-        canary_weight: document.getElementById(
-            "canary-weight"
-        ).value,
+        primary_weight:
+            currentTrafficOperation === "Shift Traffic"
+                ? document.getElementById("primary-weight").value
+                : 100,
+
+        canary_weight:
+            currentTrafficOperation === "Shift Traffic"
+                ? document.getElementById("canary-weight").value
+                : 0,
 
         canary_enabled:
-            Number(document.getElementById("canary-weight").value) > 0
+            currentTrafficOperation === "Shift Traffic"
+                ? Number(document.getElementById("canary-weight").value) > 0
+                : false
+        
 
     };
 

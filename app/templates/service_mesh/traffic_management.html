@@ -483,16 +483,15 @@
 
             </div>
 
-
-            <!-- ========================================= -->
-            <!-- NEW CONFIGURATION -->
-            <!-- ========================================= -->
+<!-- ========================================= -->
+<!-- CANARY DEPLOYMENT CONFIGURATION -->
+<!-- ========================================= -->
 
             <div class="traffic-section">
 
                 <h3>
 
-                    New Traffic Allocation
+                    Canary Deployment Configuration
 
                 </h3>
 
@@ -500,24 +499,16 @@
 
                     <label>
 
-                        Primary Traffic (%)
+                        Canary Replicas
 
                     </label>
 
                     <input
-                        id="primary-weight"
-                        type="range"
-                        min="0"
-                        max="100"
-                        value="100">
-
-                    <div
-                        id="primary-slider-value"
-                        class="slider-value">
-
-                        100%
-
-                    </div>
+                        id="canary-replicas"
+                        type="number"
+                        min="1"
+                        max="10"
+                        value="1">
 
                 </div>
 
@@ -525,31 +516,20 @@
 
                     <label>
 
-                        Canary Traffic (%)
+                        Service Port
 
                     </label>
 
                     <input
-                        id="canary-weight"
-                        type="range"
-                        min="0"
-                        max="100"
-                        value="0">
-
-                    <div
-                        id="canary-slider-value"
-                        class="slider-value">
-
-                        0%
-
-                    </div>
+                        id="canary-service-port"
+                        type="number"
+                        value="80">
 
                 </div>
 
             </div>
 
-        </div>
-
+            </div>
 
         <!-- ============================================= -->
         <!-- FOOTER -->
