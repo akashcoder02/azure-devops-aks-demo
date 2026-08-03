@@ -529,9 +529,8 @@ def start_canary(payload):
 
             "primary_version": payload.get("primary_version", "v1"),
 
-            "canary_version": payload.get("canary_version", "v2"),
+            "canary_version": payload.get("canary_version", "v2")
 
-            "canary_weight": str(payload.get("canary_weight", 0))
 
         }
 
