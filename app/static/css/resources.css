@@ -194,16 +194,19 @@ margin-bottom:30px;
 
 }
 
-.analytics-large{
-
+.analytics-large,
+.analytics-small{
     height:420px;
-
+    display:flex;
+    flex-direction:column;
 }
 
-.analytics-small{
-
-    height:420px;
-
+.analytics-large canvas,
+.analytics-small canvas{
+    flex:1;
+    min-height:0;
+    width:100% !important;
+    height:auto !important;
 }
 
 /* ===========================
@@ -223,19 +226,13 @@ margin-bottom:30px;
 }
 
 .card{
-
     background:rgba(255,255,255,.05);
-
     border:1px solid rgba(255,255,255,.08);
-
     backdrop-filter:blur(14px);
-
     border-radius:18px;
-
     padding:22px;
-
     transition:.25s;
-
+    overflow:hidden;
 }
 
 .resource-card{
@@ -1055,4 +1052,12 @@ transform:rotate(360deg);
 
     border-radius:8px;
 
+}
+
+.analytics-large canvas,
+.analytics-small canvas {
+    display: block;
+    width: 100% !important;
+    height: 320px !important;
+    max-height: 320px;
 }

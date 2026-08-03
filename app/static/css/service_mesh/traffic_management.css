@@ -481,13 +481,21 @@
 
 .traffic-percentage{
 
-    color:#2ea043;
-
     font-size:18px;
 
-    font-weight:600;
+    font-weight:700;
 
-    margin-top:15px;
+}
+
+.primary-percentage{
+
+    color:#3b82f6;
+
+}
+
+.canary-percentage{
+
+    color:#f59e0b;
 
 }
 
@@ -517,13 +525,27 @@
 
     width:0%;
 
+    transition:width .35s ease;
+
+}
+
+.primary-progress{
+
     background:linear-gradient(
         90deg,
-        #238636,
-        #2ea043
+        #2563eb,
+        #3b82f6
     );
 
-    transition:width .35s ease;
+}
+
+.canary-progress{
+
+    background:linear-gradient(
+        90deg,
+        #f59e0b,
+        #fbbf24
+    );
 
 }
 

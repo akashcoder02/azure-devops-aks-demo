@@ -704,6 +704,12 @@ async function loadApplicationConfiguration(application) {
         document.getElementById("current-canary-weight").textContent =
             config.canary.weight + "%";
 
+        document.getElementById("primary-progress").style.width =
+            config.primary.weight + "%";
+
+        document.getElementById("canary-progress").style.width =
+            config.canary.weight + "%";
+
         // ----------------------------------------
         // New Configuration
         // ----------------------------------------
@@ -862,8 +868,6 @@ function initTrafficManagementPage() {
         initializeTrafficWeights();
 
     }
-
-    initializeTrafficWeights();
 
 }
 
