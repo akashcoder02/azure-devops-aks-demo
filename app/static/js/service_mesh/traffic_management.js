@@ -364,10 +364,25 @@ function initializeTrafficActions() {
         );
 
     document
+        .getElementById("cancel-traffic-operation")
+        ?.addEventListener(
+            "click",
+            closeTrafficOperation
+        );
+
+    document
         .getElementById("traffic-application")
         ?.addEventListener("change", function () {
 
             loadApplicationConfiguration(this.value);
+
+        });
+
+    document
+        .getElementById("cancel-traffic-btn")
+        ?.addEventListener("click", () => {
+
+            closeTrafficOperation();
 
         });
 
@@ -568,12 +583,6 @@ function openTrafficOperation(operation) {
     const applyButton =
         document.getElementById("execute-traffic-operation");
 
-    const primaryGroup =
-        document.getElementById("primary-weight").closest(".mesh-form-group");
-
-    const canaryGroup =
-        document.getElementById("canary-weight").closest(".mesh-form-group");
-
     
 
     const allocationSection =
@@ -586,16 +595,47 @@ function openTrafficOperation(operation) {
 
         applyButton.textContent = "Apply Traffic";
 
+        allocationSection.innerHTML = `
+        <h3>New Traffic Allocation</h3>
+
+        <div class="mesh-form-group">
+            <label>Primary Traffic (%)</label>
+            <input id="primary-weight" type="range" min="0" max="100" value="100">
+            <div id="primary-slider-value" class="slider-value">100%</div>
+        </div>
+
+        <div class="mesh-form-group">
+            <label>Canary Traffic (%)</label>
+            <input id="canary-weight" type="range" min="0" max="100" value="0">
+            <div id="canary-slider-value" class="slider-value">0%</div>
+        </div>
+        `;
+
         allocationSection.style.display = "block";
 
-        primaryGroup.style.display = "block";
-        canaryGroup.style.display = "block";
+        initializeTrafficWeights();
+
+
 
     }
 
     else if (operation === "Canary Deployment") {
 
         applyButton.textContent = "Deploy Canary";
+
+        allocationSection.innerHTML = `
+        <h3>Canary Deployment Configuration</h3>
+
+        <div class="mesh-form-group">
+            <label>Canary Replicas</label>
+            <input id="canary-replicas" type="number" value="1" min="1">
+        </div>
+
+        <div class="mesh-form-group">
+            <label>Service Port</label>
+            <input id="canary-service-port" type="number" value="80">
+        </div>
+        `;
 
         allocationSection.style.display = "block";
 
@@ -607,10 +647,6 @@ function openTrafficOperation(operation) {
         
         allocationSection.style.display = "none";
 
-        primaryGroup.style.display = "none";
-
-        canaryGroup.style.display = "none";
-
     }
 
     const application =
@@ -621,7 +657,9 @@ function openTrafficOperation(operation) {
     document.getElementById("traffic-operation-modal").style.display =
         "flex";
 
-    initializeTrafficWeights();
+    if (currentTrafficOperation === "Shift Traffic") {
+        initializeTrafficWeights();
+    }
 
 }
 
@@ -690,8 +728,6 @@ function closeTrafficOperation() {
 
     document.getElementById("traffic-operation-modal").style.display =
         "none";
-
-        
 
 }
 
@@ -819,7 +855,13 @@ function initTrafficManagementPage() {
 
     initializeTrafficActions();
 
-    console.log("Calling initializeTrafficWeights");
+    if (document.getElementById("primary-weight")) {
+
+        console.log("Calling initializeTrafficWeights");
+
+        initializeTrafficWeights();
+
+    }
 
     initializeTrafficWeights();
 
