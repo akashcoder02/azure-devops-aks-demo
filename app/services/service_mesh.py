@@ -345,37 +345,48 @@ def get_virtual_services():
 
     data = json.loads(result.stdout)
 
-    return [
-        {
-            "application": item["metadata"]["name"],
-            "name": item["metadata"]["name"],
-            "gateway": item.get("spec", {}).get("gateways", ["-"])[0],
-            "host": item.get("spec", {}).get("hosts", ["-"])[0],
-            "route": item.get("spec", {})
-                        .get("http", [{}])[0]
-                        .get("match", [{}])[0]
-                        .get("uri", {})
-                        .get("regex", "-"),
-            "subset": item.get("spec", {})
-                        .get("http", [{}])[0]
-                        .get("route", [{}])[0]
-                        .get("destination", {})
-                        .get("subset", "-"),
-            "weight": item.get("spec", {})
-                        .get("http", [{}])[0]
-                        .get("route", [{}])[0]
-                        .get("weight", 0),
-            "retry": item.get("spec", {})
-                        .get("http", [{}])[0]
-                        .get("retries", {})
-                        .get("attempts", 0),
-            "timeout": item.get("spec", {})
-                        .get("http", [{}])[0]
-                        .get("timeout", "-"),
-            "status": "Healthy"
-        }
-        for item in data.get("items", [])
-    ]
+    services = []
+
+    for item in data.get("items", []):
+
+        routes = item.get("spec", {}).get("http", [{}])[0].get("route", [])
+
+        for route in routes:
+
+            services.append({
+
+                "application": item["metadata"]["name"],
+
+                "name": item["metadata"]["name"],
+
+                "gateway": item.get("spec", {}).get("gateways", ["-"])[0],
+
+                "host": item.get("spec", {}).get("hosts", ["-"])[0],
+
+                "route": item.get("spec", {})
+                            .get("http", [{}])[0]
+                            .get("match", [{}])[0]
+                            .get("uri", {})
+                            .get("regex", "-"),
+
+                "subset": route.get("destination", {}).get("subset", "-"),
+
+                "weight": route.get("weight", 0),
+
+                "retry": item.get("spec", {})
+                            .get("http", [{}])[0]
+                            .get("retries", {})
+                            .get("attempts", 0),
+
+                "timeout": item.get("spec", {})
+                            .get("http", [{}])[0]
+                            .get("timeout", "-"),
+
+                "status": "Healthy"
+
+            })
+
+    return services
 
 def get_destination_rules():
 

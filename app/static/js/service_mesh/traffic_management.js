@@ -334,34 +334,42 @@ function initializeTrafficActions() {
 
 
     document
-    .getElementById("canary-btn")
-    ?.addEventListener("click", () => {
+        .getElementById("canary-btn")
+        ?.addEventListener("click", () => {
 
-        openTrafficOperation("Canary Deployment");
+            openTrafficOperation("Canary Deployment");
 
-    });
-
-    document
-    .getElementById("rollback-btn")
-    ?.addEventListener("click", () => {
-
-        openTrafficOperation("Rollback Traffic");
-
-    });
+        });
 
     document
-    .getElementById("execute-traffic-operation")
-    ?.addEventListener(
-        "click",
-        executeTrafficOperation
-    );
+        .getElementById("rollback-btn")
+        ?.addEventListener("click", () => {
+
+            openTrafficOperation("Rollback Traffic");
+
+        });
 
     document
-    .getElementById("close-traffic-modal")
-    ?.addEventListener(
-        "click",
-        closeTrafficOperation
-    );
+        .getElementById("execute-traffic-operation")
+        ?.addEventListener(
+            "click",
+            executeTrafficOperation
+        );
+
+    document
+        .getElementById("close-traffic-modal")
+        ?.addEventListener(
+            "click",
+            closeTrafficOperation
+        );
+
+    document
+        .getElementById("traffic-application")
+        ?.addEventListener("change", function () {
+
+            loadApplicationConfiguration(this.value);
+
+        });
 
     console.log("Traffic buttons ready");
 
