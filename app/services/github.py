@@ -38,12 +38,19 @@ def trigger_workflow(workflow_file, inputs=None, ref="main"):
 
     try:
 
+        print("========== GITHUB WORKFLOW ==========")
+        print("URL:", url)
+        print("Payload:", payload)
+
         response = requests.post(
             url=url,
             headers=headers,
             json=payload,
             timeout=30
         )
+
+        print("Status Code:", response.status_code)
+        print("Response:", response.text)
 
         if response.status_code == 204:
 
