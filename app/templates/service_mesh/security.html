@@ -1,0 +1,1070 @@
+<div class="mesh-security">
+
+    <!-- ===================================================== -->
+    <!-- LAST UPDATED -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-last-updated">
+
+        Last Updated:
+
+        <span id="security-last-updated">
+
+            --
+
+        </span>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- SECURITY SUMMARY -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-summary-grid">
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+
+                mTLS
+
+            </div>
+
+            <div class="mesh-card-value"
+                 id="mtls-mode">
+
+                STRICT
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+
+                Current Security Mode
+
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+
+                Authorization Policies
+
+            </div>
+
+            <div class="mesh-card-value"
+                 id="authorization-count">
+
+                0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+
+                Active Policies
+
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+
+                Certificates
+
+            </div>
+
+            <div class="mesh-card-value"
+                 id="certificate-status">
+
+                Healthy
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+
+                Workload Certificates
+
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+
+                JWT Authentication
+
+            </div>
+
+            <div class="mesh-card-value"
+                 id="jwt-status">
+
+                Disabled
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+
+                Request Authentication
+
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+
+                Sidecars
+
+            </div>
+
+            <div class="mesh-card-value"
+                 id="sidecar-count">
+
+                0 / 0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+
+                Injected Workloads
+
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+
+                Security Score
+
+            </div>
+
+            <div class="mesh-card-value"
+                 id="security-score">
+
+                100%
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+
+                Overall Security Health
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+    <!-- ===================================================== -->
+    <!-- MUTUAL TLS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Mutual TLS (mTLS)
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <tbody>
+
+                <tr>
+
+                    <td>Mode</td>
+
+                    <td id="mtls-current-mode">
+
+                        STRICT
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Namespace</td>
+
+                    <td id="mtls-namespace">
+
+                        default
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Peer Authentication</td>
+
+                    <td id="peer-auth-status">
+
+                        Configured
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Destination Rule TLS</td>
+
+                    <td id="destinationrule-tls">
+
+                        ISTIO_MUTUAL
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="mesh-actions">
+
+            <button id="enable-strict-btn"
+                    class="mesh-action-btn mesh-primary">
+
+                Enable STRICT
+
+            </button>
+
+            <button id="enable-permissive-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Enable PERMISSIVE
+
+            </button>
+
+            <button id="disable-mtls-btn"
+                    class="mesh-action-btn mesh-danger">
+
+                Disable
+
+            </button>
+
+            <button id="validate-mtls-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Validate
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- PEER AUTHENTICATION -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Peer Authentication
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Namespace</th>
+                    <th>Mode</th>
+                    <th>Status</th>
+                    <th>Age</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="peer-authentication-body">
+
+                <tr>
+
+                    <td colspan="5">
+
+                        Loading Peer Authentication...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- DESTINATION RULE TLS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            DestinationRule TLS
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Application</th>
+                    <th>Host</th>
+                    <th>TLS Mode</th>
+                    <th>Traffic Policy</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="destinationrule-body">
+
+                <tr>
+
+                    <td colspan="5">
+
+                        Loading Destination Rules...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- AUTHORIZATION POLICIES -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Authorization Policies
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+                    <th>Namespace</th>
+                    <th>Action</th>
+                    <th>Selector</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="authorization-policy-body">
+
+                <tr>
+
+                    <td colspan="5">
+
+                        Loading Authorization Policies...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="mesh-actions">
+
+            <button id="create-policy-btn"
+                    class="mesh-action-btn mesh-primary">
+
+                Create Policy
+
+            </button>
+
+            <button id="refresh-policy-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- JWT AUTHENTICATION -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            JWT Request Authentication
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <tbody>
+
+                <tr>
+
+                    <td>Issuer</td>
+
+                    <td id="jwt-issuer">
+
+                        --
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>JWKS URI</td>
+
+                    <td id="jwt-jwks">
+
+                        --
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Protected Workloads</td>
+
+                    <td id="jwt-workloads">
+
+                        0
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Status</td>
+
+                    <td id="jwt-current-status">
+
+                        Disabled
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="mesh-actions">
+
+            <button id="enable-jwt-btn"
+                    class="mesh-action-btn mesh-primary">
+
+                Enable JWT
+
+            </button>
+
+            <button id="disable-jwt-btn"
+                    class="mesh-action-btn mesh-danger">
+
+                Disable JWT
+
+            </button>
+
+            <button id="validate-jwt-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Validate
+
+            </button>
+
+            <button id="view-jwt-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                View YAML
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- WORKLOAD SECURITY MATRIX -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Workload Security Matrix
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Application</th>
+                    <th>Namespace</th>
+                    <th>Sidecar</th>
+                    <th>mTLS</th>
+                    <th>JWT</th>
+                    <th>Authorization</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="workload-security-body">
+
+                <tr>
+
+                    <td colspan="7">
+
+                        Loading Workload Security...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- ENVOY SIDECAR STATUS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Envoy Sidecar Status
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Pod</th>
+                    <th>Namespace</th>
+                    <th>Application</th>
+                    <th>Sidecar</th>
+                    <th>Ready</th>
+                    <th>Version</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="sidecar-status-body">
+
+                <tr>
+
+                    <td colspan="7">
+
+                        Loading Sidecar Status...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CERTIFICATE STATUS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Certificate Status
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <tbody>
+
+                <tr>
+
+                    <td>Root CA</td>
+
+                    <td id="root-ca-status">
+
+                        Healthy
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Total Certificates</td>
+
+                    <td id="certificate-count">
+
+                        0
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Expiring Soon</td>
+
+                    <td id="certificate-expiring">
+
+                        0
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Auto Rotation</td>
+
+                    <td id="certificate-rotation">
+
+                        Enabled
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <br>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Workload</th>
+                    <th>Certificate</th>
+                    <th>Issued</th>
+                    <th>Expires</th>
+                    <th>Days Left</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="certificate-table-body">
+
+                <tr>
+
+                    <td colspan="6">
+
+                        Loading Certificates...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- NAMESPACE SECURITY -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Namespace Security
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Namespace</th>
+                    <th>Injection</th>
+                    <th>mTLS</th>
+                    <th>Authorization</th>
+                    <th>JWT</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="namespace-security-body">
+
+                <tr>
+
+                    <td colspan="6">
+
+                        Loading Namespace Security...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- SECURITY VALIDATION -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Security Validation
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Validation</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="security-validation-body">
+
+                <tr>
+                    <td>PeerAuthentication</td>
+                    <td>Checking...</td>
+                </tr>
+
+                <tr>
+                    <td>DestinationRule</td>
+                    <td>Checking...</td>
+                </tr>
+
+                <tr>
+                    <td>Sidecar Injection</td>
+                    <td>Checking...</td>
+                </tr>
+
+                <tr>
+                    <td>Certificates</td>
+                    <td>Checking...</td>
+                </tr>
+
+                <tr>
+                    <td>JWT Authentication</td>
+                    <td>Checking...</td>
+                </tr>
+
+                <tr>
+                    <td>Authorization Policy</td>
+                    <td>Checking...</td>
+                </tr>
+
+                <tr>
+                    <td>Proxy Synchronization</td>
+                    <td>Checking...</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <div class="mesh-actions">
+
+            <button id="run-security-validation-btn"
+                    class="mesh-action-btn mesh-primary">
+
+                Run Validation
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- SECURITY EVENTS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Security Events
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Time</th>
+                    <th>Event</th>
+                    <th>Resource</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="security-events-body">
+
+                <tr>
+
+                    <td colspan="5">
+
+                        No Security Events
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- SECURITY RECOMMENDATIONS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Security Recommendations
+
+        </div>
+
+        <table class="mesh-status-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Recommendation</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="security-recommendations-body">
+
+                <tr>
+
+                    <td>Enable STRICT mTLS</td>
+
+                    <td>High</td>
+
+                    <td>Recommended</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Configure JWT Authentication</td>
+
+                    <td>Medium</td>
+
+                    <td>Recommended</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Create Authorization Policies</td>
+
+                    <td>High</td>
+
+                    <td>Recommended</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Monitor Certificate Rotation</td>
+
+                    <td>Low</td>
+
+                    <td>Healthy</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- QUICK ACTIONS -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-card">
+
+        <div class="mesh-card-title">
+
+            Quick Actions
+
+        </div>
+
+        <div class="mesh-actions">
+
+            <button id="strict-mtls-btn"
+                    class="mesh-action-btn mesh-primary">
+
+                Apply STRICT mTLS
+
+            </button>
+
+            <button id="authorization-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Authorization Policy
+
+            </button>
+
+            <button id="jwt-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Enable JWT
+
+            </button>
+
+            <button id="audit-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Security Audit
+
+            </button>
+
+            <button id="kiali-btn"
+                    class="mesh-action-btn mesh-secondary">
+
+                Open Kiali
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-last-updated">
+
+        Last Refresh :
+
+        <span id="security-refresh-time">
+
+            --
+
+        </span>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        Istio Version :
+
+        <span id="security-istio-version">
+
+            --
+
+        </span>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        Status :
+
+        <span id="security-health">
+
+            HEALTHY
+
+        </span>
+
+    </div>
+
+</div>

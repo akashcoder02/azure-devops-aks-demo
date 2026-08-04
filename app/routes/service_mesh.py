@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, render_template, request
 from services.service_mesh import (
     get_overview,
     get_traffic_management,
+    get_security,
     shift_traffic,
     start_canary,
     rollback_traffic,
@@ -40,6 +41,9 @@ def overview_page():
 def traffic_page():
     return render_template("service_mesh/traffic_management.html")
 
+@service_mesh_bp.route("/service-mesh/page/security")
+def security_page():
+    return render_template("service_mesh/security.html")
 
 # ==========================================================
 # APIs
@@ -53,6 +57,10 @@ def service_mesh_overview():
 @service_mesh_bp.route("/api/service-mesh/traffic")
 def service_mesh_traffic():
     return jsonify(get_traffic_management())
+
+@service_mesh_bp.route("/api/service-mesh/security")
+def service_mesh_security():
+    return jsonify(get_security())
 
 
 @service_mesh_bp.route("/api/service-mesh/refresh")
@@ -162,3 +170,79 @@ def application_configuration(application):
         get_application_configuration(application)
 
     )
+
+# ==========================================================
+# APPLY SECURITY
+# ==========================================================
+
+@service_mesh_bp.route(
+    "/api/service-mesh/security/apply",
+    methods=["POST"]
+)
+def apply_security():
+
+    payload = request.get_json()
+
+    result = trigger_workflow(
+
+        workflow_file="service-mesh-security.yml",
+
+        inputs={
+
+            "action": "apply",
+
+            "mtls_mode": payload.get(
+                "mtls_mode",
+                "STRICT"
+            ),
+
+            "authorization_enabled": payload.get(
+                "authorization_enabled",
+                True
+            ),
+
+            "jwt_enabled": payload.get(
+                "jwt_enabled",
+                False
+            ),
+
+            "jwt_issuer": payload.get(
+                "jwt_issuer",
+                ""
+            ),
+
+            "jwt_jwks_uri": payload.get(
+                "jwt_jwks_uri",
+                ""
+            )
+
+        }
+
+    )
+
+    return jsonify(result)
+
+
+# ==========================================================
+# DESTROY SECURITY
+# ==========================================================
+
+@service_mesh_bp.route(
+    "/api/service-mesh/security/destroy",
+    methods=["POST"]
+)
+def destroy_security():
+
+    result = trigger_workflow(
+
+        workflow_file="service-mesh-security.yml",
+
+        inputs={
+
+            "action": "destroy"
+
+        }
+
+    )
+
+    return jsonify(result)

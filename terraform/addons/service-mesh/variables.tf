@@ -129,3 +129,82 @@ variable "canary_enabled_override" {
   type        = bool
   default     = false
 }
+
+# ==========================================================
+# SERVICE MESH SECURITY
+# ==========================================================
+
+variable "mtls_mode" {
+
+  description = "Istio mTLS mode"
+
+  type = string
+
+  default = "STRICT"
+
+  validation {
+
+    condition = contains(
+      [
+        "STRICT",
+        "PERMISSIVE",
+        "DISABLE"
+      ],
+      var.mtls_mode
+    )
+
+    error_message = "mTLS mode must be STRICT, PERMISSIVE or DISABLE."
+
+  }
+
+}
+
+variable "authorization_enabled" {
+
+  description = "Enable AuthorizationPolicy"
+
+  type = bool
+
+  default = true
+
+}
+
+variable "jwt_enabled" {
+
+  description = "Enable RequestAuthentication"
+
+  type = bool
+
+  default = false
+
+}
+
+variable "jwt_issuer" {
+
+  description = "JWT Issuer"
+
+  type = string
+
+  default = ""
+
+}
+
+variable "jwt_jwks_uri" {
+
+  description = "JWT JWKS URI"
+
+  type = string
+
+  default = ""
+
+}
+
+variable "security_namespace" {
+
+  description = "Namespace where Service Mesh security resources will be deployed"
+
+  type = string
+
+  default = "default"
+
+}

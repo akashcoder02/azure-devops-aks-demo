@@ -616,3 +616,85 @@ def get_application_configuration(application):
         "canary_enabled": canary["weight"] > 0
 
     }
+
+# ==========================================================
+# SECURITY
+# ==========================================================
+
+def get_security():
+
+    return {
+
+        "summary": {
+
+            "last_updated": "--",
+
+            "mtls": "STRICT",
+
+            "authorization_policies": 0,
+
+            "certificates": "Healthy",
+
+            "jwt": "Disabled",
+
+            "sidecars": "0 / 0",
+
+            "security_score": "100%"
+
+        },
+
+        "mtls": {
+
+            "mode": "STRICT",
+
+            "namespace": "default",
+
+            "peer_authentication": "Configured",
+
+            "destination_rule": "ISTIO_MUTUAL"
+
+        },
+
+        "peer_authentication": [],
+
+        "destination_rules": [],
+
+        "authorization_policies": [],
+
+        "jwt": {
+
+            "issuer": "--",
+
+            "jwks_uri": "--",
+
+            "workloads": 0,
+
+            "status": "Disabled"
+
+        },
+
+        "workloads": [],
+
+        "sidecars": [],
+
+        "certificates_summary": {
+
+            "root_ca": "Healthy",
+
+            "total": 0,
+
+            "expiring": 0,
+
+            "rotation": "Enabled"
+
+        },
+
+        "certificates": [],
+
+        "namespaces": [],
+
+        "validation": [],
+
+        "events": []
+
+    }

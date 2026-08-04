@@ -1,0 +1,1553 @@
+<div class="security-page">
+
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                <i class="fas fa-shield-alt"></i>
+                Service Mesh Security
+            </h1>
+
+            <p>
+                Centralized Istio security management, workload protection,
+                mTLS, Authorization Policies and certificate monitoring.
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <button id="refreshSecurity"
+                    class="btn btn-primary">
+
+                <i class="fas fa-sync"></i>
+                Refresh
+
+            </button>
+
+            <button id="validateSecurity"
+                    class="btn btn-success">
+
+                <i class="fas fa-check-circle"></i>
+                Validate
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         SECURITY SUMMARY
+    =========================================== -->
+
+    <div class="security-summary-grid">
+
+        <div class="summary-card">
+
+            <div class="summary-icon success">
+                <i class="fas fa-lock"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-title">
+                    mTLS
+                </span>
+
+                <h2 id="mtlsMode">
+                    STRICT
+                </h2>
+
+                <small>
+                    Current Security Mode
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon primary">
+                <i class="fas fa-user-shield"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-title">
+                    Authorization Policies
+                </span>
+
+                <h2 id="authorizationCount">
+                    0
+                </h2>
+
+                <small>
+                    Active Policies
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon warning">
+                <i class="fas fa-certificate"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-title">
+                    Certificates
+                </span>
+
+                <h2 id="certificateStatus">
+                    Healthy
+                </h2>
+
+                <small>
+                    Workload Certificates
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon info">
+                <i class="fas fa-key"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-title">
+                    JWT
+                </span>
+
+                <h2 id="jwtStatus">
+                    Disabled
+                </h2>
+
+                <small>
+                    Request Authentication
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon success">
+                <i class="fas fa-network-wired"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-title">
+                    Sidecars
+                </span>
+
+                <h2 id="sidecarCount">
+                    0 / 0
+                </h2>
+
+                <small>
+                    Injected Workloads
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon danger">
+                <i class="fas fa-shield-virus"></i>
+            </div>
+
+            <div class="summary-content">
+
+                <span class="summary-title">
+                    Security Score
+                </span>
+
+                <h2 id="securityScore">
+                    100%
+                </h2>
+
+                <small>
+                    Overall Health
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         MTLS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Mutual TLS (mTLS)
+                </h2>
+
+                <p>
+                    Secure encrypted communication between workloads.
+                </p>
+
+            </div>
+
+            <span class="status-badge success">
+
+                Active
+
+            </span>
+
+        </div>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+
+                <span>Mode</span>
+
+                <strong id="mtlsCurrentMode">
+
+                    STRICT
+
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>Namespace</span>
+
+                <strong id="mtlsNamespace">
+
+                    default
+
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>Peer Authentication</span>
+
+                <strong id="peerAuthentication">
+
+                    Configured
+
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>Destination Rule</span>
+
+                <strong id="destinationRuleTls">
+
+                    ISTIO_MUTUAL
+
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="action-buttons">
+
+            <button id="enableStrict">
+
+                Enable STRICT
+
+            </button>
+
+            <button id="enablePermissive">
+
+                PERMISSIVE
+
+            </button>
+
+            <button id="disableMtls">
+
+                Disable
+
+            </button>
+
+            <button id="validateMtls">
+
+                Validate
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         PEER AUTHENTICATION
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+
+                    Peer Authentication
+
+                </h2>
+
+                <p>
+
+                    Namespace level mTLS configuration.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Namespace</th>
+                    <th>Mode</th>
+                    <th>Status</th>
+                    <th>Age</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="peerAuthenticationTable">
+
+                <tr>
+
+                    <td>default</td>
+
+                    <td>STRICT</td>
+
+                    <td>
+
+                        <span class="status-badge success">
+
+                            Active
+
+                        </span>
+
+                    </td>
+
+                    <td>--</td>
+
+                    <td>
+
+                        <button class="table-btn">
+
+                            View
+
+                        </button>
+
+                        <button class="table-btn">
+
+                            Edit
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+        <!-- ==========================================
+         DESTINATION RULE TLS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>DestinationRule TLS</h2>
+
+                <p>
+                    TLS policies applied through Istio DestinationRules.
+                </p>
+
+            </div>
+
+            <button id="refreshDestinationRules"
+                    class="btn btn-primary">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Application</th>
+                    <th>Host</th>
+                    <th>TLS Mode</th>
+                    <th>Traffic Policy</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="destinationRuleTable">
+
+                <tr>
+
+                    <td>tic-tac-toe</td>
+                    <td>tic-tac-toe.default.svc.cluster.local</td>
+                    <td>ISTIO_MUTUAL</td>
+
+                    <td>
+
+                        Enabled
+
+                    </td>
+
+                    <td>
+
+                        <span class="status-badge success">
+
+                            Healthy
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button class="table-btn">
+
+                            View
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         AUTHORIZATION POLICIES
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+
+                    Authorization Policies
+
+                </h2>
+
+                <p>
+
+                    Istio access control policies protecting workloads.
+
+                </p>
+
+            </div>
+
+            <div class="header-actions">
+
+                <button id="createAuthorizationPolicy"
+                        class="btn btn-success">
+
+                    Create Policy
+
+                </button>
+
+                <button id="refreshAuthorizationPolicies"
+                        class="btn btn-primary">
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+                    <th>Namespace</th>
+                    <th>Action</th>
+                    <th>Selector</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="authorizationPolicyTable">
+
+                <tr>
+
+                    <td>allow-web</td>
+
+                    <td>default</td>
+
+                    <td>ALLOW</td>
+
+                    <td>app=tic-tac-toe</td>
+
+                    <td>
+
+                        <span class="status-badge success">
+
+                            Active
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <button class="table-btn">
+
+                            View
+
+                        </button>
+
+                        <button class="table-btn">
+
+                            YAML
+
+                        </button>
+
+                        <button class="table-btn danger">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         REQUEST AUTHENTICATION (JWT)
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+
+                    JWT Request Authentication
+
+                </h2>
+
+                <p>
+
+                    Validate user identity using JSON Web Tokens.
+
+                </p>
+
+            </div>
+
+            <span class="status-badge warning">
+
+                Disabled
+
+            </span>
+
+        </div>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+
+                <span>
+
+                    Issuer
+
+                </span>
+
+                <strong id="jwtIssuer">
+
+                    --
+
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>
+
+                    JWKS URI
+
+                </span>
+
+                <strong id="jwksUri">
+
+                    --
+
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>
+
+                    Protected Workloads
+
+                </span>
+
+                <strong id="jwtProtectedWorkloads">
+
+                    0
+
+                </strong>
+
+            </div>
+
+            <div class="info-box">
+
+                <span>
+
+                    Validation Status
+
+                </span>
+
+                <strong id="jwtValidationStatus">
+
+                    Disabled
+
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="action-buttons">
+
+            <button id="enableJwt">
+
+                Enable JWT
+
+            </button>
+
+            <button id="disableJwt">
+
+                Disable JWT
+
+            </button>
+
+            <button id="validateJwt">
+
+                Validate
+
+            </button>
+
+            <button id="viewJwtYaml">
+
+                View YAML
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         WORKLOAD SECURITY MATRIX
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+
+                    Workload Security Matrix
+
+                </h2>
+
+                <p>
+
+                    Live security posture of every deployed workload.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Application</th>
+                    <th>Namespace</th>
+                    <th>Sidecar</th>
+                    <th>mTLS</th>
+                    <th>JWT</th>
+                    <th>Authorization</th>
+                    <th>Overall</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="workloadSecurityTable">
+
+                <tr>
+
+                    <td>tic-tac-toe</td>
+
+                    <td>default</td>
+
+                    <td>✅</td>
+
+                    <td>STRICT</td>
+
+                    <td>❌</td>
+
+                    <td>✅</td>
+
+                    <td>
+
+                        <span class="status-badge success">
+
+                            Secure
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>tetris</td>
+
+                    <td>default</td>
+
+                    <td>✅</td>
+
+                    <td>STRICT</td>
+
+                    <td>❌</td>
+
+                    <td>❌</td>
+
+                    <td>
+
+                        <span class="status-badge warning">
+
+                            Partial
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+        <!-- ==========================================
+         SIDECAR STATUS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Envoy Sidecar Status</h2>
+
+                <p>Live sidecar proxy health across all workloads.</p>
+
+            </div>
+
+            <button id="refreshSidecars"
+                    class="btn btn-primary">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Pod</th>
+                    <th>Namespace</th>
+                    <th>Application</th>
+                    <th>Sidecar</th>
+                    <th>Ready</th>
+                    <th>Version</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="sidecarTable">
+
+                <tr>
+
+                    <td>tic-tac-toe-xxxxx</td>
+                    <td>default</td>
+                    <td>tic-tac-toe</td>
+                    <td>Injected</td>
+                    <td>2 / 2</td>
+                    <td>1.27.x</td>
+
+                    <td>
+
+                        <span class="status-badge success">
+
+                            Healthy
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         CERTIFICATE STATUS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Certificate Status</h2>
+
+                <p>Istio workload certificate monitoring.</p>
+
+            </div>
+
+        </div>
+
+        <div class="security-summary-grid">
+
+            <div class="summary-card">
+
+                <div class="summary-content">
+
+                    <span>Root CA</span>
+
+                    <h2 id="rootCaStatus">
+
+                        Healthy
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <div class="summary-card">
+
+                <div class="summary-content">
+
+                    <span>Certificates</span>
+
+                    <h2 id="certificateCount">
+
+                        0
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <div class="summary-card">
+
+                <div class="summary-content">
+
+                    <span>Expiring Soon</span>
+
+                    <h2 id="certificateExpiry">
+
+                        0
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <div class="summary-card">
+
+                <div class="summary-content">
+
+                    <span>Auto Rotation</span>
+
+                    <h2 id="certificateRotation">
+
+                        Enabled
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Workload</th>
+                    <th>Certificate</th>
+                    <th>Issued</th>
+                    <th>Expires</th>
+                    <th>Days Left</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="certificateTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         NAMESPACE SECURITY
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Namespace Security</h2>
+
+                <p>Security configuration by Kubernetes namespace.</p>
+
+            </div>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Namespace</th>
+                    <th>Injection</th>
+                    <th>mTLS</th>
+                    <th>Policies</th>
+                    <th>JWT</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="namespaceSecurityTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         SECURITY VALIDATION
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Security Validation</h2>
+
+                <p>Validate Istio security configuration.</p>
+
+            </div>
+
+            <button id="runSecurityValidation"
+                    class="btn btn-success">
+
+                Run Validation
+
+            </button>
+
+        </div>
+
+        <div class="validation-grid">
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>PeerAuthentication</span>
+
+            </div>
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>DestinationRule</span>
+
+            </div>
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>Sidecar Injection</span>
+
+            </div>
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>Certificates</span>
+
+            </div>
+
+            <div class="validation-item warning">
+
+                <i class="fas fa-exclamation-triangle"></i>
+
+                <span>JWT Authentication</span>
+
+            </div>
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>Authorization Policy</span>
+
+            </div>
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>mTLS</span>
+
+            </div>
+
+            <div class="validation-item success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <span>Proxy Synchronization</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+        <!-- ==========================================
+         SECURITY EVENTS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Security Events</h2>
+
+                <p>
+                    Recent Istio security activities and events.
+                </p>
+
+            </div>
+
+            <button id="refreshEvents"
+                    class="btn btn-primary">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+        <table class="security-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Time</th>
+                    <th>Event</th>
+                    <th>Resource</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="securityEventsTable">
+
+                <tr>
+
+                    <td>--</td>
+
+                    <td>No security events</td>
+
+                    <td>--</td>
+
+                    <td>
+
+                        <span class="status-badge success">
+
+                            Normal
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        Healthy
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ==========================================
+         SECURITY RECOMMENDATIONS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Security Recommendations</h2>
+
+                <p>
+
+                    Best practice recommendations for your Service Mesh.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="recommendation-grid">
+
+            <div class="recommendation-card success">
+
+                <i class="fas fa-check-circle"></i>
+
+                <div>
+
+                    <h4>Enable STRICT mTLS</h4>
+
+                    <p>Encrypt communication between all workloads.</p>
+
+                </div>
+
+            </div>
+
+            <div class="recommendation-card warning">
+
+                <i class="fas fa-exclamation-triangle"></i>
+
+                <div>
+
+                    <h4>Enable JWT Authentication</h4>
+
+                    <p>Protect APIs using RequestAuthentication.</p>
+
+                </div>
+
+            </div>
+
+            <div class="recommendation-card info">
+
+                <i class="fas fa-user-lock"></i>
+
+                <div>
+
+                    <h4>Create Authorization Policies</h4>
+
+                    <p>Restrict workload access using least privilege.</p>
+
+                </div>
+
+            </div>
+
+            <div class="recommendation-card success">
+
+                <i class="fas fa-sync-alt"></i>
+
+                <div>
+
+                    <h4>Certificate Rotation</h4>
+
+                    <p>Automatic certificate rotation is recommended.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         QUICK ACTIONS
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Quick Actions</h2>
+
+                <p>
+
+                    Frequently used Service Mesh security operations.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="quick-actions-grid">
+
+            <button id="applyStrictMtls" class="action-card">
+
+                <i class="fas fa-lock"></i>
+
+                <span>Apply STRICT mTLS</span>
+
+            </button>
+
+            <button id="applyPermissiveMtls" class="action-card">
+
+                <i class="fas fa-unlock"></i>
+
+                <span>Apply PERMISSIVE</span>
+
+            </button>
+
+            <button id="createAuthorization" class="action-card">
+
+                <i class="fas fa-user-shield"></i>
+
+                <span>Create Authorization Policy</span>
+
+            </button>
+
+            <button id="enableJwtAuthentication" class="action-card">
+
+                <i class="fas fa-key"></i>
+
+                <span>Enable JWT</span>
+
+            </button>
+
+            <button id="runSecurityAudit" class="action-card">
+
+                <i class="fas fa-search"></i>
+
+                <span>Run Security Audit</span>
+
+            </button>
+
+            <button id="openKialiSecurity" class="action-card">
+
+                <i class="fas fa-project-diagram"></i>
+
+                <span>Open Kiali</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         SECURITY ARCHITECTURE
+    =========================================== -->
+
+    <div class="security-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>Service Mesh Security Flow</h2>
+
+                <p>
+
+                    End-to-end request flow through Istio security components.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="architecture-flow">
+
+            <div class="flow-box">
+
+                Developer
+
+            </div>
+
+            <div class="flow-arrow">
+
+                ↓
+
+            </div>
+
+            <div class="flow-box">
+
+                Istio Gateway
+
+            </div>
+
+            <div class="flow-arrow">
+
+                ↓
+
+            </div>
+
+            <div class="flow-box">
+
+                PeerAuthentication
+
+            </div>
+
+            <div class="flow-arrow">
+
+                ↓
+
+            </div>
+
+            <div class="flow-box">
+
+                mTLS
+
+            </div>
+
+            <div class="flow-arrow">
+
+                ↓
+
+            </div>
+
+            <div class="flow-box">
+
+                AuthorizationPolicy
+
+            </div>
+
+            <div class="flow-arrow">
+
+                ↓
+
+            </div>
+
+            <div class="flow-box">
+
+                DestinationRule
+
+            </div>
+
+            <div class="flow-arrow">
+
+                ↓
+
+            </div>
+
+            <div class="flow-box success">
+
+                Application Pods
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <div class="security-footer">
+
+        <div>
+
+            Last Refresh
+
+            <strong id="lastSecurityRefresh">
+
+                --
+
+            </strong>
+
+        </div>
+
+        <div>
+
+            Istio Version
+
+            <strong id="istioVersion">
+
+                --
+
+            </strong>
+
+        </div>
+
+        <div>
+
+            Security Status
+
+            <strong class="text-success">
+
+                HEALTHY
+
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+

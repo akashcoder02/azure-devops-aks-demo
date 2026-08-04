@@ -42,14 +42,8 @@ async function loadPage(page) {
             break;
 
         case "security":
-
-            container.innerHTML = `
-                <div class="mesh-card">
-                    <h2>Security</h2>
-                    <p>Coming Soon</p>
-                </div>
-            `;
-            return;
+            url = "/service-mesh/page/security";
+            break;
 
         case "resilience":
 
@@ -117,6 +111,16 @@ async function loadPage(page) {
             if (typeof initializeTrafficActions === "function") {
 
                 initializeTrafficActions();
+
+            }
+
+        }
+
+        if (page === "security") {
+
+            if (typeof initializeSecurityDashboard === "function") {
+
+                initializeSecurityDashboard();
 
             }
 

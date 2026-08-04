@@ -1,0 +1,96 @@
+name: Service Mesh Security
+
+on:
+
+  workflow_dispatch:
+
+    inputs:
+
+      action:
+
+        description: Security Action
+
+        required: true
+
+        type: choice
+
+        options:
+
+          - apply
+
+          - destroy
+
+      mtls_mode:
+
+        description: mTLS Mode
+
+        required: true
+
+        default: STRICT
+
+        type: choice
+
+        options:
+
+          - STRICT
+          - PERMISSIVE
+          - DISABLE
+
+      authorization_enabled:
+
+        description: Enable Authorization Policy
+
+        required: true
+
+        default: true
+
+        type: boolean
+
+      jwt_enabled:
+
+        description: Enable JWT
+
+        required: true
+
+        default: false
+
+        type: boolean
+
+      jwt_issuer:
+
+        description: JWT Issuer
+
+        required: false
+
+        default: ""
+
+      jwt_jwks_uri:
+
+        description: JWT JWKS URI
+
+        required: false
+
+        default: ""
+
+jobs:
+
+  security:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+
+        uses: actions/checkout@v4
+
+      - name: Service Mesh Security
+
+        run: |
+
+          echo "Action                : ${{ inputs.action }}"
+          echo "mTLS                 : ${{ inputs.mtls_mode }}"
+          echo "Authorization Policy : ${{ inputs.authorization_enabled }}"
+          echo "JWT Enabled          : ${{ inputs.jwt_enabled }}"
+          echo "JWT Issuer           : ${{ inputs.jwt_issuer }}"
+          echo "JWKS URI             : ${{ inputs.jwt_jwks_uri }}"

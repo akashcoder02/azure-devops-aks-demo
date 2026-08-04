@@ -1,0 +1,200 @@
+/* ==========================================================
+   SERVICE MESH SECURITY
+========================================================== */
+
+.mesh-security{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+
+/* ==========================================================
+   LAST UPDATED
+========================================================== */
+
+.mesh-last-updated{
+
+    color:#8b949e;
+
+    font-size:13px;
+
+}
+
+
+/* ==========================================================
+   TABLES
+========================================================== */
+
+.mesh-status-table td{
+
+    vertical-align:middle;
+
+}
+
+.mesh-status-table th{
+
+    white-space:nowrap;
+
+}
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.mesh-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+.status-success{
+
+    color:#2ea043;
+
+    font-weight:600;
+
+}
+
+.status-warning{
+
+    color:#d29922;
+
+    font-weight:600;
+
+}
+
+.status-danger{
+
+    color:#f85149;
+
+    font-weight:600;
+
+}
+
+/* ==========================================================
+   LOADING ROWS
+========================================================== */
+
+.mesh-status-table tbody tr td[colspan]{
+
+    text-align:center;
+
+    color:#8b949e;
+
+    padding:24px;
+
+    font-style:italic;
+
+}
+
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.mesh-security .mesh-last-updated{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:30px;
+
+    align-items:center;
+
+    border-top:1px solid #30363d;
+
+    padding-top:20px;
+
+    margin-top:10px;
+
+    color:#8b949e;
+
+    font-size:13px;
+
+}
+
+.mesh-security .mesh-last-updated span{
+
+    color:#ffffff;
+
+    font-weight:600;
+
+}
+
+
+/* ==========================================================
+   LARGE TABLES
+========================================================== */
+
+.mesh-security .mesh-status-table{
+
+    width:100%;
+
+    overflow-x:auto;
+
+}
+
+.mesh-security .mesh-card{
+
+    overflow-x:auto;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:992px){
+
+    .mesh-actions{
+
+        flex-direction:column;
+
+    }
+
+    .mesh-action-btn{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .mesh-security{
+
+        gap:18px;
+
+    }
+
+    .mesh-security .mesh-last-updated{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:10px;
+
+    }
+
+}
