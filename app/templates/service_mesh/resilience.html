@@ -1,0 +1,689 @@
+<div class="mesh-resilience">
+
+    <!-- ===================================================== -->
+    <!-- LAST UPDATED -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-last-updated">
+
+        Last Updated:
+
+        <span id="resilience-last-updated">--</span>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- SUMMARY -->
+    <!-- ===================================================== -->
+
+    <div class="mesh-summary-grid">
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Retry Policies
+            </div>
+
+            <div class="mesh-card-value"
+                 id="retry-count">
+
+                0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Configured Retries
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Timeouts
+            </div>
+
+            <div class="mesh-card-value"
+                 id="timeout-count">
+
+                0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Request Timeouts
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Circuit Breakers
+            </div>
+
+            <div class="mesh-card-value"
+                 id="cb-count">
+
+                0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Enabled
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Connection Pools
+            </div>
+
+            <div class="mesh-card-value"
+                 id="pool-count">
+
+                0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Configured
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Outlier Detection
+            </div>
+
+            <div class="mesh-card-value"
+                 id="outlier-count">
+
+                0
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Enabled
+            </div>
+
+        </div>
+
+        <div class="mesh-card">
+
+            <div class="mesh-card-title">
+                Resilience Score
+            </div>
+
+            <div class="mesh-card-value"
+                 id="resilience-score">
+
+                100%
+
+            </div>
+
+            <div class="mesh-card-subtitle">
+                Overall Health
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- RETRY POLICIES -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Retry Policies
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Attempts</th>
+
+                <th>Per Try Timeout</th>
+
+                <th>Retry On</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="retry-table">
+
+            <tr>
+
+                <td colspan="5">
+
+                    Loading Retry Policies...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="apply-retry-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Apply Retry Policy
+
+        </button>
+
+        <button
+            id="refresh-retry-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- REQUEST TIMEOUTS -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Request Timeouts
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Timeout</th>
+
+                <th>Current Value</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="timeout-table">
+
+            <tr>
+
+                <td colspan="4">
+
+                    Loading Timeout Policies...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="update-timeout-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Update Timeout
+
+        </button>
+
+        <button
+            id="refresh-timeout-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CIRCUIT BREAKERS -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Circuit Breakers
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Max Connections</th>
+
+                <th>Max Pending Requests</th>
+
+                <th>Max Requests</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="circuit-breaker-table">
+
+            <tr>
+
+                <td colspan="5">
+
+                    Loading Circuit Breakers...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="enable-cb-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Enable
+
+        </button>
+
+        <button
+            id="disable-cb-btn"
+            class="mesh-action-btn mesh-danger">
+
+            Disable
+
+        </button>
+
+        <button
+            id="refresh-cb-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CONNECTION POOLS -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Connection Pools
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>HTTP Pool</th>
+
+                <th>TCP Pool</th>
+
+                <th>Idle Timeout</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="connection-pool-table">
+
+            <tr>
+
+                <td colspan="5">
+
+                    Loading Connection Pools...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="update-pool-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Update Pool
+
+        </button>
+
+        <button
+            id="refresh-pool-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- OUTLIER DETECTION -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Outlier Detection
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Consecutive Errors</th>
+
+                <th>Interval</th>
+
+                <th>Base Ejection Time</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="outlier-table">
+
+            <tr>
+
+                <td colspan="5">
+
+                    Loading Outlier Detection...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="enable-outlier-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Enable
+
+        </button>
+
+        <button
+            id="disable-outlier-btn"
+            class="mesh-action-btn mesh-danger">
+
+            Disable
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- FAULT INJECTION -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Fault Injection
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Delay</th>
+
+                <th>Abort %</th>
+
+                <th>HTTP Code</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="fault-table">
+
+            <tr>
+
+                <td colspan="5">
+
+                    Loading Fault Injection...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="inject-delay-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Inject Delay
+
+        </button>
+
+        <button
+            id="inject-http-btn"
+            class="mesh-action-btn mesh-danger">
+
+            Inject HTTP 500
+
+        </button>
+
+        <button
+            id="reset-fault-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Reset
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CHAOS TESTING -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Chaos Testing
+
+    </div>
+
+    <table class="mesh-status-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Application</th>
+
+                <th>Scenario</th>
+
+                <th>Duration</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="chaos-table">
+
+            <tr>
+
+                <td colspan="4">
+
+                    Loading Chaos Tests...
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <div class="mesh-actions">
+
+        <button
+            id="start-chaos-btn"
+            class="mesh-action-btn mesh-danger">
+
+            Start Chaos Test
+
+        </button>
+
+        <button
+            id="stop-chaos-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Stop
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- QUICK ACTIONS -->
+<!-- ===================================================== -->
+
+<div class="mesh-card">
+
+    <div class="mesh-card-title">
+
+        Quick Actions
+
+    </div>
+
+    <div class="mesh-actions">
+
+        <button
+            id="apply-default-resilience-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Apply Defaults
+
+        </button>
+
+        <button
+            id="enable-resilience-btn"
+            class="mesh-action-btn mesh-primary">
+
+            Enable Resilience
+
+        </button>
+
+        <button
+            id="reset-resilience-btn"
+            class="mesh-action-btn mesh-danger">
+
+            Reset Policies
+
+        </button>
+
+        <button
+            id="refresh-resilience-btn"
+            class="mesh-action-btn mesh-secondary">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+</div>

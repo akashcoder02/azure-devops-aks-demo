@@ -208,3 +208,126 @@ variable "security_namespace" {
   default = "default"
 
 }
+
+# ==========================================================
+# SERVICE MESH RESILIENCE
+# ==========================================================
+
+variable "resilience_action" {
+
+  description = "Service Mesh Resilience Action"
+
+  type = string
+
+  default = "defaults"
+
+  validation {
+
+    condition = contains(
+      [
+        "retry",
+        "timeout",
+        "circuit-breaker",
+        "connection-pool",
+        "outlier",
+        "defaults",
+        "reset"
+      ],
+      var.resilience_action
+    )
+
+    error_message = "Invalid resilience action."
+
+  }
+
+}
+
+variable "retry_attempts" {
+
+  description = "Retry Attempts"
+
+  type = number
+
+  default = 3
+
+}
+
+variable "per_try_timeout" {
+
+  description = "Per Retry Timeout"
+
+  type = string
+
+  default = "2s"
+
+}
+
+variable "request_timeout" {
+
+  description = "Overall Request Timeout"
+
+  type = string
+
+  default = "5s"
+
+}
+
+variable "max_connections" {
+
+  description = "Circuit Breaker Max Connections"
+
+  type = number
+
+  default = 100
+
+}
+
+variable "max_requests_per_connection" {
+
+  description = "Maximum Requests Per Connection"
+
+  type = number
+
+  default = 10
+
+}
+
+variable "idle_timeout" {
+
+  description = "Connection Pool Idle Timeout"
+
+  type = string
+
+  default = "30s"
+
+}
+
+variable "consecutive_errors" {
+
+  description = "Outlier Consecutive Errors"
+
+  type = number
+
+  default = 5
+
+}
+
+variable "outlier_interval" {
+
+  description = "Outlier Detection Interval"
+
+  type = string
+
+  default = "30s"
+
+}
+
+variable "base_ejection_time" {
+
+  description = "Base Ejection Time"
+
+  type = string
+
+  default = "5m"
+
+}

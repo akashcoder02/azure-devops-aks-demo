@@ -1,0 +1,111 @@
+/* ==========================================================
+   RESILIENCE PAGE
+========================================================== */
+
+.mesh-resilience{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+/* ==========================================================
+   LAST UPDATED
+========================================================== */
+
+#resilience-last-updated{
+
+    color:#58a6ff;
+
+    font-weight:600;
+
+}
+
+/* ==========================================================
+   SUMMARY
+========================================================== */
+
+.mesh-summary-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+/* ==========================================================
+   TABLES
+========================================================== */
+
+.mesh-status-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+}
+
+.mesh-status-table th{
+
+    background:#161b22;
+
+    color:#58a6ff;
+
+    padding:14px;
+
+    text-align:left;
+
+    border-bottom:1px solid #30363d;
+
+}
+
+.mesh-status-table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #30363d;
+
+}
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.mesh-actions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+    .mesh-actions{
+
+        flex-direction:column;
+
+    }
+
+    .mesh-action-btn{
+
+        width:100%;
+
+    }
+
+}

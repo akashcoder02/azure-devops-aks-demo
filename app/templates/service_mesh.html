@@ -3,6 +3,7 @@
 {% block title %}Service Mesh{% endblock %}
 
 {% block css %}
+
 <link rel="stylesheet"
       href="{{ url_for('static', filename='css/service_mesh/service_mesh.css') }}">
 
@@ -11,6 +12,13 @@
 
 <link rel="stylesheet"
       href="{{ url_for('static', filename='css/service_mesh/traffic_management.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/service_mesh/security.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='css/service_mesh/resilience.css') }}">
+
 {% endblock %}
 
 {% block content %}
@@ -131,5 +139,11 @@ filename='js/service_mesh/overview.js') }}"></script>
 
 <script src="{{ url_for('static',
 filename='js/service_mesh/traffic_management.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/service_mesh/security.js') }}"></script>
+
+<script src="{{ url_for('static',
+filename='js/service_mesh/resilience.js') }}"></script>
 
 {% endblock %}

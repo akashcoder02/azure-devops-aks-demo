@@ -47,13 +47,9 @@ async function loadPage(page) {
 
         case "resilience":
 
-            container.innerHTML = `
-                <div class="mesh-card">
-                    <h2>Resilience</h2>
-                    <p>Coming Soon</p>
-                </div>
-            `;
-            return;
+            url = "/service-mesh/page/resilience";
+
+            break;
 
         case "observability":
 
@@ -121,6 +117,16 @@ async function loadPage(page) {
             if (typeof initializeSecurityDashboard === "function") {
 
                 initializeSecurityDashboard();
+
+            }
+
+        }
+
+        if (page === "resilience") {
+
+            if (typeof loadResilience === "function") {
+
+                loadResilience();
 
             }
 

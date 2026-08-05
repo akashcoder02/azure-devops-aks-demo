@@ -1,0 +1,75 @@
+name: Service Mesh Resilience
+
+on:
+
+  workflow_dispatch:
+
+    inputs:
+
+      action:
+
+        description: Resilience Action
+
+        required: true
+
+        type: choice
+
+        options:
+          - retry
+          - timeout
+          - circuit-breaker
+          - connection-pool
+          - outlier
+          - defaults
+          - reset
+
+jobs:
+
+  resilience:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+
+      run:
+
+        working-directory: terraform/addons/service-mesh
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+            -var="resilience_action=${{ inputs.action }}"
+
+      - name: Terraform Apply
+        run: |
+          terraform apply \
+            -auto-approve \
+            -var="resilience_action=${{ inputs.action }}"
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "======================================"
+          echo "Service Mesh Resilience"
+          echo "======================================"
+          echo "Action : ${{ inputs.action }}"
+          echo "======================================"

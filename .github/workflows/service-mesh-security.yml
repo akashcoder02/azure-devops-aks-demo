@@ -17,7 +17,6 @@ on:
         options:
 
           - apply
-
           - destroy
 
       mtls_mode:
@@ -78,19 +77,89 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+
+      run:
+
+        working-directory: terraform/addons/service-mesh/security
+
     steps:
 
-      - name: Checkout
+      - name: Checkout Repository
 
         uses: actions/checkout@v4
 
-      - name: Service Mesh Security
+      - name: Azure Login
+
+        uses: azure/login@v2
+
+        with:
+
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+
+        run: terraform init
+
+      - name: Terraform Format Check
+
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+
+        run: terraform validate
+
+      - name: Terraform Plan
+
+        if: inputs.action == 'apply'
 
         run: |
 
-          echo "Action                : ${{ inputs.action }}"
-          echo "mTLS                 : ${{ inputs.mtls_mode }}"
-          echo "Authorization Policy : ${{ inputs.authorization_enabled }}"
-          echo "JWT Enabled          : ${{ inputs.jwt_enabled }}"
-          echo "JWT Issuer           : ${{ inputs.jwt_issuer }}"
-          echo "JWKS URI             : ${{ inputs.jwt_jwks_uri }}"
+          terraform plan \
+            -var="mtls_mode=${{ inputs.mtls_mode }}" \
+            -var="authorization_enabled=${{ inputs.authorization_enabled }}" \
+            -var="jwt_enabled=${{ inputs.jwt_enabled }}" \
+            -var="jwt_issuer=${{ inputs.jwt_issuer }}" \
+            -var="jwt_jwks_uri=${{ inputs.jwt_jwks_uri }}"
+
+      - name: Terraform Apply
+
+        if: inputs.action == 'apply'
+
+        run: |
+
+          terraform apply \
+            -auto-approve \
+            -var="mtls_mode=${{ inputs.mtls_mode }}" \
+            -var="authorization_enabled=${{ inputs.authorization_enabled }}" \
+            -var="jwt_enabled=${{ inputs.jwt_enabled }}" \
+            -var="jwt_issuer=${{ inputs.jwt_issuer }}" \
+            -var="jwt_jwks_uri=${{ inputs.jwt_jwks_uri }}"
+
+      - name: Terraform Destroy
+
+        if: inputs.action == 'destroy'
+
+        run: terraform destroy -auto-approve
+
+      - name: Security Summary
+
+        run: |
+
+          echo ""
+          echo "============================================"
+          echo "Service Mesh Security"
+          echo "============================================"
+          echo ""
+          echo "Action                 : ${{ inputs.action }}"
+          echo "mTLS Mode              : ${{ inputs.mtls_mode }}"
+          echo "Authorization Enabled  : ${{ inputs.authorization_enabled }}"
+          echo "JWT Enabled            : ${{ inputs.jwt_enabled }}"
+          echo "JWT Issuer             : ${{ inputs.jwt_issuer }}"
+          echo "JWKS URI               : ${{ inputs.jwt_jwks_uri }}"
+          echo ""
+          echo "============================================"

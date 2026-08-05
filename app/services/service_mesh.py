@@ -388,7 +388,7 @@ def get_virtual_services():
 
     return services
 
-def get_destination_rules():
+def get_security_destination_rules():
 
     result = _run([
         "kubectl",
@@ -621,47 +621,116 @@ def get_application_configuration(application):
 # SECURITY
 # ==========================================================
 
-def get_security():
+# ==========================================================
+# SECURITY HELPERS
+# ==========================================================
+
+def get_mtls_status():
 
     return {
 
-        "summary": {
+        "mode": "STRICT",
 
-            "last_updated": "--",
+        "namespace": "default",
 
-            "mtls": "STRICT",
+        "peer_authentication": "Configured",
 
-            "authorization_policies": 0,
+        "destination_rule": "ISTIO_MUTUAL"
 
-            "certificates": "Healthy",
+    }
 
-            "jwt": "Disabled",
 
-            "sidecars": "0 / 0",
+def get_peer_authentication():
 
-            "security_score": "100%"
+    result = _run([
+        "kubectl",
+        "get",
+        "peerauthentication",
+        "--all-namespaces",
+        "-o",
+        "json"
+    ])
 
-        },
+    if not result or result.returncode != 0:
+        return []
 
-        "mtls": {
+    data = json.loads(result.stdout)
 
-            "mode": "STRICT",
+    peer_authentications = []
 
-            "namespace": "default",
+    for item in data.get("items", []):
 
-            "peer_authentication": "Configured",
+        peer_authentications.append({
 
-            "destination_rule": "ISTIO_MUTUAL"
+            "namespace": item["metadata"]["namespace"],
 
-        },
+            "mode": item.get("spec", {})
+                        .get("mtls", {})
+                        .get("mode", "UNSET"),
 
-        "peer_authentication": [],
+            "status": "Configured",
 
-        "destination_rules": [],
+            "age": item["metadata"]["creationTimestamp"]
 
-        "authorization_policies": [],
+        })
 
-        "jwt": {
+    return peer_authentications
+
+def get_authorization_policies():
+
+    result = _run([
+        "kubectl",
+        "get",
+        "authorizationpolicy",
+        "--all-namespaces",
+        "-o",
+        "json"
+    ])
+
+    if not result or result.returncode != 0:
+        return []
+
+    data = json.loads(result.stdout)
+
+    policies = []
+
+    for item in data.get("items", []):
+
+        policies.append({
+
+            "name": item["metadata"]["name"],
+
+            "namespace": item["metadata"]["namespace"],
+
+            "action": item.get("spec", {}).get("action", "ALLOW"),
+
+            "selector": ", ".join(
+                item.get("spec", {})
+                    .get("selector", {})
+                    .get("matchLabels", {})
+                    .keys()
+            ) or "-",
+
+            "status": "Configured"
+
+        })
+
+    return policies
+
+def get_request_authentication():
+
+    result = _run([
+        "kubectl",
+        "get",
+        "requestauthentication",
+        "--all-namespaces",
+        "-o",
+        "json"
+    ])
+
+    if not result or result.returncode != 0:
+
+        return {
 
             "issuer": "--",
 
@@ -671,30 +740,516 @@ def get_security():
 
             "status": "Disabled"
 
+        }
+
+    data = json.loads(result.stdout)
+
+    items = data.get("items", [])
+
+    if not items:
+
+        return {
+
+            "issuer": "--",
+
+            "jwks_uri": "--",
+
+            "workloads": 0,
+
+            "status": "Disabled"
+
+        }
+
+    jwt = items[0].get("spec", {}).get("jwtRules", [{}])[0]
+
+    return {
+
+        "issuer": jwt.get("issuer", "--"),
+
+        "jwks_uri": jwt.get("jwksUri", "--"),
+
+        "workloads": len(items),
+
+        "status": "Enabled"
+
+    }
+
+
+def get_workloads():
+
+    workloads = []
+
+    for sidecar in get_sidecars():
+
+        workloads.append({
+
+            "application": sidecar["application"],
+
+            "namespace": sidecar["namespace"],
+
+            "sidecar": sidecar["injected"],
+
+            "mtls": "Enabled",
+
+            "jwt": "Disabled",
+
+            "authorization": "Enabled",
+
+            "status": sidecar["status"]
+
+        })
+
+    return workloads
+
+
+def get_sidecars():
+
+    result = _run([
+        "kubectl",
+        "get",
+        "pods",
+        "--all-namespaces",
+        "-o",
+        "json"
+    ])
+
+    if not result or result.returncode != 0:
+        return []
+
+    data = json.loads(result.stdout)
+
+    sidecars = []
+
+    for item in data.get("items", []):
+
+        containers = item.get("spec", {}).get("containers", [])
+
+        istio_proxy = next(
+
+            (c for c in containers if c["name"] == "istio-proxy"),
+
+            None
+
+        )
+
+        sidecars.append({
+
+            "pod": item["metadata"]["name"],
+
+            "namespace": item["metadata"]["namespace"],
+
+            "application": item["metadata"]["labels"].get("app", "-"),
+
+            "injected": "Yes" if istio_proxy else "No",
+
+            "ready": f'{item["status"].get("containerStatuses", [{}])[0].get("ready", False)}',
+
+            "version": istio_proxy["image"].split(":")[-1] if istio_proxy else "-",
+
+            "status": item["status"]["phase"]
+
+        })
+
+    return sidecars
+
+
+def get_certificates_summary():
+
+    certificates = get_certificates()
+
+    return {
+
+        "root_ca": "Healthy",
+
+        "total": len(certificates),
+
+        "expiring": 0,
+
+        "rotation": "Enabled"
+
+    }
+
+
+def get_certificates():
+
+    result = _run([
+        "kubectl",
+        "get",
+        "secret",
+        "--all-namespaces",
+        "-o",
+        "json"
+    ])
+
+    if not result or result.returncode != 0:
+        return []
+
+    data = json.loads(result.stdout)
+
+    certificates = []
+
+    for item in data.get("items", []):
+
+        if item["type"] != "kubernetes.io/tls":
+            continue
+
+        certificates.append({
+
+            "workload": item["metadata"]["namespace"],
+
+            "name": item["metadata"]["name"],
+
+            "issued": "-",
+
+            "expires": "-",
+
+            "days_left": "-",
+
+            "status": "Healthy"
+
+        })
+
+    return certificates
+
+
+def get_namespaces():
+
+    result = _run([
+        "kubectl",
+        "get",
+        "namespace",
+        "-o",
+        "json"
+    ])
+
+    if not result or result.returncode != 0:
+        return []
+
+    data = json.loads(result.stdout)
+
+    namespaces = []
+
+    for item in data.get("items", []):
+
+        labels = item["metadata"].get("labels", {})
+
+        namespaces.append({
+
+            "name": item["metadata"]["name"],
+
+            "injection": labels.get(
+
+                "istio-injection",
+
+                "disabled"
+
+            ),
+
+            "mtls": "Configured",
+
+            "authorization": "Enabled",
+
+            "jwt": "Disabled",
+
+            "status": "Healthy"
+
+        })
+
+    return namespaces
+
+
+def get_validation():
+
+    validation = []
+
+    validation.append({
+
+        "name": "PeerAuthentication",
+
+        "status": "OK" if get_peer_authentication() else "Missing"
+
+    })
+
+    validation.append({
+
+        "name": "AuthorizationPolicy",
+
+        "status": "OK" if get_authorization_policies() else "Missing"
+
+    })
+
+    validation.append({
+
+        "name": "RequestAuthentication",
+
+        "status": "OK" if get_request_authentication()["status"] == "Enabled" else "Disabled"
+
+    })
+
+    return validation
+
+
+def get_security_events():
+
+    return []
+
+# ==========================================================
+# SECURITY
+# ==========================================================
+
+def get_security():
+
+    return {
+
+        "summary": {
+
+        "last_updated": datetime.now().strftime("%d %b %Y %I:%M:%S %p"),
+
+        "mtls": get_mtls_status()["mode"],
+
+        "authorization_policies": len(get_authorization_policies()),
+
+        "certificates": get_certificates_summary()["root_ca"],
+
+        "jwt": get_request_authentication()["status"],
+
+        "sidecars": f"{len(get_sidecars())} Injected",
+
+        "security_score": "Healthy"
+
+    },
+
+        "mtls": get_mtls_status(),
+
+        "peer_authentication": get_peer_authentication(),
+
+        "destination_rules": get_security_destination_rules(),
+
+        "authorization_policies": get_authorization_policies(),
+
+        "jwt": get_request_authentication(),
+
+        "workloads": get_workloads(),
+
+        "sidecars": get_sidecars(),
+
+        "certificates_summary": get_certificates_summary(),
+
+        "certificates": get_certificates(),
+
+        "namespaces": get_namespaces(),
+
+        "validation": get_validation(),
+
+        "events": get_security_events()
+
+    }
+
+# ==========================================================
+# RESILIENCE HELPERS
+# ==========================================================
+
+def get_retry_policies():
+
+    policies = []
+
+    for item in get_virtual_services():
+
+        if item["retry"] != 0:
+
+            policies.append({
+
+                "application": item["application"],
+
+                "attempts": item["retry"],
+
+                "per_try_timeout": item["timeout"],
+
+                "retry_on": "5xx,gateway-error,connect-failure",
+
+                "status": "Configured"
+
+            })
+
+    return policies
+
+
+def get_timeout_policies():
+
+    timeouts = []
+
+    for item in get_virtual_services():
+
+        timeouts.append({
+
+            "application": item["application"],
+
+            "timeout": item["timeout"],
+
+            "current": item["timeout"],
+
+            "status": "Configured"
+
+        })
+
+    return timeouts
+
+
+def get_circuit_breakers():
+
+    breakers = []
+
+    for item in get_security_destination_rules():
+
+        breakers.append({
+
+            "application": item["application"],
+
+            "max_connections": item["max_connections"],
+
+            "max_requests": item["max_retries"],
+
+            "pending_requests": "-",
+
+            "status": "Enabled"
+
+        })
+
+    return breakers
+
+
+def get_connection_pools():
+
+    pools = []
+
+    for item in get_security_destination_rules():
+
+        pools.append({
+
+            "application": item["application"],
+
+            "http_pool": item["max_retries"],
+
+            "tcp_pool": item["max_connections"],
+
+            "idle_timeout": item["idle_timeout"],
+
+            "status": "Configured"
+
+        })
+
+    return pools
+
+
+def get_outlier_detection():
+
+    outliers = []
+
+    for item in get_security_destination_rules():
+
+        outliers.append({
+
+            "application": item["application"],
+
+            "errors": "5",
+
+            "interval": "30s",
+
+            "ejection": "5m",
+
+            "status": "Enabled"
+
+        })
+
+    return outliers
+
+
+def get_fault_injection():
+
+    return []
+
+
+def get_chaos_tests():
+
+    return []
+
+
+def get_resilience_score():
+
+    return "100%"
+
+
+# ==========================================================
+# RESILIENCE
+# ==========================================================
+
+# ==========================================================
+# APPLY RESILIENCE
+# ==========================================================
+
+def apply_resilience(payload):
+
+    return trigger_workflow(
+
+        workflow_file="service-mesh-resilience.yml",
+
+        inputs=payload
+
+    )
+
+
+# ==========================================================
+# RESET RESILIENCE
+# ==========================================================
+
+def reset_resilience():
+
+    return trigger_workflow(
+
+        workflow_file="service-mesh-resilience.yml",
+
+        inputs={
+
+            "action": "reset"
+
+        }
+
+    )
+
+def get_resilience():
+
+    return {
+
+        "summary": {
+
+            "last_updated": datetime.now().strftime("%d %b %Y %I:%M:%S %p"),
+
+            "retry_policies": len(get_retry_policies()),
+
+            "timeouts": len(get_timeout_policies()),
+
+            "circuit_breakers": len(get_circuit_breakers()),
+
+            "connection_pools": len(get_connection_pools()),
+
+            "outlier_detection": len(get_outlier_detection()),
+
+            "resilience_score": get_resilience_score()
+
         },
 
-        "workloads": [],
+        "retry_policies": get_retry_policies(),
 
-        "sidecars": [],
+        "timeouts": get_timeout_policies(),
 
-        "certificates_summary": {
+        "circuit_breakers": get_circuit_breakers(),
 
-            "root_ca": "Healthy",
+        "connection_pools": get_connection_pools(),
 
-            "total": 0,
+        "outlier_detection": get_outlier_detection(),
 
-            "expiring": 0,
+        "fault_injection": get_fault_injection(),
 
-            "rotation": "Enabled"
-
-        },
-
-        "certificates": [],
-
-        "namespaces": [],
-
-        "validation": [],
-
-        "events": []
+        "chaos_tests": get_chaos_tests()
 
     }

@@ -7,7 +7,10 @@ from services.service_mesh import (
     shift_traffic,
     start_canary,
     rollback_traffic,
-    get_application_configuration
+    get_application_configuration,
+    get_resilience,
+    apply_resilience as apply_resilience_service,
+    reset_resilience as reset_resilience_service
 )
 
 from services.github import trigger_workflow
@@ -45,6 +48,15 @@ def traffic_page():
 def security_page():
     return render_template("service_mesh/security.html")
 
+@service_mesh_bp.route("/service-mesh/page/resilience")
+def resilience_page():
+
+    return render_template(
+        "service_mesh/resilience.html"
+    )
+
+
+
 # ==========================================================
 # APIs
 # ==========================================================
@@ -61,6 +73,13 @@ def service_mesh_traffic():
 @service_mesh_bp.route("/api/service-mesh/security")
 def service_mesh_security():
     return jsonify(get_security())
+
+@service_mesh_bp.route("/api/service-mesh/resilience")
+def service_mesh_resilience():
+
+    return jsonify(
+        get_resilience()
+    )
 
 
 @service_mesh_bp.route("/api/service-mesh/refresh")
@@ -246,3 +265,43 @@ def destroy_security():
     )
 
     return jsonify(result)
+
+# ==========================================================
+# APPLY RESILIENCE
+# ==========================================================
+
+@service_mesh_bp.route(
+    "/api/service-mesh/resilience/apply",
+    methods=["POST"]
+)
+def apply_resilience():
+
+    payload = request.get_json()
+
+    result = apply_resilience_service(payload)
+
+    return jsonify(result)
+
+
+# ==========================================================
+# RESET RESILIENCE
+# ==========================================================
+
+@service_mesh_bp.route(
+    "/api/service-mesh/resilience/reset",
+    methods=["POST"]
+)
+def reset_resilience():
+
+    result = reset_resilience_service()
+
+    return jsonify(result)
+
+
+
+
+
+
+
+
+
