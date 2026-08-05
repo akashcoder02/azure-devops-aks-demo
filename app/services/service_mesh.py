@@ -243,7 +243,7 @@ def get_overview():
 
     virtual_services_list = get_virtual_services()
 
-    destination_rules_list = get_destination_rules()
+    destination_rule_count = get_destination_rule_count()
 
     return {
 
