@@ -221,54 +221,35 @@ def get_mesh_application_count():
 def get_overview():
 
     components = [
-
         get_istiod_status(),
-
         get_ingress_gateway_status()
-
     ]
 
     statuses = [c["status"] for c in components]
 
     if all(s == "Running" for s in statuses):
         health = "Healthy"
-
     elif any(s == "Not Installed" for s in statuses):
         health = "Not Installed"
-
     else:
         health = "Warning"
 
     gateways_list = get_gateways()
-
     virtual_services_list = get_virtual_services()
-
-    destination_rule_count = get_destination_rule_count()
+    destination_rules_list = get_security_destination_rules()
 
     return {
-
         "version": get_istio_version(),
-
         "health": health,
-
         "gateways": get_gateway_count(),
-
         "virtual_services": get_virtual_service_count(),
-
         "destination_rules": get_destination_rule_count(),
-
         "applications": get_mesh_application_count(),
-
         "gateways_list": gateways_list,
-
         "virtual_services_list": virtual_services_list,
-
         "destination_rules_list": destination_rules_list,
-
         "components": components,
-
         "last_updated": datetime.now().strftime("%d %b %Y %I:%M:%S %p"),
-
     }
 
 def get_traffic_management():
@@ -278,7 +259,7 @@ def get_traffic_management():
 
     gateways = get_gateways()
     virtual_services = get_virtual_services()
-    destination_rules = get_destination_rules()
+    destination_rules = get_security_destination_rules()
 
     return {
         "summary": {
