@@ -23,7 +23,7 @@ def trigger_workflow(workflow_file, inputs=None, ref="main"):
     )
 
     headers = {
-        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Authorization": f"Bearer {GITHUB_PAT}",
         "Accept": "application/vnd.github+json"
     }
 
