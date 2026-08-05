@@ -1,14 +1,10 @@
-import os
 import requests
 
-
-# ==========================================================
-# CONFIGURATION
-# ==========================================================
-
-GITHUB_OWNER = os.getenv("GITHUB_OWNER")
-GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+from config.github import (
+    GITHUB_OWNER,
+    GITHUB_REPOSITORY,
+    GITHUB_PAT
+)
 
 
 # ==========================================================
