@@ -27,16 +27,32 @@ def trigger_workflow(workflow_file, inputs=None, ref="main"):
         "Accept": "application/vnd.github+json"
     }
 
+    # Convert Python booleans to GitHub workflow strings
+    workflow_inputs = {}
+
+    for key, value in inputs.items():
+
+        if isinstance(value, bool):
+
+            workflow_inputs[key] = str(value).lower()
+
+        else:
+
+            workflow_inputs[key] = value
+
     payload = {
         "ref": ref,
-        "inputs": inputs
+        "inputs": workflow_inputs
     }
 
     try:
 
         print("========== GITHUB WORKFLOW ==========")
         print("URL:", url)
-        print("Payload:", payload)
+        print("========== GITHUB WORKFLOW ==========")
+        print("Workflow :", workflow_file)
+        print("Inputs   :", workflow_inputs)
+        print("Payload  :", payload)
 
         response = requests.post(
             url=url,

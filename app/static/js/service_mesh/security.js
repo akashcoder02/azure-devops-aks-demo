@@ -693,9 +693,9 @@ document.addEventListener("click", async function(event) {
 
                 jwt_enabled: true,
 
-                jwt_issuer: "",
+                jwt_issuer: "https://example.com",
 
-                jwt_jwks_uri: ""
+                jwt_jwks_uri: "https://example.com/.well-known/jwks.json"
 
             });
 
