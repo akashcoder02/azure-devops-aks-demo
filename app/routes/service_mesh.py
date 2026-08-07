@@ -280,6 +280,10 @@ def apply_resilience():
 
     payload = request.get_json()
 
+    print("\n========== PAYLOAD FROM UI ==========")
+    print(payload)
+    print("=====================================\n")
+
     print("\n========== SECURITY REQUEST ==========")
     print(payload)
     print("=====================================\n")
