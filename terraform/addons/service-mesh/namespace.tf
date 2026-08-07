@@ -15,3 +15,26 @@ resource "kubernetes_namespace" "istio_system" {
   }
 
 }
+
+# ==========================================================
+# APPLICATION NAMESPACE (SERVICE MESH)
+# ==========================================================
+
+resource "kubernetes_namespace" "application_namespace" {
+
+  metadata {
+
+    name = var.namespace
+
+    labels = {
+
+      "istio-injection" = "enabled"
+
+      managed-by  = "terraform"
+
+      environment = "platform"
+
+    }
+
+  }
+}
