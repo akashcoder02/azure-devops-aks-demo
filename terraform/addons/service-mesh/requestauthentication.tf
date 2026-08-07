@@ -50,7 +50,7 @@ resource "kubectl_manifest" "request_authentication" {
 
         {
 
-          issuer  = var.jwt_issuer
+          issuer = var.jwt_issuer
 
           jwksUri = var.jwt_jwks_uri
 
