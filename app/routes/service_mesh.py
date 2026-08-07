@@ -280,6 +280,10 @@ def apply_resilience():
 
     payload = request.get_json()
 
+    print("\n========== SECURITY REQUEST ==========")
+    print(payload)
+    print("=====================================\n")
+
     result = apply_resilience_service(payload)
 
     return jsonify(result)
