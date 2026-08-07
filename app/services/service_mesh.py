@@ -602,6 +602,8 @@ def get_application_configuration(application):
 # SECURITY
 # ==========================================================
 
+
+
 # ==========================================================
 # SECURITY HELPERS
 # ==========================================================
@@ -1025,6 +1027,31 @@ def get_security():
         "events": get_security_events()
 
     }
+
+def apply_security(payload):
+
+    return trigger_workflow(
+
+        workflow_file="service-mesh-security.yml",
+
+        inputs=payload
+
+    )
+
+
+def destroy_security():
+
+    return trigger_workflow(
+
+        workflow_file="service-mesh-security.yml",
+
+        inputs={
+
+            "action": "destroy"
+
+        }
+
+    )
 
 # ==========================================================
 # RESILIENCE HELPERS

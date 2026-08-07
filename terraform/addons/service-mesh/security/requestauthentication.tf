@@ -4,7 +4,12 @@
 
 resource "kubectl_manifest" "request_authentication" {
 
-  for_each = var.authorization_enabled ? var.applications : {}
+  for_each = (
+    var.jwt_enabled &&
+    trimspace(var.jwt_issuer) != "" &&
+    trimspace(var.jwt_jwks_uri) != ""
+  ) ? var.applications : {}
+
   yaml_body = yamlencode({
 
     apiVersion = "security.istio.io/v1"
@@ -22,9 +27,7 @@ resource "kubectl_manifest" "request_authentication" {
         local.common_labels,
 
         {
-
           application = each.key
-
         }
 
       )
@@ -47,9 +50,9 @@ resource "kubectl_manifest" "request_authentication" {
 
         {
 
-          issuer = "https://example.com"
+          issuer  = var.jwt_issuer
 
-          jwksUri = "https://example.com/.well-known/jwks.json"
+          jwksUri = var.jwt_jwks_uri
 
         }
 

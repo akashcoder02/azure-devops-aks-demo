@@ -10,7 +10,9 @@ from services.service_mesh import (
     get_application_configuration,
     get_resilience,
     apply_resilience as apply_resilience_service,
-    reset_resilience as reset_resilience_service
+    reset_resilience as reset_resilience_service,
+    apply_security as apply_security_service,
+    destroy_security as destroy_security_service
 )
 
 from services.github import trigger_workflow
