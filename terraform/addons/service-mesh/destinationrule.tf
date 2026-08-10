@@ -1,12 +1,9 @@
 resource "kubectl_manifest" "destinationrule" {
-
   for_each = var.applications
 
   yaml_body = yamlencode({
-
     apiVersion = "networking.istio.io/v1"
-
-    kind = "DestinationRule"
+    kind       = "DestinationRule"
 
     metadata = {
       name      = each.key
@@ -14,11 +11,9 @@ resource "kubectl_manifest" "destinationrule" {
     }
 
     spec = {
-
       host = each.key
 
       subsets = [
-
         {
           name = each.value.primary.version
 
@@ -26,7 +21,6 @@ resource "kubectl_manifest" "destinationrule" {
             version = each.value.primary.version
           }
         },
-
         {
           name = each.value.canary.version
 
@@ -34,41 +28,34 @@ resource "kubectl_manifest" "destinationrule" {
             version = each.value.canary.version
           }
         }
-
       ]
 
       trafficPolicy = {
-
         loadBalancer = {
           simple = "LEAST_REQUEST"
         }
 
         connectionPool = {
-
           tcp = {
-            maxConnections = 100
+            maxConnections = var.max_connections
           }
 
           http = {
-            http1MaxPendingRequests  = 50
-            maxRequestsPerConnection = 20
-            maxRetries               = 3
-            idleTimeout              = "30s"
+            http1MaxPendingRequests  = var.max_connections
+            maxRequestsPerConnection = var.max_requests_per_connection
+            maxRetries               = var.retry_attempts
+            idleTimeout              = var.idle_timeout
           }
-
         }
 
         outlierDetection = {
-          consecutive5xxErrors = 5
-          interval             = "30s"
-          baseEjectionTime     = "30s"
-          maxEjectionPercent   = 50
+          consecutive5xxErrors = var.consecutive_errors
+          interval             = var.outlier_interval
+          baseEjectionTime      = var.base_ejection_time
+          maxEjectionPercent    = 50
         }
-
       }
-
     }
-
   })
 
   depends_on = [

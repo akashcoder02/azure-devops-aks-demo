@@ -1,49 +1,165 @@
 name: Service Mesh Resilience
 
 on:
-
   workflow_dispatch:
-
     inputs:
 
       action:
-
         description: Resilience Action
-
         required: true
-
         type: choice
-
         options:
           - retry
           - timeout
           - circuit-breaker
           - connection-pool
           - outlier
+          - fault
+          - chaos
           - defaults
           - reset
+
+      retry_attempts:
+        description: Retry Attempts
+        required: false
+        default: "3"
+
+      per_try_timeout:
+        description: Per Try Timeout
+        required: false
+        default: "2s"
+
+      request_timeout:
+        description: Request Timeout
+        required: false
+        default: "5s"
+
+      max_connections:
+        description: Maximum Connections
+        required: false
+        default: "100"
+
+      max_requests_per_connection:
+        description: Maximum Requests Per Connection
+        required: false
+        default: "10"
+
+      idle_timeout:
+        description: Idle Timeout
+        required: false
+        default: "30s"
+
+      consecutive_errors:
+        description: Consecutive 5xx Errors
+        required: false
+        default: "5"
+
+      outlier_interval:
+        description: Outlier Detection Interval
+        required: false
+        default: "30s"
+
+      base_ejection_time:
+        description: Base Ejection Time
+        required: false
+        default: "5m"
+
+      fault_delay_enabled:
+        description: Enable Delay Fault
+        required: false
+        type: boolean
+        default: false
+
+      fault_delay:
+        description: Delay Duration
+        required: false
+        default: "5s"
+
+      fault_delay_percentage:
+        description: Delay Percentage
+        required: false
+        default: "100"
+
+      fault_abort_enabled:
+        description: Enable Abort Fault
+        required: false
+        type: boolean
+        default: false
+
+      fault_abort_status:
+        description: Abort HTTP Status
+        required: false
+        default: "500"
+
+      fault_abort_percentage:
+        description: Abort Percentage
+        required: false
+        default: "100"
+
+      chaos_enabled:
+        description: Enable Chaos Testing
+        required: false
+        type: boolean
+        default: false
+
+      chaos_action:
+        description: Chaos Action
+        required: false
+        type: choice
+        default: none
+        options:
+          - none
+          - restart
+          - delete-pod
+          - delete-all
+          - scale-zero
+          - recover
 
 jobs:
 
   resilience:
 
+    name: Service Mesh Resilience
     runs-on: ubuntu-latest
 
     defaults:
-
       run:
-
         working-directory: terraform/addons/service-mesh
 
     steps:
 
+      # ==========================================================
+      # CHECKOUT
+      # ==========================================================
+
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      # ==========================================================
+      # AZURE LOGIN
+      # ==========================================================
 
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # ==========================================================
+      # AKS CONTEXT
+      # ==========================================================
+
+      - name: Configure AKS Context
+        run: |
+          az aks get-credentials \
+            --resource-group rg-devops-demo \
+            --name aks-devops-demo \
+            --overwrite-existing
+
+          kubectl config current-context
+
+      # ==========================================================
+      # TERRAFORM
+      # ==========================================================
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -54,16 +170,208 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      # ==========================================================
+      # TERRAFORM PLAN
+      # ==========================================================
+
       - name: Terraform Plan
         run: |
           terraform plan \
-            -var="resilience_action=${{ inputs.action }}"
+            -var="resilience_action=${{ inputs.action }}" \
+            -var="retry_attempts=${{ inputs.retry_attempts }}" \
+            -var="per_try_timeout=${{ inputs.per_try_timeout }}" \
+            -var="request_timeout=${{ inputs.request_timeout }}" \
+            -var="max_connections=${{ inputs.max_connections }}" \
+            -var="max_requests_per_connection=${{ inputs.max_requests_per_connection }}" \
+            -var="idle_timeout=${{ inputs.idle_timeout }}" \
+            -var="consecutive_errors=${{ inputs.consecutive_errors }}" \
+            -var="outlier_interval=${{ inputs.outlier_interval }}" \
+            -var="base_ejection_time=${{ inputs.base_ejection_time }}" \
+            -var="fault_delay_enabled=${{ inputs.fault_delay_enabled }}" \
+            -var="fault_delay=${{ inputs.fault_delay }}" \
+            -var="fault_delay_percentage=${{ inputs.fault_delay_percentage }}" \
+            -var="fault_abort_enabled=${{ inputs.fault_abort_enabled }}" \
+            -var="fault_abort_status=${{ inputs.fault_abort_status }}" \
+            -var="fault_abort_percentage=${{ inputs.fault_abort_percentage }}" \
+            -var="chaos_enabled=${{ inputs.chaos_enabled }}" \
+            -var="chaos_action=${{ inputs.chaos_action }}"
+
+      # ==========================================================
+      # TERRAFORM APPLY
+      # ==========================================================
 
       - name: Terraform Apply
         run: |
           terraform apply \
             -auto-approve \
-            -var="resilience_action=${{ inputs.action }}"
+            -var="resilience_action=${{ inputs.action }}" \
+            -var="retry_attempts=${{ inputs.retry_attempts }}" \
+            -var="per_try_timeout=${{ inputs.per_try_timeout }}" \
+            -var="request_timeout=${{ inputs.request_timeout }}" \
+            -var="max_connections=${{ inputs.max_connections }}" \
+            -var="max_requests_per_connection=${{ inputs.max_requests_per_connection }}" \
+            -var="idle_timeout=${{ inputs.idle_timeout }}" \
+            -var="consecutive_errors=${{ inputs.consecutive_errors }}" \
+            -var="outlier_interval=${{ inputs.outlier_interval }}" \
+            -var="base_ejection_time=${{ inputs.base_ejection_time }}" \
+            -var="fault_delay_enabled=${{ inputs.fault_delay_enabled }}" \
+            -var="fault_delay=${{ inputs.fault_delay }}" \
+            -var="fault_delay_percentage=${{ inputs.fault_delay_percentage }}" \
+            -var="fault_abort_enabled=${{ inputs.fault_abort_enabled }}" \
+            -var="fault_abort_status=${{ inputs.fault_abort_status }}" \
+            -var="fault_abort_percentage=${{ inputs.fault_abort_percentage }}" \
+            -var="chaos_enabled=${{ inputs.chaos_enabled }}" \
+            -var="chaos_action=${{ inputs.chaos_action }}"
+
+      # ==========================================================
+      # CHAOS TESTING
+      # ==========================================================
+
+      - name: Chaos Testing
+        if: ${{ inputs.action == 'chaos' && inputs.chaos_enabled }}
+        run: |
+          set -e
+
+          ACTION="${{ inputs.chaos_action }}"
+
+          echo "======================================"
+          echo "Chaos Testing"
+          echo "======================================"
+          echo "Action: ${ACTION}"
+          echo ""
+
+          case "${ACTION}" in
+
+            restart)
+              echo "Restarting deployments..."
+
+              kubectl get deployments -n default
+
+              kubectl rollout restart deployment \
+                --all \
+                -n default
+
+              kubectl rollout status deployment \
+                --all \
+                -n default \
+                --timeout=180s
+              ;;
+
+            delete-pod)
+              echo "Deleting one application pod..."
+
+              POD=$(kubectl get pods \
+                -n default \
+                -o jsonpath='{range .items[?(@.status.phase=="Running")]}{.metadata.name}{"\n"}{end}' \
+                | head -n 1)
+
+              if [ -z "${POD}" ]; then
+                echo "No running pod found."
+                exit 1
+              fi
+
+              echo "Deleting pod: ${POD}"
+
+              kubectl delete pod \
+                "${POD}" \
+                -n default
+
+              echo "Waiting for replacement pod..."
+
+              sleep 10
+
+              kubectl get pods -n default
+              ;;
+
+            delete-all)
+              echo "Deleting all application pods..."
+
+              kubectl delete pods \
+                --all \
+                -n default
+
+              echo "Waiting for Kubernetes recovery..."
+
+              sleep 15
+
+              kubectl get pods -n default
+              ;;
+
+            scale-zero)
+              echo "Scaling deployments to zero..."
+
+              kubectl get deployments \
+                -n default \
+                -o name
+
+              kubectl scale deployment \
+                --all \
+                --replicas=0 \
+                -n default
+
+              kubectl get deployments \
+                -n default
+              ;;
+
+            recover)
+              echo "Recovering deployments..."
+
+              kubectl scale deployment \
+                --all \
+                --replicas=1 \
+                -n default
+
+              kubectl rollout status deployment \
+                --all \
+                -n default \
+                --timeout=180s
+
+              echo ""
+              echo "Recovery completed."
+
+              kubectl get deployments \
+                -n default
+
+              kubectl get pods \
+                -n default
+              ;;
+
+            none)
+              echo "No chaos action selected."
+              ;;
+
+            *)
+              echo "Invalid chaos action: ${ACTION}"
+              exit 1
+              ;;
+
+          esac
+
+      # ==========================================================
+      # VALIDATION
+      # ==========================================================
+
+      - name: Validation
+        run: |
+          echo "======================================"
+          echo "Resilience Validation"
+          echo "======================================"
+
+          terraform validate
+
+          echo ""
+          echo "Istio Resources:"
+          kubectl get virtualservice -n default || true
+          kubectl get destinationrule -n default || true
+
+          echo ""
+          echo "Workloads:"
+          kubectl get deployments -n default || true
+          kubectl get pods -n default || true
+
+      # ==========================================================
+      # SUMMARY
+      # ==========================================================
 
       - name: Summary
         run: |
@@ -71,5 +379,18 @@ jobs:
           echo "======================================"
           echo "Service Mesh Resilience"
           echo "======================================"
-          echo "Action : ${{ inputs.action }}"
+          echo "Action                  : ${{ inputs.action }}"
+          echo "Retry Attempts          : ${{ inputs.retry_attempts }}"
+          echo "Per Try Timeout         : ${{ inputs.per_try_timeout }}"
+          echo "Request Timeout         : ${{ inputs.request_timeout }}"
+          echo "Max Connections         : ${{ inputs.max_connections }}"
+          echo "Max Requests/Connection : ${{ inputs.max_requests_per_connection }}"
+          echo "Idle Timeout            : ${{ inputs.idle_timeout }}"
+          echo "Consecutive Errors      : ${{ inputs.consecutive_errors }}"
+          echo "Outlier Interval        : ${{ inputs.outlier_interval }}"
+          echo "Base Ejection Time      : ${{ inputs.base_ejection_time }}"
+          echo "Delay Enabled           : ${{ inputs.fault_delay_enabled }}"
+          echo "Abort Enabled           : ${{ inputs.fault_abort_enabled }}"
+          echo "Chaos Enabled           : ${{ inputs.chaos_enabled }}"
+          echo "Chaos Action            : ${{ inputs.chaos_action }}"
           echo "======================================"

@@ -42,12 +42,12 @@ resource "kubectl_manifest" "virtualservice" {
           }
 
           retries = {
-            attempts      = 3
-            perTryTimeout = "2s"
+            attempts      = var.retry_attempts
+            perTryTimeout = var.per_try_timeout
             retryOn       = "gateway-error,connect-failure,refused-stream,5xx"
           }
 
-          timeout = "5s"
+          timeout = var.request_timeout
 
           route = [
 
@@ -89,6 +89,7 @@ resource "kubectl_manifest" "virtualservice" {
       ]
 
     }
+
   })
 
   depends_on = [

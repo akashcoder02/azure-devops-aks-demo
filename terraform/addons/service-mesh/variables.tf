@@ -68,7 +68,7 @@ variable "applications" {
     primary = optional(object({
       version = string
       weight  = number
-      }), {
+    }), {
       version = "v1"
       weight  = 100
     })
@@ -76,7 +76,7 @@ variable "applications" {
     canary = optional(object({
       version = string
       weight  = number
-      }), {
+    }), {
       version = "v2"
       weight  = 0
     })
@@ -108,7 +108,14 @@ variable "primary_weight_override" {
   default     = -1
 
   validation {
-    condition     = var.primary_weight_override == -1 || (var.primary_weight_override >= 0 && var.primary_weight_override <= 100)
+    condition = (
+      var.primary_weight_override == -1 ||
+      (
+        var.primary_weight_override >= 0 &&
+        var.primary_weight_override <= 100
+      )
+    )
+
     error_message = "Primary traffic override must be between 0 and 100 or -1."
   }
 }
@@ -119,7 +126,14 @@ variable "canary_weight_override" {
   default     = -1
 
   validation {
-    condition     = var.canary_weight_override == -1 || (var.canary_weight_override >= 0 && var.canary_weight_override <= 100)
+    condition = (
+      var.canary_weight_override == -1 ||
+      (
+        var.canary_weight_override >= 0 &&
+        var.canary_weight_override <= 100
+      )
+    )
+
     error_message = "Canary traffic override must be between 0 and 100 or -1."
   }
 }
@@ -135,15 +149,12 @@ variable "canary_enabled_override" {
 # ==========================================================
 
 variable "mtls_mode" {
-
   description = "Istio mTLS mode"
 
-  type = string
-
+  type    = string
   default = "STRICT"
 
   validation {
-
     condition = contains(
       [
         "STRICT",
@@ -154,59 +165,37 @@ variable "mtls_mode" {
     )
 
     error_message = "mTLS mode must be STRICT, PERMISSIVE or DISABLE."
-
   }
-
 }
 
 variable "authorization_enabled" {
-
   description = "Enable AuthorizationPolicy"
-
-  type = bool
-
-  default = true
-
+  type        = bool
+  default     = true
 }
 
 variable "jwt_enabled" {
-
   description = "Enable RequestAuthentication"
-
-  type = bool
-
-  default = false
-
+  type        = bool
+  default     = false
 }
 
 variable "jwt_issuer" {
-
   description = "JWT Issuer"
-
-  type = string
-
-  default = ""
-
+  type        = string
+  default     = ""
 }
 
 variable "jwt_jwks_uri" {
-
   description = "JWT JWKS URI"
-
-  type = string
-
-  default = ""
-
+  type        = string
+  default     = ""
 }
 
 variable "security_namespace" {
-
   description = "Namespace where Service Mesh security resources will be deployed"
-
-  type = string
-
-  default = "default"
-
+  type        = string
+  default     = "default"
 }
 
 # ==========================================================
@@ -214,15 +203,12 @@ variable "security_namespace" {
 # ==========================================================
 
 variable "resilience_action" {
-
   description = "Service Mesh Resilience Action"
 
-  type = string
-
+  type    = string
   default = "defaults"
 
   validation {
-
     condition = contains(
       [
         "retry",
@@ -230,6 +216,8 @@ variable "resilience_action" {
         "circuit-breaker",
         "connection-pool",
         "outlier",
+        "fault",
+        "chaos",
         "defaults",
         "reset"
       ],
@@ -237,97 +225,174 @@ variable "resilience_action" {
     )
 
     error_message = "Invalid resilience action."
-
   }
-
 }
 
+# ==========================================================
+# RETRY
+# ==========================================================
+
 variable "retry_attempts" {
-
   description = "Retry Attempts"
-
-  type = number
-
-  default = 3
-
+  type        = number
+  default     = 3
 }
 
 variable "per_try_timeout" {
-
   description = "Per Retry Timeout"
-
-  type = string
-
-  default = "2s"
-
+  type        = string
+  default     = "2s"
 }
+
+# ==========================================================
+# REQUEST TIMEOUT
+# ==========================================================
 
 variable "request_timeout" {
-
   description = "Overall Request Timeout"
-
-  type = string
-
-  default = "5s"
-
+  type        = string
+  default     = "5s"
 }
 
+# ==========================================================
+# CIRCUIT BREAKER / CONNECTION POOL
+# ==========================================================
+
 variable "max_connections" {
-
   description = "Circuit Breaker Max Connections"
-
-  type = number
-
-  default = 100
-
+  type        = number
+  default     = 100
 }
 
 variable "max_requests_per_connection" {
-
   description = "Maximum Requests Per Connection"
-
-  type = number
-
-  default = 10
-
+  type        = number
+  default     = 10
 }
 
 variable "idle_timeout" {
-
   description = "Connection Pool Idle Timeout"
-
-  type = string
-
-  default = "30s"
-
+  type        = string
+  default     = "30s"
 }
 
+# ==========================================================
+# OUTLIER DETECTION
+# ==========================================================
+
 variable "consecutive_errors" {
-
   description = "Outlier Consecutive Errors"
-
-  type = number
-
-  default = 5
-
+  type        = number
+  default     = 5
 }
 
 variable "outlier_interval" {
-
   description = "Outlier Detection Interval"
-
-  type = string
-
-  default = "30s"
-
+  type        = string
+  default     = "30s"
 }
 
 variable "base_ejection_time" {
-
   description = "Base Ejection Time"
+  type        = string
+  default     = "5m"
+}
 
-  type = string
+# ==========================================================
+# FAULT INJECTION
+# ==========================================================
 
-  default = "5m"
+variable "fault_delay_enabled" {
+  description = "Enable Delay Fault Injection"
+  type        = bool
+  default     = false
+}
 
+variable "fault_delay" {
+  description = "Fixed Delay"
+  type        = string
+  default     = "5s"
+}
+
+variable "fault_delay_percentage" {
+  description = "Delay Percentage"
+  type        = number
+  default     = 100
+
+  validation {
+    condition = (
+      var.fault_delay_percentage >= 0 &&
+      var.fault_delay_percentage <= 100
+    )
+
+    error_message = "Fault delay percentage must be between 0 and 100."
+  }
+}
+
+variable "fault_abort_enabled" {
+  description = "Enable Abort Fault Injection"
+  type        = bool
+  default     = false
+}
+
+variable "fault_abort_status" {
+  description = "Abort HTTP Status"
+  type        = number
+  default     = 500
+
+  validation {
+    condition = (
+      var.fault_abort_status >= 100 &&
+      var.fault_abort_status <= 599
+    )
+
+    error_message = "Fault abort status must be a valid HTTP status code between 100 and 599."
+  }
+}
+
+variable "fault_abort_percentage" {
+  description = "Abort Percentage"
+  type        = number
+  default     = 100
+
+  validation {
+    condition = (
+      var.fault_abort_percentage >= 0 &&
+      var.fault_abort_percentage <= 100
+    )
+
+    error_message = "Fault abort percentage must be between 0 and 100."
+  }
+}
+
+# ==========================================================
+# CHAOS TESTING
+# ==========================================================
+
+variable "chaos_enabled" {
+  description = "Enable Chaos Testing"
+  type        = bool
+  default     = false
+}
+
+variable "chaos_action" {
+  description = "Chaos Action"
+  type        = string
+  default     = "none"
+
+  validation {
+    condition = contains(
+      [
+        "none",
+        "restart",
+        "delete-pod",
+        "delete-all",
+        "scale-zero",
+        "recover"
+      ],
+      var.chaos_action
+    )
+
+    error_message = "Invalid chaos action."
+  }
 }

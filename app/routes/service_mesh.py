@@ -12,7 +12,7 @@ from services.service_mesh import (
     apply_resilience as apply_resilience_service,
     reset_resilience as reset_resilience_service,
     apply_security as apply_security_service,
-    destroy_security as destroy_security_service
+    destroy_security as destroy_security_service,
 )
 
 from services.github import trigger_workflow
@@ -20,7 +20,7 @@ from services.github import trigger_workflow
 
 service_mesh_bp = Blueprint(
     "service_mesh",
-    __name__
+    __name__,
 )
 
 
@@ -44,19 +44,23 @@ def overview_page():
 
 @service_mesh_bp.route("/service-mesh/page/traffic")
 def traffic_page():
-    return render_template("service_mesh/traffic_management.html")
+    return render_template(
+        "service_mesh/traffic_management.html"
+    )
+
 
 @service_mesh_bp.route("/service-mesh/page/security")
 def security_page():
-    return render_template("service_mesh/security.html")
+    return render_template(
+        "service_mesh/security.html"
+    )
+
 
 @service_mesh_bp.route("/service-mesh/page/resilience")
 def resilience_page():
-
     return render_template(
         "service_mesh/resilience.html"
     )
-
 
 
 # ==========================================================
@@ -72,16 +76,15 @@ def service_mesh_overview():
 def service_mesh_traffic():
     return jsonify(get_traffic_management())
 
+
 @service_mesh_bp.route("/api/service-mesh/security")
 def service_mesh_security():
     return jsonify(get_security())
 
+
 @service_mesh_bp.route("/api/service-mesh/resilience")
 def service_mesh_resilience():
-
-    return jsonify(
-        get_resilience()
-    )
+    return jsonify(get_resilience())
 
 
 @service_mesh_bp.route("/api/service-mesh/refresh")
@@ -98,9 +101,11 @@ def status():
 # INSTALL
 # ==========================================================
 
-@service_mesh_bp.route("/api/service-mesh/install", methods=["POST"])
+@service_mesh_bp.route(
+    "/api/service-mesh/install",
+    methods=["POST"],
+)
 def install():
-
     result = trigger_workflow(
         workflow_file="install-service-mesh.yml"
     )
@@ -112,14 +117,17 @@ def install():
 # DESTROY
 # ==========================================================
 
-@service_mesh_bp.route("/api/service-mesh/destroy", methods=["POST"])
+@service_mesh_bp.route(
+    "/api/service-mesh/destroy",
+    methods=["POST"],
+)
 def destroy():
-
     result = trigger_workflow(
         workflow_file="destroy-service-mesh.yml"
     )
 
     return jsonify(result)
+
 
 # ==========================================================
 # TRAFFIC SHIFT
@@ -127,11 +135,10 @@ def destroy():
 
 @service_mesh_bp.route(
     "/api/service-mesh/traffic-shift",
-    methods=["POST"]
+    methods=["POST"],
 )
 def traffic_shift():
-
-    payload = request.get_json()
+    payload = request.get_json(silent=True) or {}
 
     result = shift_traffic(payload)
 
@@ -144,13 +151,12 @@ def traffic_shift():
 
 @service_mesh_bp.route(
     "/api/service-mesh/canary",
-    methods=["POST"]
+    methods=["POST"],
 )
 def canary():
-
     print("========== CANARY API CALLED ==========")
 
-    payload = request.get_json()
+    payload = request.get_json(silent=True) or {}
 
     print(payload)
 
@@ -167,15 +173,15 @@ def canary():
 
 @service_mesh_bp.route(
     "/api/service-mesh/rollback",
-    methods=["POST"]
+    methods=["POST"],
 )
 def rollback():
-
-    payload = request.get_json()
+    payload = request.get_json(silent=True) or {}
 
     result = rollback_traffic(payload)
 
     return jsonify(result)
+
 
 # ==========================================================
 # APPLICATION CONFIGURATION
@@ -185,12 +191,10 @@ def rollback():
     "/api/service-mesh/application/<application>"
 )
 def application_configuration(application):
-
     return jsonify(
-
         get_application_configuration(application)
-
     )
+
 
 # ==========================================================
 # APPLY SECURITY
@@ -198,47 +202,41 @@ def application_configuration(application):
 
 @service_mesh_bp.route(
     "/api/service-mesh/security/apply",
-    methods=["POST"]
+    methods=["POST"],
 )
 def apply_security():
-
-    payload = request.get_json()
+    payload = request.get_json(silent=True) or {}
 
     result = trigger_workflow(
-
         workflow_file="service-mesh-security.yml",
-
         inputs={
-
             "action": "apply",
 
             "mtls_mode": payload.get(
                 "mtls_mode",
-                "STRICT"
+                "STRICT",
             ),
 
             "authorization_enabled": payload.get(
                 "authorization_enabled",
-                True
+                True,
             ),
 
             "jwt_enabled": payload.get(
                 "jwt_enabled",
-                False
+                False,
             ),
 
             "jwt_issuer": payload.get(
                 "jwt_issuer",
-                ""
+                "",
             ),
 
             "jwt_jwks_uri": payload.get(
                 "jwt_jwks_uri",
-                ""
-            )
-
-        }
-
+                "",
+            ),
+        },
     )
 
     return jsonify(result)
@@ -250,23 +248,18 @@ def apply_security():
 
 @service_mesh_bp.route(
     "/api/service-mesh/security/destroy",
-    methods=["POST"]
+    methods=["POST"],
 )
 def destroy_security():
-
     result = trigger_workflow(
-
         workflow_file="service-mesh-security.yml",
-
         inputs={
-
-            "action": "destroy"
-
-        }
-
+            "action": "destroy",
+        },
     )
 
     return jsonify(result)
+
 
 # ==========================================================
 # APPLY RESILIENCE
@@ -274,19 +267,18 @@ def destroy_security():
 
 @service_mesh_bp.route(
     "/api/service-mesh/resilience/apply",
-    methods=["POST"]
+    methods=["POST"],
 )
 def apply_resilience():
+    payload = request.get_json(silent=True) or {}
 
-    payload = request.get_json()
-
-    print("\n========== PAYLOAD FROM UI ==========")
+    print(
+        "\n========== RESILIENCE REQUEST =========="
+    )
     print(payload)
-    print("=====================================\n")
-
-    print("\n========== SECURITY REQUEST ==========")
-    print(payload)
-    print("=====================================\n")
+    print(
+        "========================================\n"
+    )
 
     result = apply_resilience_service(payload)
 
@@ -299,19 +291,9 @@ def apply_resilience():
 
 @service_mesh_bp.route(
     "/api/service-mesh/resilience/reset",
-    methods=["POST"]
+    methods=["POST"],
 )
 def reset_resilience():
-
     result = reset_resilience_service()
 
     return jsonify(result)
-
-
-
-
-
-
-
-
-

@@ -311,7 +311,6 @@ def get_gateways():
     ]
 
 def get_virtual_services():
-
     result = _run([
         "kubectl",
         "get",
@@ -324,53 +323,45 @@ def get_virtual_services():
     if not result or result.returncode != 0:
         return []
 
-    data = json.loads(result.stdout)
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return []
 
     services = []
 
     for item in data.get("items", []):
+        http_rules = item.get("spec", {}).get("http", [])
 
-        routes = item.get("spec", {}).get("http", [{}])[0].get("route", [])
+        for rule in http_rules:
+            retries = rule.get("retries", {})
+            routes = rule.get("route", [])
 
-        for route in routes:
-
-            services.append({
-
-                "application": item["metadata"]["name"],
-
-                "name": item["metadata"]["name"],
-
-                "gateway": item.get("spec", {}).get("gateways", ["-"])[0],
-
-                "host": item.get("spec", {}).get("hosts", ["-"])[0],
-
-                "route": item.get("spec", {})
-                            .get("http", [{}])[0]
-                            .get("match", [{}])[0]
-                            .get("uri", {})
-                            .get("regex", "-"),
-
-                "subset": route.get("destination", {}).get("subset", "-"),
-
-                "weight": route.get("weight", 0),
-
-                "retry": item.get("spec", {})
-                            .get("http", [{}])[0]
-                            .get("retries", {})
-                            .get("attempts", 0),
-
-                "timeout": item.get("spec", {})
-                            .get("http", [{}])[0]
-                            .get("timeout", "-"),
-
-                "status": "Healthy"
-
-            })
+            for route in routes:
+                services.append({
+                    "application": item["metadata"]["name"],
+                    "name": item["metadata"]["name"],
+                    "gateway": item.get("spec", {}).get("gateways", ["-"])[0],
+                    "host": item.get("spec", {}).get("hosts", ["-"])[0],
+                    "route": rule.get("match", [{}])[0]
+                        .get("uri", {})
+                        .get("regex", "-"),
+                    "subset": route.get("destination", {}).get("subset", "-"),
+                    "weight": route.get("weight", 0),
+                    "retry": retries.get("attempts", 0),
+                    "per_try_timeout": retries.get("perTryTimeout", "-"),
+                    "retry_on": retries.get(
+                        "retryOn",
+                        "5xx,gateway-error,connect-failure,refused-stream"
+                    ),
+                    "timeout": rule.get("timeout", "-"),
+                    "status": "Healthy"
+                })
 
     return services
 
-def get_security_destination_rules():
 
+def get_security_destination_rules():
     result = _run([
         "kubectl",
         "get",
@@ -383,38 +374,67 @@ def get_security_destination_rules():
     if not result or result.returncode != 0:
         return []
 
-    data = json.loads(result.stdout)
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return []
 
-    return [
-        {
+    rules = []
+
+    for item in data.get("items", []):
+        spec = item.get("spec", {})
+        policy = spec.get("trafficPolicy", {})
+        pool = policy.get("connectionPool", {})
+        tcp = pool.get("tcp", {})
+        http = pool.get("http", {})
+        outlier = policy.get("outlierDetection", {})
+
+        rules.append({
             "application": item["metadata"]["name"],
-            "host": item.get("spec", {}).get("host", "-"),
-            "subset": item.get("spec", {})
-                        .get("subsets", [{}])[0]
-                        .get("name", "-"),
-            "load_balancer": item.get("spec", {})
-                                .get("trafficPolicy", {})
-                                .get("loadBalancer", {})
-                                .get("simple", "-"),
-            "max_connections": item.get("spec", {})
-                                .get("trafficPolicy", {})
-                                .get("connectionPool", {})
-                                .get("tcp", {})
-                                .get("maxConnections", "-"),
-            "max_retries": item.get("spec", {})
-                                .get("trafficPolicy", {})
-                                .get("connectionPool", {})
-                                .get("http", {})
-                                .get("maxRetries", "-"),
-            "idle_timeout": item.get("spec", {})
-                                .get("trafficPolicy", {})
-                                .get("connectionPool", {})
-                                .get("http", {})
-                                .get("idleTimeout", "-"),
+            "host": spec.get("host", "-"),
+            "subset": spec.get("subsets", [{}])[0].get("name", "-"),
+            "load_balancer": policy.get(
+                "loadBalancer", {}
+            ).get("simple", "-"),
+
+            "max_connections": tcp.get(
+                "maxConnections", "-"
+            ),
+
+            "max_retries": http.get(
+                "maxRetries", "-"
+            ),
+
+            "max_requests": http.get(
+                "maxRequestsPerConnection", "-"
+            ),
+
+            "pending_requests": http.get(
+                "http1MaxPendingRequests", "-"
+            ),
+
+            "idle_timeout": http.get(
+                "idleTimeout", "-"
+            ),
+
+            "consecutive_errors": outlier.get(
+                "consecutive5xxErrors", "-"
+            ),
+
+            "outlier_interval": outlier.get(
+                "interval", "-"
+            ),
+
+            "base_ejection_time": outlier.get(
+                "baseEjectionTime", "-"
+            ),
+
+            "outlier_configured": bool(outlier),
+
             "status": "Healthy"
-        }
-        for item in data.get("items", [])
-    ]
+        })
+
+    return rules
 
 
 # ==========================================================
@@ -1058,151 +1078,300 @@ def destroy_security():
 # ==========================================================
 
 def get_retry_policies():
-
+    """Return retry configuration from live Istio VirtualServices."""
     policies = []
 
     for item in get_virtual_services():
-
-        if item["retry"] != 0:
-
+        if item.get("retry", 0):
             policies.append({
-
                 "application": item["application"],
-
-                "attempts": item["retry"],
-
-                "per_try_timeout": item["timeout"],
-
-                "retry_on": "5xx,gateway-error,connect-failure",
-
+                "attempts": item.get("retry", 0),
+                "per_try_timeout": item.get("per_try_timeout", "-"),
+                "retry_on": item.get(
+                    "retry_on",
+                    "5xx,gateway-error,connect-failure,refused-stream"
+                ),
                 "status": "Configured"
-
             })
 
     return policies
 
 
 def get_timeout_policies():
-
+    """Return timeout configuration from live Istio VirtualServices."""
     timeouts = []
 
     for item in get_virtual_services():
+        timeout = item.get("timeout", "-")
 
         timeouts.append({
-
             "application": item["application"],
-
-            "timeout": item["timeout"],
-
-            "current": item["timeout"],
-
-            "status": "Configured"
-
+            "timeout": timeout,
+            "current": timeout,
+            "status": "Configured" if timeout != "-" else "Not Configured"
         })
 
     return timeouts
 
 
 def get_circuit_breakers():
-
+    """Return live circuit-breaker connection limits."""
     breakers = []
 
     for item in get_security_destination_rules():
-
         breakers.append({
-
             "application": item["application"],
-
-            "max_connections": item["max_connections"],
-
-            "max_requests": item["max_retries"],
-
-            "pending_requests": "-",
-
+            "max_connections": item.get("max_connections", "-"),
+            "pending_requests": item.get("pending_requests", "-"),
+            "max_requests": item.get("max_requests", "-"),
             "status": "Enabled"
-
         })
 
     return breakers
 
 
 def get_connection_pools():
-
+    """Return live Istio connection-pool configuration."""
     pools = []
 
     for item in get_security_destination_rules():
-
         pools.append({
-
             "application": item["application"],
-
-            "http_pool": item["max_retries"],
-
-            "tcp_pool": item["max_connections"],
-
-            "idle_timeout": item["idle_timeout"],
-
+            "http_pool": item.get("max_requests", "-"),
+            "tcp_pool": item.get("max_connections", "-"),
+            "idle_timeout": item.get("idle_timeout", "-"),
             "status": "Configured"
-
         })
 
     return pools
 
 
 def get_outlier_detection():
-
+    """Return live Istio outlier-detection configuration."""
     outliers = []
 
     for item in get_security_destination_rules():
+        configured = item.get("outlier_configured", False)
 
         outliers.append({
-
             "application": item["application"],
-
-            "errors": "5",
-
-            "interval": "30s",
-
-            "ejection": "5m",
-
-            "status": "Enabled"
-
+            "errors": item.get("consecutive_errors", "-"),
+            "interval": item.get("outlier_interval", "-"),
+            "ejection": item.get("base_ejection_time", "-"),
+            "status": "Enabled" if configured else "Not Configured"
         })
 
     return outliers
 
 
 def get_fault_injection():
+    """Return live fault-injection VirtualServices."""
+    result = _run([
+        "kubectl",
+        "get",
+        "virtualservice",
+        "--all-namespaces",
+        "-o",
+        "json"
+    ])
 
-    return []
+    if not result or result.returncode != 0:
+        return []
+
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return []
+
+    faults = []
+
+    for item in data.get("items", []):
+        metadata = item.get("metadata", {})
+        labels = metadata.get("labels", {})
+
+        if labels.get("module") != "service-mesh-resilience":
+            continue
+
+        for rule in item.get("spec", {}).get("http", []):
+            fault = rule.get("fault", {})
+
+            if not fault:
+                continue
+
+            delay = fault.get("delay", {})
+            abort = fault.get("abort", {})
+
+            if delay and abort:
+                fault_type = "Delay + Abort"
+            elif delay:
+                fault_type = "Delay"
+            elif abort:
+                fault_type = "Abort"
+            else:
+                fault_type = "None"
+
+            faults.append({
+                "application": labels.get(
+                    "application",
+                    metadata.get("name", "-").removesuffix("-fault")
+                ),
+                "type": fault_type,
+                "delay": delay.get("fixedDelay", "-") if delay else "-",
+                "delay_percentage": delay.get(
+                    "percentage", {}
+                ).get("value", 0) if delay else 0,
+                "abort_status": abort.get(
+                    "httpStatus", "-"
+                ) if abort else "-",
+                "abort_percentage": abort.get(
+                    "percentage", {}
+                ).get("value", 0) if abort else 0,
+                "status": "Configured"
+            })
+
+    return faults
+
+
+def _get_default_deployments():
+    """Return application deployments from the default namespace."""
+    result = _run([
+        "kubectl",
+        "get",
+        "deployments",
+        "-n",
+        "default",
+        "-o",
+        "json"
+    ])
+
+    if not result or result.returncode != 0:
+        return []
+
+    try:
+        return json.loads(result.stdout).get("items", [])
+    except Exception:
+        return []
 
 
 def get_chaos_tests():
+    """
+    Report live workload state after chaos/recovery operations.
 
-    return []
+    Chaos actions themselves are executed by the GitHub workflow.
+    Kubernetes does not retain a generic 'last chaos action' record, so
+    this endpoint reports the current deployment state instead of
+    inventing historical results.
+    """
+    deployments = _get_default_deployments()
+
+    if not deployments:
+        return []
+
+    tests = []
+
+    for deployment in deployments:
+        metadata = deployment.get("metadata", {})
+        spec = deployment.get("spec", {})
+        status = deployment.get("status", {})
+
+        name = metadata.get("name", "-")
+        desired = spec.get("replicas", 0)
+        available = status.get("availableReplicas", 0)
+        ready = status.get("readyReplicas", 0)
+
+        if desired == 0:
+            state = "Scaled to Zero"
+        elif available == desired and ready == desired:
+            state = "Healthy"
+        elif available > 0:
+            state = "Recovering"
+        else:
+            state = "Unavailable"
+
+        tests.append({
+            "application": name,
+            "restart": "Available",
+            "delete_pod": "Available",
+            "delete_all": "Available",
+            "scale_zero": "Available",
+            "recover": "Available",
+            "current_state": state,
+            "replicas": f"{available}/{desired}",
+            "status": "Healthy" if state == "Healthy" else state
+        })
+
+    return tests
 
 
 def get_resilience_score():
+    """Calculate a live baseline resilience score."""
+    checks = [
+        bool(get_retry_policies()),
+        bool(get_timeout_policies()),
+        bool(get_circuit_breakers()),
+        bool(get_connection_pools()),
+        bool(get_outlier_detection()),
+    ]
 
-    return "100%"
+    score = round((sum(checks) / len(checks)) * 100) if checks else 0
+
+    return f"{score}%"
 
 
 # ==========================================================
 # RESILIENCE
 # ==========================================================
 
+def _normalise_resilience_inputs(payload):
+    """
+    Normalize the UI payload for service-mesh-resilience.yml.
+
+    Existing buttons can send only {"action": "..."} and the workflow
+    defaults remain responsible for omitted values.
+    """
+    payload = payload or {}
+
+    allowed = {
+        "action",
+        "retry_attempts",
+        "per_try_timeout",
+        "request_timeout",
+        "max_connections",
+        "max_requests_per_connection",
+        "idle_timeout",
+        "consecutive_errors",
+        "outlier_interval",
+        "base_ejection_time",
+        "fault_delay_enabled",
+        "fault_delay",
+        "fault_delay_percentage",
+        "fault_abort_enabled",
+        "fault_abort_status",
+        "fault_abort_percentage",
+        "chaos_enabled",
+        "chaos_action",
+    }
+
+    inputs = {
+        key: payload[key]
+        for key in allowed
+        if key in payload and payload[key] is not None
+    }
+
+    inputs.setdefault("action", "defaults")
+
+    return inputs
+
+
 # ==========================================================
 # APPLY RESILIENCE
 # ==========================================================
 
 def apply_resilience(payload):
-
+    """Trigger the existing Service Mesh Resilience workflow."""
     return trigger_workflow(
-
         workflow_file="service-mesh-resilience.yml",
-
-        inputs=payload
-
+        inputs=_normalise_resilience_inputs(payload)
     )
 
 
@@ -1211,53 +1380,44 @@ def apply_resilience(payload):
 # ==========================================================
 
 def reset_resilience():
-
+    """Trigger the existing Service Mesh Resilience reset action."""
     return trigger_workflow(
-
         workflow_file="service-mesh-resilience.yml",
-
         inputs={
-
             "action": "reset"
-
         }
-
     )
 
+
 def get_resilience():
+    """Return the complete live resilience dashboard payload."""
+    retry_policies = get_retry_policies()
+    timeouts = get_timeout_policies()
+    circuit_breakers = get_circuit_breakers()
+    connection_pools = get_connection_pools()
+    outlier_detection = get_outlier_detection()
+    fault_injection = get_fault_injection()
+    chaos_tests = get_chaos_tests()
 
     return {
-
         "summary": {
-
-            "last_updated": datetime.now().strftime("%d %b %Y %I:%M:%S %p"),
-
-            "retry_policies": len(get_retry_policies()),
-
-            "timeouts": len(get_timeout_policies()),
-
-            "circuit_breakers": len(get_circuit_breakers()),
-
-            "connection_pools": len(get_connection_pools()),
-
-            "outlier_detection": len(get_outlier_detection()),
-
+            "last_updated": datetime.now().strftime(
+                "%d %b %Y %I:%M:%S %p"
+            ),
+            "retry_policies": len(retry_policies),
+            "timeouts": len(timeouts),
+            "circuit_breakers": len(circuit_breakers),
+            "connection_pools": len(connection_pools),
+            "outlier_detection": len(outlier_detection),
+            "fault_injection": len(fault_injection),
+            "chaos_tests": len(chaos_tests),
             "resilience_score": get_resilience_score()
-
         },
-
-        "retry_policies": get_retry_policies(),
-
-        "timeouts": get_timeout_policies(),
-
-        "circuit_breakers": get_circuit_breakers(),
-
-        "connection_pools": get_connection_pools(),
-
-        "outlier_detection": get_outlier_detection(),
-
-        "fault_injection": get_fault_injection(),
-
-        "chaos_tests": get_chaos_tests()
-
+        "retry_policies": retry_policies,
+        "timeouts": timeouts,
+        "circuit_breakers": circuit_breakers,
+        "connection_pools": connection_pools,
+        "outlier_detection": outlier_detection,
+        "fault_injection": fault_injection,
+        "chaos_tests": chaos_tests
     }
