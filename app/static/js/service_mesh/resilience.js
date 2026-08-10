@@ -1035,6 +1035,48 @@ function buildResiliencePayload(action) {
 
     }
 
+    /* ------------------------------------------------------
+    FAULT ACTIONS
+    ------------------------------------------------------ */
+
+    if (action === "fault") {
+
+        payload.fault_delay_enabled = false;
+        payload.fault_abort_enabled = false;
+
+        /*
+        * The current HTML does not expose separate
+        * configuration controls. The action-specific
+        * button determines which fault is enabled.
+        */
+
+        if (
+            window.resilienceFaultAction === "delay"
+        ) {
+            payload.fault_delay_enabled = true;
+        }
+
+        if (
+            window.resilienceFaultAction === "abort"
+        ) {
+            payload.fault_abort_enabled = true;
+        }
+    }
+
+
+    /* ------------------------------------------------------
+    CHAOS ACTION
+    ------------------------------------------------------ */
+
+    if (action === "chaos") {
+
+        payload.chaos_enabled = true;
+
+        payload.chaos_action =
+            window.resilienceChaosAction ||
+            "restart";
+    }
+
 
     return payload;
 }
@@ -1045,7 +1087,8 @@ function buildResiliencePayload(action) {
 
 async function applyResilience(
     action,
-    sourceButton = null
+    sourceButton = null,
+    overrides = {}
 ) {
 
     setBusy(
@@ -1054,10 +1097,10 @@ async function applyResilience(
     );
 
 
-    const payload =
-        buildResiliencePayload(
-            action
-        );
+    const payload = {
+        ...buildResiliencePayload(action),
+        ...overrides
+    };
 
 
     console.log(
@@ -1363,154 +1406,211 @@ document.addEventListener(
 
         switch (button.id) {
 
+        /* ======================================================
+        RETRY
+        ====================================================== */
 
-            /* ------------------------------------------------
-               RETRY
-               ------------------------------------------------ */
+        case "apply-retry-btn":
 
-            case "apply-retry-btn":
+            await applyResilience(
+                "retry",
+                button
+            );
 
-                await applyResilience(
-                    "retry",
-                    button
-                );
-
-                break;
-
-
-            /* ------------------------------------------------
-               TIMEOUT
-               ------------------------------------------------ */
-
-            case "update-timeout-btn":
-
-                await applyResilience(
-                    "timeout",
-                    button
-                );
-
-                break;
+            break;
 
 
-            /* ------------------------------------------------
-               CIRCUIT BREAKER
-               ------------------------------------------------ */
+        /* ======================================================
+        TIMEOUT
+        ====================================================== */
 
-            case "enable-cb-btn":
+        case "update-timeout-btn":
 
-                await applyResilience(
-                    "circuit-breaker",
-                    button
-                );
+            await applyResilience(
+                "timeout",
+                button
+            );
 
-                break;
-
-
-            /* ------------------------------------------------
-               CONNECTION POOL
-               ------------------------------------------------ */
-
-            case "update-pool-btn":
-
-                await applyResilience(
-                    "connection-pool",
-                    button
-                );
-
-                break;
+            break;
 
 
-            /* ------------------------------------------------
-               OUTLIER DETECTION
-               ------------------------------------------------ */
+        /* ======================================================
+        CIRCUIT BREAKER
+        ====================================================== */
 
-            case "enable-outlier-btn":
+        case "enable-cb-btn":
 
-                await applyResilience(
-                    "outlier",
-                    button
-                );
+            await applyResilience(
+                "circuit-breaker",
+                button
+            );
 
-                break;
-
-
-            /* ------------------------------------------------
-               FAULT INJECTION
-               ------------------------------------------------ */
-
-            case "apply-fault-btn":
-
-            case "enable-fault-btn":
-
-            case "apply-fault-injection-btn":
-
-                await applyResilience(
-                    "fault",
-                    button
-                );
-
-                break;
+            break;
 
 
-            /* ------------------------------------------------
-               CHAOS TESTING
-               ------------------------------------------------ */
+        /* ======================================================
+        CONNECTION POOL
+        ====================================================== */
 
-            case "apply-chaos-btn":
+        case "update-pool-btn":
 
-            case "run-chaos-btn":
+            await applyResilience(
+                "connection-pool",
+                button
+            );
 
-                await applyResilience(
-                    "chaos",
-                    button
-                );
-
-                break;
+            break;
 
 
-            /* ------------------------------------------------
-               DEFAULT RESILIENCE
-               ------------------------------------------------ */
+        /* ======================================================
+        OUTLIER DETECTION
+        ====================================================== */
 
-            case "apply-default-resilience-btn":
+        case "enable-outlier-btn":
 
-                await applyResilience(
-                    "defaults",
-                    button
-                );
+            await applyResilience(
+                "outlier",
+                button
+            );
 
-                break;
-
-
-            /* ------------------------------------------------
-               RESET
-               ------------------------------------------------ */
-
-            case "reset-resilience-btn":
-
-                await resetResilience(
-                    button
-                );
-
-                break;
+            break;
 
 
-            /* ------------------------------------------------
-               REFRESH
-               ------------------------------------------------ */
+        /* ======================================================
+        FAULT INJECTION
+        ====================================================== */
 
-            case "refresh-resilience-btn":
+        case "inject-delay-btn":
 
-                await loadResilience();
+            await applyResilience(
+                "fault",
+                button,
+                {
+                    fault_delay_enabled: true,
+                    fault_abort_enabled: false
+                }
+            );
 
-                break;
+            break;
 
 
-            default:
+        case "inject-http-btn":
 
-                break;
+            await applyResilience(
+                "fault",
+                button,
+                {
+                    fault_delay_enabled: false,
+                    fault_abort_enabled: true
+                }
+            );
 
-        }
+            break;
+
+
+        case "reset-fault-btn":
+
+            await applyResilience(
+                "fault",
+                button,
+                {
+                    fault_delay_enabled: false,
+                    fault_abort_enabled: false
+                }
+            );
+
+            break;
+
+
+        /* ======================================================
+        CHAOS TESTING
+        ====================================================== */
+
+        case "start-chaos-btn":
+
+            await applyResilience(
+                "chaos",
+                button,
+                {
+                    chaos_enabled: true,
+                    chaos_action: "restart"
+                }
+            );
+
+            break;
+
+
+        case "stop-chaos-btn":
+
+            await applyResilience(
+                "chaos",
+                button,
+                {
+                    chaos_enabled: true,
+                    chaos_action: "recover"
+                }
+            );
+
+            break;
+
+
+        /* ======================================================
+        DEFAULT RESILIENCE
+        ====================================================== */
+
+        case "apply-default-resilience-btn":
+
+            await applyResilience(
+                "defaults",
+                button
+            );
+
+            break;
+
+
+        /* ======================================================
+        ENABLE RESILIENCE
+        ====================================================== */
+
+        case "enable-resilience-btn":
+
+            await applyResilience(
+                "defaults",
+                button
+            );
+
+            break;
+
+
+        /* ======================================================
+        RESET ALL POLICIES
+        ====================================================== */
+
+        case "reset-resilience-btn":
+
+            await resetResilience(
+                button
+            );
+
+            break;
+
+
+        /* ======================================================
+        REFRESH
+        ====================================================== */
+
+        case "refresh-resilience-btn":
+
+            await loadResilience();
+
+            break;
+
+
+        default:
+
+            break;
+
+    }
 
     }
 );
