@@ -68,7 +68,7 @@ variable "applications" {
     primary = optional(object({
       version = string
       weight  = number
-    }), {
+      }), {
       version = "v1"
       weight  = 100
     })
@@ -76,7 +76,7 @@ variable "applications" {
     canary = optional(object({
       version = string
       weight  = number
-    }), {
+      }), {
       version = "v2"
       weight  = 0
     })

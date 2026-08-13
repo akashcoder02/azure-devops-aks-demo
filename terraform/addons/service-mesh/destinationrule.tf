@@ -51,8 +51,8 @@ resource "kubectl_manifest" "destinationrule" {
         outlierDetection = {
           consecutive5xxErrors = var.consecutive_errors
           interval             = var.outlier_interval
-          baseEjectionTime      = var.base_ejection_time
-          maxEjectionPercent    = 50
+          baseEjectionTime     = var.base_ejection_time
+          maxEjectionPercent   = 50
         }
       }
     }
