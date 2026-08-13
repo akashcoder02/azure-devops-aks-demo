@@ -15,6 +15,7 @@ variable "acr_name" {
 variable "aks_name" {
   default = "aks-devops-demo"
 }
+
 variable "keyvault_name" {
   default = "agdevopskv2026"
 }
