@@ -90,7 +90,7 @@ resource "kubectl_manifest" "virtualservice" {
 
           (
             var.fault_delay_enabled || var.fault_abort_enabled
-          ) ? {
+            ) ? {
 
             fault = merge(
 

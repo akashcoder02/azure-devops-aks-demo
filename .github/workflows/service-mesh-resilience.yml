@@ -247,14 +247,17 @@ jobs:
 
               kubectl get deployments -n default
 
-              kubectl rollout restart deployment \
-                --all \
-                -n default
+              kubectl get deployments -n default -o name | \
+              while read deployment; do
+                kubectl rollout restart "$deployment" -n default
+              done
 
-              kubectl rollout status deployment \
-                --all \
-                -n default \
-                --timeout=180s
+              kubectl get deployments -n default -o name |
+              while read deployment; do
+                kubectl rollout status "$deployment" \
+                  -n default \
+                  --timeout=180s
+              done
               ;;
 
             delete-pod)
@@ -304,10 +307,12 @@ jobs:
                 -n default \
                 -o name
 
-              kubectl scale deployment \
-                --all \
-                --replicas=0 \
-                -n default
+              kubectl get deployments -n default -o name |
+              while read deployment; do
+                kubectl scale "$deployment" \
+                  --replicas=0 \
+                  -n default
+              done
 
               kubectl get deployments \
                 -n default
@@ -316,15 +321,19 @@ jobs:
             recover)
               echo "Recovering deployments..."
 
-              kubectl scale deployment \
-                --all \
-                --replicas=1 \
-                -n default
+              kubectl get deployments -n default -o name |
+              while read deployment; do
+                kubectl scale "$deployment" \
+                  --replicas=1 \
+                  -n default
+              done
 
-              kubectl rollout status deployment \
-                --all \
-                -n default \
-                --timeout=180s
+              kubectl get deployments -n default -o name |
+              while read deployment; do
+                kubectl rollout status "$deployment" \
+                  -n default \
+                  --timeout=180s
+              done
 
               echo ""
               echo "Recovery completed."
