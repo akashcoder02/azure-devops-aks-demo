@@ -4,6 +4,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
+  temporary_name_for_rotation = "defaulttmp"
+
   dns_prefix = "aksdevopsdemo"
 
   default_node_pool {
