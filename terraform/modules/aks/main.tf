@@ -9,7 +9,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name       = "default"
     node_count = 1
-    vm_size    = "Standard_B4ms"
+    vm_size    = "Standard_B2s"
 
     temporary_name_for_rotation = "defaulttmp"
 

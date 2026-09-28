@@ -7,6 +7,15 @@ echo "                 GIT PUSH UTILITY"
 echo "========================================================"
 echo ""
 
+# Always execute Git commands from repository root
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+echo "Repository Root"
+echo "--------------------------------------------------------"
+echo "$REPO_ROOT"
+echo ""
+
 echo "Repository Status"
 echo "--------------------------------------------------------"
 git status
@@ -14,7 +23,7 @@ echo ""
 
 # Stage all changes
 echo "Adding files..."
-git add .
+git add -A
 
 # Exit if nothing changed
 if git diff --cached --quiet; then
@@ -24,8 +33,20 @@ if git diff --cached --quiet; then
     exit 0
 fi
 
+echo ""
+echo "Changes to be committed"
+echo "--------------------------------------------------------"
+git diff --cached --stat
+echo ""
+
 read -p "Commit Message: " MESSAGE
 echo ""
+
+# Prevent empty commit message
+if [ -z "$MESSAGE" ]; then
+    echo "Commit message cannot be empty."
+    exit 1
+fi
 
 echo "Creating commit..."
 git commit -m "$MESSAGE"
