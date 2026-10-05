@@ -1,7 +1,9 @@
 from dotenv import load_dotenv
 
 load_dotenv()
-from flask import Flask
+from flask import Flask, request, redirect, url_for, session
+import os
+from routes.auth import auth
 
 from routes.dashboard import dashboard
 from routes.api import api
@@ -27,6 +29,8 @@ from routes.application_security import (
 from routes.service_mesh import service_mesh_bp
 
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
+
 
 app.register_blueprint(dashboard)
 app.register_blueprint(api)
@@ -50,7 +54,29 @@ app.register_blueprint(
     application_security_bp
 )
 app.register_blueprint(service_mesh_bp)
+app.register_blueprint(auth)
 
+@app.before_request
+def require_login():
+
+    allowed_endpoints = {
+        "auth.login",
+        "auth.logout",
+    }
+
+    if request.endpoint in allowed_endpoints:
+        return
+
+    if request.endpoint == "static":
+        return
+
+    if request.path == "/health":
+        return
+
+    if not session.get("authenticated"):
+        return redirect(
+            url_for("auth.login", next=request.path)
+        )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
