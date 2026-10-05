@@ -44,3 +44,8 @@ variable "create_namespace" {
 
   default = true
 }
+variable "argocd_backstage_password_hash" {
+  description = "Bcrypt password hash for the Backstage Argo CD read-only account"
+  type        = string
+  sensitive   = true
+}

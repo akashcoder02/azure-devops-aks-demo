@@ -20,8 +20,31 @@ resource "helm_release" "argocd" {
 
   timeout = 600
 
+  values = [
+    yamlencode({
+      configs = {
+        cm = {
+          "accounts.backstage" = "login"
+        }
+
+        rbac = {
+          "policy.csv" = <<-EOT
+            p, role:backstage-readonly, applications, get, */*, allow
+            p, role:backstage-readonly, projects, get, *, allow
+            g, backstage, role:backstage-readonly
+          EOT
+        }
+
+        secret = {
+          extra = {
+            "accounts.backstage.password" = var.argocd_backstage_password_hash
+          }
+        }
+      }
+    })
+  ]
+
   depends_on = [
     kubernetes_namespace.argocd
   ]
-
 }

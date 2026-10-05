@@ -56,10 +56,14 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform/addons/argocd
+        env:
+          TF_VAR_argocd_backstage_password_hash: ${{ secrets.ARGOCD_BACKSTAGE_PASSWORD_HASH }}
         run: terraform plan
 
       - name: Terraform Apply
         working-directory: terraform/addons/argocd
+        env:
+          TF_VAR_argocd_backstage_password_hash: ${{ secrets.ARGOCD_BACKSTAGE_PASSWORD_HASH }}
         run: terraform apply -auto-approve
 
       - name: Wait for Argo CD
