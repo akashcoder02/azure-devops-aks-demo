@@ -111,6 +111,16 @@
 
     <div class="main-content">
 
+        <div class="portal-topbar">
+            <span class="logged-in-user">
+                {{ session.get("username", "") }}
+            </span>
+
+            <a href="{{ url_for('auth.logout') }}" class="logout-button">
+                Logout
+            </a>
+        </div>
+
         {% block content %}
         {% endblock %}
 

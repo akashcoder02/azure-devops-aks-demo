@@ -124,3 +124,33 @@ body {
 :root{
     --bs-heading-color:#ffffff;
 }
+
+/* Portal top bar */
+
+.portal-topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+}
+
+.logged-in-user {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.logout-button {
+    background: #dc3545;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.logout-button:hover {
+    background: #bb2d3b;
+    color: #ffffff;
+}
