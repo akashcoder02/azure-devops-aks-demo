@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ values.appName }}-mysql
+spec:
+  clusterIP: None
+  selector:
+    app: {{ values.appName }}-mysql
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306

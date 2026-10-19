@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ values.appName }}
+  labels:
+    app.kubernetes.io/name: {{ values.appName }}
+    app.kubernetes.io/environment: {{ values.environment }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ values.appName }}
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: {{ values.appName }}
+        version: v1
+        app.kubernetes.io/environment: {{ values.environment }}
+    spec:
+      containers:
+        - name: {{ values.appName }}
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: {{ values.appName }}-db-config
+          env:
+            - name: APP_NAME
+              value: {{ values.appName }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ values.appName }}-db-secret
+                  key: MYSQL_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            periodSeconds: 20
+          volumeMounts:
+            - name: secrets-store
+              mountPath: /mnt/secrets-store
+              readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ values.appName }}-mysql-secrets
