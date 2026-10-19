@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-test1-db-config
+data:
+  DB_HOST: app-test1-mysql
+  DB_PORT: "3306"
+  DB_NAME: appdb
+  DB_USER: appuser
