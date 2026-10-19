@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: app-test1
+  description: "app-test1"
+  annotations:
+    github.com/project-slug: akashcoder02/azure-devops-aks-demo
+    argocd/app-name: app-test1
+    argocd/app-namespace: argocd
+    argocd/instance-name: primary
+spec:
+  type: service
+  lifecycle: experimental
+  owner: platform-team

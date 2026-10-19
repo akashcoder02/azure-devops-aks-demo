@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: app-test1-mysql
+spec:
+  serviceName: app-test1-mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-test1-mysql
+  template:
+    metadata:
+      labels:
+        app: app-test1-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: appdb
+            - name: MYSQL_USER
+              value: appuser
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-test1-db-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-test1-db-secret
+                  key: MYSQL_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - 'mysqladmin ping -h 127.0.0.1 -u root -p"$MYSQL_ROOT_PASSWORD"'
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+            - name: secrets-store
+              mountPath: /mnt/secrets-store
+              readOnly: true
+      volumes:
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: app-test1-mysql-data
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: app-test1-mysql-secrets
